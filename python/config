@@ -1,0 +1,447 @@
+[Directories]
+Wdir: /Users/peller/Hbb
+plotpath: /Users/peller/Hbb/Stacks/
+limits: /Users/peller/Hbb/Limits/
+
+
+#Plotting:
+[Plot]
+Hpt: H.pt,Higgs_pt,Higgs pt,20,100,400,Higgs_pt.png,noCut,noCut
+Vpt: V.pt,Vector_pt,Vector pt,20,100,400,Vector_pt.png,noCut,noCut
+
+CC5050_pt100_ZH115: nov10_diJet_CC5050_MVAcut_pt100_ZH115.nominal,CC5050_pt100_ZH115,BDT output,20,-1,1,CC5050_pt100_ZH115.png,noCut,noCut
+CC5050_pt50_ZH115: nov10_diJet_CC5050_MVAcut_pt50_ZH115.nominal,CC5050_pt50_ZH115,BDT output,20,-1,1,CC5050_pt50_ZH115.png,noCut,noCut
+MM5050_pt100_ZH115: nov10_diJet_MM5050_MVAcut_pt100_ZH115.nominal,MM5050_pt100_ZH115,BDT output,20,-1,1,MM5050_pt100_ZH115.png,noCut,noCut
+MM5050_pt50_ZH115: nov10_diJet_MM5050_MVAcut_pt50_ZH115.nominal,MM5050_pt50_ZH115,BDT output,20,-1,1,MM5050_pt50_ZH115.png,noCut,noCut
+MMCC_pt100_ZH115: nov10_diJet_MMCC_MVAcut_pt100_ZH115.nominal,MMCC_pt100_ZH115,BDT output,20,-1,1,MMCC_pt100_ZH115.png,noCut,noCut
+MMCC_pt50_ZH115: nov10_diJet_MMCC_MVAcut_pt50_ZH115.nominal,MMCC_pt50_ZH115,BDT output,20,-1,1,MMCC_pt50_ZH115.png,noCut,noCut
+CCMM_pt100_ZH115: nov10_diJet_CCMM_MVAcut_pt100_ZH115.nominal,CCMM_pt100_ZH115,BDT output,20,-1,1,CCMM_pt100_ZH115.png,noCut,noCut
+CCMM_pt50_ZH115: nov10_diJet_CCMM_MVAcut_pt50_ZH115.nominal,BDT,BDT output,20,-1,1,CCMM_pt50_ZH115.png,noCut,noCut
+
+
+
+
+#MVAZZBb: nov10_diJet_btags_MVAcut_ZZb.nominal,BDT,BDT output,20,-1,1,nov10_diJet_btags_MVAcut_ZZb.png
+
+ZZbb_tight: nov10_diJet_ZZbb_tight.nominal,BDT,BDT output,20,-1,1,ZZbb_tight.png,noCut,blind
+ZZbb_tight_CC: nov10_diJet_ZZbb_tight.nominal,BDT,BDT output,20,-1,1,ZZbb_tight_CC.png,CC,blind
+ZZbb_tight_MM: nov10_diJet_ZZbb_tight.nominal,BDT,BDT output,20,-1,1,ZZbb_tight_MM.png,MM,blind
+ZZbb_loose: nov10_diJet_ZZbb_loose.nominal,BDT,BDT output,20,-1,1,ZZbb_loose.png,noCut,blind
+ZZbb_loose_CC: nov10_diJet_ZZbb_loose.nominal,BDT,BDT output,20,-1,1,ZZbb_loose_CC.png,CC,blind
+ZZbb_loose_MM: nov10_diJet_ZZbb_loose.nominal,BDT,BDT output,20,-1,1,ZZbb_loose_MM.png,MM,blind
+
+
+logy: 1
+setup: DY jets udscg,DY jets b,TT-bar,WW/WZ/ZZ,Single top,Hbb 115
+#setup: DY jets b,DY jets udscg,TT-bar,Single top,Hbb 115,WW/WZ/ZZ
+
+
+
+[Compare]
+
+
+cutA: EE
+cutB: MM
+
+Hmass: H.mass,H_mass,Higgs mass,20,0,250,Higgs_mass_compare.png,noCut
+Hpt: H.pt,Higgs_pt,Higgs pt,20,100,400,Higgs_pt_compare.png,noCut
+Vpt: V.pt,Vector_pt,Vector pt,20,100,400,Vector_pt_compare.png,noCut
+HVdPhi: HVdPhi,HVdPhi,Higgs Vector delta phi,20,0,3.2,HVdPhi_compare.png,noCut
+Vmass: V.mass,Vmass,Vectro mass,20,75,105,Vector_mass_compare.png,noCut
+HdR: H.dR,Higgs_dR,Higgs delta R,20,0,4,Higgs_dR_compare.png,noCut
+csv0: hJet_csv[0],hJet_csv0,CSV of hJet[0],20,0.2,1,csv0_compare.png,noCut
+csv1: hJet_csv[1],hJet_csv1,CSV of hJet[1],20,0.2,1,csv1_compare.png,noCut
+AK7: deltaPullAngleAK7,deltaPullAngleAK7,deltaPullAngleAK7,20,-3.5,3.5,deltaPullAngleAK7_compare.png,noCut
+Sum: Sum$(aJet_pt>20.&abs(aJet_eta)<2.4),Sum,Sum$(aJet_pt>20.&abs(aJet_eta)<2.4),6,0,6,Sum_compare.png,noCut
+
+
+BKG: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+SIG: ZH115
+
+Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+
+
+
+
+[FoM]
+
+CC5050_pt100_ZH115: nov10_diJet_CC5050_MVAcut_pt100_ZH115.nominal,FoM_CC5050_pt100_ZH115,Figure of Merit,100,-1,1,FoM_CC5050_pt100_ZH115.png,noCut,noCut
+MMCC5050_pt100_ZH115: nov10_diJet_MMCC5050_MVAcut_pt100_ZH115.nominal,FoM_MMCC5050_pt100_ZH115,Figure of Merit,100,-1,1,FoM_MMCC5050_pt100_ZH115.png,noCut,noCut
+
+
+
+ZZbb_tight: nov10_diJet_ZZbb_tight.nominal,FoM,Figure of Merit for ZZbb tight,20,-1,1,FoM_ZZbb_tight.png,noCut
+ZZbb_tight_CC: nov10_diJet_ZZbb_tight.nominal,FoM,Figure of Merit for ZZbb tight,20,-1,1,FoM_ZZbb_tight_CC.png,CC
+ZZbb_tight_MM: nov10_diJet_ZZbb_tight.nominal,FoM,Figure of Merit for ZZbb tight,20,-1,1,FoM_ZZbb_tight_MM.png,MM
+ZZbb_loose: nov10_diJet_ZZbb_loose.nominal,FoM,Figure of Merit for ZZbb loose,20,-1,1,FoM_ZZbb_loose.png,noCut
+ZZbb_loose_CC: nov10_diJet_ZZbb_loose.nominal,FoM,Figure of Merit for ZZbb loose,20,-1,1,FoM_ZZbb_loose_CC.png,CC
+ZZbb_loose_MM: nov10_diJet_ZZbb_loose.nominal,FoM,Figure of Merit for ZZbb loose,20,-1,1,FoM_ZZbb_loose_MM.png,MM
+
+# Zee  Zmm  Zusdcg  Zusdcg_pt100  Zbb  Zbb_pt100  WW  WZ  ZZ  ZZb  ZZudscg  TT  ST_s  ST_t  ST_tW  STbar_s  STbar_t  STbar_tW  ZH110  ZH115  ZH120  ZH125  ZH130  ZH135
+#BKG: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW 
+#SIG: ZZ
+
+BKG: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+SIG: ZH115
+
+
+
+
+
+
+
+
+
+
+
+
+[Limit]
+
+
+CC5050_pt100_ZH115: nov10_diJet_CC5050_MVAcut_pt100_ZH115.nominal,limit,BDT output,20,-1,1,CC50CC50limittest,noCut,noCut
+MMCC5050_pt100_ZH115: nov10_diJet_MMCC5050_MVAcut_pt100_ZH115.nominal,limit,BDT output,20,-1,1,MM50CC50limittest,noCut,noCut
+BBCC5050_pt100_ZH115: nov10_diJet_BBCC5050_MVAcut_pt100_ZH115.nominal,limit,BDT output,20,-1,1,BB50CC50limittest,noCut,noCut
+BBMM5050_pt100_ZH115: nov10_diJet_BBMM5050_MVAcut_pt100_ZH115.nominal,limit,BDT output,20,-1,1,BB50MM50limittest,noCut,noCut
+MM5050_pt100_ZH115: nov10_diJet_MM5050_MVAcut_pt100_ZH115.nominal,limit,BDT output,20,-1,1,MM50MM50limittest,noCut,noCut
+
+
+MMCC_pt100_ZH115: nov10_diJet_MMCC_MVAcut_pt100_ZH115.nominal,limit,BDT output,20,-1,1,MMCClimittest,noCut,noCut
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##############################################################################################
+# MVA definitions
+
+[factory]
+factoryname: MVA
+factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification
+#:Transformations=I;D;P;G,D
+
+#######################
+# Hbb:
+
+[MVALists]
+ZH115: CC5050_pt100_ZH115,CC5050_pt50_ZH115,MM5050_pt100_ZH115,MM5050_pt50_ZH115,MMCC_pt100_ZH115,MMCC_pt50_ZH115,CCMM_pt100_ZH115,CCMM_pt50_ZH115
+
+
+##################
+#     ZH115      #
+##################
+#
+# CC pt100
+#
+[CC5050_pt100_ZH115]
+MVAtype: BDT
+MVAname: nov10_diJet_CC5050_MVAcut_pt100_ZH115
+MVAsettings: !H:!V:VarTransform=G_AllClasses:NTrees=180:nEventsMin=200:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.06:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/CC/train/MVAcut
+Epath: /scratch/nov10_inclusive/Z/sys/CC/test/MVAcut
+signals: ZH115
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVars
+#
+# CC pt50
+#
+[CC5050_pt50_ZH115]
+MVAtype: BDT
+MVAname: nov10_diJet_CC5050_MVAcut_pt50_ZH115
+MVAsettings: !H:!V:VarTransform=G_AllClasses:NTrees=180:nEventsMin=400:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.05:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/CC/train/MVAcut50
+Epath: /scratch/nov10_inclusive/Z/sys/CC/test/MVAcut50
+signals: ZH115
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVars
+#
+# MM pt100
+#
+[MM5050_pt100_ZH115]
+MVAtype: BDT
+MVAname: nov10_diJet_MM5050_MVAcut_pt100_ZH115
+MVAsettings: !H:!V:NTrees=180:nEventsMin=200:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.06:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/MM/train/MVAcut
+Epath: /scratch/nov10_inclusive/Z/sys/MM/test/MVAcut
+signals: ZH115
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVars
+#
+# MM pt50
+#
+[MM5050_pt50_ZH115]
+MVAtype: BDT
+MVAname: nov10_diJet_MM5050_MVAcut_pt50_ZH115
+MVAsettings: !H:!V:NTrees=180:nEventsMin=400:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.05:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/MM/train/MVAcut50
+Epath: /scratch/nov10_inclusive/Z/sys/MM/test/MVAcut50
+signals: ZH115
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVars
+#
+# MMCC pt100
+#
+[MMCC_pt100_ZH115]
+MVAtype: BDT
+MVAname: nov10_diJet_MMCC_MVAcut_pt100_ZH115
+MVAsettings: !H:!V:VarTransform=G_AllClasses:NTrees=270:nEventsMin=350:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.08:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/MM/MVAcut
+Epath: /scratch/nov10_inclusive/Z/sys/CC/MVAcut
+signals: ZH115
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVars
+#
+# MMCC pt50
+#
+[MMCC_pt50_ZH115]
+MVAtype: BDT
+MVAname: nov10_diJet_MMCC_MVAcut_pt50_ZH115
+MVAsettings: !H:!V:NTrees=300:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.07:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/MM/MVAcut50
+Epath: /scratch/nov10_inclusive/Z/sys/CC/MVAcut50
+signals: ZH115
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVars
+#
+# CCMM pt100
+#
+[CCMM_pt100_ZH115]
+MVAtype: BDT
+MVAname: nov10_diJet_CCMM_MVAcut_pt100_ZH115
+MVAsettings: !H:!V:VarTransform=G_AllClasses:NTrees=300:nEventsMin=300:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/CC/MVAcut
+Epath: /scratch/nov10_inclusive/Z/sys/MM/MVAcut
+signals: ZH115
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVars
+#
+# CCMM pt50
+#
+[CCMM_pt50_ZH115]
+MVAtype: BDT
+MVAname: nov10_diJet_CCMM_MVAcut_pt50_ZH115
+MVAsettings: !H:!V:NTrees=300:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.06:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/CC/MVAcut50
+Epath: /scratch/nov10_inclusive/Z/sys/MM/MVAcut50
+signals: ZH115
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVars
+#
+
+
+
+
+
+#VERGLEICH:
+# MMCC pt100
+#
+[MMCC5050_pt100_ZH115]
+MVAtype: BDT
+MVAname: nov10_diJet_MMCC5050_MVAcut_pt100_ZH115
+MVAsettings: !H:!V:VarTransform=G_AllClasses:NTrees=180:nEventsMin=200:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.06:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/MM/train/MVAcut
+Epath: /scratch/nov10_inclusive/Z/sys/CC/test/MVAcut
+signals: ZH115
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVars
+
+[BBCC5050_pt100_ZH115]
+MVAtype: BDT
+MVAname: nov10_diJet_BBCC5050_MVAcut_pt100_ZH115
+MVAsettings: !H:!V:VarTransform=G_AllClasses:NTrees=300:nEventsMin=300:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.08:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/train/MVAcut
+Epath: /scratch/nov10_inclusive/Z/sys/test/MVAcut
+signals: ZH115
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVars
+
+[BBMM5050_pt100_ZH115]
+MVAtype: BDT
+MVAname: nov10_diJet_BBMM5050_MVAcut_pt100_ZH115
+MVAsettings: !H:!V:VarTransform=G_AllClasses:NTrees=300:nEventsMin=300:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.08:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/train/MVAcut
+Epath: /scratch/nov10_inclusive/Z/sys/test/MVAcut
+signals: ZH115
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVars
+
+
+
+
+
+
+
+
+##################
+
+
+
+
+
+
+
+
+
+
+
+
+
+#######################
+# Zbb:
+
+[ZZbb_loose]
+MVAtype: BDT
+MVAname: nov10_diJet_ZZbb_loose
+MVAsettings: !H:!V:NTrees=400:nEventsMin=250:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=GiniIndex:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/btags/loose/train
+Epath: /scratch/nov10_inclusive/Z/sys/btags/loose/test
+signals: ZZb
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZudscg TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVars
+
+[ZZbb_tight]
+MVAtype: BDT
+MVAname: nov10_diJet_ZZbb_tight
+MVAsettings: !H:!V:VarTransform=G_AllClasses:NTrees=320:nEventsMin=300:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.11:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+#MVAsettings: !H:!V:VarTransform=G_AllClasses:NTrees=800:nEventsMin=300:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.2:SeparationType=GiniIndex:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/btags/tight/train
+Epath: /scratch/nov10_inclusive/Z/sys/btags/tight/test
+signals: ZZ
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVarswocsv
+
+[Zbb_vs_ZZb]
+MVAtype: BDT
+MVAname: nov10_diJet_Zbb_vs_ZZb
+MVAsettings: !H:!V:VarTransform=G_AllClasses:NTrees=250:nEventsMin=250:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.08:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/btags/tight/train
+Epath: /scratch/nov10_inclusive/Z/sys/btags/tight/test
+signals: ZZ
+backgrounds: Zbb Zbb_pt100
+treeVarSet: treeVars
+
+[btags_ZZb]
+MVAtype: BDT
+MVAname: nov10_diJet_btags_ZZb
+MVAsettings: !H:!V:NTrees=250:nEventsMin=200:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.08:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/btags/train
+Epath: /scratch/nov10_inclusive/Z/sys/btags/test
+signals: ZZb
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZudscg TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVarsZZb
+
+[btags_MVAcut_ZZb]
+MVAtype: BDT
+MVAname: nov10_diJet_btags_ZZb
+MVAsettings: !H:!V:NTrees=800:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.06:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+Tpath: /scratch/nov10_inclusive/Z/sys/btags/train/MVAZZbcut
+Epath: /scratch/nov10_inclusive/Z/sys/btags/test/MVAZZbcut
+signals: ZZb
+backgrounds: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZudscg TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+treeVarSet: treeVarsZZb
+
+
+##############################################################################################
+# SYSTEMATICS:
+
+[systematics]
+systematics: Nominal JER_up JER_down JES_up JES_down beff_up beff_down bmis_up bmis_down
+
+[treeVars]
+Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JER_up: H_JER.mass_up H_JER.pt_up HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JER_down: H_JER.mass_down H_JER.pt_down HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JES_up: H_JES.mass_up H_JES.pt_up HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JES_down: H_JES.mass_down H_JES.pt_down HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+beff_up: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csvUp[0] hJet_csvUp[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+beff_down: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csvDown[0] hJet_csvDown[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+bmis_up: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csvFUp[0] hJet_csvFUp[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csvFDown[0] hJet_csvFDown[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+spectators: naJets
+
+[treeVarswocsv]
+Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dR deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JER_up: H_JER.mass_up H_JER.pt_up HVdPhi V.mass V.pt H.dR deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JER_down: H_JER.mass_down H_JER.pt_down HVdPhi V.mass V.pt H.dR deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JES_up: H_JES.mass_up H_JES.pt_up HVdPhi V.mass V.pt H.dR deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JES_down: H_JES.mass_down H_JES.pt_down HVdPhi V.mass V.pt H.dR deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+beff_up: H.mass H.pt HVdPhi V.mass V.pt H.dR deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+beff_down: H.mass H.pt HVdPhi V.mass V.pt H.dR deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+bmis_up: H.mass H.pt HVdPhi V.mass V.pt H.dR deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dR deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+spectators: naJets
+
+
+[treeVarsZZb]
+Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] MET.et Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JER_up: H_JER.mass_up H_JER.pt_up HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] MET.et Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JER_down: H_JER.mass_down H_JER.pt_down HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] MET.et Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JES_up: H_JES.mass_up H_JES.pt_up HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] MET.et Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JES_down: H_JES.mass_down H_JES.pt_down HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] MET.et Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+beff_up: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csvUp[0] hJet_csvUp[1] MET.et Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+beff_down: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csvDown[0] hJet_csvDown[1] MET.et Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+bmis_up: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csvFUp[0] hJet_csvFUp[1] MET.et Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csvFDown[0] hJet_csvFDown[1] MET.et Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+spectators: naJets
+
+
+#############################################################################################
+# TreeCuts:
+
+[Cuts]
+#plot
+
+noCut: 1
+EE: Vtype == 1
+MM: Vtype == 0
+
+blind: nov10_diJet_ZZbb_tight.nominal<0
+
+
+
+MMpt100: Vtype == 0 && H.pt > 100. & V.pt > 100. & H.mass > 75 & H.mass < 105
+
+#Split
+train: EVENT.event %% 2 == 1
+test: EVENT.event %% 2 == 0
+trainD: 0
+testD: 1
+
+# ZHbb
+#MVA apply cut:
+treeCutApply: hJet_pt>20. && abs(hJet_eta)<=2.4
+
+treeCutMVA: hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta) < 2.4 & hbhe & hJet_csv[0] > 0.244 & hJet_csv[1] > 0.244 & H.pt > 100. & V.pt > 100. & V.mass > 75 & V.mass < 105 & H.mass < 250 & deltaPullAngleAK7 < 10.
+treeCutMVA50: hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta) < 2.4 & hbhe & hJet_csv[0] > 0.244 & hJet_csv[1] > 0.244 & H.pt < 100. & H.pt > 50. & V.pt < 100. & V.pt > 50. & V.mass > 75 & V.mass < 105 & H.mass < 250 & deltaPullAngleAK7 < 10.
+
+#ZZbb
+
+treeCutZZbloose: hJet_csv[0] > 0.244 & hJet_csv[1] > 0.244 && V.mass > 75 && V.mass < 105 && hJet_pt>20 && hJet_eta<=2.4 & deltaPullAngleAK7 < 10.
+treeCutZZbtight: min(hJet_csv[0],hJet_csv[1]) > 0.5 && max(hJet_csv[0],hJet_csv[1]) > 0.898 && V.mass > 75 && V.mass < 105 && hJet_pt>20 && hJet_eta<=2.4 & deltaPullAngleAK7 < 10.
+
+treeCutZZ: hJet_csv[0] > 0.244 & hJet_csv[1] > 0.244
+treeCutZZb: eventFlav == 5
+treeCutZZudscg: eventFlav != 5
+treeCutZZbMVA: min(hJet_csv[0],hJet_csv[1]) > 0.5 && max(hJet_csv[0],hJet_csv[1]) > 0.898 && V.mass > 75 && V.mass < 105 && hJet_pt[0]>30
+
+
+###########################################################################################
+# other things:
+
+[Weights]
+weightF: ((0.46502*PUweight+0.53498*PUweight2011B)*weightTrig)
