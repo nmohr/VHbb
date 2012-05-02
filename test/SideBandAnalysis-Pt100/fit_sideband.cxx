@@ -1,5 +1,5 @@
-#include "../fitInfo.hpp"
-#include "../controlRegions.h"
+#include "../../interface/fitInfo.hpp"
+#include "../../interface/controlRegions.h"
 #include "sampleSideBand.h"
 #include <iostream> 
 #include <TCanvas.h>
@@ -245,10 +245,10 @@ int main(int argc, char **argv){
    RooFitResult * fitRes = simPdf.fitTo(combData,SumW2Error(1));
 
 
+
    std::cout << " ==== Scale Factor ==== " << std::endl;
-   for(int i=0; i<templateNames.size(); ++i){
-     fitInfos.at(i)->var->Print();
-   }
+   for(int i=0; i<f_vars.size(); ++i)
+     std::cout << "Name = " << f_vars.at(i)->GetName() << "; Value = " << f_vars.at(i)->getVal() << std::endl;
 
    // Plot data and PDF overlaid
    //ttbar

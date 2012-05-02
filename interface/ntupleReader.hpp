@@ -5,13 +5,13 @@
 #include <TChain.h>
 #include <TFile.h>
 #include "TLorentzVector.h"
-#include "ntupleLoader.h"
+#include "ntupleLoader.hpp"
 
 class ntupleReader : public ntupleLoader {
 public :
 
-  ntupleReader(const char * infile) : ntupleLoader ( infile );
-  virtual ~ntupleReader();
+  ntupleReader(const char * infile) : ntupleLoader( infile ){};
+  //  virtual ~ntupleReader();
    virtual std::vector<TLorentzVector> SimBs();
    virtual std::vector<TLorentzVector> SVs();
    virtual int CountJets();

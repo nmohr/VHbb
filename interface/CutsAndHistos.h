@@ -5,8 +5,8 @@
 #include <vector>
 #include <TROOT.h>
 #include <TFile.h>
-#include "ntupleReader.h"
-#include "samples.h"
+#include "ntupleReader.hpp"
+#include "samples.hpp"
 
 enum  VType{ Zmm, Zee, Wmn, Wen, Znn } iType;
 

@@ -1,9 +1,9 @@
 #ifndef CONTROLREGION_H
 #define CONTROLREGION_H
 
-#include "samples.h"
-#include "ntupleReader.h"
-#include "CutsLP.h"
+#include "samples.hpp"
+#include "ntupleReader.hpp"
+#include "CutsAndHistos.h"
 #include "TH1.h"
 #include <string>
 

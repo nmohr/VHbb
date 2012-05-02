@@ -1,4 +1,4 @@
-#include "../samples.h"
+#include "../../interface/samples.hpp"
 
 std::vector<Sample> Nov10SideBand(){
   std::vector<Sample> s;
@@ -85,7 +85,7 @@ std::vector<Sample> Nov10SideBandHistos(){
   std::string FullRun("FullRun");
   std::string FullRunEle("FullRunEle");
   std::string FullRunMu("FullRunMu");
-  std::string appendix("sideband_Pt50To100");
+  std::string appendix("SideBand-Pt50To100");
 
   s.push_back(Sample(0.4107*0.704*0.03365*3,"ZH",path+"DiJetPt_ZH_ZToLL_HToBB_M-115_7TeV-powheg-herwigpp.root.updatedNewBTAGSF_skimmed"+appendix+".histos.root", kRed , false ));
   s.push_back(Sample(5.9,VV,path+"DiJetPt_ZZ_TuneZ2_7TeV_pythia6_tauola.root.updatedNewBTAGSF_skimmed"+appendix+".histos.root", 17 , false ));

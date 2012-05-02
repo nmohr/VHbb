@@ -2,14 +2,13 @@
 #include <TApplication.h>
 #include <TH1.h>
 #include <iostream>
-#include "../CutsAndHistos.h"
-#include "../Histos.h"
-#include "../Cuts/CutsSideBand-Pt50To100.h"
+#include "../../interface/CutsAndHistos.h"
+#include "../../plugins/Histos.h"
+#include "../../plugins/Cuts/CutsSideBand-Pt50To100.h"
 //#include "../Cuts/CutsSideBandZee.h"
 //#include "../Cuts/CutsSideBandZmm.h"
-#include "../ntupleReader.h"
+#include "../../interface/ntupleReader.hpp"
 #include "sampleSideBand.h"
-#include "../sampleCollection.h"
 
 void prepareAllZHistos(std::vector<CutsAndHistos *> & allHistosZ,TFile *fout  )
 {
@@ -58,7 +57,7 @@ int main(int argc, char **argv)
 
   bool verbose_ = false;
   bool stitching = true;
-  std::string file_appendix = "sideband_Pt50To100";
+  std::string file_appendix = "SideBand-Pt50To100";
   //std::string file_appendix = "";
 
   double fa = 0.46502;

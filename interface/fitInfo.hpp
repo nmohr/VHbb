@@ -1,17 +1,17 @@
 #ifndef FITINFO_H
 #define FITINFO_H
 
-#include "sampleCollection.h"
+#include "samples.hpp"
 #include "controlRegions.h"
+#include "../plugins/customize.h"
+#include "../plugins/setTDRStyle.C"
 #include <iostream> 
 #include <TCanvas.h>
 #include <TLine.h>
 #include <TRegexp.h>
 #include <TLegend.h>
 #include <THStack.h>
-#include "setTDRStyle.C"
 #include <TROOT.h>
-#include "customize.h"
 #include "TLatex.h"
 #include "TPaveText.h"
 #include "TGraphErrors.h"
