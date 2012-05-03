@@ -1,5 +1,5 @@
-#include "../fitInfo.hpp"
-#include "../controlRegions.h"
+#include "../../interface/fitInfo.hpp"
+#include "../../interface/controlRegions.h"
 #include "sampleSideBand.h"
 #include <iostream> 
 #include <TCanvas.h>
