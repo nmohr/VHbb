@@ -29,6 +29,85 @@
 #include "RooSimultaneous.h"
 #include "RooCategory.h"
 
+void write_datacard( RooFitResult & fitRes, std::vector<RooRealVar*> & f_vars ){
+
+   std::ofstream myfile;
+   myfile.open ("Pt50To100SFupdate.txt");
+   std::ofstream datacard;
+   datacard.open ("DataCard_Pt50To100SFupdate.txt");
+
+   std::string DYL = "f_DYL";
+   std::string DYC = "f_DYC";
+   std::string DYB = "f_DYB";
+   std::string TTbar = "f_TTbar";
+   int dyl_idx, dyc_idx, dyb_idx, ttbar_idx;
+   std::vector<RooRealVar*> fit_vars;
+
+   for(int i=0; i<f_vars.size(); ++i)
+     if(f_vars.at(i)->GetName() == DYL || 
+	f_vars.at(i)->GetName() == DYC ||
+	f_vars.at(i)->GetName() == DYB ||
+	f_vars.at(i)->GetName() == TTbar )
+       fit_vars.push_back(f_vars.at(i));
+   
+   std::cout << "FIT VARS AT 0 NAME = " << fit_vars.at(0)->GetName() << std::endl;
+   double Corr[fit_vars.size()][fit_vars.size()]; 
+   for(int i=0; i<fit_vars.size(); ++i){
+     if(fit_vars.at(i)->GetName() == DYL) dyl_idx = i; 
+     else if(fit_vars.at(i)->GetName() == DYC) dyc_idx = i;
+     else if(fit_vars.at(i)->GetName() == DYB) dyb_idx = i;
+     else if(fit_vars.at(i)->GetName() == TTbar) ttbar_idx = i;
+   }
+
+   for(int i=0; i<fit_vars.size(); ++i)
+     for(int j=0; j<fit_vars.size(); ++j)
+       Corr[i][j] = fitRes.correlation( *fit_vars.at(i), *fit_vars.at(j) );
+
+   myfile << "CMS_vhbb_ZjLF_SF    lnN    -    -     -    " << fit_vars.at(dyl_idx)->getVal() << "  -    -   -   -   -   -" << std::endl;
+   datacard << "CMS_vhbb_ZjLF_SF    lnN    -    -     -    " << 
+     1 + fit_vars.at(dyl_idx)->getError() << "  " << 
+     1 - ((int)(0.5-Corr[dyl_idx][dyc_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
+     1 - ((int)(0.5-Corr[dyl_idx][dyb_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 - ((int)(0.5-Corr[dyl_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
+     "   -   -   -   -" << std::endl;
+    
+   myfile << "CMS_vhbb_ZjCF_SF    lnN    -    -     -    -    " << fit_vars.at(dyc_idx)->getVal() <<"    -   -   -   -" << std::endl;
+   datacard << "CMS_vhbb_ZjCF_SF    lnN    -    -     -   " <<  
+     1 - ((int)(0.5-Corr[dyc_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
+     1 + fit_vars.at(dyc_idx)->getError() << "  " << 
+     1 - ((int)(0.5-Corr[dyc_idx][dyb_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 - ((int)(0.5-Corr[dyc_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
+     "   -   -   -   -" << std::endl;
+
+   myfile << "CMS_vhbb_ZjHF_SF    lnN    -    -     -    -    - " << fit_vars.at(dyb_idx)->getVal() <<"    -   -   -   -" << std::endl;
+   datacard << "CMS_vhbb_ZjHF_SF    lnN    -    -     -   " <<  
+     1 - ((int)(0.5-Corr[dyb_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
+     1 - ((int)(0.5-Corr[dyb_idx][dyc_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 + fit_vars.at(dyb_idx)->getError() << "  " << 
+     1 - ((int)(0.5-Corr[dyb_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
+     "   -   -   -   -" << std::endl;
+   
+   myfile << "CMS_vhbb_TT_SF      lnN    -    -     -    -    -   -  " <<  fit_vars.at(ttbar_idx)->getVal() << "   -   -   -" << std::endl;
+   datacard << "CMS_vhbb_TT_SF    lnN    -    -     -   " <<  
+     1 - ((int)(0.5-Corr[dyb_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
+     1 - ((int)(0.5-Corr[dyb_idx][dyc_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 + fit_vars.at(dyb_idx)->getError() << "  " << 
+     1 - ((int)(0.5-Corr[dyb_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
+     "   -   -   -   -" << std::endl;
+     
+   myfile.close();  
+   datacard.close();  
+   
+   std::ofstream errorfile;
+   errorfile.open ("SFErrors_Pt100.txt");
+   for(int i=0; i<f_vars.size(); ++i)
+     errorfile << f_vars.at(i)->GetName() << " stat error = " << f_vars.at(i)->getError() << std::endl;
+   myfile.close();  
+
+
+}
+
+
 
 int main(int argc, char **argv){
 
@@ -242,13 +321,13 @@ int main(int argc, char **argv){
 
    std::cout << "FITTING  ............ " << std::endl;
 
-   RooFitResult * fitRes = simPdf.fitTo(combData,SumW2Error(1));
-
+   RooFitResult * fitRes = simPdf.fitTo(combData,SumW2Error(1),Save());
 
    std::cout << " ==== Scale Factor ==== " << std::endl;
-   for(int i=0; i<templateNames.size(); ++i){
-     fitInfos.at(i)->var->Print();
-   }
+   for(int i=0; i<f_vars.size(); ++i)
+     std::cout << "Name = " << f_vars.at(i)->GetName() << "; Value = " << f_vars.at(i)->getVal() << "; Error = " << f_vars.at(i)->getError()  << std::endl;
+
+   write_datacard( *fitRes, f_vars );
 
    // Plot data and PDF overlaid
    //ttbar
