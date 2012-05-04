@@ -2,6 +2,7 @@
 #include "../../interface/controlRegions.h"
 #include "sampleSideBand.h"
 #include <iostream> 
+#include <fstream>
 #include <TCanvas.h>
 #include <TLine.h>
 #include <TRegexp.h>
@@ -106,7 +107,7 @@ int main(int argc, char **argv){
   if(debug_)
     std::cout << " fillinf the fit info " << std::endl;
 
-  fitInfos.push_back( new fitInfo(s_region_Zbb_SB,s_var_Zbb_SB,s_prefix,s_sysprefix,s_suffix_Zbb_SB,s_channel,0,250) );
+  //  fitInfos.push_back( new fitInfo(s_region_Zbb_SB,s_var_Zbb_SB,s_prefix,s_sysprefix,s_suffix_Zbb_SB,s_channel,0,250) );
   fitInfos.push_back( new fitInfo(s_region_ttbar_SB,s_var_ttbar_SB,s_prefix,s_sysprefix,s_suffix_ttbar_SB,s_channel,0,150) );
   fitInfos.push_back( new fitInfo(s_region_Zlight_SB,s_var_Zlight_SB,s_prefix,s_sysprefix,s_suffix_Zlight_SB,s_channel,0,1) );
 
@@ -227,16 +228,17 @@ int main(int argc, char **argv){
 
    RooDataHist combData("combData","combined data",
 			RooArgSet( *fitInfos.at(0)->var ,
-				   *fitInfos.at(1)->var ,
-				   *fitInfos.at(2)->var ),
+				   *fitInfos.at(1)->var ),
+				   //				   *fitInfos.at(2)->var ),
 			Index(varToFit),
 			Import(fitInfos.at(0)->var->GetName(),*fitInfos.at(0)->h_data),
-			Import(fitInfos.at(1)->var->GetName(),*fitInfos.at(1)->h_data),
-			Import(fitInfos.at(2)->var->GetName(),*fitInfos.at(2)->h_data));
+			Import(fitInfos.at(1)->var->GetName(),*fitInfos.at(1)->h_data));
+   //			Import(fitInfos.at(2)->var->GetName(),*fitInfos.at(2)->h_data));
 
   
    std::cout << "Generatign RooSimultaneous ............ " << std::endl;
    RooSimultaneous simPdf("simPdf","simPdf",varToFit);
+
    for(int i=0; i<fitInfos.size(); ++i)
      simPdf.addPdf(*fitInfos.at(i)->model,fitInfos.at(i)->var->GetName());
 
@@ -248,7 +250,35 @@ int main(int argc, char **argv){
 
    std::cout << " ==== Scale Factor ==== " << std::endl;
    for(int i=0; i<f_vars.size(); ++i)
-     std::cout << "Name = " << f_vars.at(i)->GetName() << "; Value = " << f_vars.at(i)->getVal() << std::endl;
+     std::cout << "Name = " << f_vars.at(i)->GetName() << "; Value = " << f_vars.at(i)->getVal() << "; Error = " << f_vars.at(i)->getError() << " + " << f_vars.at(i)->getAsymErrorHi() << " - " << f_vars.at(i)->getAsymErrorLo()  << std::endl;
+
+   std::ofstream myfile;
+   myfile.open ("DataCard_Pt100SFupdate.txt");
+   //   myfile << "Writing this to a file.\n";
+   //   myfile << "Writing this to a file. " << std::endl;
+   std::string DYL = "f_DYL";
+   std::string DYC = "f_DYC";
+   std::string DYB = "f_DYB";
+   std::string TTbar = "f_TTbar";
+
+   for(int i=0; i<f_vars.size(); ++i){
+   if(f_vars.at(i)->GetName() == DYL)
+     myfile << "CMS_vhbb_ZjLF_SF    lnN    -    -     -    " << f_vars.at(i)->getVal() << "    -    -   -   -   -" << std::endl;
+   if(f_vars.at(i)->GetName() == DYC)
+     myfile << "CMS_vhbb_ZjCF_SF    lnN    -    -     -    -    " << f_vars.at(i)->getVal() <<"    -   -   -   -" << std::endl;
+   if(f_vars.at(i)->GetName() == DYB)
+     myfile << "CMS_vhbb_ZjHF_SF    lnN    -    -     -    -    " << f_vars.at(i)->getVal() <<"    -   -   -   -" << std::endl;
+   if(f_vars.at(i)->GetName() == TTbar)     
+     myfile << "CMS_vhbb_TT_SF      lnN    -    -     -    -    -    " <<  f_vars.at(i)->getVal() << "   -   -   -" << std::endl;
+   }
+   myfile.close();  
+
+   std::ofstream errorfile;
+   errorfile.open ("SFErrors_Pt100.txt");
+   for(int i=0; i<f_vars.size(); ++i)
+     errorfile << f_vars.at(i)->GetName() << " stat error = " << f_vars.at(i)->getError() << std::endl;
+   myfile.close();  
+
 
    // Plot data and PDF overlaid
    //ttbar
