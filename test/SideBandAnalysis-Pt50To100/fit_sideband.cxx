@@ -2,6 +2,7 @@
 #include "../../interface/controlRegions.h"
 #include "sampleSideBand.h"
 #include <iostream> 
+#include <fstream>
 #include <TCanvas.h>
 #include <TLine.h>
 #include <TRegexp.h>
@@ -99,7 +100,7 @@ void write_datacard( RooFitResult & fitRes, std::vector<RooRealVar*> & f_vars ){
    datacard.close();  
    
    std::ofstream errorfile;
-   errorfile.open ("SFErrors_Pt100.txt");
+   errorfile.open ("SFErrors_Pt50To100.txt");
    for(int i=0; i<f_vars.size(); ++i)
      errorfile << f_vars.at(i)->GetName() << " stat error = " << f_vars.at(i)->getError() << std::endl;
    myfile.close();  
@@ -108,14 +109,15 @@ void write_datacard( RooFitResult & fitRes, std::vector<RooRealVar*> & f_vars ){
 }
 
 
-
 int main(int argc, char **argv){
 
   using namespace RooFit;
 
   double fa = 0.46502;
   double fb = 0.53498;
-  bool debug_=true;
+  bool debug_=false;
+  bool fitSys = false;
+  bool fitMCsyst = false;
 
   if(debug_)
     std::cout << "Init the sample" << std::endl;
@@ -161,7 +163,6 @@ int main(int argc, char **argv){
   std::vector<fitInfo *> fitInfos;
   std::vector<controlRegion*> crToFit;  
 
-  bool fitSys = false;
   std::string s_channel = "HZcombSB";
   //  std::string s_channel = "HZeeSB";
   std::string s_prefix = "BDT";
@@ -171,12 +172,12 @@ int main(int argc, char **argv){
   // systematics suffix is needed for the shape effect
   //std::string s_suffix_Zbb_SB = "$";
   std::string s_suffix_Zbb_SB = "$";
-  //std::string s_suffix_Zlight_SB = "$";
   std::string s_suffix_Zlight_SB = "$";
+  //  std::string s_suffix_Zlight_SB = "SystUP$";
   std::string s_suffix_ttbar_SB = "$";
   //  std::string s_suffix_ttbar_SB = "SystDOWN$";
   std::string s_region_Zbb_SB = "SideBand"; // Zbb sideband
-  std::string s_var_Zbb_SB = "HiggsMass"; 
+  std::string s_var_Zbb_SB = "HiggsMass"; //HiggsMass
   std::string s_region_ttbar_SB = "TTbarControl";
   std::string s_var_ttbar_SB = "MET_et"; // one addjet required  
   std::string s_region_Zlight_SB = "SideBand";
@@ -199,7 +200,7 @@ int main(int argc, char **argv){
     std::cout << " filled the fit info " << std::endl;
  
   Options o;
-  double SF[] = {1.0,1.0,1.0}; // SF for scaling
+  double SF[] = {1.0,1.0,1.0,1.0}; // SF for scaling
   TH1F * h = new TH1F;
   h->Sumw2();
 
@@ -213,15 +214,15 @@ int main(int argc, char **argv){
 	  if(!s[j].data)
 	    h->Scale(s[j].scale(data.lumi(),fa,fb,SF));
 	  for( int r=0; r<fitInfos.size(); ++r ){
-	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionString).c_str())) ){
-	      //	      if(debug_) std::cout << "Filling fitting region " << (fitInfos.at(r)->s_regionString).c_str() << std::endl;
+	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionString).c_str())) ){ // normal histograms
+	      if(debug_) std::cout << "Filling fitting region " << (fitInfos.at(r)->s_regionString).c_str() << std::endl;
 	      crToFit.at(r)->fillFromHisto(s[j], *h, 1 , h->GetNbinsX() );
 	    }
-	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionForSyst).c_str())) ){
-	      //	      if(debug_) std::cout << "Filling template region " << (fitInfos.at(r)->s_regionForSyst).c_str() << std::endl;
+	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionForSyst).c_str())) ){ // hitos with systematics variations
+	      if(debug_) std::cout << "Filling template region " << (fitInfos.at(r)->s_regionForSyst).c_str() << std::endl;
 	      fitInfos.at(r)->cr->fillFromHisto(s[j], *h, 1 , h->GetNbinsX() ); // no under/overflow considered
 	    }
-	    if( n.Contains(TRegexp((fitInfos.at(r)->s_signalRegion).c_str())) )
+	    if( n.Contains(TRegexp((fitInfos.at(r)->s_signalRegion).c_str())) ) // signal region. 
 	      fitInfos.at(r)->cr_signal->fillFromHisto(s[j], *h ,1 , h->GetNbinsX() ); // no under/overflow considered
 	    
 	  } // fitinfo loop
@@ -231,7 +232,7 @@ int main(int argc, char **argv){
   delete h;
 
   for(int i=0; i<fitInfos.size(); ++i){
-    if(fitSys) fitInfos.at(i)->fillHistoToFit( *crToFit.at(i)->hTotal() );
+    if(fitSys && fitMCsyst) fitInfos.at(i)->fillHistoToFit( *crToFit.at(i)->hTotal() );
     else  fitInfos.at(i)->fillHistoToFit( *crToFit.at(i)->hData() );
   }    
 
@@ -255,11 +256,9 @@ int main(int argc, char **argv){
   std::vector<double> sf_fixed( fixedTemplateNames.size() ,1.);
   std::vector<double> sf( templateNames.size() ,1.);
   std::vector<RooRealVar*> f_vars;
-  for(int i=0; i<fixedTemplateNames.size(); ++i)
-    //    f_vars.push_back( new RooRealVar(("f_"+fixedTemplateNames.at(i)).c_str(),("f_"+fixedTemplateNames.at(i)).c_str(), fitInfos.at(0)->cr_signal->count(fixedTemplateNames.at(i)) ) );
+  for(int i=0; i<fixedTemplateNames.size(); ++i) //fixed templates
     f_vars.push_back( new RooRealVar(("f_"+fixedTemplateNames.at(i)).c_str(),("f_"+fixedTemplateNames.at(i)).c_str(), sf_fixed.at(i) ) );
-  for(int i=0; i<templateNames.size(); ++i)
-    //    f_vars.push_back( new RooRealVar(("f_"+templateNames.at(i)).c_str(),("f_"+templateNames.at(i)).c_str(), fitInfos.at(0)->cr_signal->count(templateNames.at(i)), 0.5*fitInfos.at(0)->cr_signal->count(templateNames.at(i)) , 2.*fitInfos.at(0)->cr_signal->count(templateNames.at(i))) );
+  for(int i=0; i<templateNames.size(); ++i) // variable templates
     f_vars.push_back( new RooRealVar(("f_"+templateNames.at(i)).c_str(),("f_"+templateNames.at(i)).c_str(), sf.at(i) , 0.5*sf.at(i) , 200.*sf.at(i) ) );
 
   for(int i=0; i<f_vars.size(); ++i)
@@ -312,17 +311,18 @@ int main(int argc, char **argv){
 			Import(fitInfos.at(0)->var->GetName(),*fitInfos.at(0)->h_data),
 			Import(fitInfos.at(1)->var->GetName(),*fitInfos.at(1)->h_data),
 			Import(fitInfos.at(2)->var->GetName(),*fitInfos.at(2)->h_data));
-
+   
   
    std::cout << "Generatign RooSimultaneous ............ " << std::endl;
    RooSimultaneous simPdf("simPdf","simPdf",varToFit);
+
    for(int i=0; i<fitInfos.size(); ++i)
      simPdf.addPdf(*fitInfos.at(i)->model,fitInfos.at(i)->var->GetName());
 
    std::cout << "FITTING  ............ " << std::endl;
 
    RooFitResult * fitRes = simPdf.fitTo(combData,SumW2Error(1),Save());
-
+ 
    std::cout << " ==== Scale Factor ==== " << std::endl;
    for(int i=0; i<f_vars.size(); ++i)
      std::cout << "Name = " << f_vars.at(i)->GetName() << "; Value = " << f_vars.at(i)->getVal() << "; Error = " << f_vars.at(i)->getError()  << std::endl;

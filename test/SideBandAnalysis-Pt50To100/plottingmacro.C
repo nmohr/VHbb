@@ -1,27 +1,30 @@
 #include <sampleSideBand.h>
 #include <iostream> 
+#include <fstream> 
 #include <TCanvas.h>
 #include <TLine.h>
 #include <TRegexp.h>
 #include <TLegend.h>
 #include <THStack.h>
-#include "../setTDRStyle.C"
 #include <TROOT.h>
-#include "../customize.h"
 #include "TLatex.h"
 #include "TPaveText.h"
 #include "TGraphErrors.h"
 #include "TAxis.h"
-#include "../Ratio.h"
+#include "../../plugins/setTDRStyle.C"
+//#include "../../plugins/Ratio.h"
+#include "../../plugins/customize.h"
+
 
 void plottingmacro()
 {
 
   double fa = 0.46502;
   double fb = 0.53498;
-  bool debug_ = true;
+  bool debug_ = false;
+  bool getSFfromFile = true;
 
-  std::string path("Nov10Fall1160MTopSlimPlots/");
+  std::string path("PlotsApr25/");
 
   if(debug_)
     std::cout << "Init the style form setTDRStyle" << std::endl;
@@ -85,7 +88,7 @@ void plottingmacro()
 
       //      if(!n.Contains(TRegexp("^BDTZlightControlRegionHZcombSB"))) continue;
       //      if(!n.Contains(TRegexp("^BDTZbbControlRegionHZcombSB"))) continue;
-      //      if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcombSB"))) continue;
+      //if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcombSB"))) continue;
       if(!n.Contains(TRegexp("^BDTSideBandRegionHZcombSB"))) continue;
       //if(!n.Contains(TRegexp("^BDTTrainingRegionHZcombSB"))) continue;
 
@@ -137,18 +140,33 @@ void plottingmacro()
       if(debug_)
 	std::cout << "Adding MC to the THStack" << std::endl;  
 
-      //with the proper trigger eff {DYL, TTBar, DYB}
-      //      double SF[] = {1.01,1.03,1.00};
-      //      double SF[] = {1.03,1.054,1.032};
-      //      double SF[] = {1.0,1.0,1.0};
-      //      double SF[] = {1.016,1.138,1.05}; // 2.55 or 1.05
-      //      double SF[] = {1.23,1./0.89,1./0.99}; 
-      double SF[] = {1.03,1.13,0.98}; //from the fit
+      //scale factors {DYL, TTBar, , DYC, DYB}
+      double SF[] = {1.00,1.00,1.00,1.00}; //
 
-      if(debug_){
-	for(int i = 0; i< 3; ++i)
-	  std::cout << "SF [" << i << "] = " << SF[i] << std::endl;
+      //here I get the SF from the file
+      if(getSFfromFile){
+	std::string DYL = "ZjL";
+	std::string DYC = "ZjC";
+	std::string DYB = "ZjH";
+	std::string TTbar = "TT";
+	std::ifstream SFfile;
+	std::string line;
+	SFfile.open("../Pt50To100SFupdate.txt");
+	if (SFfile.is_open()){
+	  while ( getline(SFfile,line) ){
+	    size_t pos_point = line.find('.'); // decimal of the double
+	    istringstream tokenizer(line.substr(pos_point-1));
+	    if(line.find(DYL,0)!=string::npos) tokenizer >> SF[0];
+	    if(line.find(DYC,0)!=string::npos) tokenizer >> SF[1];
+	    if(line.find(DYB,0)!=string::npos) tokenizer >> SF[2];
+	    if(line.find(TTbar,0)!=string::npos) tokenizer >> SF[3];
+	  }
+	  SFfile.close();
+	}
       }
+
+      for(int i = 0; i< 4; ++i)
+	std::cout << "SF [" << i << "] = " << SF[i] << std::endl;
 
 //       TCanvas * c2 = new TCanvas("Normalized_plots","Normalized_plots",600,600);
 //       hd->DrawNormalized();
