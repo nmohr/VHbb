@@ -21,6 +21,9 @@ public :
    virtual int CountAddLeptons();
    virtual bool TriggerBit();
    virtual TLorentzVector VectorBoson(); //vector boson TLorentz vector
+   virtual double resolution(double eta); //smearing for the jet energy resolution
+   virtual TLorentzVector hJet_jer( int idx, double sign );
+   virtual TLorentzVector H_jer( double sing );
    virtual double hJet_PT( int idx, int sign ); //higgs jet energy correction
    virtual double aJet_PT( int idx, int sign ); //addtional jet energy correction
    virtual TLorentzVector Higgs( int sign ); //higgs candidate jet energy correction
@@ -67,6 +70,29 @@ TLorentzVector ntupleReader::VectorBoson(){
   l1.SetPtEtaPhiM(vLepton_pt[0],vLepton_eta[0],vLepton_phi[0],vLepton_mass[0] );
   l2.SetPtEtaPhiM(vLepton_pt[1],vLepton_eta[1],vLepton_phi[1],vLepton_mass[1] );
   return (l1+l2);
+}
+
+//JER
+double ntupleReader::resolution(double eta){
+  double inner = 0.06;
+  double outer = 0.1;
+  double eta_tracker = 1.1;
+  if(abs(eta) < eta_tracker) return inner; else return outer;
+}
+TLorentzVector ntupleReader::hJet_jer( int idx, double sign ){
+  TLorentzVector tmp;
+  double hJet_pt_jer = hJet_pt[idx] + sign * resolution(hJet_eta[idx])*TMath::Abs(hJet_pt[idx]-hJet_genPt[idx]);
+  tmp.SetPtEtaPhiE(  hJet_pt_jer,
+		     hJet_eta[idx],
+		     hJet_phi[idx],
+		     hJet_e[idx]*(hJet_pt_jer/hJet_pt[idx]) );
+ return tmp;
+}
+
+TLorentzVector ntupleReader::H_jer( double sign ){
+  TLorentzVector h;
+  h = hJet_jer( 0, sign ) + hJet_jer( 1, sign );
+  return h;
 }
 
 double ntupleReader::hJet_PT( int idx, int sign ){ return  hJet_pt[idx]*(1 + (sign)*hJet_JECUnc[idx]); }

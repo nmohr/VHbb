@@ -295,7 +295,13 @@ public:
     StH_HHel = new TH1F(("HiggsHel"+suffix).c_str(),("Higgs helicity angle ("+suffix+")").c_str(), bin_hel, min_hel, max_hel );
     StH_HPullAngle = new TH1F(("HiggsPullAngle"+suffix).c_str(),("Higgs pull angle ("+suffix+")").c_str(), bin_deltaPhi, min_deltaPhi, max_deltaPhi );
     StH_HdR_addJets = new TH1F(("HdR_addJets"+suffix).c_str(),("Higgs deltaR addJets ("+suffix+")").c_str(), bin_deltaR, min_deltaR, max_deltaR );
+    StH_HdR_leading_addJets = new TH1F(("HdR_leading_addJets"+suffix).c_str(),("Higgs deltaR leading-add Jets ("+suffix+")").c_str(), bin_deltaR, min_deltaR, max_deltaR );
+    StH_HdR_following_addJets = new TH1F(("HdR_following_addJets"+suffix).c_str(),("Higgs deltaR following-add Jets ("+suffix+")").c_str(), bin_deltaR, min_deltaR, max_deltaR );
+    StH_HdRnorm_addJets = new TH1F(("HdRnorm_addJets"+suffix).c_str(),("Higgs normalized deltaR addJets ("+suffix+")").c_str(), bin_deltaR, min_deltaR, max_deltaR );
     StH_HMass_addJets = new TH1F(("HiggsMass_addJets"+suffix).c_str(),(" Higgs Mass with addJet ("+suffix+")").c_str(), bin_mass, min_mass, max_mass );
+    StH_HMass_leading_addJets = new TH1F(("HiggsMass_leading_addJets"+suffix).c_str(),(" Higgs Mass with leading addJet ("+suffix+")").c_str(), bin_mass, min_mass, max_mass );
+    StH_HMass_following_addJets = new TH1F(("HiggsMass_following_addJets"+suffix).c_str(),(" Higgs Mass with following addJet ("+suffix+")").c_str(), bin_mass, min_mass, max_mass );
+    StH_HMass_both_addJets = new TH1F(("HiggsMass_both_addJets"+suffix).c_str(),(" Higgs Mass with both addJet ("+suffix+")").c_str(), bin_mass, min_mass, max_mass );
 
     StH_massDrop = new TH1F(("MassDrop"+suffix).c_str(),(" Higgs Mass Drop ("+suffix+")").c_str(), bin_btag, min_btag, max_btag );
     StH_y12 = new TH1F(("Y12"+suffix).c_str(),(" Higgs Y12 ("+suffix+")").c_str(), bin_btag, min_btag, max_btag*1.2 );
@@ -394,7 +400,19 @@ public:
     }
     if(iEvent.CountAddJets() > 0 ){
       StH_HdR_addJets->Fill(higgs.DeltaR(addJets.at(dRmin_idx)), w);
-      if( iEvent.aJet_csv[dRmin_idx] > 0.7 )
+      StH_HdR_leading_addJets->Fill(hJet1.DeltaR(addJets.at(dRmin_idx)), w);
+      StH_HdR_following_addJets->Fill(hJet2.DeltaR(addJets.at(dRmin_idx)), w);
+      StH_HdRnorm_addJets->Fill(higgs.DeltaR(addJets.at(dRmin_idx)) / iEvent.H_dR, w);
+      if( iEvent.aJet_csv[dRmin_idx] > 0.8 ||  hJet1.DeltaR(addJets.at(dRmin_idx)) < 2 )
+	StH_HMass_leading_addJets->Fill((higgs+addJets.at(dRmin_idx)).M(), w); 
+      else StH_HMass_leading_addJets->Fill(higgs.M(), w); 
+      if( iEvent.aJet_csv[dRmin_idx] > 0.8 ||  hJet2.DeltaR(addJets.at(dRmin_idx)) < 2 )
+	StH_HMass_following_addJets->Fill((higgs+addJets.at(dRmin_idx)).M(), w); 
+      else StH_HMass_following_addJets->Fill(higgs.M(), w); 
+      if( iEvent.aJet_csv[dRmin_idx] > 0.8 ||  hJet2.DeltaR(addJets.at(dRmin_idx)) < 2  ||  hJet1.DeltaR(addJets.at(dRmin_idx)) < 2 )
+	StH_HMass_both_addJets->Fill((higgs+addJets.at(dRmin_idx)).M(), w); 
+      else StH_HMass_both_addJets->Fill(higgs.M(), w); 
+      if( iEvent.aJet_csv[dRmin_idx] > 0.8 ||  higgs.DeltaR(addJets.at(dRmin_idx)) < 2 )
 	StH_HMass_addJets->Fill((higgs+addJets.at(dRmin_idx)).M(), w); 
       else StH_HMass_addJets->Fill(higgs.M(), w); 
       StH_addJet1_pt->Fill(iEvent.aJet_pt[dRmin_idx], w);
@@ -472,7 +490,14 @@ public:
   TH1F * StH_HHel;
   TH1F * StH_HPullAngle;
   TH1F * StH_HdR_addJets;
+  TH1F * StH_HdR_leading_addJets;
+  TH1F * StH_HdR_following_addJets;
+
+  TH1F * StH_HdRnorm_addJets;
   TH1F * StH_HMass_addJets;
+  TH1F * StH_HMass_leading_addJets;
+  TH1F * StH_HMass_following_addJets;
+  TH1F * StH_HMass_both_addJets;
 
   TH1F * StH_massDrop;
   TH1F * StH_y12;
@@ -614,6 +639,12 @@ public:
     SystUPH_ZH_dPhi = new TH1F(("ZH_dPhi"+suffix+"SystUP").c_str(),(" ZH delta Phi ("+suffix+"SystUP"+")").c_str(), bin_deltaPhi, min_deltaPhi, max_deltaPhi );
     SystUPH_HdR_addJets = new TH1F(("HdR_addJets"+suffix+"SystUP").c_str(),("Higgs deltaR addJets ("+suffix+"SystUP"+")").c_str(), bin_deltaR, min_deltaR, max_deltaR );
 
+    SystJERUPH_simpleJet1_pt = new TH1F(("SimpleJet1_pt"+suffix+"SystJERUP").c_str(),("Simple Jet1 pt ("+suffix+"SystJERUP"+")").c_str(), bin_pt, min_pt, max_pt*0.8 );
+    SystJERUPH_simpleJet2_pt = new TH1F(("SimpleJet2_pt"+suffix+"SystJERUP").c_str(),("Simple Jet2 pt ("+suffix+"SystJERUP"+")").c_str(), bin_pt, min_pt, max_pt*0.8 );
+    SystJERUPH_HMass = new TH1F(("HiggsMass"+suffix+"SystJERUP").c_str(),(" Higgs Mass ("+suffix+"SystJERUP"+")").c_str(), bin_mass, min_mass, max_mass );
+    SystJERUPH_HPt = new TH1F(("HiggsPt"+suffix+"SystJERUP").c_str(),(" Higgs Pt ("+suffix+"SystJERUP"+")").c_str(), bin_pt, min_pt, max_pt );
+    SystJERUPH_ZH_dPhi = new TH1F(("ZH_dPhi"+suffix+"SystJERUP").c_str(),(" ZH delta Phi ("+suffix+"SystJERUP"+")").c_str(), bin_deltaPhi, min_deltaPhi, max_deltaPhi );
+
     SystUPH_simpleJet1_bTag = new TH1F(("SimpleJet1_bTag"+suffix+"SystUP").c_str(),("Simple Jet1 bTag ("+suffix+"SystUP"+")").c_str(), bin_btag, min_btag, max_btag );
     SystUPH_simpleJet2_bTag = new TH1F(("SimpleJet2_bTag"+suffix+"SystUP").c_str(),("Simple Jet2 bTag ("+suffix+"SystUP"+")").c_str(), bin_btag, min_btag, max_btag );
     SystUPH_simpleJets_bTag = new TH1F(("SimpleJets_bTag"+suffix+"SystUP").c_str(),("Simple Jets bTag ("+suffix+"SystUP"+")").c_str(), bin_btag, min_btag, max_btag );
@@ -627,7 +658,13 @@ public:
     SystDOWNH_HMass = new TH1F(("HiggsMass"+suffix+"SystDOWN").c_str(),(" Higgs Mass ("+suffix+"SystDOWN"+")").c_str(), bin_mass, min_mass, max_mass );
     SystDOWNH_HPt = new TH1F(("HiggsPt"+suffix+"SystDOWN").c_str(),(" Higgs Pt ("+suffix+"SystDOWN"+")").c_str(), bin_pt, min_pt, max_pt );
     SystDOWNH_ZH_dPhi = new TH1F(("ZH_dPhi"+suffix+"SystDOWN").c_str(),(" ZH delta Phi ("+suffix+"SystDOWN"+")").c_str(), bin_deltaPhi, min_deltaPhi, max_deltaPhi );
-    SystDOWNH_HdR_addJets = new TH1F(("HdR_addJets"+suffix+"SystDOWN").c_str(),("Higgs deltaR addJets ("+suffix+"SystDOWN"+")").c_str(), bin_deltaR, min_deltaR, max_deltaR );
+    SystDOWNH_HdR_addJets = new TH1F(("HdR_addJets"+suffix+"SystDWON").c_str(),("Higgs deltaR addJets ("+suffix+"SystDOWN"+")").c_str(), bin_deltaR, min_deltaR, max_deltaR );
+
+    SystJERDOWNH_simpleJet1_pt = new TH1F(("SimpleJet1_pt"+suffix+"SystJERDOWN").c_str(),("Simple Jet1 pt ("+suffix+"SystJERDOWN"+")").c_str(), bin_pt, min_pt, max_pt*0.8 );
+    SystJERDOWNH_simpleJet2_pt = new TH1F(("SimpleJet2_pt"+suffix+"SystJERDOWN").c_str(),("Simple Jet2 pt ("+suffix+"SystJERDOWN"+")").c_str(), bin_pt, min_pt, max_pt*0.8 );
+    SystJERDOWNH_HMass = new TH1F(("HiggsMass"+suffix+"SystJERDOWN").c_str(),(" Higgs Mass ("+suffix+"SystJERDOWN"+")").c_str(), bin_mass, min_mass, max_mass );
+    SystJERDOWNH_HPt = new TH1F(("HiggsPt"+suffix+"SystJERDOWN").c_str(),(" Higgs Pt ("+suffix+"SystJERDOWN"+")").c_str(), bin_pt, min_pt, max_pt );
+    SystJERDOWNH_ZH_dPhi = new TH1F(("ZH_dPhi"+suffix+"SystJERDOWN").c_str(),(" ZH delta Phi ("+suffix+"SystJERDOWN"+")").c_str(), bin_deltaPhi, min_deltaPhi, max_deltaPhi );
 
     SystDOWNH_simpleJet1_bTag = new TH1F(("SimpleJet1_bTag"+suffix+"SystDOWN").c_str(),("Simple Jet1 bTag ("+suffix+"SystDOWN"+")").c_str(), bin_btag, min_btag, max_btag );
     SystDOWNH_simpleJet2_bTag = new TH1F(("SimpleJet2_bTag"+suffix+"SystDOWN").c_str(),("Simple Jet2 bTag ("+suffix+"SystDOWN"+")").c_str(), bin_btag, min_btag, max_btag );
@@ -636,18 +673,19 @@ public:
     SystFDOWNH_simpleJet2_bTag = new TH1F(("SimpleJet2_bTag"+suffix+"SystFDOWN").c_str(),("Simple Jet2 bTag ("+suffix+"SystFDOWN"+")").c_str(), bin_btag, min_btag, max_btag );
     SystFDOWNH_simpleJets_bTag = new TH1F(("SimpleJets_bTag"+suffix+"SystFDOWN").c_str(),("Simple Jets bTag ("+suffix+"SystFDOWN"+")").c_str(), bin_btag, min_btag, max_btag );
 
-
   }
   
   virtual void fill(ntupleReader &iEvent,float w) {
 
     TLorentzVector higgs, addJet;
       
-
     //UPSCALE
     SystUPH_addJets->Fill(iEvent.CountAddJets_jec(+1), w);
     SystUPH_simpleJet1_pt->Fill(iEvent.hJet_pt_jecUP(0), w); 
     SystUPH_simpleJet2_pt->Fill(iEvent.hJet_pt_jecUP(1), w); 
+    SystJERUPH_simpleJet1_pt->Fill(iEvent.hJet_jer(0,+1).Pt(), w);
+    SystJERUPH_simpleJet2_pt->Fill(iEvent.hJet_jer(1,+1).Pt(), w);
+
     //btag sorted by btag
     if( iEvent.hJet_csv_cUP(0) > iEvent.hJet_csv_cUP(1) ){
       SystUPH_simpleJet1_bTag->Fill(iEvent.hJet_csv_cUP(0), w);
@@ -675,6 +713,11 @@ public:
     SystUPH_HMass->Fill(iEvent.H_jecUP().M(), w); 
     SystUPH_HPt->Fill(iEvent.H_jecUP().Pt(), w); 
     SystUPH_ZH_dPhi->Fill( TMath::Abs(iEvent.H_jecUP().DeltaPhi( iEvent.VectorBoson() ) ), w); 
+
+    SystJERUPH_HMass->Fill(iEvent.H_jer(+1).M(), w);
+    SystJERUPH_HPt->Fill(iEvent.H_jer(+1).Pt(), w);
+    SystJERUPH_ZH_dPhi->Fill( TMath::Abs(iEvent.H_jer(+1).DeltaPhi( iEvent.VectorBoson() ) ), w);
+
     higgs=iEvent.H_jecUP();
     addJet.SetPtEtaPhiE(iEvent.aJet_pt_jecUP(0),iEvent.aJet_eta[0],iEvent.aJet_phi[0],iEvent.aJet_e[0]);
     SystUPH_HdR_addJets->Fill(higgs.DeltaR(addJet), w);
@@ -683,6 +726,9 @@ public:
     SystDOWNH_addJets->Fill(iEvent.CountAddJets_jec(-1), w);
     SystDOWNH_simpleJet1_pt->Fill(iEvent.hJet_pt_jecDOWN(0), w); 
     SystDOWNH_simpleJet2_pt->Fill(iEvent.hJet_pt_jecDOWN(1), w); 
+    SystJERDOWNH_simpleJet1_pt->Fill(iEvent.hJet_jer(0,-1).Pt(), w);
+    SystJERDOWNH_simpleJet2_pt->Fill(iEvent.hJet_jer(1,-1).Pt(), w);
+
     //btag sorted by btag
     if( iEvent.hJet_csv_cDOWN(0) > iEvent.hJet_csv_cDOWN(1) ){
       SystDOWNH_simpleJet1_bTag->Fill(iEvent.hJet_csv_cDOWN(0), w);
@@ -709,10 +755,15 @@ public:
     SystDOWNH_HMass->Fill(iEvent.H_jecDOWN().M(), w); 
     SystDOWNH_HPt->Fill(iEvent.H_jecDOWN().Pt(), w); 
     SystDOWNH_ZH_dPhi->Fill( TMath::Abs( iEvent.H_jecDOWN().DeltaPhi( iEvent.VectorBoson() ) ), w); 
+
+    SystJERDOWNH_HMass->Fill(iEvent.H_jer(-1).M(), w);
+    SystJERDOWNH_HPt->Fill(iEvent.H_jer(-1).Pt(), w);
+    SystJERDOWNH_ZH_dPhi->Fill( TMath::Abs(iEvent.H_jer(-1).DeltaPhi( iEvent.VectorBoson() ) ), w);
+
     higgs=iEvent.H_jecDOWN();
     addJet.SetPtEtaPhiE(iEvent.aJet_pt_jecDOWN(0),iEvent.aJet_eta[0],iEvent.aJet_phi[0],iEvent.aJet_e[0]);
     SystDOWNH_HdR_addJets->Fill(higgs.DeltaR(addJet), w);
-         
+
   }
 
   TH1F * SystUPH_addJets;  
@@ -728,6 +779,11 @@ public:
   TH1F * SystFUPH_simpleJet1_bTag;
   TH1F * SystFUPH_simpleJet2_bTag;
   TH1F * SystFUPH_simpleJets_bTag;
+  TH1F * SystJERUPH_simpleJet1_pt;
+  TH1F * SystJERUPH_simpleJet2_pt;
+  TH1F * SystJERUPH_HMass;
+  TH1F * SystJERUPH_HPt;
+  TH1F * SystJERUPH_ZH_dPhi;
 
   TH1F * SystDOWNH_addJets;  
   TH1F * SystDOWNH_simpleJet1_pt;
@@ -742,6 +798,11 @@ public:
   TH1F * SystFDOWNH_simpleJet1_bTag;
   TH1F * SystFDOWNH_simpleJet2_bTag;
   TH1F * SystFDOWNH_simpleJets_bTag;
+  TH1F * SystJERDOWNH_simpleJet1_pt;
+  TH1F * SystJERDOWNH_simpleJet2_pt;
+  TH1F * SystJERDOWNH_HMass;
+  TH1F * SystJERDOWNH_HPt;
+  TH1F * SystJERDOWNH_ZH_dPhi;
 
  
 private:
