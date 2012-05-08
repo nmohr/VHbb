@@ -139,9 +139,9 @@ class fitInfo{
       templates.push_back( new RooDataHist((s_region+"_cr_"+fixedTemplateNames.at(i)).c_str(),(s_region+"_cr_"+fixedTemplateNames.at(i)).c_str(), RooArgList(*var), cr->histo(fixedTemplateNames.at(i) )));
       if(!SF) tr_vars.push_back( new RooRealVar(("tr_"+s_region+"_cr_"+fixedTemplateNames.at(i)).c_str(),("tr_"+s_region+"_cr_"+fixedTemplateNames.at(i)).c_str(), cr->count(fixedTemplateNames.at(i))/cr_signal->count(fixedTemplateNames.at(i))) );
       else tr_vars.push_back( new RooRealVar(("tr_"+s_region+"_cr_"+fixedTemplateNames.at(i)).c_str(),("tr_"+s_region+"_cr_"+fixedTemplateNames.at(i)).c_str(), cr->count(fixedTemplateNames.at(i)) ) );
-      //tr_vars.push_back( new RooRealVar(("tr_"+s_region+"cr_"+fixedTemplateNames.at(i)).c_str(),("tr_"+s_region+"cr_"+fixedTemplateNames.at(i)).c_str(), cr->count(fixedTemplateNames.at(i)) ) );
       fit_vars.push_back( new RooFormulaVar(("fit_"+s_region+"_cr_"+fixedTemplateNames.at(i)).c_str(),("fit_"+s_region+"_cr_"+fixedTemplateNames.at(i)).c_str(),"@0*@1", RooArgList(*f_vars.at(i),*tr_vars.at(i) ) ) );
       pdfs.push_back( new RooHistPdf(  ("pdf_"+fixedTemplateNames.at(i)+"_"+s_region+"_cr_"+fixedTemplateNames.at(i)).c_str(),("pdf_"+fixedTemplateNames.at(i)+"_"+s_region+"_cr_"+fixedTemplateNames.at(i)).c_str(), RooArgList(*var), *templates.at(i) ) );
+
       pdfList->addOwned(*pdfs.at(i));
       varList->addOwned(*fit_vars.at(i));
     }
@@ -152,16 +152,16 @@ class fitInfo{
       templates.push_back( new RooDataHist((s_region+"_cr_"+templateNames.at(i)).c_str(),(s_region+"_cr_"+templateNames.at(i)).c_str(), RooArgList(*var), cr->histo(templateNames.at(i))));
       if(!SF) tr_vars.push_back( new RooRealVar(("tr_"+s_region+"_cr_"+templateNames.at(i)).c_str(),("tr_"+s_region+"_cr_"+templateNames.at(i)).c_str(), cr->count(templateNames.at(i))/cr_signal->count(templateNames.at(i))) );
       else tr_vars.push_back( new RooRealVar(("tr_"+s_region+"_cr_"+templateNames.at(i)).c_str(),("tr_"+s_region+"_cr_"+templateNames.at(i)).c_str(), cr->count(templateNames.at(i)) ) );
-      //tr_vars.push_back( new RooRealVar(("tr_"+s_region+"_cr_"+templateNames.at(i)).c_str(),("tr_"+s_region+"cr_"+templateNames.at(i)).c_str(), cr->count(templateNames.at(i)) ) );
       fit_vars.push_back( new RooFormulaVar(("fit_"+s_region+"_cr_"+templateNames.at(i)).c_str(),("fit_"+s_region+"_cr_"+templateNames.at(i)).c_str(),"@0*@1", RooArgList(*f_vars.at(j),*tr_vars.at(j) ) ) );
       pdfs.push_back( new RooHistPdf(  ("pdf_"+templateNames.at(i)+"_"+s_region+"_cr_"+templateNames.at(i)).c_str(),("pdf_"+templateNames.at(i)+"_"+s_region+"_cr_"+templateNames.at(i)).c_str(), RooArgList(*var), *templates.at(j) ) );
+
       pdfList->addOwned(*pdfs.at(j));
       varList->addOwned(*fit_vars.at(j));
     }
 
     pdfList->Print();
     varList->Print();
-    model = new RooAddPdf( ("model_"+s_region+s_var).c_str(),("model_"+s_region+s_var).c_str(), *pdfList, *varList, kFALSE );
+    model = new RooAddPdf( ("model_"+s_region+s_var+s_suffix).c_str(),("model_"+s_region+s_var+s_suffix).c_str(), *pdfList, *varList, kFALSE );
   }
 
 
