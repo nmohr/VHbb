@@ -1,26 +1,25 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Mon Dec 19 15:42:42 2011 by ROOT version 5.30/02
+// Tue May  8 10:50:00 2012 by ROOT version 5.30/02
 // from TTree tree/myTree
-// found on file: /Users/pier/Physics/ZSVAnalysis/HBB_EDMNtuple/V11/DiJetPt_DoubleElectron_Run2011_FULL.root
+// found on file: ZllH.May5Reg.ZH_ZToLL_HToBB_M-100_7TeV-powheg-herwigpp.root
 //////////////////////////////////////////////////////////
 
-#ifndef ntupleLoader_h
-#define ntupleLoader_h
+#ifndef ntupleLoader_hpp
+#define ntupleLoader_hpp
 
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
-#include "TLorentzVector.h"
 
 class ntupleLoader {
 public :
-
   TTree * tree;
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
 
    // Declaration of leaf types
+   Int_t           H_HiggsFlag;
    Float_t         H_mass;
    Float_t         H_pt;
    Float_t         H_eta;
@@ -32,17 +31,111 @@ public :
    Float_t         V_pt;
    Float_t         V_eta;
    Float_t         V_phi;
+   Int_t           FatH_FatHiggsFlag;
+   Float_t         FatH_mass;
+   Float_t         FatH_pt;
+   Float_t         FatH_eta;
+   Float_t         FatH_phi;
+   Float_t         FatH_filteredmass;
+   Float_t         FatH_filteredpt;
+   Float_t         FatH_filteredeta;
+   Float_t         FatH_filteredphi;
+   Float_t         lheV_pt;
+   Float_t         genZ_mass;
+   Float_t         genZ_pt;
+   Float_t         genZ_eta;
+   Float_t         genZ_phi;
+   Float_t         genZ_status;
+   Float_t         genZ_charge;
+   Float_t         genZ_momid;
+   Float_t         genZstar_mass;
+   Float_t         genZstar_pt;
+   Float_t         genZstar_eta;
+   Float_t         genZstar_phi;
+   Float_t         genZstar_status;
+   Float_t         genZstar_charge;
+   Float_t         genZstar_momid;
+   Float_t         genW_mass;
+   Float_t         genW_pt;
+   Float_t         genW_eta;
+   Float_t         genW_phi;
+   Float_t         genW_status;
+   Float_t         genW_charge;
+   Float_t         genW_momid;
+   Float_t         genWstar_mass;
+   Float_t         genWstar_pt;
+   Float_t         genWstar_eta;
+   Float_t         genWstar_phi;
+   Float_t         genWstar_status;
+   Float_t         genWstar_charge;
+   Float_t         genWstar_momid;
+   Float_t         genH_mass;
+   Float_t         genH_pt;
+   Float_t         genH_eta;
+   Float_t         genH_phi;
+   Float_t         genH_status;
+   Float_t         genH_charge;
+   Float_t         genH_momid;
+   Float_t         genB_mass;
+   Float_t         genB_pt;
+   Float_t         genB_eta;
+   Float_t         genB_phi;
+   Float_t         genB_status;
+   Float_t         genB_charge;
+   Float_t         genB_momid;
+   Float_t         genBbar_mass;
+   Float_t         genBbar_pt;
+   Float_t         genBbar_eta;
+   Float_t         genBbar_phi;
+   Float_t         genBbar_status;
+   Float_t         genBbar_charge;
+   Float_t         genBbar_momid;
+   Float_t         genTop_bmass;
+   Float_t         genTop_bpt;
+   Float_t         genTop_beta;
+   Float_t         genTop_bphi;
+   Float_t         genTop_bstatus;
+   Float_t         genTop_wdau1mass;
+   Float_t         genTop_wdau1pt;
+   Float_t         genTop_wdau1eta;
+   Float_t         genTop_wdau1phi;
+   Float_t         genTop_wdau1id;
+   Float_t         genTop_wdau2mass;
+   Float_t         genTop_wdau2pt;
+   Float_t         genTop_wdau2eta;
+   Float_t         genTop_wdau2phi;
+   Float_t         genTop_wdau2id;
+   Float_t         genTbar_bmass;
+   Float_t         genTbar_bpt;
+   Float_t         genTbar_beta;
+   Float_t         genTbar_bphi;
+   Float_t         genTbar_bstatus;
+   Float_t         genTbar_wdau1mass;
+   Float_t         genTbar_wdau1pt;
+   Float_t         genTbar_wdau1eta;
+   Float_t         genTbar_wdau1phi;
+   Float_t         genTbar_wdau1id;
+   Float_t         genTbar_wdau2mass;
+   Float_t         genTbar_wdau2pt;
+   Float_t         genTbar_wdau2eta;
+   Float_t         genTbar_wdau2phi;
+   Float_t         genTbar_wdau2id;
+   UChar_t         TkSharing_HiggsCSVtkSharing;
+   UChar_t         TkSharing_HiggsIPtkSharing;
+   UChar_t         TkSharing_HiggsSVtkSharing;
+   UChar_t         TkSharing_FatHiggsCSVtkSharing;
+   UChar_t         TkSharing_FatHiggsIPtkSharing;
+   UChar_t         TkSharing_FatHiggsSVtkSharing;
    Int_t           nhJets;
+   Int_t           nfathFilterJets;
    Int_t           naJets;
    Float_t         hJet_pt[2];   //[nhJets]
    Float_t         hJet_eta[2];   //[nhJets]
    Float_t         hJet_phi[2];   //[nhJets]
    Float_t         hJet_e[2];   //[nhJets]
    Float_t         hJet_csv[2];   //[nhJets]
-   Float_t         hJet_csvDown[2];   //[nhJets]
-   Float_t         hJet_csvUp[2];   //[nhJets]
-   Float_t         hJet_csvFDown[2];   //[nhJets]
-   Float_t         hJet_csvFUp[2];   //[nhJets]
+   Float_t         hJet_csvivf[2];   //[nhJets]
+   Float_t         hJet_cmva[2];   //[nhJets]
    Float_t         hJet_cosTheta[2];   //[nhJets]
    Int_t           hJet_numTracksSV[2];   //[nhJets]
    Float_t         hJet_chf[2];   //[nhJets]
@@ -52,11 +145,24 @@ public :
    Float_t         hJet_nch[2];   //[nhJets]
    Float_t         hJet_nconstituents[2];   //[nhJets]
    Float_t         hJet_flavour[2];   //[nhJets]
+   Int_t           hJet_isSemiLept[2];   //[nhJets]
+   Int_t           hJet_isSemiLeptMCtruth[2];   //[nhJets]
+   Int_t           hJet_SoftLeptpdgId[2];   //[nhJets]
+   Int_t           hJet_SoftLeptIdlooseMu[2];   //[nhJets]
+   Int_t           hJet_SoftLeptId95[2];   //[nhJets]
+   Float_t         hJet_SoftLeptPt[2];   //[nhJets]
+   Float_t         hJet_SoftLeptdR[2];   //[nhJets]
+   Float_t         hJet_SoftLeptptRel[2];   //[nhJets]
+   Float_t         hJet_SoftLeptRelCombIso[2];   //[nhJets]
    Float_t         hJet_genPt[2];   //[nhJets]
    Float_t         hJet_genEta[2];   //[nhJets]
    Float_t         hJet_genPhi[2];   //[nhJets]
    Float_t         hJet_JECUnc[2];   //[nhJets]
    Float_t         hJet_vtxMass[2];   //[nhJets]
+   Float_t         hJet_vtxPt[2];   //[nhJets]
+   Float_t         hJet_vtxEta[2];   //[nhJets]
+   Float_t         hJet_vtxPhi[2];   //[nhJets]
+   Float_t         hJet_vtxE[2];   //[nhJets]
    Float_t         hJet_vtx3dL[2];   //[nhJets]
    Float_t         hJet_vtx3deL[2];   //[nhJets]
    UChar_t         hJet_id[2];   //[nhJets]
@@ -66,34 +172,80 @@ public :
    UChar_t         hJet_SF_CSVLerr[2];   //[nhJets]
    UChar_t         hJet_SF_CSVMerr[2];   //[nhJets]
    UChar_t         hJet_SF_CSVTerr[2];   //[nhJets]
-   Float_t         aJet_pt[37];   //[naJets]
-   Float_t         aJet_eta[37];   //[naJets]
-   Float_t         aJet_phi[37];   //[naJets]
-   Float_t         aJet_e[37];   //[naJets]
-   Float_t         aJet_csv[37];   //[naJets]
-   Float_t         aJet_cosTheta[37];   //[naJets]
-   Int_t           aJet_numTracksSV[37];   //[naJets]
-   Float_t         aJet_chf[37];   //[naJets]
-   Float_t         aJet_nhf[37];   //[naJets]
-   Float_t         aJet_cef[37];   //[naJets]
-   Float_t         aJet_nef[37];   //[naJets]
-   Float_t         aJet_nch[37];   //[naJets]
-   Float_t         aJet_nconstituents[37];   //[naJets]
-   Float_t         aJet_flavour[37];   //[naJets]
-   Float_t         aJet_genPt[37];   //[naJets]
-   Float_t         aJet_genEta[37];   //[naJets]
-   Float_t         aJet_genPhi[37];   //[naJets]
-   Float_t         aJet_JECUnc[37];   //[naJets]
-   Float_t         aJet_vtxMass[37];   //[naJets]
-   Float_t         aJet_vtx3dL[37];   //[naJets]
-   Float_t         aJet_vtx3deL[37];   //[naJets]
-   UChar_t         aJet_id[37];   //[naJets]
-   UChar_t         aJet_SF_CSVL[37];   //[naJets]
-   UChar_t         aJet_SF_CSVM[37];   //[naJets]
-   UChar_t         aJet_SF_CSVT[37];   //[naJets]
-   UChar_t         aJet_SF_CSVLerr[37];   //[naJets]
-   UChar_t         aJet_SF_CSVMerr[37];   //[naJets]
-   UChar_t         aJet_SF_CSVTerr[37];   //[naJets]
+   Float_t         hJet_ptRaw[2];   //[nhJets]
+   Float_t         hJet_ptLeadTrack[2];   //[nhJets]
+   Float_t         hJet_AnglePVtoSVmom[2];   //[nhJets]
+   Float_t         hJet_AnglePVtoJetmom[2];   //[nhJets]
+   Float_t         fathFilterJets_pt[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_eta[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_phi[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_e[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_csv[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_chf[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_ptRaw[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_ptLeadTrack[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_flavour[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_isSemiLept[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_isSemiLeptMCtruth[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_genPt[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_genEta[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_genPhi[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_vtxMass[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_vtx3dL[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_vtx3deL[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_vtxPt[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_vtxEta[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_vtxPhi[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_vtxE[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_AnglePVtoSVmom[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_AnglePVtoJetmom[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_csvivf[3];   //[nfathFilterJets]
+   Float_t         fathFilterJets_cmva[3];   //[nfathFilterJets]
+   Float_t         aJet_pt[11];   //[naJets]
+   Float_t         aJet_eta[11];   //[naJets]
+   Float_t         aJet_phi[11];   //[naJets]
+   Float_t         aJet_e[11];   //[naJets]
+   Float_t         aJet_csv[11];   //[naJets]
+   Float_t         aJet_csvivf[11];   //[naJets]
+   Float_t         aJet_cmva[11];   //[naJets]
+   Float_t         aJet_cosTheta[11];   //[naJets]
+   Int_t           aJet_numTracksSV[11];   //[naJets]
+   Float_t         aJet_chf[11];   //[naJets]
+   Float_t         aJet_nhf[11];   //[naJets]
+   Float_t         aJet_cef[11];   //[naJets]
+   Float_t         aJet_nef[11];   //[naJets]
+   Float_t         aJet_nch[11];   //[naJets]
+   Float_t         aJet_nconstituents[11];   //[naJets]
+   Float_t         aJet_flavour[11];   //[naJets]
+   Int_t           aJet_isSemiLept[11];   //[naJets]
+   Int_t           aJet_isSemiLeptMCtruth[11];   //[naJets]
+   Int_t           aJet_SoftLeptpdgId[11];   //[naJets]
+   Int_t           aJet_SoftLeptIdlooseMu[11];   //[naJets]
+   Int_t           aJet_SoftLeptId95[11];   //[naJets]
+   Float_t         aJet_SoftLeptPt[11];   //[naJets]
+   Float_t         aJet_SoftLeptdR[11];   //[naJets]
+   Float_t         aJet_SoftLeptptRel[11];   //[naJets]
+   Float_t         aJet_SoftLeptRelCombIso[11];   //[naJets]
+   Float_t         aJet_genPt[11];   //[naJets]
+   Float_t         aJet_genEta[11];   //[naJets]
+   Float_t         aJet_genPhi[11];   //[naJets]
+   Float_t         aJet_JECUnc[11];   //[naJets]
+   Float_t         aJet_vtxMass[11];   //[naJets]
+   Float_t         aJet_vtx3dL[11];   //[naJets]
+   Float_t         aJet_vtx3deL[11];   //[naJets]
+   UChar_t         aJet_id[11];   //[naJets]
+   UChar_t         aJet_SF_CSVL[11];   //[naJets]
+   UChar_t         aJet_SF_CSVM[11];   //[naJets]
+   UChar_t         aJet_SF_CSVT[11];   //[naJets]
+   UChar_t         aJet_SF_CSVLerr[11];   //[naJets]
+   UChar_t         aJet_SF_CSVMerr[11];   //[naJets]
+   UChar_t         aJet_SF_CSVTerr[11];   //[naJets]
+   Int_t           naJetsFat;
+   Float_t         aJetFat_pt[11];   //[naJetsFat]
+   Float_t         aJetFat_eta[11];   //[naJetsFat]
+   Float_t         aJetFat_phi[11];   //[naJetsFat]
+   Float_t         aJetFat_e[11];   //[naJetsFat]
+   Float_t         aJetFat_csv[11];   //[naJetsFat]
    Int_t           numJets;
    Int_t           numBJets;
    Float_t         deltaPullAngle;
@@ -102,6 +254,7 @@ public :
    Float_t         gendrbb;
    Float_t         genZpt;
    Float_t         genWpt;
+   Float_t         genHpt;
    Float_t         weightTrig;
    Float_t         weightTrigMay;
    Float_t         weightTrigV4;
@@ -154,27 +307,29 @@ public :
    Float_t         vLepton_genPt[2];   //[nvlep]
    Float_t         vLepton_genEta[2];   //[nvlep]
    Float_t         vLepton_genPhi[2];   //[nvlep]
-   Float_t         aLepton_mass[4];   //[nalep]
-   Float_t         aLepton_pt[4];   //[nalep]
-   Float_t         aLepton_eta[4];   //[nalep]
-   Float_t         aLepton_phi[4];   //[nalep]
-   Float_t         aLepton_aodCombRelIso[4];   //[nalep]
-   Float_t         aLepton_pfCombRelIso[4];   //[nalep]
-   Float_t         aLepton_photonIso[4];   //[nalep]
-   Float_t         aLepton_neutralHadIso[4];   //[nalep]
-   Float_t         aLepton_chargedHadIso[4];   //[nalep]
-   Float_t         aLepton_chargedPUIso[4];   //[nalep]
-   Float_t         aLepton_particleIso[4];   //[nalep]
-   Float_t         aLepton_dxy[4];   //[nalep]
-   Float_t         aLepton_dz[4];   //[nalep]
-   Int_t           aLepton_type[4];   //[nalep]
-   Float_t         aLepton_id80[4];   //[nalep]
-   Float_t         aLepton_id95[4];   //[nalep]
-   Float_t         aLepton_vbtf[4];   //[nalep]
-   Float_t         aLepton_id80NoIso[4];   //[nalep]
-   Float_t         aLepton_genPt[4];   //[nalep]
-   Float_t         aLepton_genEta[4];   //[nalep]
-   Float_t         aLepton_genPhi[4];   //[nalep]
+   Float_t         vLepton_charge[2];   //[nvlep]
+   Float_t         aLepton_mass[3];   //[nalep]
+   Float_t         aLepton_pt[3];   //[nalep]
+   Float_t         aLepton_eta[3];   //[nalep]
+   Float_t         aLepton_phi[3];   //[nalep]
+   Float_t         aLepton_aodCombRelIso[3];   //[nalep]
+   Float_t         aLepton_pfCombRelIso[3];   //[nalep]
+   Float_t         aLepton_photonIso[3];   //[nalep]
+   Float_t         aLepton_neutralHadIso[3];   //[nalep]
+   Float_t         aLepton_chargedHadIso[3];   //[nalep]
+   Float_t         aLepton_chargedPUIso[3];   //[nalep]
+   Float_t         aLepton_particleIso[3];   //[nalep]
+   Float_t         aLepton_dxy[3];   //[nalep]
+   Float_t         aLepton_dz[3];   //[nalep]
+   Int_t           aLepton_type[3];   //[nalep]
+   Float_t         aLepton_id80[3];   //[nalep]
+   Float_t         aLepton_id95[3];   //[nalep]
+   Float_t         aLepton_vbtf[3];   //[nalep]
+   Float_t         aLepton_id80NoIso[3];   //[nalep]
+   Float_t         aLepton_genPt[3];   //[nalep]
+   Float_t         aLepton_genEta[3];   //[nalep]
+   Float_t         aLepton_genPhi[3];   //[nalep]
+   Float_t         aLepton_charge[3];   //[nalep]
    Float_t         top_mass;
    Float_t         top_pt;
    Float_t         top_wMass;
@@ -230,6 +385,25 @@ public :
    Float_t         MET_sumet;
    Float_t         MET_sig;
    Float_t         MET_phi;
+   Float_t         METtype1corr_et;
+   Float_t         METtype1corr_sumet;
+   Float_t         METtype1corr_sig;
+   Float_t         METtype1corr_phi;
+   Float_t         METtype1p2corr_et;
+   Float_t         METtype1p2corr_sumet;
+   Float_t         METtype1p2corr_sig;
+   Float_t         METtype1p2corr_phi;
+   Float_t         METnoPUtype1corr_et;
+   Float_t         METnoPUtype1corr_sumet;
+   Float_t         METnoPUtype1corr_sig;
+   Float_t         METnoPUtype1corr_phi;
+   Float_t         METnoPUtype1p2corr_et;
+   Float_t         METnoPUtype1p2corr_sumet;
+   Float_t         METnoPUtype1p2corr_sig;
+   Float_t         METnoPUtype1p2corr_phi;
+   Float_t         metUnc_et[24];
+   Float_t         metUnc_phi[24];
+   Float_t         metUnc_sumet[24];
    Float_t         fakeMET_et;
    Float_t         fakeMET_sumet;
    Float_t         fakeMET_sig;
@@ -240,7 +414,7 @@ public :
    Float_t         MHT_phi;
    Float_t         minDeltaPhijetMET;
    Float_t         jetPt_minDeltaPhijetMET;
-   UChar_t         triggerFlags[28];
+   UChar_t         triggerFlags[39];
    Int_t           EVENT_run;
    Int_t           EVENT_lumi;
    Int_t           EVENT_event;
@@ -248,6 +422,9 @@ public :
    UChar_t         hbhe;
    UChar_t         totalKinematics;
    UChar_t         ecalFlag;
+   UChar_t         cschaloFlag;
+   UChar_t         hcallaserFlag;
+   UChar_t         trackingfailureFlag;
    Float_t         btag1TSF;
    Float_t         btag2TSF;
    Float_t         btag1T2CSF;
@@ -255,21 +432,47 @@ public :
    Float_t         btagA0CSF;
    Float_t         btagA0TSF;
    Float_t         btag1TA1C;
+   Float_t         PUweight2011BUp;
+   Float_t         PUweight2011BDown;
+   Float_t         hJet_csvOld[2];   //[nhJets]
+   Float_t         hJet_csvDown[2];   //[nhJets]
+   Float_t         hJet_csvUp[2];   //[nhJets]
+   Float_t         hJet_csvFDown[2];   //[nhJets]
+   Float_t         hJet_csvFUp[2];   //[nhJets]
+   Float_t         weightTrig_up;
+   Float_t         weightTrigMay_up;
+   Float_t         weightTrigV4_up;
+   Float_t         weightTrigMET_up;
+   Float_t         weightTrigOrMu30_up;
+   Float_t         weightEleRecoAndId_up;
+   Float_t         weightEleTrigJetMETPart_up;
+   Float_t         weightEleTrigElePart_up;
 
    // List of branches
    TBranch        *b_H;   //!
    TBranch        *b_V;   //!
+   TBranch        *b_FatH;   //!
+   TBranch        *b_lheV_pt;   //!
+   TBranch        *b_genZ;   //!
+   TBranch        *b_genZstar;   //!
+   TBranch        *b_genW;   //!
+   TBranch        *b_genWstar;   //!
+   TBranch        *b_genH;   //!
+   TBranch        *b_genB;   //!
+   TBranch        *b_genBbar;   //!
+   TBranch        *b_genTop;   //!
+   TBranch        *b_genTbar;   //!
+   TBranch        *b_TkSharing;   //!
    TBranch        *b_nhJets;   //!
+   TBranch        *b_nfathFilterJets;   //!
    TBranch        *b_naJets;   //!
    TBranch        *b_hJet_pt;   //!
    TBranch        *b_hJet_eta;   //!
    TBranch        *b_hJet_phi;   //!
    TBranch        *b_hJet_e;   //!
    TBranch        *b_hJet_csv;   //!
-   TBranch        *b_hJet_csvDown;   //!
-   TBranch        *b_hJet_csvUp;   //!
-   TBranch        *b_hJet_csvFDown;   //!
-   TBranch        *b_hJet_csvFUp;   //!
+   TBranch        *b_hJet_csvivf;   //!
+   TBranch        *b_hJet_cmva;   //!
    TBranch        *b_hJet_cosTheta;   //!
    TBranch        *b_hJet_numTracksSV;   //!
    TBranch        *b_hJet_chf;   //!
@@ -279,11 +482,24 @@ public :
    TBranch        *b_hJet_nch;   //!
    TBranch        *b_hJet_nconstituents;   //!
    TBranch        *b_hJet_flavour;   //!
+   TBranch        *b_hJet_isSemiLept;   //!
+   TBranch        *b_hJet_isSemiLeptMCtruth;   //!
+   TBranch        *b_hJet_SoftLeptpdgId;   //!
+   TBranch        *b_hJet_SoftLeptIdlooseMu;   //!
+   TBranch        *b_hJet_SoftLeptId95;   //!
+   TBranch        *b_hJet_SoftLeptPt;   //!
+   TBranch        *b_hJet_SoftLeptdR;   //!
+   TBranch        *b_hJet_SoftLeptptRel;   //!
+   TBranch        *b_hJet_SoftLeptRelCombIso;   //!
    TBranch        *b_hJet_genPt;   //!
    TBranch        *b_hJet_genEta;   //!
    TBranch        *b_hJet_genPhi;   //!
    TBranch        *b_hJet_JECUnc;   //!
    TBranch        *b_hJet_vtxMass;   //!
+   TBranch        *b_hJet_vtxPt;   //!
+   TBranch        *b_hJet_vtxEta;   //!
+   TBranch        *b_hJet_vtxPhi;   //!
+   TBranch        *b_hJet_vtxE;   //!
    TBranch        *b_hJet_vtx3dL;   //!
    TBranch        *b_hJet_vtx3deL;   //!
    TBranch        *b_hJet_id;   //!
@@ -293,11 +509,42 @@ public :
    TBranch        *b_hJet_SF_CSVLerr;   //!
    TBranch        *b_hJet_SF_CSVMerr;   //!
    TBranch        *b_hJet_SF_CSVTerr;   //!
+   TBranch        *b_hJet_ptRaw;   //!
+   TBranch        *b_hJet_ptLeadTrack;   //!
+   TBranch        *b_hJet_AnglePVtoSVmom;   //!
+   TBranch        *b_hJet_AnglePVtoJetmom;   //!
+   TBranch        *b_fathFilterJets_pt;   //!
+   TBranch        *b_fathFilterJets_eta;   //!
+   TBranch        *b_fathFilterJets_phi;   //!
+   TBranch        *b_fathFilterJets_e;   //!
+   TBranch        *b_fathFilterJets_csv;   //!
+   TBranch        *b_fathFilterJets_chf;   //!
+   TBranch        *b_fathFilterJets_ptRaw;   //!
+   TBranch        *b_fathFilterJets_ptLeadTrack;   //!
+   TBranch        *b_fathFilterJets_flavour;   //!
+   TBranch        *b_fathFilterJets_isSemiLept;   //!
+   TBranch        *b_fathFilterJets_isSemiLeptMCtruth;   //!
+   TBranch        *b_fathFilterJets_genPt;   //!
+   TBranch        *b_fathFilterJets_genEta;   //!
+   TBranch        *b_fathFilterJets_genPhi;   //!
+   TBranch        *b_fathFilterJets_vtxMass;   //!
+   TBranch        *b_fathFilterJets_vtx3dL;   //!
+   TBranch        *b_fathFilterJets_vtx3deL;   //!
+   TBranch        *b_fathFilterJets_vtxPt;   //!
+   TBranch        *b_fathFilterJets_vtxEta;   //!
+   TBranch        *b_fathFilterJets_vtxPhi;   //!
+   TBranch        *b_fathFilterJets_vtxE;   //!
+   TBranch        *b_fathFilterJets_AnglePVtoSVmom;   //!
+   TBranch        *b_fathFilterJets_AnglePVtoJetmom;   //!
+   TBranch        *b_fathFilterJets_csvivf;   //!
+   TBranch        *b_fathFilterJets_cmva;   //!
    TBranch        *b_aJet_pt;   //!
    TBranch        *b_aJet_eta;   //!
    TBranch        *b_aJet_phi;   //!
    TBranch        *b_aJet_e;   //!
    TBranch        *b_aJet_csv;   //!
+   TBranch        *b_aJet_csvivf;   //!
+   TBranch        *b_aJet_cmva;   //!
    TBranch        *b_aJet_cosTheta;   //!
    TBranch        *b_aJet_numTracksSV;   //!
    TBranch        *b_aJet_chf;   //!
@@ -307,6 +554,15 @@ public :
    TBranch        *b_aJet_nch;   //!
    TBranch        *b_aJet_nconstituents;   //!
    TBranch        *b_aJet_flavour;   //!
+   TBranch        *b_aJet_isSemiLept;   //!
+   TBranch        *b_aJet_isSemiLeptMCtruth;   //!
+   TBranch        *b_aJet_SoftLeptpdgId;   //!
+   TBranch        *b_aJet_SoftLeptIdlooseMu;   //!
+   TBranch        *b_aJet_SoftLeptId95;   //!
+   TBranch        *b_aJet_SoftLeptPt;   //!
+   TBranch        *b_aJet_SoftLeptdR;   //!
+   TBranch        *b_aJet_SoftLeptptRel;   //!
+   TBranch        *b_aJet_SoftLeptRelCombIso;   //!
    TBranch        *b_aJet_genPt;   //!
    TBranch        *b_aJet_genEta;   //!
    TBranch        *b_aJet_genPhi;   //!
@@ -321,6 +577,12 @@ public :
    TBranch        *b_aJet_SF_CSVLerr;   //!
    TBranch        *b_aJet_SF_CSVMerr;   //!
    TBranch        *b_aJet_SF_CSVTerr;   //!
+   TBranch        *b_naJetsFat;   //!
+   TBranch        *b_aJetFat_pt;   //!
+   TBranch        *b_aJetFat_eta;   //!
+   TBranch        *b_aJetFat_phi;   //!
+   TBranch        *b_aJetFat_e;   //!
+   TBranch        *b_aJetFat_csv;   //!
    TBranch        *b_numJets;   //!
    TBranch        *b_numBJets;   //!
    TBranch        *b_deltaPullAngle;   //!
@@ -329,6 +591,7 @@ public :
    TBranch        *b_gendrbb;   //!
    TBranch        *b_genZpt;   //!
    TBranch        *b_genWpt;   //!
+   TBranch        *b_genHpt;   //!
    TBranch        *b_weightTrig;   //!
    TBranch        *b_weightTrigMay;   //!
    TBranch        *b_weightTrigV4;   //!
@@ -381,6 +644,7 @@ public :
    TBranch        *b_vLepton_genPt;   //!
    TBranch        *b_vLepton_genEta;   //!
    TBranch        *b_vLepton_genPhi;   //!
+   TBranch        *b_vLepton_charge;   //!
    TBranch        *b_aLepton_mass;   //!
    TBranch        *b_aLepton_pt;   //!
    TBranch        *b_aLepton_eta;   //!
@@ -402,6 +666,7 @@ public :
    TBranch        *b_aLepton_genPt;   //!
    TBranch        *b_aLepton_genEta;   //!
    TBranch        *b_aLepton_genPhi;   //!
+   TBranch        *b_aLepton_charge;   //!
    TBranch        *b_top;   //!
    TBranch        *b_WplusMode;   //!
    TBranch        *b_WminusMode;   //!
@@ -434,6 +699,13 @@ public :
    TBranch        *b_METnoPU;   //!
    TBranch        *b_METnoPUCh;   //!
    TBranch        *b_MET;   //!
+   TBranch        *b_METtype1corr;   //!
+   TBranch        *b_METtype1p2corr;   //!
+   TBranch        *b_METnoPUtype1corr;   //!
+   TBranch        *b_METnoPUtype1p2corr;   //!
+   TBranch        *b_et;   //!
+   TBranch        *b_phi;   //!
+   TBranch        *b_sumet;   //!
    TBranch        *b_fakeMET;   //!
    TBranch        *b_MHT;   //!
    TBranch        *b_minDeltaPhijetMET;   //!
@@ -443,6 +715,9 @@ public :
    TBranch        *b_hbhe;   //!
    TBranch        *b_totalKinematics;   //!
    TBranch        *b_ecalFlag;   //!
+   TBranch        *b_cschaloFlag;   //!
+   TBranch        *b_hcallaserFlag;   //!
+   TBranch        *b_trackingfailureFlag;   //!
    TBranch        *b_btag1TSF;   //!
    TBranch        *b_btag2TSF;   //!
    TBranch        *b_btag1T2CSF;   //!
@@ -450,17 +725,30 @@ public :
    TBranch        *b_btagA0CSF;   //!
    TBranch        *b_btagA0TSF;   //!
    TBranch        *b_btag1TA1C;   //!
+   TBranch        *b_PUweight2011BUp;   //!
+   TBranch        *b_PUweight2011BDown;   //!
+   TBranch        *b_hJet_csvOld;   //!
+   TBranch        *b_hJet_csvDown;   //!
+   TBranch        *b_hJet_csvUp;   //!
+   TBranch        *b_hJet_csvFDown;   //!
+   TBranch        *b_hJet_csvFUp;   //!
+   TBranch        *b_weightTrig_up;   //!
+   TBranch        *b_weightTrigMay_up;   //!
+   TBranch        *b_weightTrigV4_up;   //!
+   TBranch        *b_weightTrigMET_up;   //!
+   TBranch        *b_weightTrigOrMu30_up;   //!
+   TBranch        *b_weightEleRecoAndId_up;   //!
+   TBranch        *b_weightEleTrigJetMETPart_up;   //!
+   TBranch        *b_weightEleTrigElePart_up;   //!
 
-   ntupleLoader(const char * infile);
+   ntupleLoader(const char *infile);
    virtual ~ntupleLoader();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
-   virtual void     Loop();
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
-
 };
 
 
@@ -471,10 +759,10 @@ ntupleLoader::ntupleLoader(const char * infile)
   tree=0;
    if (tree == 0) {
       TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject(infile);
-      if (!f) {
-	f = new TFile(infile);
+      if (!f || !f->IsOpen()) {
+         f = new TFile(infile);
       }
-      tree = (TTree*)gDirectory->Get("tree");
+      f->GetObject("tree",tree);
 
    }
    Init(tree);
@@ -505,7 +793,6 @@ Long64_t ntupleLoader::LoadTree(Long64_t entry)
    return centry;
 }
 
-
 void ntupleLoader::Init(TTree *tree)
 {
    // The Init() function is called when the selector needs to initialize
@@ -522,19 +809,30 @@ void ntupleLoader::Init(TTree *tree)
    fCurrent = -1;
    fChain->SetMakeClass(1);
 
-   fChain->SetBranchAddress("H", &H_mass, &b_H);
+   fChain->SetBranchAddress("H", &H_HiggsFlag, &b_H);
    fChain->SetBranchAddress("V", &V_mass, &b_V);
+   fChain->SetBranchAddress("FatH", &FatH_FatHiggsFlag, &b_FatH);
+   fChain->SetBranchAddress("lheV_pt", &lheV_pt, &b_lheV_pt);
+   fChain->SetBranchAddress("genZ", &genZ_mass, &b_genZ);
+   fChain->SetBranchAddress("genZstar", &genZstar_mass, &b_genZstar);
+   fChain->SetBranchAddress("genW", &genW_mass, &b_genW);
+   fChain->SetBranchAddress("genWstar", &genWstar_mass, &b_genWstar);
+   fChain->SetBranchAddress("genH", &genH_mass, &b_genH);
+   fChain->SetBranchAddress("genB", &genB_mass, &b_genB);
+   fChain->SetBranchAddress("genBbar", &genBbar_mass, &b_genBbar);
+   fChain->SetBranchAddress("genTop", &genTop_bmass, &b_genTop);
+   fChain->SetBranchAddress("genTbar", &genTbar_bmass, &b_genTbar);
+   fChain->SetBranchAddress("TkSharing", &TkSharing_HiggsCSVtkSharing, &b_TkSharing);
    fChain->SetBranchAddress("nhJets", &nhJets, &b_nhJets);
+   fChain->SetBranchAddress("nfathFilterJets", &nfathFilterJets, &b_nfathFilterJets);
    fChain->SetBranchAddress("naJets", &naJets, &b_naJets);
    fChain->SetBranchAddress("hJet_pt", hJet_pt, &b_hJet_pt);
    fChain->SetBranchAddress("hJet_eta", hJet_eta, &b_hJet_eta);
    fChain->SetBranchAddress("hJet_phi", hJet_phi, &b_hJet_phi);
    fChain->SetBranchAddress("hJet_e", hJet_e, &b_hJet_e);
    fChain->SetBranchAddress("hJet_csv", hJet_csv, &b_hJet_csv);
-   fChain->SetBranchAddress("hJet_csvDown", hJet_csvDown, &b_hJet_csvDown);
-   fChain->SetBranchAddress("hJet_csvUp", hJet_csvUp, &b_hJet_csvUp);
-   fChain->SetBranchAddress("hJet_csvFDown", hJet_csvFDown, &b_hJet_csvFDown);
-   fChain->SetBranchAddress("hJet_csvFUp", hJet_csvFUp, &b_hJet_csvFUp);
+   fChain->SetBranchAddress("hJet_csvivf", hJet_csvivf, &b_hJet_csvivf);
+   fChain->SetBranchAddress("hJet_cmva", hJet_cmva, &b_hJet_cmva);
    fChain->SetBranchAddress("hJet_cosTheta", hJet_cosTheta, &b_hJet_cosTheta);
    fChain->SetBranchAddress("hJet_numTracksSV", hJet_numTracksSV, &b_hJet_numTracksSV);
    fChain->SetBranchAddress("hJet_chf", hJet_chf, &b_hJet_chf);
@@ -544,11 +842,24 @@ void ntupleLoader::Init(TTree *tree)
    fChain->SetBranchAddress("hJet_nch", hJet_nch, &b_hJet_nch);
    fChain->SetBranchAddress("hJet_nconstituents", hJet_nconstituents, &b_hJet_nconstituents);
    fChain->SetBranchAddress("hJet_flavour", hJet_flavour, &b_hJet_flavour);
+   fChain->SetBranchAddress("hJet_isSemiLept", hJet_isSemiLept, &b_hJet_isSemiLept);
+   fChain->SetBranchAddress("hJet_isSemiLeptMCtruth", hJet_isSemiLeptMCtruth, &b_hJet_isSemiLeptMCtruth);
+   fChain->SetBranchAddress("hJet_SoftLeptpdgId", hJet_SoftLeptpdgId, &b_hJet_SoftLeptpdgId);
+   fChain->SetBranchAddress("hJet_SoftLeptIdlooseMu", hJet_SoftLeptIdlooseMu, &b_hJet_SoftLeptIdlooseMu);
+   fChain->SetBranchAddress("hJet_SoftLeptId95", hJet_SoftLeptId95, &b_hJet_SoftLeptId95);
+   fChain->SetBranchAddress("hJet_SoftLeptPt", hJet_SoftLeptPt, &b_hJet_SoftLeptPt);
+   fChain->SetBranchAddress("hJet_SoftLeptdR", hJet_SoftLeptdR, &b_hJet_SoftLeptdR);
+   fChain->SetBranchAddress("hJet_SoftLeptptRel", hJet_SoftLeptptRel, &b_hJet_SoftLeptptRel);
+   fChain->SetBranchAddress("hJet_SoftLeptRelCombIso", hJet_SoftLeptRelCombIso, &b_hJet_SoftLeptRelCombIso);
    fChain->SetBranchAddress("hJet_genPt", hJet_genPt, &b_hJet_genPt);
    fChain->SetBranchAddress("hJet_genEta", hJet_genEta, &b_hJet_genEta);
    fChain->SetBranchAddress("hJet_genPhi", hJet_genPhi, &b_hJet_genPhi);
    fChain->SetBranchAddress("hJet_JECUnc", hJet_JECUnc, &b_hJet_JECUnc);
    fChain->SetBranchAddress("hJet_vtxMass", hJet_vtxMass, &b_hJet_vtxMass);
+   fChain->SetBranchAddress("hJet_vtxPt", hJet_vtxPt, &b_hJet_vtxPt);
+   fChain->SetBranchAddress("hJet_vtxEta", hJet_vtxEta, &b_hJet_vtxEta);
+   fChain->SetBranchAddress("hJet_vtxPhi", hJet_vtxPhi, &b_hJet_vtxPhi);
+   fChain->SetBranchAddress("hJet_vtxE", hJet_vtxE, &b_hJet_vtxE);
    fChain->SetBranchAddress("hJet_vtx3dL", hJet_vtx3dL, &b_hJet_vtx3dL);
    fChain->SetBranchAddress("hJet_vtx3deL", hJet_vtx3deL, &b_hJet_vtx3deL);
    fChain->SetBranchAddress("hJet_id", hJet_id, &b_hJet_id);
@@ -558,11 +869,42 @@ void ntupleLoader::Init(TTree *tree)
    fChain->SetBranchAddress("hJet_SF_CSVLerr", hJet_SF_CSVLerr, &b_hJet_SF_CSVLerr);
    fChain->SetBranchAddress("hJet_SF_CSVMerr", hJet_SF_CSVMerr, &b_hJet_SF_CSVMerr);
    fChain->SetBranchAddress("hJet_SF_CSVTerr", hJet_SF_CSVTerr, &b_hJet_SF_CSVTerr);
+   fChain->SetBranchAddress("hJet_ptRaw", hJet_ptRaw, &b_hJet_ptRaw);
+   fChain->SetBranchAddress("hJet_ptLeadTrack", hJet_ptLeadTrack, &b_hJet_ptLeadTrack);
+   fChain->SetBranchAddress("hJet_AnglePVtoSVmom", hJet_AnglePVtoSVmom, &b_hJet_AnglePVtoSVmom);
+   fChain->SetBranchAddress("hJet_AnglePVtoJetmom", hJet_AnglePVtoJetmom, &b_hJet_AnglePVtoJetmom);
+   fChain->SetBranchAddress("fathFilterJets_pt", fathFilterJets_pt, &b_fathFilterJets_pt);
+   fChain->SetBranchAddress("fathFilterJets_eta", fathFilterJets_eta, &b_fathFilterJets_eta);
+   fChain->SetBranchAddress("fathFilterJets_phi", fathFilterJets_phi, &b_fathFilterJets_phi);
+   fChain->SetBranchAddress("fathFilterJets_e", fathFilterJets_e, &b_fathFilterJets_e);
+   fChain->SetBranchAddress("fathFilterJets_csv", fathFilterJets_csv, &b_fathFilterJets_csv);
+   fChain->SetBranchAddress("fathFilterJets_chf", fathFilterJets_chf, &b_fathFilterJets_chf);
+   fChain->SetBranchAddress("fathFilterJets_ptRaw", fathFilterJets_ptRaw, &b_fathFilterJets_ptRaw);
+   fChain->SetBranchAddress("fathFilterJets_ptLeadTrack", fathFilterJets_ptLeadTrack, &b_fathFilterJets_ptLeadTrack);
+   fChain->SetBranchAddress("fathFilterJets_flavour", fathFilterJets_flavour, &b_fathFilterJets_flavour);
+   fChain->SetBranchAddress("fathFilterJets_isSemiLept", fathFilterJets_isSemiLept, &b_fathFilterJets_isSemiLept);
+   fChain->SetBranchAddress("fathFilterJets_isSemiLeptMCtruth", fathFilterJets_isSemiLeptMCtruth, &b_fathFilterJets_isSemiLeptMCtruth);
+   fChain->SetBranchAddress("fathFilterJets_genPt", fathFilterJets_genPt, &b_fathFilterJets_genPt);
+   fChain->SetBranchAddress("fathFilterJets_genEta", fathFilterJets_genEta, &b_fathFilterJets_genEta);
+   fChain->SetBranchAddress("fathFilterJets_genPhi", fathFilterJets_genPhi, &b_fathFilterJets_genPhi);
+   fChain->SetBranchAddress("fathFilterJets_vtxMass", fathFilterJets_vtxMass, &b_fathFilterJets_vtxMass);
+   fChain->SetBranchAddress("fathFilterJets_vtx3dL", fathFilterJets_vtx3dL, &b_fathFilterJets_vtx3dL);
+   fChain->SetBranchAddress("fathFilterJets_vtx3deL", fathFilterJets_vtx3deL, &b_fathFilterJets_vtx3deL);
+   fChain->SetBranchAddress("fathFilterJets_vtxPt", fathFilterJets_vtxPt, &b_fathFilterJets_vtxPt);
+   fChain->SetBranchAddress("fathFilterJets_vtxEta", fathFilterJets_vtxEta, &b_fathFilterJets_vtxEta);
+   fChain->SetBranchAddress("fathFilterJets_vtxPhi", fathFilterJets_vtxPhi, &b_fathFilterJets_vtxPhi);
+   fChain->SetBranchAddress("fathFilterJets_vtxE", fathFilterJets_vtxE, &b_fathFilterJets_vtxE);
+   fChain->SetBranchAddress("fathFilterJets_AnglePVtoSVmom", fathFilterJets_AnglePVtoSVmom, &b_fathFilterJets_AnglePVtoSVmom);
+   fChain->SetBranchAddress("fathFilterJets_AnglePVtoJetmom", fathFilterJets_AnglePVtoJetmom, &b_fathFilterJets_AnglePVtoJetmom);
+   fChain->SetBranchAddress("fathFilterJets_csvivf", fathFilterJets_csvivf, &b_fathFilterJets_csvivf);
+   fChain->SetBranchAddress("fathFilterJets_cmva", fathFilterJets_cmva, &b_fathFilterJets_cmva);
    fChain->SetBranchAddress("aJet_pt", aJet_pt, &b_aJet_pt);
    fChain->SetBranchAddress("aJet_eta", aJet_eta, &b_aJet_eta);
    fChain->SetBranchAddress("aJet_phi", aJet_phi, &b_aJet_phi);
    fChain->SetBranchAddress("aJet_e", aJet_e, &b_aJet_e);
    fChain->SetBranchAddress("aJet_csv", aJet_csv, &b_aJet_csv);
+   fChain->SetBranchAddress("aJet_csvivf", aJet_csvivf, &b_aJet_csvivf);
+   fChain->SetBranchAddress("aJet_cmva", aJet_cmva, &b_aJet_cmva);
    fChain->SetBranchAddress("aJet_cosTheta", aJet_cosTheta, &b_aJet_cosTheta);
    fChain->SetBranchAddress("aJet_numTracksSV", aJet_numTracksSV, &b_aJet_numTracksSV);
    fChain->SetBranchAddress("aJet_chf", aJet_chf, &b_aJet_chf);
@@ -572,6 +914,15 @@ void ntupleLoader::Init(TTree *tree)
    fChain->SetBranchAddress("aJet_nch", aJet_nch, &b_aJet_nch);
    fChain->SetBranchAddress("aJet_nconstituents", aJet_nconstituents, &b_aJet_nconstituents);
    fChain->SetBranchAddress("aJet_flavour", aJet_flavour, &b_aJet_flavour);
+   fChain->SetBranchAddress("aJet_isSemiLept", aJet_isSemiLept, &b_aJet_isSemiLept);
+   fChain->SetBranchAddress("aJet_isSemiLeptMCtruth", aJet_isSemiLeptMCtruth, &b_aJet_isSemiLeptMCtruth);
+   fChain->SetBranchAddress("aJet_SoftLeptpdgId", aJet_SoftLeptpdgId, &b_aJet_SoftLeptpdgId);
+   fChain->SetBranchAddress("aJet_SoftLeptIdlooseMu", aJet_SoftLeptIdlooseMu, &b_aJet_SoftLeptIdlooseMu);
+   fChain->SetBranchAddress("aJet_SoftLeptId95", aJet_SoftLeptId95, &b_aJet_SoftLeptId95);
+   fChain->SetBranchAddress("aJet_SoftLeptPt", aJet_SoftLeptPt, &b_aJet_SoftLeptPt);
+   fChain->SetBranchAddress("aJet_SoftLeptdR", aJet_SoftLeptdR, &b_aJet_SoftLeptdR);
+   fChain->SetBranchAddress("aJet_SoftLeptptRel", aJet_SoftLeptptRel, &b_aJet_SoftLeptptRel);
+   fChain->SetBranchAddress("aJet_SoftLeptRelCombIso", aJet_SoftLeptRelCombIso, &b_aJet_SoftLeptRelCombIso);
    fChain->SetBranchAddress("aJet_genPt", aJet_genPt, &b_aJet_genPt);
    fChain->SetBranchAddress("aJet_genEta", aJet_genEta, &b_aJet_genEta);
    fChain->SetBranchAddress("aJet_genPhi", aJet_genPhi, &b_aJet_genPhi);
@@ -586,6 +937,12 @@ void ntupleLoader::Init(TTree *tree)
    fChain->SetBranchAddress("aJet_SF_CSVLerr", aJet_SF_CSVLerr, &b_aJet_SF_CSVLerr);
    fChain->SetBranchAddress("aJet_SF_CSVMerr", aJet_SF_CSVMerr, &b_aJet_SF_CSVMerr);
    fChain->SetBranchAddress("aJet_SF_CSVTerr", aJet_SF_CSVTerr, &b_aJet_SF_CSVTerr);
+   fChain->SetBranchAddress("naJetsFat", &naJetsFat, &b_naJetsFat);
+   fChain->SetBranchAddress("aJetFat_pt", aJetFat_pt, &b_aJetFat_pt);
+   fChain->SetBranchAddress("aJetFat_eta", aJetFat_eta, &b_aJetFat_eta);
+   fChain->SetBranchAddress("aJetFat_phi", aJetFat_phi, &b_aJetFat_phi);
+   fChain->SetBranchAddress("aJetFat_e", aJetFat_e, &b_aJetFat_e);
+   fChain->SetBranchAddress("aJetFat_csv", aJetFat_csv, &b_aJetFat_csv);
    fChain->SetBranchAddress("numJets", &numJets, &b_numJets);
    fChain->SetBranchAddress("numBJets", &numBJets, &b_numBJets);
    fChain->SetBranchAddress("deltaPullAngle", &deltaPullAngle, &b_deltaPullAngle);
@@ -594,6 +951,7 @@ void ntupleLoader::Init(TTree *tree)
    fChain->SetBranchAddress("gendrbb", &gendrbb, &b_gendrbb);
    fChain->SetBranchAddress("genZpt", &genZpt, &b_genZpt);
    fChain->SetBranchAddress("genWpt", &genWpt, &b_genWpt);
+   fChain->SetBranchAddress("genHpt", &genHpt, &b_genHpt);
    fChain->SetBranchAddress("weightTrig", &weightTrig, &b_weightTrig);
    fChain->SetBranchAddress("weightTrigMay", &weightTrigMay, &b_weightTrigMay);
    fChain->SetBranchAddress("weightTrigV4", &weightTrigV4, &b_weightTrigV4);
@@ -646,6 +1004,7 @@ void ntupleLoader::Init(TTree *tree)
    fChain->SetBranchAddress("vLepton_genPt", vLepton_genPt, &b_vLepton_genPt);
    fChain->SetBranchAddress("vLepton_genEta", vLepton_genEta, &b_vLepton_genEta);
    fChain->SetBranchAddress("vLepton_genPhi", vLepton_genPhi, &b_vLepton_genPhi);
+   fChain->SetBranchAddress("vLepton_charge", vLepton_charge, &b_vLepton_charge);
    fChain->SetBranchAddress("aLepton_mass", aLepton_mass, &b_aLepton_mass);
    fChain->SetBranchAddress("aLepton_pt", aLepton_pt, &b_aLepton_pt);
    fChain->SetBranchAddress("aLepton_eta", aLepton_eta, &b_aLepton_eta);
@@ -667,6 +1026,7 @@ void ntupleLoader::Init(TTree *tree)
    fChain->SetBranchAddress("aLepton_genPt", aLepton_genPt, &b_aLepton_genPt);
    fChain->SetBranchAddress("aLepton_genEta", aLepton_genEta, &b_aLepton_genEta);
    fChain->SetBranchAddress("aLepton_genPhi", aLepton_genPhi, &b_aLepton_genPhi);
+   fChain->SetBranchAddress("aLepton_charge", aLepton_charge, &b_aLepton_charge);
    fChain->SetBranchAddress("top", &top_mass, &b_top);
    fChain->SetBranchAddress("WplusMode", &WplusMode, &b_WplusMode);
    fChain->SetBranchAddress("WminusMode", &WminusMode, &b_WminusMode);
@@ -699,6 +1059,13 @@ void ntupleLoader::Init(TTree *tree)
    fChain->SetBranchAddress("METnoPU", &METnoPU_et, &b_METnoPU);
    fChain->SetBranchAddress("METnoPUCh", &METnoPUCh_et, &b_METnoPUCh);
    fChain->SetBranchAddress("MET", &MET_et, &b_MET);
+   fChain->SetBranchAddress("METtype1corr", &METtype1corr_et, &b_METtype1corr);
+   fChain->SetBranchAddress("METtype1p2corr", &METtype1p2corr_et, &b_METtype1p2corr);
+   fChain->SetBranchAddress("METnoPUtype1corr", &METnoPUtype1corr_et, &b_METnoPUtype1corr);
+   fChain->SetBranchAddress("METnoPUtype1p2corr", &METnoPUtype1p2corr_et, &b_METnoPUtype1p2corr);
+   fChain->SetBranchAddress("metUnc_et", metUnc_et, &b_et);
+   fChain->SetBranchAddress("metUnc_phi", metUnc_phi, &b_phi);
+   fChain->SetBranchAddress("metUnc_sumet", metUnc_sumet, &b_sumet);
    fChain->SetBranchAddress("fakeMET", &fakeMET_et, &b_fakeMET);
    fChain->SetBranchAddress("MHT", &MHT_mht, &b_MHT);
    fChain->SetBranchAddress("minDeltaPhijetMET", &minDeltaPhijetMET, &b_minDeltaPhijetMET);
@@ -708,6 +1075,9 @@ void ntupleLoader::Init(TTree *tree)
    fChain->SetBranchAddress("hbhe", &hbhe, &b_hbhe);
    fChain->SetBranchAddress("totalKinematics", &totalKinematics, &b_totalKinematics);
    fChain->SetBranchAddress("ecalFlag", &ecalFlag, &b_ecalFlag);
+   fChain->SetBranchAddress("cschaloFlag", &cschaloFlag, &b_cschaloFlag);
+   fChain->SetBranchAddress("hcallaserFlag", &hcallaserFlag, &b_hcallaserFlag);
+   fChain->SetBranchAddress("trackingfailureFlag", &trackingfailureFlag, &b_trackingfailureFlag);
    fChain->SetBranchAddress("btag1TSF", &btag1TSF, &b_btag1TSF);
    fChain->SetBranchAddress("btag2TSF", &btag2TSF, &b_btag2TSF);
    fChain->SetBranchAddress("btag1T2CSF", &btag1T2CSF, &b_btag1T2CSF);
@@ -715,6 +1085,21 @@ void ntupleLoader::Init(TTree *tree)
    fChain->SetBranchAddress("btagA0CSF", &btagA0CSF, &b_btagA0CSF);
    fChain->SetBranchAddress("btagA0TSF", &btagA0TSF, &b_btagA0TSF);
    fChain->SetBranchAddress("btag1TA1C", &btag1TA1C, &b_btag1TA1C);
+   fChain->SetBranchAddress("PUweight2011BUp", &PUweight2011BUp, &b_PUweight2011BUp);
+   fChain->SetBranchAddress("PUweight2011BDown", &PUweight2011BDown, &b_PUweight2011BDown);
+   fChain->SetBranchAddress("hJet_csvOld", hJet_csvOld, &b_hJet_csvOld);
+   fChain->SetBranchAddress("hJet_csvDown", hJet_csvDown, &b_hJet_csvDown);
+   fChain->SetBranchAddress("hJet_csvUp", hJet_csvUp, &b_hJet_csvUp);
+   fChain->SetBranchAddress("hJet_csvFDown", hJet_csvFDown, &b_hJet_csvFDown);
+   fChain->SetBranchAddress("hJet_csvFUp", hJet_csvFUp, &b_hJet_csvFUp);
+   fChain->SetBranchAddress("weightTrig_up", &weightTrig_up, &b_weightTrig_up);
+   fChain->SetBranchAddress("weightTrigMay_up", &weightTrigMay_up, &b_weightTrigMay);
+   fChain->SetBranchAddress("weightTrigV4_up", &weightTrigV4_up, &b_weightTrigV4);
+   fChain->SetBranchAddress("weightTrigMET_up", &weightTrigMET_up, &b_weightTrigMET);
+   fChain->SetBranchAddress("weightTrigOrMu30_up", &weightTrigOrMu30_up, &b_weightTrigOrMu30);
+   fChain->SetBranchAddress("weightEleRecoAndId_up", &weightEleRecoAndId_up, &b_weightEleRecoAndId);
+   fChain->SetBranchAddress("weightEleTrigJetMETPart_up", &weightEleTrigJetMETPart_up, &b_weightEleTrigJetMETPart);
+   fChain->SetBranchAddress("weightEleTrigElePart_up", &weightEleTrigElePart_up, &b_weightEleTrigElePart);
    Notify();
 }
 
@@ -743,20 +1128,4 @@ Int_t ntupleLoader::Cut(Long64_t entry)
 // returns -1 otherwise.
    return 1;
 }
-
-void ntupleLoader::Loop()
-{
-  if (fChain == 0) return;
-
-   Long64_t nentries = fChain->GetEntriesFast();
-
-   Long64_t nbytes = 0, nb = 0;
-   for (Long64_t jentry=0; jentry<nentries;jentry++) {
-      Long64_t ientry = LoadTree(jentry);
-      if (ientry < 0) break;
-      nb = fChain->GetEntry(jentry);   nbytes += nb;
-      // if (Cut(ientry) < 0) continue;
-   }
-}
 #endif // #ifdef ntupleLoader_cxx
-
