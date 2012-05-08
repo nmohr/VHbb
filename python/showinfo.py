@@ -12,7 +12,7 @@ print '\tLOADED INFO OF %s SAMPLES:'%len(info)
 print '\n\n\t\033[1;34mLOADED INFO OF %s SAMPLES\033[1;m\n'%len(info)
 
 for job in info:
-    print '\t\033[1;31m-->%s: %s\033[1;m'%(job.getname(),job.plotname())
+    print '\t\033[1;31m-->%s: %s\033[1;m'%(job.name,job.group)
     print '\t\tstored in file %s'%job.getpath()
     print '\t\twith luminosity = %s and xsec = %s'%(job.lumi,job.xsec)    
     print '\t\tdefined as type %s'%job.type
