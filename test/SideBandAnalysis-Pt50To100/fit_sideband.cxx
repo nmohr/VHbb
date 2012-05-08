@@ -36,6 +36,8 @@ void write_datacard( RooFitResult & fitRes, std::vector<RooRealVar*> & f_vars ){
    myfile.open ("Pt50To100SFupdate.txt");
    std::ofstream datacard;
    datacard.open ("DataCard_Pt50To100SFupdate.txt");
+   std::ofstream correlation_matrix;
+   correlation_matrix.open ("CorrelationMatrix_Pt50To100.txt");
 
    std::string DYL = "f_DYL";
    std::string DYC = "f_DYC";
@@ -64,37 +66,59 @@ void write_datacard( RooFitResult & fitRes, std::vector<RooRealVar*> & f_vars ){
      for(int j=0; j<fit_vars.size(); ++j)
        Corr[i][j] = fitRes.correlation( *fit_vars.at(i), *fit_vars.at(j) );
 
+
    myfile << "CMS_vhbb_ZjLF_SF    lnN    -    -     -    " << fit_vars.at(dyl_idx)->getVal() << "  -    -   -   -   -   -" << std::endl;
    datacard << "CMS_vhbb_ZjLF_SF    lnN    -    -     -    " << 
      1 + fit_vars.at(dyl_idx)->getError() << "  " << 
-     1 - ((int)(0.5-Corr[dyl_idx][dyc_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
-     1 - ((int)(0.5-Corr[dyl_idx][dyb_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
-     1 - ((int)(0.5-Corr[dyl_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
+     1 + ((Corr[dyl_idx][dyc_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
+     1 + ((Corr[dyl_idx][dyb_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 + ((Corr[dyl_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
      "   -   -   -   -" << std::endl;
+   correlation_matrix <<
+     ((Corr[dyl_idx][dyl_idx])) << "  " << 
+     ((Corr[dyl_idx][dyc_idx])) << "  " << 
+     ((Corr[dyl_idx][dyb_idx])) << "  " << 
+     ((Corr[dyl_idx][ttbar_idx])) << "  " << std::endl;
     
    myfile << "CMS_vhbb_ZjCF_SF    lnN    -    -     -    -    " << fit_vars.at(dyc_idx)->getVal() <<"    -   -   -   -" << std::endl;
    datacard << "CMS_vhbb_ZjCF_SF    lnN    -    -     -   " <<  
-     1 - ((int)(0.5-Corr[dyc_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
+     1 + ((Corr[dyc_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
      1 + fit_vars.at(dyc_idx)->getError() << "  " << 
-     1 - ((int)(0.5-Corr[dyc_idx][dyb_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
-     1 - ((int)(0.5-Corr[dyc_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
+     1 + ((Corr[dyc_idx][dyb_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 + ((Corr[dyc_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
      "   -   -   -   -" << std::endl;
+   correlation_matrix << 
+     ((Corr[dyc_idx][dyl_idx])) << "  " << 
+     ((Corr[dyc_idx][dyc_idx])) << "  " << 
+     ((Corr[dyc_idx][dyb_idx])) << "  " << 
+     ((Corr[dyc_idx][ttbar_idx])) << "  " << std::endl;
 
    myfile << "CMS_vhbb_ZjHF_SF    lnN    -    -     -    -    - " << fit_vars.at(dyb_idx)->getVal() <<"    -   -   -   -" << std::endl;
    datacard << "CMS_vhbb_ZjHF_SF    lnN    -    -     -   " <<  
-     1 - ((int)(0.5-Corr[dyb_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
-     1 - ((int)(0.5-Corr[dyb_idx][dyc_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 + ((Corr[dyb_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
+     1 + ((Corr[dyb_idx][dyc_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
      1 + fit_vars.at(dyb_idx)->getError() << "  " << 
-     1 - ((int)(0.5-Corr[dyb_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
+     1 + ((Corr[dyb_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
      "   -   -   -   -" << std::endl;
+   correlation_matrix <<
+     ((Corr[dyb_idx][dyl_idx])) << "  " << 
+     ((Corr[dyb_idx][dyc_idx])) << "  " << 
+     ((Corr[dyb_idx][dyb_idx])) << "  " << 
+     ((Corr[dyb_idx][ttbar_idx])) << "  " << std::endl;
    
    myfile << "CMS_vhbb_TT_SF      lnN    -    -     -    -    -   -  " <<  fit_vars.at(ttbar_idx)->getVal() << "   -   -   -" << std::endl;
    datacard << "CMS_vhbb_TT_SF    lnN    -    -     -   " <<  
-     1 - ((int)(0.5-Corr[dyb_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
-     1 - ((int)(0.5-Corr[dyb_idx][dyc_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 + ((Corr[ttbar_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
+     1 + ((Corr[ttbar_idx][dyc_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 + ((Corr[ttbar_idx][dyb_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
      1 + fit_vars.at(dyb_idx)->getError() << "  " << 
-     1 - ((int)(0.5-Corr[dyb_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
      "   -   -   -   -" << std::endl;
+   correlation_matrix <<
+     ((Corr[ttbar_idx][dyl_idx])) << "  " << 
+     ((Corr[ttbar_idx][dyc_idx])) << "  " << 
+     ((Corr[ttbar_idx][dyb_idx])) << "  " <<
+     ((Corr[ttbar_idx][ttbar_idx])) << "  " <<  std::endl;
+
      
    myfile.close();  
    datacard.close();  
