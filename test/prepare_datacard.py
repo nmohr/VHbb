@@ -94,13 +94,20 @@ correlation_file = open('CorrelationMatrix_Pt50To100.txt','r')
 corr = get_correlation_matrix( correlation_file )
 print corr
 
-dyl_string = 'CMS_vhbb_ZjLF_SF    lnN    -    -     -    ' + str(1.+float(corr[0][0])*dyl_err) + ' ' + str(1.+(float(corr[0][1])*dyc_err)) + ' ' + str(1.+float(corr[0][2])*dyb_err) + ' ' + str(1.+float(corr[0][3])*ttbar_err) + '   -   -   -   -  '
-dyc_string = 'CMS_vhbb_ZjCF_SF    lnN    -    -     -    ' + str(1.+float(corr[1][0])*dyl_err) + ' ' + str(1.+(float(corr[1][1])*dyc_err)) + ' ' + str(1.+float(corr[1][2])*dyb_err) + ' ' + str(1.+float(corr[1][3])*ttbar_err) + '   -   -   -   -  '
-dyb_string = 'CMS_vhbb_ZjHF_SF    lnN    -    -     -    ' + str(1.+float(corr[2][0])*dyl_err) + ' ' + str(1.+(float(corr[2][1])*dyc_err)) + ' ' + str(1.+float(corr[2][2])*dyb_err) + ' ' + str(1.+float(corr[2][3])*ttbar_err) + '   -   -   -   -  '
-ttbar_string = 'CMS_vhbb_TT_SF    lnN    -    -     -    ' + str(1.+float(corr[3][0])*dyl_err) + ' ' + str(1.+(float(corr[3][1])*dyc_err)) + ' ' + str(1.+float(corr[3][2])*dyb_err) + ' ' + str(1.+float(corr[3][3])*ttbar_err) + '   -   -   -   -  '
+dyl_string = 'CMS_vhbb_ZjLF_SF    lnN    -    -     -    ' + '%.3f' % (1.+float(corr[0][0])*dyl_err) + ' ' + '%.3f' %(1.+(float(corr[0][1])*dyl_err)) + ' ' + '%.3f' %(1.+float(corr[0][2])*dyl_err) + ' ' + '%.3f' %(1.+float(corr[0][3])*dyl_err) + '   -   -   -   -  \n'
+dyc_string = 'CMS_vhbb_ZjCF_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[1][0])*dyc_err) + ' ' + '%.3f' %(1.+(float(corr[1][1])*dyc_err)) + ' ' + '%.3f' %(1.+float(corr[1][2])*dyc_err) + ' ' + '%.3f' %(1.+float(corr[1][3])*dyc_err) + '   -   -   -   -  \n'
+dyb_string = 'CMS_vhbb_ZjHF_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[2][0])*dyb_err) + ' ' + '%.3f' %(1.+(float(corr[2][1])*dyb_err)) + ' ' + '%.3f' %(1.+float(corr[2][2])*dyb_err) + ' ' + '%.3f' %(1.+float(corr[2][3])*dyb_err) + '   -   -   -   -  \n'
+ttbar_string = 'CMS_vhbb_TT_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[3][0])*ttbar_err) + ' ' + '%.3f' %(1.+(float(corr[3][1])*ttbar_err)) + ' ' + '%.3f' %(1.+float(corr[3][2])*ttbar_err) + ' ' + '%.3f' %(1.+float(corr[3][3])*ttbar_err) + '   -   -   -   -  \n'
 
 print dyl_string
 print dyc_string
 print dyb_string
 print ttbar_string
+
+outfile = open("Datacard.txt",'w')
+outfile.writelines(dyl_string)
+outfile.writelines(dyc_string)
+outfile.writelines(dyb_string)
+outfile.writelines(ttbar_string)
+outfile.close()
 
