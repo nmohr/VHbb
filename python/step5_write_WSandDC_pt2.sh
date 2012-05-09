@@ -1,0 +1,25 @@
+#!/bin/bash
+# RTight EE
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RTight_ZH110_EE
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RTight_ZH115_EE
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RTight_ZH120_EE
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RTight_ZH125_EE
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RTight_ZH130_EE
+## RTight MM
+./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RTight_ZH110_MM
+./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RTight_ZH115_MM
+./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RTight_ZH120_MM
+./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RTight_ZH125_MM
+./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RTight_ZH130_MM
+# RMed EE
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RMed_ZH110_EE
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RMed_ZH115_EE
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RMed_ZH120_EE
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RMed_ZH125_EE
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RMed_ZH130_EE
+# RMed MM
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RMed_ZH110_MM
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RMed_ZH115_MM
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RMed_ZH120_MM
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RMed_ZH125_MM
+#./workspace_datacard.py /scratch/May08/env/sys/MVAout/ RMed_ZH130_MM

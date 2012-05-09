@@ -12,11 +12,11 @@ def copytree(pathIN,pathOUT,prefix,file,Aprefix,Acut):
     for key in ROOT.gDirectory.GetListOfKeys():
         input.cd()
         obj = key.ReadObj()
-        print obj.GetName()
+        #print obj.GetName()
         if obj.GetName() == 'tree':
             continue
         output.cd()
-        print key.GetName()
+        #print key.GetName()
         obj.Write(key.GetName())
 
     inputTree = input.Get("tree")

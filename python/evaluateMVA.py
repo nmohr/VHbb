@@ -115,17 +115,17 @@ infofile.close()
 for job in Ainfo[start:stop]:
     #get trees:
     input = TFile.Open(job.getpath(),'read')
-    outfile = TFile.Open(job.path+'/MVAout2/'+job.prefix+job.identifier+'.root','recreate')
+    outfile = TFile.Open(job.path+'/MVAout/'+job.prefix+job.identifier+'.root','recreate')
     input.cd()
     obj = ROOT.TObject
     for key in ROOT.gDirectory.GetListOfKeys():
         input.cd()
         obj = key.ReadObj()
-        print obj.GetName()
+        #print obj.GetName()
         if obj.GetName() == job.tree:
             continue
         outfile.cd()
-        print key.GetName()
+        #print key.GetName()
         obj.Write(key.GetName())
     tree = input.Get(job.tree)
     nEntries = tree.GetEntries()

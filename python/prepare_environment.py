@@ -5,17 +5,17 @@ from samplesclass import sample
 import pickle
 
 
-prefix='ZllH.May5Reg.'
+prefix='ZllH.May8Reg.'
 
 lumi=4700
 
-pathIN='/scratch/May05/'
-pathOUT='/scratch/May05/env/'
+pathIN='/scratch/May08/'
+pathOUT='/scratch/May08/env/'
 
 weightexpression='((0.46502*PUweight+0.53498*PUweight2011B)*weightTrig)'
 
-#this is only to speed it up, rwmove for final trees!
-Precut='& V.pt > 50 & V.mass > 75. & V.mass < 105 & hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & deltaPullAngleAK7 < 10.'
+#this is only to speed it up, remove for final trees!
+Precut='& V.pt > 50 & V.mass > 75. & V.mass < 105 & hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4'
 
 
 
@@ -68,7 +68,7 @@ info = []
 
 # i>1 because no WW sample!!! only temporary fix
 
-for i in range(1,len(InFiles0)):
+for i in range(0,len(InFiles0)):
     copytree(pathIN,pathOUT,prefix,InFiles0[i],Aprefix0[0],cut0[0]+Precut)
     info.append(sample(samplenames0[i],sampletypes0[i]))
     info[-1].path=pathOUT

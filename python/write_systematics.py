@@ -20,7 +20,7 @@ path=sys.argv[1]
 infofile = open(path+'/samples.info','r')
 info = pickle.load(infofile)
 infofile.close()
-os.mkdir(path+'/sys')
+#os.mkdir(path+'/sys')
 
 for job in info:
     if job.type != 'DATA':
@@ -34,11 +34,11 @@ for job in info:
         for key in ROOT.gDirectory.GetListOfKeys():
             input.cd()
             obj = key.ReadObj()
-            print obj.GetName()
+            #print obj.GetName()
             if obj.GetName() == job.tree:
                 continue
             output.cd()
-            print key.GetName()
+            #print key.GetName()
             obj.Write(key.GetName())
 
         tree = input.Get(job.tree)

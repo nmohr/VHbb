@@ -7,7 +7,6 @@ import os
 
 import ROOT 
 from ROOT import TFile
-print 'hello\n'
 
 from array import array
 
@@ -123,15 +122,24 @@ def getHistoFromTree(job,options):
     weightF=config.get('Weights','weightF')
     #hTree = ROOT.TH1F('%s'%name,'%s'%title,nBins,xMin,xMax)
     #hTree.SetDirectory(0)
-
     #hTree.Sumw2()
     #print 'drawing...'
     if job.type != 'DATA':
         #print treeCut
-        Tree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),'(%s)*(%s)' %(treeCut,weightF), "goff,e")
+        #print job.name
+        if Tree.GetEntries():
+            Tree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),'(%s)*(%s)' %(treeCut,weightF), "goff,e")
+            full=True
+        else:
+            full=False
     elif job.type == 'DATA':
         Tree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeCut, "goff,e")
-    hTree = ROOT.gDirectory.Get(name)
+        full = True
+    if full:
+        hTree = ROOT.gDirectory.Get(name)
+    else:
+        hTree = ROOT.TH1F('%s'%name,'%s'%name,nBins,xMin,xMax)
+        hTree.Sumw2()
     #print job.name + ' Sumw2', hTree.GetEntries()
 
     if job.type != 'DATA':
@@ -139,7 +147,7 @@ def getHistoFromTree(job,options):
         if ScaleFactor != 0:
             hTree.Scale(ScaleFactor)
             
-        print '\t-->import %s\t Integral: %s'%(job.name,hTree.Integral())
+    print '\t-->import %s\t Integral: %s'%(job.name,hTree.Integral())
             
     return hTree, job.group
     
@@ -238,7 +246,6 @@ statDowns=[]
 
 
 for job in info:
-    #print job.name
     if job.type == 'BKG':
         #print 'MC'
         hTemp, typ = getHistoFromTree(job,options)
@@ -525,10 +532,7 @@ WS.writeToFile(outpath+'vhbb_WS_'+ROOToutname+'.root')
    #WS.writeToFile("testWS.root")
 
 
-
-
 #write DATAcard:
-
 pier = open (Wdir+'/pier.txt','r')
 scalefactors=pier.readlines()
 pier.close()
@@ -537,7 +541,6 @@ f = open(outpath+'vhbb_DC_'+ROOToutname+'.txt','w')
 f.write('imax\t1\tnumber of channels\n')
 f.write('jmax\t9\tnumber of backgrounds (\'*\' = automatic)\n')
 f.write('kmax\t*\tnumber of nuisance parameters (sources of systematical uncertainties)\n\n')
-
 f.write('shapes * * vhbb_WS_%s.root $CHANNEL:$PROCESS $CHANNEL:$PROCESS$SYSTEMATIC\n\n'%ROOToutname)
 f.write('bin\t%s\n\n'%options[10])
 f.write('observation\t%s\n\n'%d1.Integral())
@@ -545,8 +548,6 @@ f.write('bin\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(options[10],options[10]
 f.write('process\tVH\tWjLF\tWjHF\tZjLF\tZjCF\tZjHF\tTT\ts_Top\tVV\tQCD\n')
 f.write('process\t0\t1\t2\t3\t4\t5\t6\t7\t8\t9\n')
 f.write('rate\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(histos[6].Integral(),0,0,histos[0].Integral(),histos[1].Integral(),histos[2].Integral(),histos[3].Integral(),histos[5].Integral(),histos[4].Integral(),0)) #\t1.918\t0.000 0.000\t135.831  117.86  18.718 1.508\t7.015\t0.000
-
-
 f.write('lumi\tlnN\t1.045\t-\t-\t-\t-\t-\t-\t1.045\t1.045\t1.045\n\n')
 f.write('pdf_qqbar\tlnN\t1.01\t-\t-\t-\t-\t-\t-\t-\t1.01\t-\n')
 f.write('pdf_gg\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.01\t-\t1.01\n')
@@ -558,120 +559,24 @@ f.write('CMS_vhbb_boost_EWK\tlnN\t1.05\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_boost_QCD\tlnN\t1.10\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_ST\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.29\t-\t-\n')
 f.write('CMS_vhbb__VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t1.30\t-\n')
-
 for line in scalefactors:
     f.write(line)
-
-'''
-f.write('CMS_vhbb_WjLF_SF\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_WjHF_SF\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_ZjLF_SF\tlnN\t-\t-\t-\t1.06\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_ZjHF_SF\tlnN\t-\t-\t-\t-\t1.17\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_TT_SF\tlnN\t-\t-\t-\t-\t-\t1.14\t-\t-\t-\n')
-f.write('CMS_vhbb_QCD_SF\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-'''
-
 f.write('CMS_trigger_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_trigger_e\tlnN\t1.02\t-\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
 f.write('CMS_vhbb_trigger_MET\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-'''
-f.write('CMS_eff_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_eff_e\tlnN\t1.04\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
-f.write('CMS_toteff_b\tlnN\t1.10\t1.10\t1.00\t1.10\t1.00\t1.10\t1.10\t1.10\t1.10\n')
-f.write('CMS_totscale_j\tlnN\t1.02\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
-f.write('CMS_totres_j\tlnN\t1.05\t1.03\t1.03\t1.03\t1.03\t1.03\t1.03\t1.05\t-\n')
-f.write('CMS_vhbb_MET_nojets\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_VH_Wmn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_WjLF_Wmn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_WjHF_Wmn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhb_stats_ZjLF_Wmn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_ZjHF_Wmn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_TT_Wmn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_sT_Wmn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_VV_Wmn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_QCD_Wmn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_Wen\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_WjLF_Wen\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_WjHF_Wen\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhb_stats_ZjLF_Wen\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_ZjHF_Wen\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_TT_Wen\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_sT_Wen\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_VV_Wen\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_QCD_Wen\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_VH_Zmm\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_WjLF_Zmm\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_WjHF_Zmm\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhb_stats_ZjLF_Zmm\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_ZjHF_Zmm\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_TT_Zmm\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_sT_Zmm\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_VV_Zmm\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_QCD_Zmm\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_VH_Zee\tlnN\t1.03\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_WjLF_Zee\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_WjHF_Zee\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhb_stats_ZjLF_Zee\tlnN\t-\t-\t-\t1.05\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_ZjHF_Zee\tlnN\t-\t-\t-\t-\t1.07\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_TT_Zee\tlnN\t-\t-\t-\t-\t-\t1.06\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_sT_Zee\tlnN\t-\t-\t-\t-\t-\t-\t1.30\t-\t-\n')
-f.write('CMS_vhbb_stats_Diboson_Zee\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.06\t-\n')
-f.write('CMS_vhbb_stats_QCD_Zee\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_VH_Znn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_WjLF_Znn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_WjHF_Znn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhb_stats_ZjLF_Znn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_ZjHF_Znn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_TT_Znn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_sT_Znn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_VV_Znn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_QCD_Znn\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-'''
-#STATS
-#f.write('Stats\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
-
-
-#    discr_names = ['Zudscg', 'Zbb', 'TTbar','VV', 'ST', 'Sig115', 'Wudscg', 'Wbb', 'QCD']
-
-'''
-f.write('Sig%sStats\tshape\t1.0\t-\t-\t-\t-\t-\t-\t-\t-\n'%mass[2:5])
-#f.write('Stats\tshape\t-\t1.0\t-\t-\t-\t-\t-\t-\t-\n')
-#f.write('Stats\tshape\t-\t-\t1.0\t-\t-\t-\t-\t-\t-\n')
-f.write('ZudscgStats\tshape\t-\t-\t-\t1.0\t-\t-\t-\t-\t-\n')
-f.write('ZbbStats\tshape\t-\t-\t-\t-\t1.0\t-\t-\t-\t-\n')
-f.write('TTbarStats\tshape\t-\t-\t-\t-\t-\t1.0\t-\t-\t-\n')
-f.write('STStats\tshape\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\n')
-f.write('VVStats\tshape\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\n')
-#f.write('Stats\tshape\t-\t-\t-\t-\t-\t-\t-\t-\t1.0\n')
-'''
-
 f.write('CMS_vhbb_stats_VH_%s\tshape\t1.0\t-\t-\t-\t-\t-\t-\t-\t-\t-\n'%options[10])
-#f.write('Stats\tshape\t-\t1.0\t-\t-\t-\t-\t-\t-\t-\n')
-#f.write('Stats\tshape\t-\t-\t1.0\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_stats_ZjLF_%s\tshape\t-\t-\t-\t1.0\t-\t-\t-\t-\t-\t-\n'%options[10])
 f.write('CMS_vhbb_stats_ZjCF_%s\tshape\t-\t-\t-\t-\t1.0\t-\t-\t-\t-\t-\n'%options[10])
 f.write('CMS_vhbb_stats_ZjHF_%s\tshape\t-\t-\t-\t-\t-\t1.0\t-\t-\t-\t-\n'%options[10])
 f.write('CMS_vhbb_stats_TT_%s\tshape\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\t-\n'%options[10])
 f.write('CMS_vhbb_stats_s_Top_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\n'%options[10])
 f.write('CMS_vhbb_stats_VV_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\n'%options[10])
-#f.write('Stats\tshape\t-\t-\t-\t-\t-\t-\t-\t-\t1.0\n')
-
-#Sig115 Wudscg Wbb Zudscg Zbb TTbar ST VV QCD
-
 #SYST
 f.write('CMS_JER\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
 f.write('CMS_JES\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
 f.write('CMS_beff\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
 f.write('CMS_bmis\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
-
-
 f.close()
-
 
 outfile.Write()
 outfile.Close()
-
-         
-              
-                   
-                             

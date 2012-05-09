@@ -72,7 +72,7 @@ path=config.get(run,'path')
 
 TCutname=config.get(run, 'treeCut')
 TCut=config.get('Cuts',TCutname)
-print TCut
+#print TCut
 
 #signals
 signals=config.get(run,'signals')
@@ -89,8 +89,8 @@ MVA_Vars={}
 MVA_Vars['Nominal']=config.get(treeVarSet,'Nominal')
 MVA_Vars['Nominal']=MVA_Vars['Nominal'].split(' ')    
 #Spectators:
-spectators=config.get(treeVarSet,'spectators')
-spectators=spectators.split(' ')
+#spectators=config.get(treeVarSet,'spectators')
+#spectators=spectators.split(' ')
 
 #TRAINING samples
 infofile = open(path+'/samples.info','r')
@@ -188,7 +188,7 @@ info.weightfilepath=Wdir+'/weights'
 info.path=path
 info.varset=treeVarSet
 info.vars=MVA_Vars['Nominal']
-info.spectators=spectators
+#info.spectators=spectators
 pickle.dump(info,infofile)
 infofile.close()
 
