@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-from samplesinfo import sample
+from samplesclass import sample
 import pickle
 import sys
 
 path=sys.argv[1]
 #path='/scratch/nov10_inclusive/Z'
-type=sys.argv[2]
+name=sys.argv[2]
 #type='BKG'
 attribute=sys.argv[3]
 #attribute='split'
@@ -18,7 +18,7 @@ info = pickle.load(infofile)
 infofile.close()
 
 for job in info:
-    if job.type == type:
+    if job.name == name:
         print '\t - %s' %(job.name)
         setattr(job,attribute,newvalue)
 

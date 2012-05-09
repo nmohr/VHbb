@@ -1,7 +1,7 @@
 [Directories]
 Wdir: /Users/peller/Hbb
 plotpath: /Users/peller/Hbb/Stacks/
-limits: /Users/peller/Hbb/Limits/May05/
+limits: /Users/peller/Hbb/Limits/May08/
 
 
 #Plotting:
@@ -178,7 +178,7 @@ sRMed_ZH130_MM: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH130_MM_limitte
 
 
 
-setup: DYlight,DYb,DYc,TT,VV,ST,ZH
+setup: DYlight,DYc,DYb,TT,VV,ST,ZH
 
 
 
@@ -235,7 +235,7 @@ MVAsettings: !H:!V:NTrees=600:nEventsMin=300:MaxDepth=3:BoostType=AdaBoost:AdaBo
 path: /scratch/May05/env/sys/
 signals: ZH110
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
-treeVarSet: treeVars
+treeVarSet: treeVarsICHEP
 treecut: RTight
 
 [RTight_ZH115_may]
@@ -245,7 +245,7 @@ MVAsettings: !H:!V:NTrees=600:nEventsMin=300:MaxDepth=3:BoostType=AdaBoost:AdaBo
 path: /scratch/May05/env/sys/
 signals: ZH115
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
-treeVarSet: treeVars
+treeVarSet: treeVarsICHEP
 treecut: RTight
 
 [RTight_ZH120_may]
@@ -254,7 +254,7 @@ MVAsettings: !H:!V:NTrees=600:nEventsMin=300:MaxDepth=3:BoostType=AdaBoost:AdaBo
 path: /scratch/May05/env/sys/
 signals: ZH120
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
-treeVarSet: treeVars
+treeVarSet: treeVarsICHEP
 treecut: RTight
 
 [RTight_ZH125_may]
@@ -263,7 +263,7 @@ MVAsettings: !H:!V:NTrees=600:nEventsMin=300:MaxDepth=3:BoostType=AdaBoost:AdaBo
 path: /scratch/May05/env/sys/
 signals: ZH125
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
-treeVarSet: treeVars
+treeVarSet: treeVarsICHEP
 treecut: RTight
 
 [RTight_ZH130_may]
@@ -272,7 +272,7 @@ MVAsettings: !H:!V:NTrees=600:nEventsMin=300:MaxDepth=3:BoostType=AdaBoost:AdaBo
 path: /scratch/May05/env/sys/
 signals: ZH130
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
-treeVarSet: treeVars
+treeVarSet: treeVarsICHEP
 treecut: RTight
 
 
@@ -282,7 +282,7 @@ MVAsettings: !H:!V:NTrees=550:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBo
 path: /scratch/May05/env/sys/
 signals: ZH110
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
-treeVarSet: treeVars
+treeVarSet: treeVarsICHEP
 treecut: RMed
 
 [RMed_ZH115_may]
@@ -291,7 +291,7 @@ MVAsettings: !H:!V:NTrees=550:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBo
 path: /scratch/May05/env/sys/
 signals: ZH115
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
-treeVarSet: treeVars
+treeVarSet: treeVarsICHEP
 treecut: RMed
 
 [RMed_ZH120_may]
@@ -300,7 +300,7 @@ MVAsettings: !H:!V:NTrees=550:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBo
 path: /scratch/May05/env/sys/
 signals: ZH120
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
-treeVarSet: treeVars
+treeVarSet: treeVarsICHEP
 treecut: RMed
 
 [RMed_ZH125_may]
@@ -310,7 +310,7 @@ MVAsettings: !H:!V:NTrees=550:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBo
 path: /scratch/May05/env/sys/
 signals: ZH125
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
-treeVarSet: treeVars
+treeVarSet: treeVarsICHEP
 treecut: RMed
 
 [RMed_ZH130_may]
@@ -319,7 +319,7 @@ MVAsettings: !H:!V:NTrees=550:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBo
 path: /scratch/May05/env/sys/
 signals: ZH130
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
-treeVarSet: treeVars
+treeVarSet: treeVarsICHEP
 treecut: RMed
 
 
@@ -334,6 +334,17 @@ treecut: RMed
 
 [systematics]
 systematics: Nominal JER_up JER_down JES_up JES_down beff_up beff_down bmis_up bmis_down
+
+[treeVarsICHEP]
+Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JER_up: H_JER.mass_up H_JER.pt_up HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JER_down: H_JER.mass_down H_JER.pt_down HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JES_up: H_JES.mass_up H_JES.pt_up HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JES_down: H_JES.mass_down H_JES.pt_down HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+beff_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvUp[0],hJet_csvUp[1]) min(hJet_csvUp[0],hJet_csvUp[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+beff_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvDown[0],hJet_csvDown[1]) min(hJet_csvDown[0],hJet_csvDown[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+bmis_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFUp[0],hJet_csvFUp[1]) min(hJet_csvFUp[0],hJet_csvFUp[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFDown[0],hJet_csvFDown[1]) min(hJet_csvFDown[0],hJet_csvFDown[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
 
 [treeVars]
 Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dR max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)

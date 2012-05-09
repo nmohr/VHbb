@@ -11,6 +11,7 @@ class sample:
         self.group=''
         self.path=''
         self.lumi=0.
+        self.sf=1.0
         self.xsec=0.
         self.split=1.0
         self.weightexpression=1.0

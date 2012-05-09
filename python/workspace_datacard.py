@@ -96,7 +96,7 @@ def getScale(job):
     CountWithPU = input.Get("CountWithPU")
     CountWithPU2011B = input.Get("CountWithPU2011B")
     #print lumi*xsecs[i]/hist.GetBinContent(1)
-    return float(job.lumi)*float(job.xsec)/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*2/float(job.split)
+    return float(job.lumi)*float(job.xsec)*float(job.sf)/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*2/float(job.split)
 
 
 def getHistoFromTree(job,options):
@@ -218,7 +218,7 @@ setup=setup.split(',')
 ROOToutname = options[6]
 outpath=config.get('Directories','limits')
 outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
-discr_names = ['ZjLF', 'ZjHF', 'TT','VV', 's_Top', 'VH', 'WjLF', 'WjHF', 'QCD']
+discr_names = ['ZjLF','ZjCF','ZjHF', 'TT','VV', 's_Top', 'VH', 'WjLF', 'WjHF', 'QCD']
 data_name = ['data_obs']
 WS = ROOT.RooWorkspace('%s'%options[10],'%s'%options[10]) #Zee
 print 'WS initialized'
@@ -535,29 +535,29 @@ pier.close()
 
 f = open(outpath+'vhbb_DC_'+ROOToutname+'.txt','w')
 f.write('imax\t1\tnumber of channels\n')
-f.write('jmax\t8\tnumber of backgrounds (\'*\' = automatic)\n')
+f.write('jmax\t9\tnumber of backgrounds (\'*\' = automatic)\n')
 f.write('kmax\t*\tnumber of nuisance parameters (sources of systematical uncertainties)\n\n')
 
-f.write('shapes * * vhbb_WS_%s.roott $CHANNEL:$PROCESS $CHANNEL:$PROCESS$SYSTEMATIC\n\n'%ROOToutname)
+f.write('shapes * * vhbb_WS_%s.root $CHANNEL:$PROCESS $CHANNEL:$PROCESS$SYSTEMATIC\n\n'%ROOToutname)
 f.write('bin\t%s\n\n'%options[10])
 f.write('observation\t%s\n\n'%d1.Integral())
-f.write('bin\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(options[10],options[10],options[10],options[10],options[10],options[10],options[10],options[10],options[10]))
-f.write('process\tVH\tWjLF\tWjHF\tZjLF\tZjHF\tTT\ts_Top\tVV\tQCD\n')
-f.write('process\t0\t1\t2\t3\t4\t5\t6\t7\t8\n')
-f.write('rate\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(histos[5].Integral(),0,0,histos[0].Integral(),histos[1].Integral(),histos[2].Integral(),histos[4].Integral(),histos[3].Integral(),0)) #\t1.918\t0.000 0.000\t135.831  117.86  18.718 1.508\t7.015\t0.000
+f.write('bin\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(options[10],options[10],options[10],options[10],options[10],options[10],options[10],options[10],options[10],options[10]))
+f.write('process\tVH\tWjLF\tWjHF\tZjLF\tZjCF\tZjHF\tTT\ts_Top\tVV\tQCD\n')
+f.write('process\t0\t1\t2\t3\t4\t5\t6\t7\t8\t9\n')
+f.write('rate\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(histos[6].Integral(),0,0,histos[0].Integral(),histos[1].Integral(),histos[2].Integral(),histos[3].Integral(),histos[5].Integral(),histos[4].Integral(),0)) #\t1.918\t0.000 0.000\t135.831  117.86  18.718 1.508\t7.015\t0.000
 
 
-f.write('lumi\tlnN\t1.045\t-\t-\t-\t-\t-\t1.045\t1.045\t1.045\n\n')
-f.write('pdf_qqbar\tlnN\t1.01\t-\t-\t-\t-\t-\t-\t1.01\t-\n')
-f.write('pdf_gg\tlnN\t-\t-\t-\t-\t-\t-\t1.01\t-\t1.01\n')
-f.write('QCDscale_VH\tlnN\t1.04\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('QCDscale_ttbar\tlnN\t-\t-\t-\t-\t-\t-\t1.06\t-\t-\n')
-f.write('QCDscale_VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.04\t-\n')
-f.write('QCDscale_QCD\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t1.30\n')
-f.write('CMS_vhbb_boost_EWK\tlnN\t1.05\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_boost_QCD\tlnN\t1.10\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_ST\tlnN\t-\t-\t-\t-\t-\t-\t1.29\t-\t-\n')
-f.write('CMS_vhbb__VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.30\t-\n')
+f.write('lumi\tlnN\t1.045\t-\t-\t-\t-\t-\t-\t1.045\t1.045\t1.045\n\n')
+f.write('pdf_qqbar\tlnN\t1.01\t-\t-\t-\t-\t-\t-\t-\t1.01\t-\n')
+f.write('pdf_gg\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.01\t-\t1.01\n')
+f.write('QCDscale_VH\tlnN\t1.04\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+f.write('QCDscale_ttbar\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.06\t-\t-\n')
+f.write('QCDscale_VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t1.04\t-\n')
+f.write('QCDscale_QCD\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t1.30\n')
+f.write('CMS_vhbb_boost_EWK\tlnN\t1.05\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+f.write('CMS_vhbb_boost_QCD\tlnN\t1.10\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+f.write('CMS_vhbb_ST\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.29\t-\t-\n')
+f.write('CMS_vhbb__VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t1.30\t-\n')
 
 for line in scalefactors:
     f.write(line)
@@ -571,9 +571,9 @@ f.write('CMS_vhbb_TT_SF\tlnN\t-\t-\t-\t-\t-\t1.14\t-\t-\t-\n')
 f.write('CMS_vhbb_QCD_SF\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 '''
 
-f.write('CMS_trigger_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_trigger_e\tlnN\t1.02\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
-f.write('CMS_vhbb_trigger_MET\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+f.write('CMS_trigger_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+f.write('CMS_trigger_e\tlnN\t1.02\t-\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
+f.write('CMS_vhbb_trigger_MET\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 '''
 f.write('CMS_eff_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_eff_e\tlnN\t1.04\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
@@ -645,23 +645,24 @@ f.write('VVStats\tshape\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\n')
 #f.write('Stats\tshape\t-\t-\t-\t-\t-\t-\t-\t-\t1.0\n')
 '''
 
-f.write('CMS_vhbb_stats_VH_%s\tshape\t1.0\t-\t-\t-\t-\t-\t-\t-\t-\n'%options[10])
+f.write('CMS_vhbb_stats_VH_%s\tshape\t1.0\t-\t-\t-\t-\t-\t-\t-\t-\t-\n'%options[10])
 #f.write('Stats\tshape\t-\t1.0\t-\t-\t-\t-\t-\t-\t-\n')
 #f.write('Stats\tshape\t-\t-\t1.0\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_ZjLF_%s\tshape\t-\t-\t-\t1.0\t-\t-\t-\t-\t-\n'%options[10])
-f.write('CMS_vhbb_stats_ZjHF_%s\tshape\t-\t-\t-\t-\t1.0\t-\t-\t-\t-\n'%options[10])
-f.write('CMS_vhbb_stats_TT_%s\tshape\t-\t-\t-\t-\t-\t1.0\t-\t-\t-\n'%options[10])
-f.write('CMS_vhbb_stats_s_Top_%s\tshape\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\n'%options[10])
-f.write('CMS_vhbb_stats_VV_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\n'%options[10])
+f.write('CMS_vhbb_stats_ZjLF_%s\tshape\t-\t-\t-\t1.0\t-\t-\t-\t-\t-\t-\n'%options[10])
+f.write('CMS_vhbb_stats_ZjCF_%s\tshape\t-\t-\t-\t-\t1.0\t-\t-\t-\t-\t-\n'%options[10])
+f.write('CMS_vhbb_stats_ZjHF_%s\tshape\t-\t-\t-\t-\t-\t1.0\t-\t-\t-\t-\n'%options[10])
+f.write('CMS_vhbb_stats_TT_%s\tshape\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\t-\n'%options[10])
+f.write('CMS_vhbb_stats_s_Top_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\n'%options[10])
+f.write('CMS_vhbb_stats_VV_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\n'%options[10])
 #f.write('Stats\tshape\t-\t-\t-\t-\t-\t-\t-\t-\t1.0\n')
 
 #Sig115 Wudscg Wbb Zudscg Zbb TTbar ST VV QCD
 
 #SYST
-f.write('CMS_JER\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
-f.write('CMS_JES\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
-f.write('CMS_beff\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
-f.write('CMS_bmis\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+f.write('CMS_JER\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+f.write('CMS_JES\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+f.write('CMS_beff\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+f.write('CMS_bmis\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
 
 
 f.close()
