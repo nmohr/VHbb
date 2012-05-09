@@ -36,6 +36,8 @@ void write_datacard( RooFitResult & fitRes, std::vector<RooRealVar*> & f_vars ){
    myfile.open ("Pt100SFupdate.txt");
    std::ofstream datacard;
    datacard.open ("DataCard_Pt100SFupdate.txt");
+   std::ofstream correlation_matrix;
+   correlation_matrix.open ("CorrelationMatrix_Pt100.txt");
 
    std::string DYL = "f_DYL";
    std::string DYC = "f_DYC";
@@ -64,37 +66,59 @@ void write_datacard( RooFitResult & fitRes, std::vector<RooRealVar*> & f_vars ){
      for(int j=0; j<fit_vars.size(); ++j)
        Corr[i][j] = fitRes.correlation( *fit_vars.at(i), *fit_vars.at(j) );
 
+
    myfile << "CMS_vhbb_ZjLF_SF    lnN    -    -     -    " << fit_vars.at(dyl_idx)->getVal() << "  -    -   -   -   -   -" << std::endl;
    datacard << "CMS_vhbb_ZjLF_SF    lnN    -    -     -    " << 
      1 + fit_vars.at(dyl_idx)->getError() << "  " << 
-     1 - ((int)(0.5-Corr[dyl_idx][dyc_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
-     1 - ((int)(0.5-Corr[dyl_idx][dyb_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
-     1 - ((int)(0.5-Corr[dyl_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
+     1 + ((Corr[dyl_idx][dyc_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
+     1 + ((Corr[dyl_idx][dyb_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 + ((Corr[dyl_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
      "   -   -   -   -" << std::endl;
+   correlation_matrix <<
+     ((Corr[dyl_idx][dyl_idx])) << "  " << 
+     ((Corr[dyl_idx][dyc_idx])) << "  " << 
+     ((Corr[dyl_idx][dyb_idx])) << "  " << 
+     ((Corr[dyl_idx][ttbar_idx])) << "  " << std::endl;
     
    myfile << "CMS_vhbb_ZjCF_SF    lnN    -    -     -    -    " << fit_vars.at(dyc_idx)->getVal() <<"    -   -   -   -" << std::endl;
    datacard << "CMS_vhbb_ZjCF_SF    lnN    -    -     -   " <<  
-     1 - ((int)(0.5-Corr[dyc_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
+     1 + ((Corr[dyc_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
      1 + fit_vars.at(dyc_idx)->getError() << "  " << 
-     1 - ((int)(0.5-Corr[dyc_idx][dyb_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
-     1 - ((int)(0.5-Corr[dyc_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
+     1 + ((Corr[dyc_idx][dyb_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 + ((Corr[dyc_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
      "   -   -   -   -" << std::endl;
+   correlation_matrix << 
+     ((Corr[dyc_idx][dyl_idx])) << "  " << 
+     ((Corr[dyc_idx][dyc_idx])) << "  " << 
+     ((Corr[dyc_idx][dyb_idx])) << "  " << 
+     ((Corr[dyc_idx][ttbar_idx])) << "  " << std::endl;
 
    myfile << "CMS_vhbb_ZjHF_SF    lnN    -    -     -    -    - " << fit_vars.at(dyb_idx)->getVal() <<"    -   -   -   -" << std::endl;
    datacard << "CMS_vhbb_ZjHF_SF    lnN    -    -     -   " <<  
-     1 - ((int)(0.5-Corr[dyb_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
-     1 - ((int)(0.5-Corr[dyb_idx][dyc_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 + ((Corr[dyb_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
+     1 + ((Corr[dyb_idx][dyc_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
      1 + fit_vars.at(dyb_idx)->getError() << "  " << 
-     1 - ((int)(0.5-Corr[dyb_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
+     1 + ((Corr[dyb_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
      "   -   -   -   -" << std::endl;
+   correlation_matrix <<
+     ((Corr[dyb_idx][dyl_idx])) << "  " << 
+     ((Corr[dyb_idx][dyc_idx])) << "  " << 
+     ((Corr[dyb_idx][dyb_idx])) << "  " << 
+     ((Corr[dyb_idx][ttbar_idx])) << "  " << std::endl;
    
    myfile << "CMS_vhbb_TT_SF      lnN    -    -     -    -    -   -  " <<  fit_vars.at(ttbar_idx)->getVal() << "   -   -   -" << std::endl;
    datacard << "CMS_vhbb_TT_SF    lnN    -    -     -   " <<  
-     1 - ((int)(0.5-Corr[dyb_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
-     1 - ((int)(0.5-Corr[dyb_idx][dyc_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 + ((Corr[ttbar_idx][dyl_idx])) * (fit_vars.at(dyc_idx)->getError()) << "  " << 
+     1 + ((Corr[ttbar_idx][dyc_idx])) * (fit_vars.at(dyb_idx)->getError()) << "  " << 
+     1 + ((Corr[ttbar_idx][dyb_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
      1 + fit_vars.at(dyb_idx)->getError() << "  " << 
-     1 - ((int)(0.5-Corr[dyb_idx][ttbar_idx])) * (fit_vars.at(ttbar_idx)->getError()) << "  " << 
      "   -   -   -   -" << std::endl;
+   correlation_matrix <<
+     ((Corr[ttbar_idx][dyl_idx])) << "  " << 
+     ((Corr[ttbar_idx][dyc_idx])) << "  " << 
+     ((Corr[ttbar_idx][dyb_idx])) << "  " <<
+     ((Corr[ttbar_idx][ttbar_idx])) << "  " <<  std::endl;
+
      
    myfile.close();  
    datacard.close();  
@@ -116,6 +140,8 @@ int main(int argc, char **argv){
   double fa = 0.46502;
   double fb = 0.53498;
   bool debug_=false;
+  bool fitSys = false;
+  bool fitMCsyst = false;
 
   if(debug_)
     std::cout << "Init the sample" << std::endl;
@@ -161,7 +187,6 @@ int main(int argc, char **argv){
   std::vector<fitInfo *> fitInfos;
   std::vector<controlRegion*> crToFit;  
 
-  bool fitSys = false;
   std::string s_channel = "HZcombSB";
   //  std::string s_channel = "HZeeSB";
   std::string s_prefix = "BDT";
@@ -176,7 +201,7 @@ int main(int argc, char **argv){
   std::string s_suffix_ttbar_SB = "$";
   //  std::string s_suffix_ttbar_SB = "SystDOWN$";
   std::string s_region_Zbb_SB = "SideBand"; // Zbb sideband
-  std::string s_var_Zbb_SB = "HiggsMass"; 
+  std::string s_var_Zbb_SB = "HiggsMass"; //HiggsMass
   std::string s_region_ttbar_SB = "TTbarControl";
   std::string s_var_ttbar_SB = "MET_et"; // one addjet required  
   std::string s_region_Zlight_SB = "SideBand";
@@ -199,7 +224,7 @@ int main(int argc, char **argv){
     std::cout << " filled the fit info " << std::endl;
  
   Options o;
-  double SF[] = {1.0,1.0,1.0}; // SF for scaling
+  double SF[] = {1.0,1.0,1.0,1.0}; // SF for scaling
   TH1F * h = new TH1F;
   h->Sumw2();
 
@@ -213,15 +238,15 @@ int main(int argc, char **argv){
 	  if(!s[j].data)
 	    h->Scale(s[j].scale(data.lumi(),fa,fb,SF));
 	  for( int r=0; r<fitInfos.size(); ++r ){
-	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionString).c_str())) ){
-	      //	      if(debug_) std::cout << "Filling fitting region " << (fitInfos.at(r)->s_regionString).c_str() << std::endl;
+	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionString).c_str())) ){ // normal histograms
+	      if(debug_) std::cout << "Filling fitting region " << (fitInfos.at(r)->s_regionString).c_str() << std::endl;
 	      crToFit.at(r)->fillFromHisto(s[j], *h, 1 , h->GetNbinsX() );
 	    }
-	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionForSyst).c_str())) ){
-	      //	      if(debug_) std::cout << "Filling template region " << (fitInfos.at(r)->s_regionForSyst).c_str() << std::endl;
+	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionForSyst).c_str())) ){ // hitos with systematics variations
+	      if(debug_) std::cout << "Filling template region " << (fitInfos.at(r)->s_regionForSyst).c_str() << std::endl;
 	      fitInfos.at(r)->cr->fillFromHisto(s[j], *h, 1 , h->GetNbinsX() ); // no under/overflow considered
 	    }
-	    if( n.Contains(TRegexp((fitInfos.at(r)->s_signalRegion).c_str())) )
+	    if( n.Contains(TRegexp((fitInfos.at(r)->s_signalRegion).c_str())) ) // signal region. 
 	      fitInfos.at(r)->cr_signal->fillFromHisto(s[j], *h ,1 , h->GetNbinsX() ); // no under/overflow considered
 	    
 	  } // fitinfo loop
@@ -231,7 +256,7 @@ int main(int argc, char **argv){
   delete h;
 
   for(int i=0; i<fitInfos.size(); ++i){
-    if(fitSys) fitInfos.at(i)->fillHistoToFit( *crToFit.at(i)->hTotal() );
+    if(fitSys && fitMCsyst) fitInfos.at(i)->fillHistoToFit( *crToFit.at(i)->hTotal() );
     else  fitInfos.at(i)->fillHistoToFit( *crToFit.at(i)->hData() );
   }    
 
@@ -255,11 +280,9 @@ int main(int argc, char **argv){
   std::vector<double> sf_fixed( fixedTemplateNames.size() ,1.);
   std::vector<double> sf( templateNames.size() ,1.);
   std::vector<RooRealVar*> f_vars;
-  for(int i=0; i<fixedTemplateNames.size(); ++i)
-    //    f_vars.push_back( new RooRealVar(("f_"+fixedTemplateNames.at(i)).c_str(),("f_"+fixedTemplateNames.at(i)).c_str(), fitInfos.at(0)->cr_signal->count(fixedTemplateNames.at(i)) ) );
+  for(int i=0; i<fixedTemplateNames.size(); ++i) //fixed templates
     f_vars.push_back( new RooRealVar(("f_"+fixedTemplateNames.at(i)).c_str(),("f_"+fixedTemplateNames.at(i)).c_str(), sf_fixed.at(i) ) );
-  for(int i=0; i<templateNames.size(); ++i)
-    //    f_vars.push_back( new RooRealVar(("f_"+templateNames.at(i)).c_str(),("f_"+templateNames.at(i)).c_str(), fitInfos.at(0)->cr_signal->count(templateNames.at(i)), 0.5*fitInfos.at(0)->cr_signal->count(templateNames.at(i)) , 2.*fitInfos.at(0)->cr_signal->count(templateNames.at(i))) );
+  for(int i=0; i<templateNames.size(); ++i) // variable templates
     f_vars.push_back( new RooRealVar(("f_"+templateNames.at(i)).c_str(),("f_"+templateNames.at(i)).c_str(), sf.at(i) , 0.5*sf.at(i) , 200.*sf.at(i) ) );
 
   for(int i=0; i<f_vars.size(); ++i)

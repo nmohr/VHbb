@@ -24,7 +24,7 @@ void plottingmacro()
   bool debug_ = false;
   bool getSFfromFile = true;
 
-  std::string path("PlotsApr25/");
+  std::string path("PlotsMay5/");
 
   if(debug_)
     std::cout << "Init the style form setTDRStyle" << std::endl;

@@ -97,6 +97,9 @@ class BDTSideBandRegionHZcombSB: public CutSample{
 	     && p.hJet_PT(1,jec) > 20. 
 	     && p.hJet_CSV(0,btag) > CSVL 
 	     && p.hJet_CSV(1,btag) > CSVL 
+	     //Loose-Custom : ONLY FOR THE FIT for Scale Factors 
+	     && ( p.hJet_CSV(0,btag) > CSVC 
+		  || p.hJet_CSV(1,btag) > CSVC )
 	     //	     && p.Higgs(jec).Pt() > 100. 
 	     && p.V_pt < 100. 
 	     && p.V_pt > 50. 
@@ -158,6 +161,7 @@ class BDTSignalRegionHZcombSB: public CutSample{
 };
 
 
+//the same as the sideband region but with Loose-Loose
 class BDTZbbControlRegionHZcombSB: public CutSample{
  public:
  BDTZbbControlRegionHZcombSB(int jec_ = 0, int btag_ = 0):
@@ -170,7 +174,7 @@ class BDTZbbControlRegionHZcombSB: public CutSample{
 /* 	     && p.hJet_vtxMass[0] > 0. */
 /* 	     && p.hJet_vtxMass[1] > 0. */
   	     && p.V_pt < 100. 
-  	     && p.V_pt > 50. 
+  	     && p.V_pt > 50.
 	     //   	     && p.Higgs(jec).Pt() > 100.  
 	     && p.V_mass > 75. 
 	     && p.V_mass < 105 

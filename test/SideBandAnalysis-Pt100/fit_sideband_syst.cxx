@@ -50,6 +50,8 @@ int main(int argc, char **argv){
   double fa = 0.46502;
   double fb = 0.53498;
   bool debug_=false;
+  bool fitSys = true;
+  bool fitMC = false;
 
   std::string btag_up = "btag_up";
   std::string btag_down = "btag_down";
@@ -79,7 +81,6 @@ int main(int argc, char **argv){
     std::cout << "Init the sample" << std::endl;
  
   std::vector<Sample> s = Nov10SideBandHistos();
-  //std::vector<Sample> s = Nov10Fall1160MTopSlimSideBandHistos();
 
   Sample data(1,"fake data","S1.root",0,true,1000);
 
@@ -119,26 +120,26 @@ int main(int argc, char **argv){
   std::vector<fitInfo *> fitInfos;
   std::vector<controlRegion*> crToFit;  
 
-  bool fitSys = true;
+
   std::string s_channel = "HZcombSB";
   //  std::string s_channel = "HZeeSB";
   std::string s_prefix = "BDT";
   // systematics prefix is needed for the yields effect
-  //std::string s_sysprefix = "SystBtagFUPBDT"; //BDTSystJecDOWN, BDTSystBtagFDOWN 
+  //  std::string s_sysprefix = "SystBtagUPBDT"; //BDTSystJecDOWN, BDTSystBtagFDOWN 
   std::string s_sysprefix = "BDT";
-  std::string s_region_Zbb_SB = "SideBand"; // Zbb sideband
-  std::string s_var_Zbb_SB = "HiggsMass"; 
+  std::string s_region_Zbb_SB = "SideBand"; // SideBand
+  std::string s_var_Zbb_SB = "HiggsPt"; 
   std::string s_region_ttbar_SB = "TTbarControl";
   std::string s_var_ttbar_SB = "MET_et"; // one addjet required  
   std::string s_region_Zlight_SB = "SideBand";
   std::string s_var_Zlight_SB = "SimpleJet1_bTag";
 
   if(debug_)
-    std::cout << " fillinf the fit info " << std::endl;
+    std::cout << " filling the fit info " << std::endl;
 
   fitInfos.push_back( new fitInfo(s_region_Zbb_SB,s_var_Zbb_SB,s_prefix,s_sysprefix,s_suffix_Zbb_SB,s_channel,0,250) );
   fitInfos.push_back( new fitInfo(s_region_ttbar_SB,s_var_ttbar_SB,s_prefix,s_sysprefix,s_suffix_ttbar_SB,s_channel,0,150) );
-  //fitInfos.push_back( new fitInfo(s_region_Zlight_SB,s_var_Zlight_SB,s_prefix,s_sysprefix,s_suffix_Zlight_SB,s_channel,0,1) );
+  fitInfos.push_back( new fitInfo(s_region_Zlight_SB,s_var_Zlight_SB,s_prefix,s_sysprefix,s_suffix_Zlight_SB,s_channel,0.3,1) );
 
   std::string signalString = s_sysprefix+"SignalRegion"+s_channel+"/HiggsMass"+s_sysprefix+"SignalRegion"+s_channel+"$";
   for(int i=0; i<fitInfos.size(); ++i){
@@ -156,7 +157,7 @@ int main(int argc, char **argv){
   //here I need to get the SF from the file
   std::ifstream SFfile;
   std::string line;
-  SFfile.open("DataCard_Pt100SFupdate.txt");
+  SFfile.open("Pt100SFupdate.txt");
   if (SFfile.is_open()){
     while ( getline(SFfile,line) ){
       size_t pos_point = line.find('.'); // decimal of the double
@@ -184,15 +185,15 @@ int main(int argc, char **argv){
 	  if(!s[j].data)
 	    h->Scale(s[j].scale(data.lumi(),fa,fb,SF));
 	  for( int r=0; r<fitInfos.size(); ++r ){
-	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionString).c_str())) ){
-	      //	      if(debug_) std::cout << "Filling fitting region " << (fitInfos.at(r)->s_regionString).c_str() << std::endl;
+	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionString).c_str())) ){ // normal histos
+	      if(debug_) std::cout << "Filling fitting region " << (fitInfos.at(r)->s_regionString).c_str() << std::endl;
 	      crToFit.at(r)->fillFromHisto(s[j], *h, 1 , h->GetNbinsX() );
 	    }
-	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionForSyst).c_str())) ){
-	      //	      if(debug_) std::cout << "Filling template region " << (fitInfos.at(r)->s_regionForSyst).c_str() << std::endl;
+	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionForSyst).c_str())) ){ // histos with systematics variations
+	      if(debug_) std::cout << "Filling systematics template region " << (fitInfos.at(r)->s_regionForSyst).c_str() << std::endl;
 	      fitInfos.at(r)->cr->fillFromHisto(s[j], *h, 1 , h->GetNbinsX() ); // no under/overflow considered
 	    }
-	    if( n.Contains(TRegexp((fitInfos.at(r)->s_signalRegion).c_str())) )
+	    if( n.Contains(TRegexp((fitInfos.at(r)->s_signalRegion).c_str())) ) // signal region. FIXME:  Really needed here for syst?
 	      fitInfos.at(r)->cr_signal->fillFromHisto(s[j], *h ,1 , h->GetNbinsX() ); // no under/overflow considered
 	    
 	  } // fitinfo loop
@@ -202,8 +203,14 @@ int main(int argc, char **argv){
   delete h;
 
   for(int i=0; i<fitInfos.size(); ++i){
-    if(fitSys) fitInfos.at(i)->fillHistoToFit( *crToFit.at(i)->hTotal() );
-    else  fitInfos.at(i)->fillHistoToFit( *crToFit.at(i)->hData() );
+    if(fitSys == true && fitMC ==  true){
+      std::cout << " ==== Fitting MC ====" << std::endl;
+      fitInfos.at(i)->fillHistoToFit( *crToFit.at(i)->hTotal() );
+    }
+    else{
+      std::cout << " ==== Fitting Data ====" << std::endl;
+      fitInfos.at(i)->fillHistoToFit( *crToFit.at(i)->hData() );
+    }
   }    
 
   std::string zlightTemplate = "DYL";
@@ -223,14 +230,12 @@ int main(int argc, char **argv){
   fixedTemplateNames.push_back(stTemplate);
   fixedTemplateNames.push_back(vvTemplate);
 
-  std::vector<double> sf_fixed( fixedTemplateNames.size() ,1.);
-  std::vector<double> sf( templateNames.size() ,1.);
+  std::vector<double> sf_fixed( fixedTemplateNames.size() ,1.0);
+  std::vector<double> sf( templateNames.size() ,1.0);
   std::vector<RooRealVar*> f_vars;
-  for(int i=0; i<fixedTemplateNames.size(); ++i)
-    //    f_vars.push_back( new RooRealVar(("f_"+fixedTemplateNames.at(i)).c_str(),("f_"+fixedTemplateNames.at(i)).c_str(), fitInfos.at(0)->cr_signal->count(fixedTemplateNames.at(i)) ) );
+  for(int i=0; i<fixedTemplateNames.size(); ++i) //fixed templates
     f_vars.push_back( new RooRealVar(("f_"+fixedTemplateNames.at(i)).c_str(),("f_"+fixedTemplateNames.at(i)).c_str(), sf_fixed.at(i) ) );
-  for(int i=0; i<templateNames.size(); ++i)
-    //    f_vars.push_back( new RooRealVar(("f_"+templateNames.at(i)).c_str(),("f_"+templateNames.at(i)).c_str(), fitInfos.at(0)->cr_signal->count(templateNames.at(i)), 0.5*fitInfos.at(0)->cr_signal->count(templateNames.at(i)) , 2.*fitInfos.at(0)->cr_signal->count(templateNames.at(i))) );
+  for(int i=0; i<templateNames.size(); ++i) // variable templates
     f_vars.push_back( new RooRealVar(("f_"+templateNames.at(i)).c_str(),("f_"+templateNames.at(i)).c_str(), sf.at(i) , 0.5*sf.at(i) , 200.*sf.at(i) ) );
 
   for(int i=0; i<f_vars.size(); ++i)
@@ -277,12 +282,12 @@ int main(int argc, char **argv){
 
    RooDataHist combData("combData","combined data",
 			RooArgSet( *fitInfos.at(0)->var ,
-				   *fitInfos.at(1)->var ),
-				   //				   *fitInfos.at(2)->var ),
+				   *fitInfos.at(1)->var ,
+				   *fitInfos.at(2)->var ),
 			Index(varToFit),
 			Import(fitInfos.at(0)->var->GetName(),*fitInfos.at(0)->h_data),
-			Import(fitInfos.at(1)->var->GetName(),*fitInfos.at(1)->h_data));
-   //			Import(fitInfos.at(2)->var->GetName(),*fitInfos.at(2)->h_data));
+			Import(fitInfos.at(1)->var->GetName(),*fitInfos.at(1)->h_data),
+			Import(fitInfos.at(2)->var->GetName(),*fitInfos.at(2)->h_data));
 
   
    std::cout << "Generatign RooSimultaneous ............ " << std::endl;
@@ -293,7 +298,7 @@ int main(int argc, char **argv){
 
    std::cout << "FITTING  ............ " << std::endl;
 
-   RooFitResult * fitRes = simPdf.fitTo(combData,SumW2Error(1));
+   RooFitResult * fitRes = simPdf.fitTo(combData,SumW2Error(1),Save());
 
    std::cout << " ==== Scale Factor ==== " << std::endl;
    for(int i=0; i<f_vars.size(); ++i)
@@ -311,7 +316,7 @@ int main(int argc, char **argv){
        f_vars.at(i)->GetName() == DYC ||
        f_vars.at(i)->GetName() == DYB ||
        f_vars.at(i)->GetName() == TTbar )
-     errorfile << f_vars.at(i)->GetName() << " " << syst_string + " error = " << f_vars.at(i)->getVal() << std::endl;
+     errorfile << f_vars.at(i)->GetName() << " " << syst_string + " syst error = " << TMath::Abs(1-f_vars.at(i)->getVal()) << std::endl;
    errorfile.close();  
 
    //cleaning
