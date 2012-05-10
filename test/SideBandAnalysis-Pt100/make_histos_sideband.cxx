@@ -4,7 +4,7 @@
 #include <iostream>
 #include "../../interface/CutsAndHistos.h"
 #include "../../plugins/Histos.h"
-#include "../../plugins/Cuts/CutsSideBand.h"
+#include "../../plugins/Cuts/CutsSideBand-Pt100.h"
 //#include "../Cuts/CutsSideBandZee.h"
 //#include "../Cuts/CutsSideBandZmm.h"
 #include "../../interface/ntupleReader.hpp"
