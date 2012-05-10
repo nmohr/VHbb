@@ -1,10 +1,10 @@
 #ifndef CUTSPAPER1211_H
 #define CUTSPAPER1211_H
-#include "CutsAndHistos.h"
-#include "ntupleReader.h"
+#include "../../interface/CutsAndHistos.h"
+#include "../../interface/ntupleReader.hpp"
+#include "../../interface/samples.hpp"
 #include <TH1F.h>
 #include <sstream>
-#include "samples.h"
 #include "TKey.h"
 
 #define CSVM 0.679
@@ -56,10 +56,10 @@ std::string generateName( std::string & baseName, int btag = 0, int jec = 0 ) {
     return baseName;
 };
 
-class CnCVlightRegionHZcomb: public CutSample {
+class CnCVlightControlRegionHZcomb: public CutSample {
  public:
- CnCVlightRegionHZcomb(int jec_=0, int btag_=0 ):
-  jec(jec_),btag(btag_){baseName="CnCVlightRegionHZcomb"; };
+ CnCVlightControlRegionHZcomb(int jec_=0, int btag_=0 ):
+  jec(jec_),btag(btag_){baseName="CnCVlightControlRegionHZcomb"; };
   Bool_t pass(ntupleReader &p){
     return ( p.Vtype == 1 
 	     && p.V_mass > 75.
@@ -74,7 +74,8 @@ class CnCVlightRegionHZcomb: public CutSample {
 	     && TMath::Abs( p.HVdPhi ) > 2.9
 	     && p.CountAddJets() < 2
 	     && !(p.hJet_CSV(0,btag) > CSVT || p.hJet_CSV(1,btag) > CSVT ) 
-	     && ( p.triggerFlags[5] || p.triggerFlags[6] ) );
+	     && ( (  p.Vtype == 1 && ( p.triggerFlags[5] || p.triggerFlags[6] ) )
+		  || ( p.Vtype == 0 && (((p.EVENT_run<173198 && (p.triggerFlags[0]>0 || p.triggerFlags[13]>0 || p.triggerFlags[14]>0 || p.triggerFlags[20]>0 || p.triggerFlags[21]>0)) || (p.EVENT_run>=173198 && p.EVENT_run<175832  && (p.triggerFlags[13]>0 ||p.triggerFlags[14]>0 || p.triggerFlags[22]>0 || p.triggerFlags[23]>0))|| (p.EVENT_run>=175832 && p.EVENT_run<178390 && (p.triggerFlags[13]>0 ||p.triggerFlags[14]>0 ||p.triggerFlags[15]>0 || p.triggerFlags[21]>0 || p.triggerFlags[22]>0 || p.triggerFlags[23]>0)) || (p.EVENT_run>=178390 && (p.triggerFlags[14]>0 ||p.triggerFlags[15]>0 || p.triggerFlags[21]>0 || p.triggerFlags[22]>0 || p.triggerFlags[23]>0 || p.triggerFlags[24]>0 || p.triggerFlags[25]>0 || p.triggerFlags[26]>0 || p.triggerFlags[27]>0)))) ) )  );
   }
   Bool_t pass(ntupleReader &p, Sample &sample){
     return (sCut ( p, sample ) == true && pass(p) );   
@@ -90,10 +91,10 @@ class CnCVlightRegionHZcomb: public CutSample {
 };
 
 
-class CnCTTbarRegionHZcomb: public CutSample {
+class CnCTTbarControlRegionHZcomb: public CutSample {
  public: 
- CnCTTbarRegion(int jec_=0, int btag_=0):
-  jec(jec_),btag(btag_){ baseName = "CnCTTbarRegionHZcomb";};
+ CnCTTbarControlRegionHZcomb(int jec_=0, int btag_=0):
+  jec(jec_),btag(btag_){ baseName = "CnCTTbarControlRegionHZcomb";};
   Bool_t pass(ntupleReader &p){
     return( ( p.V_mass > 105.
 		 || p.V_mass < 75. )
@@ -121,11 +122,11 @@ class CnCTTbarRegionHZcomb: public CutSample {
 
 };
 
-class CnCVbbRegionHZcomb: public CutSample {
+class CnCVbbControlRegionHZcomb: public CutSample {
 
  public:
- CnCVbbRegionHZcomb(int jec_=0, btag_=0):
-  jec(jec_),btag(btag_){ baseName = "CnCVbbRegionHZcomb";};
+ CnCVbbControlRegionHZcomb(int jec_=0,int btag_=0):
+  jec(jec_),btag(btag_){ baseName = "CnCVbbControlRegionHZcomb";};
   Bool_t pass(ntupleReader &p){
     return( p.V_mass > 75.
 	    && p.V_mass < 105. 
