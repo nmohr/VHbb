@@ -25,13 +25,11 @@ config.read('./config')
 #get locations:
 Wdir=config.get('Directories','Wdir')
 
-
 #systematics
 systematics=config.get('systematics','systematics')
 systematics=systematics.split(' ')
 
 weightF=config.get('Weights','weightF')
-
 
 def getTree(job,cut):
     Tree = ROOT.TChain(job.tree)
@@ -42,17 +40,12 @@ def getTree(job,cut):
     print '\t--> read in %s'%job.name
     return CuttedTree
         
-
-
 def getScale(job):
     input = TFile.Open(job.getpath())
     CountWithPU = input.Get("CountWithPU")
     CountWithPU2011B = input.Get("CountWithPU2011B")
     #print lumi*xsecs[i]/hist.GetBinContent(1)
     return float(job.lumi)*float(job.xsec)*float(job.sf)/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*2/float(job.split)
-
-
-
 
 run=sys.argv[1]
 gui=sys.argv[2]

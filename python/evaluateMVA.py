@@ -25,6 +25,7 @@ config.read('./config')
 #get locations:
 Wdir=config.get('Directories','Wdir')
 
+MVAdir=config.get('Directories','MVAdir')
 
 #systematics
 systematics=config.get('systematics','systematics')
@@ -42,14 +43,10 @@ for systematic in systematics:
 Apath=sys.argv[1]
 arglist=sys.argv[2] #RTight_blavla,bsbsb
 
-#for axample
-#0 5 0
-#and
-#5 -1 1
+namelistIN=sys.argv[3]
+namelist=namelistIN.split(',')
 
-start=int(sys.argv[3])
-stop=int(sys.argv[4])
-doinfo=bool(int(sys.argv[5]))
+doinfo=bool(int(sys.argv[4]))
 
 MVAlist=arglist.split(',')
 
@@ -112,115 +109,115 @@ Ainfo = pickle.load(infofile)
 infofile.close()
 
 #eval
-for job in Ainfo[start:stop]:
-    #get trees:
-    input = TFile.Open(job.getpath(),'read')
-    outfile = TFile.Open(job.path+'/MVAout/'+job.prefix+job.identifier+'.root','recreate')
-    input.cd()
-    obj = ROOT.TObject
-    for key in ROOT.gDirectory.GetListOfKeys():
-        input.cd()
-        obj = key.ReadObj()
-        #print obj.GetName()
-        if obj.GetName() == job.tree:
-            continue
-        outfile.cd()
-        #print key.GetName()
-        obj.Write(key.GetName())
-    tree = input.Get(job.tree)
-    nEntries = tree.GetEntries()
-    outfile.cd()
-    newtree = tree.CloneTree(0)
+for job in Ainfo:
 
-    #MCs:
-    if job.type != 'DATA':
-        MVA_formulas={}
-        for systematic in systematics: 
-            #print '\t\t - ' + systematic
-            MVA_formulas[systematic]=[]
+    if job.name in namelist:
+        #get trees:
+        input = TFile.Open(job.getpath(),'read')
+        outfile = TFile.Open(job.path+'/'+MVAdir+job.prefix+job.identifier+'.root','recreate')
+        input.cd()
+        obj = ROOT.TObject
+        for key in ROOT.gDirectory.GetListOfKeys():
+            input.cd()
+            obj = key.ReadObj()
+            #print obj.GetName()
+            if obj.GetName() == job.tree:
+                continue
+            outfile.cd()
+            #print key.GetName()
+            obj.Write(key.GetName())
+        tree = input.Get(job.tree)
+        nEntries = tree.GetEntries()
+        outfile.cd()
+        newtree = tree.CloneTree(0)
+
+        #MCs:
+        if job.type != 'DATA':
+            MVA_formulas={}
+            for systematic in systematics: 
+                #print '\t\t - ' + systematic
+                MVA_formulas[systematic]=[]
+                #create TTreeFormulas
+                for j in range(len( MVA_Vars['Nominal'])):
+                    MVA_formulas[systematic].append(ROOT.TTreeFormula("MVA_formula%s_%s"%(j,systematic),MVA_Vars[systematic][j],tree))
+            outfile.cd()
+            #Setup Branches
+            MVAbranches=[]
+            for i in range(0,len(readers)):
+                MVAbranches.append(array('f',[0]*9))
+                newtree.Branch(MVAinfos[i].MVAname,MVAbranches[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down/F')
+            print '\n--> ' + job.name +':'
+            #progbar setup
+            if nEntries >= longe:
+                step=int(nEntries/longe)
+                long=longe
+            else:
+                long=nEntries
+                step = 1
+            bar=progbar(long)
+            #Fill event by event:
+            for entry in range(0,nEntries):
+                if entry % step == 0:
+                    bar.move()
+                #load entry
+                tree.GetEntry(entry)
+                for systematic in systematics:
+                    for j in range(len( MVA_Vars['Nominal'])):
+                        MVA_var_buffer[j][0] = MVA_formulas[systematic][j].EvalInstance()
+                        
+                    for j in range(0,len(readers)):
+                        MVAbranches[j][systematics.index(systematic)] = readers[j].EvaluateMVA(MVAinfos[j].MVAname)
+                #Fill:
+                newtree.Fill()
+            newtree.AutoSave()
+            outfile.Close()
+            
+        #DATA:
+        if job.type == 'DATA':
+            #MVA Formulas
+            MVA_formulas_Nominal = []
             #create TTreeFormulas
             for j in range(len( MVA_Vars['Nominal'])):
-                MVA_formulas[systematic].append(ROOT.TTreeFormula("MVA_formula%s_%s"%(j,systematic),MVA_Vars[systematic][j],tree))
-        outfile.cd()
-        #Setup Branches
-        MVAbranches=[]
-        for i in range(0,len(readers)):
-            MVAbranches.append(array('f',[0]*9))
-            newtree.Branch(MVAinfos[i].MVAname,MVAbranches[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down/F')
-        print '\n--> ' + job.name +':'
-        #progbar setup
-        if nEntries >= longe:
-            step=int(nEntries/longe)
-            long=longe
-        else:
-            long=nEntries
-            step = 1
-        bar=progbar(long)
-        #Fill event by event:
-        for entry in range(0,nEntries):
-            if entry % step == 0:
-                bar.move()
-            #load entry
-            tree.GetEntry(entry)
-            for systematic in systematics:
+                MVA_formulas_Nominal.append(ROOT.TTreeFormula("MVA_formula%s_Nominal"%j, MVA_Vars['Nominal'][j],tree))
+            outfile.cd()
+            MVAbranches=[]
+            for i in range(0,len(readers)):
+                MVAbranches.append(array('f',[0]))
+                newtree.Branch(MVAinfos[i].MVAname,MVAbranches[i],'nominal/F') 
+            #progbar           
+            print '\n--> ' + job.name +':'
+            if nEntries >= longe:
+                step=int(nEntries/longe)
+                long=longe
+            else:
+                long=nEntries
+                step = 1
+            bar=progbar(long)
+            #Fill event by event:
+            for entry in range(0,nEntries):
+                if entry % step == 0:
+                    bar.move()
+                #load entry
+                tree.GetEntry(entry)
+                #nominal:
                 for j in range(len( MVA_Vars['Nominal'])):
-                    MVA_var_buffer[j][0] = MVA_formulas[systematic][j].EvalInstance()
-                    
+                        MVA_var_buffer[j][0] = MVA_formulas_Nominal[j].EvalInstance()
+                        
                 for j in range(0,len(readers)):
-                    MVAbranches[j][systematics.index(systematic)] = readers[j].EvaluateMVA(MVAinfos[j].MVAname)
-            #Fill:
-            newtree.Fill()
-        newtree.AutoSave()
-        outfile.Close()
-        
-    #DATA:
-    if job.type == 'DATA':
-        #MVA Formulas
-        MVA_formulas_Nominal = []
-        #create TTreeFormulas
-        for j in range(len( MVA_Vars['Nominal'])):
-            MVA_formulas_Nominal.append(ROOT.TTreeFormula("MVA_formula%s_Nominal"%j, MVA_Vars['Nominal'][j],tree))
-        outfile.cd()
-        MVAbranches=[]
-        for i in range(0,len(readers)):
-            MVAbranches.append(array('f',[0]))
-            newtree.Branch(MVAinfos[i].MVAname,MVAbranches[i],'nominal/F') 
-        #progbar           
-        print '\n--> ' + job.name +':'
-        if nEntries >= longe:
-            step=int(nEntries/longe)
-            long=longe
-        else:
-            long=nEntries
-            step = 1
-        bar=progbar(long)
-        #Fill event by event:
-        for entry in range(0,nEntries):
-            if entry % step == 0:
-                bar.move()
-            #load entry
-            tree.GetEntry(entry)
-            #nominal:
-            for j in range(len( MVA_Vars['Nominal'])):
-                    MVA_var_buffer[j][0] = MVA_formulas_Nominal[j].EvalInstance()
-                    
-            for j in range(0,len(readers)):
-                MVAbranches[j][0]= readers[j].EvaluateMVA(MVAinfos[j].MVAname)
-            newtree.Fill()
-        newtree.AutoSave()
-        outfile.Close()
+                    MVAbranches[j][0]= readers[j].EvaluateMVA(MVAinfos[j].MVAname)
+                newtree.Fill()
+            newtree.AutoSave()
+            outfile.Close()
 
-
-
-
+print '\n'
 
 #Update Info:
 if doinfo:
     for job in Ainfo:        
         for MVAinfo in MVAinfos:
             job.addcomment('Added MVA %s'%MVAinfo.MVAname)
-        job.addpath('/MVAout')
-    infofile = open(Apath+'/MVAout/samples.info','w')
+        job.addpath(MVAdir)
+    infofile = open(Apath+MVAdir+'/samples.info','w')
     pickle.dump(Ainfo,infofile)
     infofile.close()
 

@@ -10,9 +10,7 @@ from ROOT import TFile
 import ROOT
 from array import array
 
-
 #usage: ./write_systematic.py path
-
 
 path=sys.argv[1]
 
@@ -25,7 +23,6 @@ infofile.close()
 for job in info:
     if job.type != 'DATA':
         print '\t - %s' %(job.name)
-
         input = TFile.Open(job.getpath(),'read')
         output = TFile.Open(job.path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
 
@@ -43,24 +40,12 @@ for job in info:
 
         tree = input.Get(job.tree)
         nEntries = tree.GetEntries()
-        job.addpath('/sys')
-        output.cd()
-        newtree = tree.CloneTree(0)
-
-
-        '''
-        input = TFile.Open(job.getpath(),'read')
-        Count = input.Get("Count")
-        CountWithPU = input.Get("CountWithPU")
-        CountWithPU2011B = input.Get("CountWithPU2011B")
-        tree = input.Get(job.tree)
-        nEntries = tree.GetEntries()
         
         job.addpath('/sys')
-        output = ROOT.TFile(job.getpath(), 'RECREATE')
-        newtree = tree.CloneTree(0)
-        '''
         job.SYS = ['Nominal','JER_up','JER_down','JES_up','JES_down','beff_up','beff_down','bmis_up','bmis_down']
+
+        output.cd()
+        newtree = tree.CloneTree(0)
         
         hJ0 = ROOT.TLorentzVector()
         hJ1 = ROOT.TLorentzVector()
@@ -186,16 +171,38 @@ for job in info:
             newtree.Fill()
                    
         newtree.AutoSave()
-        #newtree.Write()            
-        #Count.Write()
-        #CountWithPU.Write()
-        #CountWithPU2011B.Write()
         output.Close()
-
+        
     else: #(is data)
     
-        shutil.copy(job.getpath(),path+'/sys')
+        print '\t - %s' %(job.name)
+        input = TFile.Open(job.getpath(),'read')
+        output = TFile.Open(job.path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
+        #input.cd()
+        obj = ROOT.TObject
+        for key in ROOT.gDirectory.GetListOfKeys():
+            input.cd()
+            obj = key.ReadObj()
+            if obj.GetName() == job.tree:
+                continue
+            output.cd()
+            obj.Write(key.GetName())
+        #output.cd()
+        tree = input.Get(job.tree)
+        nEntries = tree.GetEntries()
         job.addpath('/sys')
+        output.cd()
+        newtree = tree.CloneTree(0)
+        #Add training Flag
+        EventForTraining = array('f',[0])
+        newtree.Branch('EventForTraining',EventForTraining,'EventForTraining/F')
+        for entry in range(0,nEntries):
+            tree.GetEntry(entry)
+            EventForTraining[0]=0
+            newtree.Fill()
+        newtree.AutoSave()
+        output.Close()
+
 
 #dump info
 infofile = open(path+'/sys'+'/samples.info','w')

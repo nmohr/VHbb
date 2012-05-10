@@ -75,21 +75,7 @@ def getTree(job,cut):
     print '\t--> read in %s'%job.name
     return CuttedTree
        
-'''
-def getTree(job):
-    Tree = ROOT.TChain(job.tree)
-    Tree.Add(job.getpath())
-    Tree.SetDirectory(0)
-    #CuttedTree.SetDirectory(0)
-    return Tree
-''
-def getTree(job):
-    Tree = ROOT.TChain(job.tree)
-    Tree.Add(job.getpath())
-    Tree.SetDirectory(0)
-    #CuttedTree.SetDirectory(0)
-    return Tree
-'''
+
 def getScale(job):
     input = TFile.Open(job.getpath())
     CountWithPU = input.Get("CountWithPU")
@@ -151,50 +137,6 @@ def getHistoFromTree(job,options):
             
     return hTree, job.group
     
-'''
-def getHistoFromTree(job,options):
-    treeVar=options[0]
-    name=job.name
-    #title=job.plotname()
-    nBins=int(options[3])
-    xMin=float(options[4])
-    xMax=float(options[5])
-    if job.type != 'DATA':
-        cutcut=config.get('Cuts',options[7])
-        treeCut='%s&&EventForTraining==0'%cutcut
-
-    elif job.type == 'DATA':
-        treeCut=config.get('Cuts',options[8])
-
-    Tree = getTree(job,treeCut)
-
-    weightF=config.get('Weights','weightF')
-    hTree = ROOT.TH1F('%s'%name,'%s'%title,nBins,xMin,xMax)
-    hTree.Sumw2()
-    #print 'drawing...'
-    if job.type != 'DATA':
-        Tree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),'%s*(%s)' %(weightF,'1'), "goff,e")
-    else:
-        Tree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),'1', "goff,e")
-    hTree = ROOT.gDirectory.Get(name)
-    hTree.SetDirectory(0)
-    #print job.name + ' Sumw2', hTree.GetEntries()
-
-    if job.type != 'DATA':
-        ScaleFactor = getScale(job)
-        if ScaleFactor != 0:
-            hTree.Scale(ScaleFactor)
-            
-        print '\t-->import %s\t Integral: %s'%(job.name,hTree.Integral())
-            
-    return hTree, job.group
-
-
-'''
-
-
-
-
 
 ######################
 
@@ -295,11 +237,6 @@ for k in range(0,len(num)):
         if m > 0:
         
             #add
-            #for IND in range(histos[k].GetNbinsX()):
-            #    content=histos[k].GetBinContent(IND)+histos[k+1].GetBinContent(IND)
-            #    histos[k].SetBinContent(IND,content)
-            #histos[k].Sumw2()
-            #histos[k+1].Sumw2()
             histos[k].Add(histos[k+1],1)
             printc('red','','\t--> added %s to %s'%(typs[k],typs[k+1]))
             del histos[k+1]
@@ -312,14 +249,7 @@ for i in range(0,len(histos)):
     histos[i].SetName(discr_names[i])
     histos[i].SetDirectory(outfile)
     histos[i].Write()
-    #histos[i].Draw("goff")
-    #histos[i].Write()
-    
 
-
-
-    #printc('blue','',discr_names[i])
-    #print i
 
     statUps.append(histos[i].Clone())
     statDowns.append(histos[i].Clone())
@@ -360,26 +290,6 @@ for i in range(0,len(histos)):
     getattr(WS,'import')(histPdf)
     getattr(WS,'import')(RooStatsUp)
     getattr(WS,'import')(RooStatsDown)
-
-
-
-    #frame=disc.frame()
-
-
-    #ROOT.RooAbsData.plotOn(histPdf,frame)
-    #frame.Draw()
-    
-    #c.Print('~/Hbb/WStest/%s.png'%discr_names[i])
-
-    #del statUp
-    #del statDown
-
-
-
-    #print discr_names[i]
-    #print histos[i].Integral(0,nBins)
-
-
 
 #dunnmies
 #Wlight,Wbb,QCD
@@ -430,9 +340,6 @@ getattr(WS,'import')(histPdf)
 
 #Number of Obs?
 #nObs = int(d1.Integral())
-
-
-
 
 #SYSTEMATICS:
 
@@ -558,7 +465,7 @@ f.write('QCDscale_QCD\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t1.30\n')
 f.write('CMS_vhbb_boost_EWK\tlnN\t1.05\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_boost_QCD\tlnN\t1.10\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_ST\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.29\t-\t-\n')
-f.write('CMS_vhbb__VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t1.30\t-\n')
+f.write('CMS_vhbb_VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t1.30\t-\n')
 for line in scalefactors:
     f.write(line)
 f.write('CMS_trigger_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')

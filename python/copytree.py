@@ -34,32 +34,3 @@ def copytree(pathIN,pathOUT,prefix,file,Aprefix,Acut):
     #CountWithPU2011B.Scale(factor)
     input.Close()
     output.Close()
-'''
-def copytree(pathIN,pathOUT,prefix,file,Aprefix,Acut):
-    input = TFile.Open("%s/%s%s.root" %(pathIN,prefix,file),'read')
-    Count = input.Get("Count")
-    CountWithPU = input.Get("CountWithPU")
-    CountWithPU2011B = input.Get("CountWithPU2011B")
-    inputTree = input.Get("tree")
-    nEntries = inputTree.GetEntries()
-    output = TFile.Open("%s/%s%s%s.root" %(pathOUT,prefix,Aprefix,file),'recreate')
-    print '\n\t copy file: %s with cut: %s' %(file,Acut)
-    outputTree = inputTree.CopyTree(Acut)
-    kEntries = outputTree.GetEntries()
-    printc('blue','',"\t before cuts\t %s" %nEntries)
-    printc('green','',"\t survived\t %s" %kEntries)
-    #print "\t Factor for Scaling is %s" %factor
-    outputTree.AutoSave()
-    #Count.Scale(factor)
-    Count.Write()
-    CountWithPU.Write()
-    #CountWithPU.Scale(factor)
-    CountWithPU2011B.Write()
-    #CountWithPU2011B.Scale(factor)
-    input.Close()
-    output.Close()
-
-'''
-
-
-                

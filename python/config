@@ -3,6 +3,9 @@ Wdir: /Users/peller/UserCode/VHbb/python
 plotpath: /Users/peller/VHbb/Stacks/
 limits: /Users/peller/VHbb/Limits/May08/
 
+#MVAdir: /MVAout/
+MVAdir: /MVAoutCMVA/
+#MVAdir: /MVAoutCIVF/
 
 #Plotting:
 [Plot]
@@ -146,6 +149,16 @@ RMed_ZH120_MM: RMed_ZH120_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M120_Zmm,RM
 RMed_ZH125_MM: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125_Zmm,RMed_MM,RMed_MM,ZH125,Zmm
 RMed_ZH130_MM: RMed_ZH130_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M130_Zmm,RMed_MM,RMed_MM,ZH130,Zmm
 
+
+#CSV Tests
+RTightCIVF_ZH125_EE: RTightCIVF_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCIVF_M125_Zee,RTight_EE,RTight_EE,ZH125,Zee
+RTightCIVF_ZH125_MM: RTightCIVF_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCIVF_M125_Zmm,RTight_MM,RTight_MM,ZH125,Zmm
+
+RTightCMVA_ZH125_EE: RTightCMVA_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCMVA_M125_Zee,RTight_EE,RTight_EE,ZH125,Zee
+RTightCMVA_ZH125_MM: RTightCMVA_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCMVA_M125_Zmm,RTight_MM,RTight_MM,ZH125,Zmm
+
+
+
 #One Mass (125):
 #Tight EE
 sRTight_ZH110_EE: RTight_ZH125.nominal,BDT,BDT output,20,-1,1,sRTight_ZH110_EE_limittest,RTight_EE,RTight_EE,ZH110,Zee
@@ -208,7 +221,7 @@ BBMM_RLoose_ZH115: BB_RLoose_ZH115.nominal,limit,BDT output,20,-1,1,BB_RLoose_ZH
 
 [factory]
 factoryname: MVA
-factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification
+factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Transformations=I
 #:Transformations=I;D;P;G,D
 
 #######################
@@ -265,6 +278,24 @@ backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
 treecut: RTight
 
+[RTightCIVF_ZH125_may]
+MVAtype: BDT
+MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+path: /scratch/May08/env/sys/
+signals: ZH125
+backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
+treeVarSet: treeVarsCIVF
+treecut: RTight
+
+[RTightCMVA_ZH125_may]
+MVAtype: BDT
+MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+path: /scratch/May08/env/sys/
+signals: ZH125
+backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
+treeVarSet: treeVarsCMVA
+treecut: RTight
+
 [RTight_ZH130_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
@@ -312,6 +343,26 @@ backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
 treecut: RMed
 
+[RMedCIVF_ZH125_may]
+MVAtype: BDT
+#sweet
+MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+path: /scratch/May08/env/sys/
+signals: ZH125
+backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
+treeVarSet: treeVarsCIVF
+treecut: RMed
+
+[RMedCMVA_ZH125_may]
+MVAtype: BDT
+#sweet
+MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+path: /scratch/May08/env/sys/
+signals: ZH125
+backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
+treeVarSet: treeVarsCMVA
+treecut: RMed
+
 [RMed_ZH130_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
@@ -344,6 +395,28 @@ beff_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvUp[0],hJet_csvUp[1]) 
 beff_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvDown[0],hJet_csvDown[1]) min(hJet_csvDown[0],hJet_csvDown[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
 bmis_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFUp[0],hJet_csvFUp[1]) min(hJet_csvFUp[0],hJet_csvFUp[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
 bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFDown[0],hJet_csvFDown[1]) min(hJet_csvFDown[0],hJet_csvFDown[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+
+[treeVarsCIVF]
+Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvivf[0],hJet_csvivf[1]) min(hJet_csvivf[0],hJet_csvivf[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JER_up: H_JER.mass_up H_JER.pt_up HVdPhi V.mass V.pt H.dEta max(hJet_csvivf[0],hJet_csvivf[1]) min(hJet_csvivf[0],hJet_csvivf[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JER_down: H_JER.mass_down H_JER.pt_down HVdPhi V.mass V.pt H.dEta max(hJet_csvivf[0],hJet_csvivf[1]) min(hJet_csvivf[0],hJet_csvivf[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JES_up: H_JES.mass_up H_JES.pt_up HVdPhi V.mass V.pt H.dEta max(hJet_csvivf[0],hJet_csvivf[1]) min(hJet_csvivf[0],hJet_csvivf[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JES_down: H_JES.mass_down H_JES.pt_down HVdPhi V.mass V.pt H.dEta max(hJet_csvivf[0],hJet_csvivf[1]) min(hJet_csvivf[0],hJet_csvivf[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+beff_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvivf[0],hJet_csvivf[1]) min(hJet_csvivf[0],hJet_csvivf[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+beff_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvivf[0],hJet_csvivf[1]) min(hJet_csvivf[0],hJet_csvivf[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+bmis_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvivf[0],hJet_csvivf[1]) min(hJet_csvivf[0],hJet_csvivf[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvivf[0],hJet_csvivf[1]) min(hJet_csvivf[0],hJet_csvivf[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+
+[treeVarsCMVA]
+Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_cmva[0],hJet_cmva[1]) min(hJet_cmva[0],hJet_cmva[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JER_up: H_JER.mass_up H_JER.pt_up HVdPhi V.mass V.pt H.dEta max(hJet_cmva[0],hJet_cmva[1]) min(hJet_cmva[0],hJet_cmva[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JER_down: H_JER.mass_down H_JER.pt_down HVdPhi V.mass V.pt H.dEta max(hJet_cmva[0],hJet_cmva[1]) min(hJet_cmva[0],hJet_cmva[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JES_up: H_JES.mass_up H_JES.pt_up HVdPhi V.mass V.pt H.dEta max(hJet_cmva[0],hJet_cmva[1]) min(hJet_cmva[0],hJet_cmva[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+JES_down: H_JES.mass_down H_JES.pt_down HVdPhi V.mass V.pt H.dEta max(hJet_cmva[0],hJet_cmva[1]) min(hJet_cmva[0],hJet_cmva[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+beff_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_cmva[0],hJet_cmva[1]) min(hJet_cmva[0],hJet_cmva[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+beff_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_cmva[0],hJet_cmva[1]) min(hJet_cmva[0],hJet_cmva[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+bmis_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_cmva[0],hJet_cmva[1]) min(hJet_cmva[0],hJet_cmva[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
+bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_cmva[0],hJet_cmva[1]) min(hJet_cmva[0],hJet_cmva[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
 
 [treeVars]
 Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dR max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
