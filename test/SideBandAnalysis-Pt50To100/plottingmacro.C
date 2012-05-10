@@ -22,7 +22,7 @@ void plottingmacro()
   double fa = 0.46502;
   double fb = 0.53498;
   bool debug_ = false;
-  bool getSFfromFile = true;
+  bool getSFfromFile = false;
 
   std::string path("PlotsMay5/");
 
@@ -88,8 +88,8 @@ void plottingmacro()
 
       //      if(!n.Contains(TRegexp("^BDTZlightControlRegionHZcombSB"))) continue;
       //      if(!n.Contains(TRegexp("^BDTZbbControlRegionHZcombSB"))) continue;
-      //if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcombSB"))) continue;
-      if(!n.Contains(TRegexp("^BDTSideBandRegionHZcombSB"))) continue;
+      if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcombSB"))) continue;
+      //      if(!n.Contains(TRegexp("^BDTSideBandRegionHZcombSB"))) continue;
       //if(!n.Contains(TRegexp("^BDTTrainingRegionHZcombSB"))) continue;
 
       if(n.Contains(TRegexp("RegionHZcomb")))
@@ -328,7 +328,10 @@ void plottingmacro()
 
       c->Update();
       std::string cName= hd->GetName();
-      cName += "_bare.pdf";
+      if(getSFfromFile)
+	cName += "_SF.pdf";
+      else
+	cName += "_bare.pdf";
       cName = path+cName;
       c->Print(cName.c_str(),"pdf");
 
