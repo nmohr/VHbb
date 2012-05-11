@@ -12,38 +12,45 @@ public :
 
   ntupleReader(const char * infile) : ntupleLoader( infile ){};
   //  virtual ~ntupleReader();
-   virtual std::vector<TLorentzVector> SimBs();
-   virtual std::vector<TLorentzVector> SVs();
-   virtual int CountJets();
-   virtual int CountAddJets();
-   virtual int CountAddForwardJets();
-   virtual int CountAddJets_jec( double sign );
-   virtual int CountAddLeptons();
-   virtual bool TriggerBit();
-   virtual TLorentzVector VectorBoson(); //vector boson TLorentz vector
-   virtual double resolution(double eta); //smearing for the jet energy resolution
-   virtual TLorentzVector hJet_jer( int idx, double sign );
-   virtual TLorentzVector H_jer( double sing );
-   virtual double hJet_PT( int idx, int sign ); //higgs jet energy correction
-   virtual double aJet_PT( int idx, int sign ); //addtional jet energy correction
-   virtual TLorentzVector Higgs( int sign ); //higgs candidate jet energy correction
-   virtual double hJet_CSV( int idx, int sign ); //higgs jet energy correction
-   virtual double hJet_pt_jec( int idx, double sign ); //higgs jet energy correction
-   virtual double aJet_pt_jec( int idx, double sign ); //addtional jet energy correction
-   virtual TLorentzVector H_jec( double sign ); //higgs candidate jet energy correction
-   virtual double hJet_csv_cUP( int idx );
-   virtual double hJet_csv_cDOWN( int idx );
-   virtual double hJet_csv_cFUP( int idx );
-   virtual double hJet_csv_cFDOWN( int idx );
-   virtual double hJet_pt_jecUP( int idx );
-   virtual double hJet_pt_jecDOWN( int idx );
-   virtual double aJet_pt_jecUP( int idx );
-   virtual double aJet_pt_jecDOWN( int idx );
-   virtual TLorentzVector H_jecUP();
-   virtual TLorentzVector H_jecDOWN();
-
+  virtual int GetSign(int v);
+  virtual std::vector<TLorentzVector> SimBs();
+  virtual std::vector<TLorentzVector> SVs();
+  virtual double typeIcorrMET( double sign );
+  virtual int CountJets();
+  virtual int CountAddJets();
+  virtual int CountAddForwardJets();
+  virtual int CountAddJets_jec( double sign );
+  virtual int CountAddLeptons();
+  virtual bool TriggerBit();
+  virtual TLorentzVector VectorBoson(); //vector boson TLorentz vector
+  virtual double resolution(double eta); //smearing for the jet energy resolution
+  virtual TLorentzVector hJet_jer( int idx, double sign );
+  virtual TLorentzVector H_jer( double sing );
+  virtual double hJet_PT( int idx, int sign ); //higgs jet energy correction
+  virtual double aJet_PT( int idx, int sign ); //addtional jet energy correction
+  virtual double hJet_E( int idx, int sign ); //higgs jet energy correction
+  virtual double aJet_E( int idx, int sign ); //addtional jet energy correction
+  virtual TLorentzVector Higgs( int sign ); //higgs candidate jet energy correction
+  virtual double hJet_CSV( int idx, int sign ); //higgs jet energy correction
+  virtual double hJet_pt_jec( int idx, double sign ); //higgs jet energy correction
+  virtual double aJet_pt_jec( int idx, double sign ); //addtional jet energy correction
+  virtual TLorentzVector H_jec( double sign ); //higgs candidate jet energy correction
+  virtual double hJet_csv_cUP( int idx );
+  virtual double hJet_csv_cDOWN( int idx );
+  virtual double hJet_csv_cFUP( int idx );
+  virtual double hJet_csv_cFDOWN( int idx );
+  virtual double hJet_pt_jecUP( int idx );
+  virtual double hJet_pt_jecDOWN( int idx );
+  virtual double aJet_pt_jecUP( int idx );
+  virtual double aJet_pt_jecDOWN( int idx );
+  virtual TLorentzVector H_jecUP();
+  virtual TLorentzVector H_jecDOWN();
+  
 };
 
+int ntupleReader::GetSign(int v){
+  return v > 0 ? 1 : (v < 0 ? -1 : 0);
+}
 
 std::vector<TLorentzVector> ntupleReader::SimBs(){
   TLorentzVector simB;
@@ -65,6 +72,21 @@ std::vector<TLorentzVector> ntupleReader::SVs(){
   return iSVs;
 }
 
+double ntupleReader::typeIcorrMET( double sign = 0 ){ 
+  double met_et;
+  TLorentzVector sumPt;
+  TLorentzVector sumPtRaw;
+  TLorentzVector rawMet, jet, rawJet;
+  for(int i=0; i<nhJets; ++i){
+    jet.SetPtEtaPhiE( hJet_PT(i, sign) , hJet_eta[i], hJet_phi[i], hJet_E(i, sign));
+    rawJet.SetPtEtaPhiE( hJet_ptRaw[i] , hJet_eta[i], hJet_phi[i], (hJet_ptRaw[i]/hJet_PT(i,sign)) * hJet_E(i,sign));
+    sumPt += jet;
+    sumPtRaw += rawJet;
+  }
+  rawMet.SetPtEtaPhiE(MET_et, 0., MET_phi, MET_et);
+  met_et = (rawMet - (sumPt - sumPtRaw)).Pt();
+  return met_et;
+} 
 TLorentzVector ntupleReader::VectorBoson(){
   TLorentzVector l1, l2;
   l1.SetPtEtaPhiM(vLepton_pt[0],vLepton_eta[0],vLepton_phi[0],vLepton_mass[0] );
@@ -79,6 +101,7 @@ double ntupleReader::resolution(double eta){
   double eta_tracker = 1.1;
   if(abs(eta) < eta_tracker) return inner; else return outer;
 }
+
 TLorentzVector ntupleReader::hJet_jer( int idx, double sign ){
   TLorentzVector tmp;
   double hJet_pt_jer = hJet_pt[idx] + sign * resolution(hJet_eta[idx])*TMath::Abs(hJet_pt[idx]-hJet_genPt[idx]);
@@ -95,13 +118,24 @@ TLorentzVector ntupleReader::H_jer( double sign ){
   return h;
 }
 
-double ntupleReader::hJet_PT( int idx, int sign ){ return  hJet_pt[idx]*(1 + (sign)*hJet_JECUnc[idx]); }
+double ntupleReader::hJet_PT( int idx, int sign ){ 
+  if( TMath::Abs(sign) < 2 )
+    return  hJet_pt[idx]*(1 + (sign)*hJet_JECUnc[idx]); 
+  else // +- 2 are for jet energy corrections 
+    return (hJet_jer( idx, sign - GetSign(sign)*1 )).Pt() ;
+}
 double ntupleReader::aJet_PT( int idx, int sign ){ return  aJet_pt[idx]*(1 + (sign)*aJet_JECUnc[idx]); }
+double ntupleReader::hJet_E( int idx, int sign ){  return  hJet_e[idx] * hJet_pt[idx]/hJet_PT(idx, sign); }
+double ntupleReader::aJet_E( int idx, int sign ){ return aJet_e[idx] * aJet_pt[idx]/aJet_PT(idx, sign); }
 TLorentzVector ntupleReader::Higgs( int sign ){ 
   TLorentzVector j1,j2,H;
-  j1.SetPtEtaPhiE( hJet_pt_jec(0,sign), hJet_eta[0], hJet_phi[0], hJet_e[0] );
-  j2.SetPtEtaPhiE( hJet_pt_jec(1,sign), hJet_eta[1], hJet_phi[1], hJet_e[1] );
-  return  H=j1+j2;
+  if( TMath::Abs(sign) < 2 ){
+    j1.SetPtEtaPhiE( hJet_pt_jec(0,sign), hJet_eta[0], hJet_phi[0], hJet_e[0] );
+    j2.SetPtEtaPhiE( hJet_pt_jec(1,sign), hJet_eta[1], hJet_phi[1], hJet_e[1] );
+    return  H=j1+j2;
+  }
+  else // +- are for jet energy corrections
+    return H_jer( sign - GetSign(sign)*1 );
 }
 double ntupleReader::hJet_CSV( int idx, int sign ){ 
   if(sign == 1) return (hJet_csvUp[idx]); 

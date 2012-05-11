@@ -250,6 +250,7 @@ public:
     StH_nPVs = new TH1F(("nPVs"+suffix).c_str(),("Number of reconstructed PV ("+suffix+")").c_str(), bin_npvs, min_npvs, max_npvs );
     StH_addJets = new TH1F(("addJets"+suffix).c_str(),("Number of additional AK5 ("+suffix+")").c_str(), bin_addJets, min_addJets, max_addJets );
 
+    StH_typeImet_et = new TH1F(("typeIMET_et"+suffix).c_str(),("Type corrected missing transverse energy ("+suffix+")").c_str(), bin_pt, min_pt, max_pt*0.5 );
     StH_met_et = new TH1F(("MET_et"+suffix).c_str(),("Missing transverse energy ("+suffix+")").c_str(), bin_pt, min_pt, max_pt*0.5 );
     StH_met_sig = new TH1F(("MET_sig"+suffix).c_str(),("MET significance("+suffix+")").c_str(), bin_pt, min_pt, max_pt*0.1 );
 
@@ -278,6 +279,7 @@ public:
     StH_simpleJet2_vtxMass = new TH1F(("SimpleJet2_vtxMass"+suffix).c_str(),("Simple Jet2 vtxMass ("+suffix+")").c_str(), bin_SVmass, min_SVmass, max_SVmass );
 
     StH_simpleJets_bTag = new TH1F(("SimpleJets_bTag"+suffix).c_str(),("Simple Jets bTag ("+suffix+")").c_str(), bin_btag, min_btag, max_btag );
+    StH_simpleJets_bTagSum = new TH1F(("SimpleJets_bTagSum"+suffix).c_str(),("Simple Jets bTagSum ("+suffix+")").c_str(), bin_btag*2, min_btag, max_btag*2 );
     StH_simpleJets_vtxMass = new TH1F(("SimpleJets_vtxMass"+suffix).c_str(),("Simple Jets vtxMass ("+suffix+")").c_str(), bin_SVmass, min_SVmass, max_SVmass );
 
     StH_addJet1_pt = new TH1F(("AddJet1_pt"+suffix).c_str(),("Additional Jet1 pt ("+suffix+")").c_str(), bin_pt, min_pt, max_pt*0.8 );
@@ -321,7 +323,9 @@ public:
     StH_nPVs->Fill(iEvent.nPVs, w);
     StH_addJets->Fill(iEvent.CountAddJets(), w);
 
-    StH_met_et->Fill( TMath::Min(iEvent.METnoPUCh_et, iEvent.METnoPU_et ), w);
+    StH_typeImet_et->Fill(iEvent.typeIcorrMET(), w);
+    //    StH_met_et->Fill( TMath::Min(iEvent.METnoPUCh_et, iEvent.METnoPU_et ), w);
+    StH_met_et->Fill( iEvent.MET_et, w);
     StH_met_sig->Fill(iEvent.MET_sig, w);
 
     StH_vectorLepton1_pt->Fill(iEvent.vLepton_pt[0], w);
@@ -355,6 +359,7 @@ public:
       StH_simpleJet2_vtxMass->Fill(iEvent.hJet_vtxMass[1], w);
     }
     //here I fill both jets in one histo
+    StH_simpleJets_bTagSum->Fill(iEvent.hJet_csv[0]+iEvent.hJet_csv[1], w);
     StH_simpleJets_bTag->Fill(iEvent.hJet_csv[0], w);
     StH_simpleJets_bTag->Fill(iEvent.hJet_csv[1], w);
     StH_simpleJets_vtxMass->Fill(iEvent.hJet_vtxMass[0], w);
@@ -445,6 +450,7 @@ public:
 
   TH1F * StH_nPVs;
   TH1F * StH_addJets;
+  TH1F * StH_typeImet_et;
   TH1F * StH_met_et;
   TH1F * StH_met_sig;
 
@@ -473,6 +479,7 @@ public:
   TH1F * StH_simpleJet2_vtxMass;
 
   TH1F * StH_simpleJets_bTag;
+  TH1F * StH_simpleJets_bTagSum;
   TH1F * StH_simpleJets_vtxMass;
 
   TH1F * StH_addJet1_pt;
