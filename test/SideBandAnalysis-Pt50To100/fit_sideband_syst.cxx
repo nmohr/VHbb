@@ -52,6 +52,7 @@ int main(int argc, char **argv){
   bool debug_=false;
   bool fitSys = true;
   bool fitMC = false;
+  bool getSFfromFile = false;
 
   std::string btag_up = "btag_up";
   std::string btag_down = "btag_down";
@@ -67,15 +68,16 @@ int main(int argc, char **argv){
   std::string s_suffix_Zbb_SB = "$";
   std::string s_suffix_Zlight_SB = "$";
   std::string s_suffix_ttbar_SB = "$";
+  std::string s_sysprefix_Zbb = "BDT";
 
   if(syst_string == btag_up){ s_suffix_Zlight_SB = "SystUP$";  }
   if(syst_string == btag_down){ s_suffix_Zlight_SB = "SystDOWN$";  }
   if(syst_string == mistag_up){ s_suffix_Zlight_SB = "SystFUP$";  }
   if(syst_string == mistag_down){ s_suffix_Zlight_SB = "SystFDOWN$";  }
-  if(syst_string == jec_up){ s_suffix_Zbb_SB = "SystUP$";  }
-  if(syst_string == jec_down){ s_suffix_Zbb_SB = "SystDOWN$";  }
-  if(syst_string == jer_up){ s_suffix_Zbb_SB = "SystJERUP$";  }
-  if(syst_string == jer_down){ s_suffix_Zbb_SB = "SystJERDOWN$";  }
+  if(syst_string == jec_up){ s_suffix_Zbb_SB = "SystUP$";  s_sysprefix_Zbb = "SystJecUPBDT";  }
+  if(syst_string == jec_down){ s_suffix_Zbb_SB = "SystDOWN$"; s_sysprefix_Zbb = "SystJecDOWNBDT"; }
+  if(syst_string == jer_up){ s_suffix_Zbb_SB = "SystJERUP$"; s_sysprefix_Zbb = "SystJerUPBDT"; }
+  if(syst_string == jer_down){ s_suffix_Zbb_SB = "SystJERDOWN$"; s_sysprefix_Zbb = "SystJerDOWNBDT"; }
 
   if(debug_)
     std::cout << "Init the sample" << std::endl;
@@ -128,7 +130,7 @@ int main(int argc, char **argv){
   //  std::string s_sysprefix = "SystBtagUPBDT"; //BDTSystJecDOWN, BDTSystBtagFDOWN 
   std::string s_sysprefix = "BDT";
   std::string s_region_Zbb_SB = "SideBand"; // SideBand
-  std::string s_var_Zbb_SB = "HiggsPt"; 
+  std::string s_var_Zbb_SB = "ZH_dPhi";  //HiggsPt
   std::string s_region_ttbar_SB = "TTbarControl";
   std::string s_var_ttbar_SB = "MET_et"; // one addjet required  
   std::string s_region_Zlight_SB = "SideBand";
@@ -137,7 +139,7 @@ int main(int argc, char **argv){
   if(debug_)
     std::cout << " filling the fit info " << std::endl;
 
-  fitInfos.push_back( new fitInfo(s_region_Zbb_SB,s_var_Zbb_SB,s_prefix,s_sysprefix,s_suffix_Zbb_SB,s_channel,0,250) );
+  fitInfos.push_back( new fitInfo(s_region_Zbb_SB,s_var_Zbb_SB,s_prefix,s_sysprefix_Zbb,s_suffix_Zbb_SB,s_channel,0,4) );
   fitInfos.push_back( new fitInfo(s_region_ttbar_SB,s_var_ttbar_SB,s_prefix,s_sysprefix,s_suffix_ttbar_SB,s_channel,0,150) );
   fitInfos.push_back( new fitInfo(s_region_Zlight_SB,s_var_Zlight_SB,s_prefix,s_sysprefix,s_suffix_Zlight_SB,s_channel,0.3,1) );
 
@@ -157,17 +159,19 @@ int main(int argc, char **argv){
   //here I need to get the SF from the file
   std::ifstream SFfile;
   std::string line;
-  SFfile.open("Pt50To100SFupdate.txt");
-  if (SFfile.is_open()){
-    while ( getline(SFfile,line) ){
-      size_t pos_point = line.find('.'); // decimal of the double
-      istringstream tokenizer(line.substr(pos_point-1));
-      if(line.find(DYL,0)!=string::npos) tokenizer >> SF[0];
-      if(line.find(DYC,0)!=string::npos) tokenizer >> SF[1];
-      if(line.find(DYB,0)!=string::npos) tokenizer >> SF[2];
-      if(line.find(TTbar,0)!=string::npos) tokenizer >> SF[3];
+  if(getSFfromFile){
+    SFfile.open("Pt50To100SFupdate.txt");
+    if (SFfile.is_open()){
+      while ( getline(SFfile,line) ){
+	size_t pos_point = line.find('.'); // decimal of the double
+	istringstream tokenizer(line.substr(pos_point-1));
+	if(line.find(DYL,0)!=string::npos) tokenizer >> SF[0];
+	if(line.find(DYC,0)!=string::npos) tokenizer >> SF[1];
+	if(line.find(DYB,0)!=string::npos) tokenizer >> SF[2];
+	if(line.find(TTbar,0)!=string::npos) tokenizer >> SF[3];
+      }
+      SFfile.close();
     }
-    SFfile.close();
   }
 
   cout << "Scale factors applied to DYL, DYC, DYB, TTbar" << endl;
