@@ -1,10 +1,10 @@
 [Directories]
 Wdir: /Users/peller/UserCode/VHbb/python
 plotpath: /Users/peller/VHbb/Stacks/
-limits: /Users/peller/VHbb/Limits/May08/
+limits: /Users/peller/VHbb/Limits/May11/
 
-#MVAdir: /MVAout/
-MVAdir: /MVAoutCMVA/
+MVAdir: /MVAout/
+#MVAdir: /MVAoutCMVA/
 #MVAdir: /MVAoutCIVF/
 
 #Plotting:
@@ -153,9 +153,13 @@ RMed_ZH130_MM: RMed_ZH130_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M130_Zmm,RM
 #CSV Tests
 RTightCIVF_ZH125_EE: RTightCIVF_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCIVF_M125_Zee,RTight_EE,RTight_EE,ZH125,Zee
 RTightCIVF_ZH125_MM: RTightCIVF_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCIVF_M125_Zmm,RTight_MM,RTight_MM,ZH125,Zmm
+RMedCIVF_ZH125_EE: RMedCIVF_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMedCIVF_M125_Zee,RMed_EE,RMed_EE,ZH125,Zee
+RMedCIVF_ZH125_MM: RMedCIVF_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMedCIVF_M125_Zmm,RMed_MM,RMed_MM,ZH125,Zmm
 
 RTightCMVA_ZH125_EE: RTightCMVA_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCMVA_M125_Zee,RTight_EE,RTight_EE,ZH125,Zee
 RTightCMVA_ZH125_MM: RTightCMVA_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCMVA_M125_Zmm,RTight_MM,RTight_MM,ZH125,Zmm
+RMedCMVA_ZH125_EE: RMedCMVA_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMedCMVA_M125_Zee,RMed_EE,RMed_EE,ZH125,Zee
+RMedCMVA_ZH125_MM: RMedCMVA_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMedCMVA_M125_Zmm,RMed_MM,RMed_MM,ZH125,Zmm
 
 
 
@@ -335,7 +339,6 @@ treecut: RMed
 
 [RMed_ZH125_may]
 MVAtype: BDT
-#sweet
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 path: /scratch/May08/env/sys/
 signals: ZH125
@@ -345,7 +348,6 @@ treecut: RMed
 
 [RMedCIVF_ZH125_may]
 MVAtype: BDT
-#sweet
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 path: /scratch/May08/env/sys/
 signals: ZH125
@@ -355,7 +357,6 @@ treecut: RMed
 
 [RMedCMVA_ZH125_may]
 MVAtype: BDT
-#sweet
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 path: /scratch/May08/env/sys/
 signals: ZH125

@@ -9,6 +9,9 @@ import shutil
 from ROOT import TFile
 import ROOT
 from array import array
+import warnings
+warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
+
 
 #usage: ./write_systematic.py path
 
@@ -78,17 +81,22 @@ for job in info:
         EventForTraining = array('f',[0])
         newtree.Branch('EventForTraining',EventForTraining,'EventForTraining/F')
         
-        iter=0
+        #iter=0
+        
+        TFlag=ROOT.TTreeFormula("EventForTraining","EVENT.event%2",tree)
         
         for entry in range(0,nEntries):
             tree.GetEntry(entry)
 
             #fill training flag 
-            iter+=1
-            if (iter%2==0):
-                EventForTraining[0]=1
-            else:
-                EventForTraining[0]=0
+            #iter+=1
+            #if (iter%2==0):
+            #    EventForTraining[0]=1
+            #else:
+            #    EventForTraining[0]=0
+            #iter+=1
+            
+            EventForTraining[0]=int(not TFlag.EvalInstance())
 
             #get
             hJet_pt0 = tree.hJet_pt[0]

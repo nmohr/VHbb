@@ -242,12 +242,15 @@ for k in range(0,len(num)):
             del histos[k+1]
             del typs[k+1]
 
+del histos[len(num):]
+del typs[len(num):]
 
 
 
 for i in range(0,len(histos)):
     histos[i].SetName(discr_names[i])
-    histos[i].SetDirectory(outfile)
+    #histos[i].SetDirectory(outfile)
+    outfile.cd()
     histos[i].Write()
 
 
@@ -268,9 +271,10 @@ for i in range(0,len(histos)):
 
 
 
-    statUps[i].SetDirectory(outfile)
-    statDowns[i].SetDirectory(outfile)
+    #statUps[i].SetDirectory(outfile)
+    #statDowns[i].SetDirectory(outfile)
     #statUps[i].Draw("goff")
+    #outfile.cd()
     statUps[i].Write()
     #statUp.Write()
     statDowns[i].Write()
@@ -293,9 +297,10 @@ for i in range(0,len(histos)):
 
 #dunnmies
 #Wlight,Wbb,QCD
-for i in range(6,9):
+for i in range(7,10):
     dummy = ROOT.TH1F(discr_names[i], "discriminator", nBins, xMin, xMax)
-    dummy.SetDirectory(outfile)
+    #dummy.SetDirectory(outfile)
+    outfile.cd()
     dummy.Write()
     #dummy.Draw("goff")
     
@@ -325,7 +330,8 @@ if flow > 0:
     
 #datas[0]: data_obs
 d1.SetName(data_name[0])
-d1.SetDirectory(outfile)
+#d1.SetDirectory(outfile)
+outfile.cd()
 d1.Write()
 #d1.Draw("goff")
 
@@ -423,7 +429,8 @@ for sys in ['JER','JES','beff','bmis']:
                     del typsX[k+1]
         for i in range(0,len(systhistosarray[Coco])):
             systhistosarray[Coco][i].SetName('%sCMS_%s%s'%(discr_names[i],sys,UD[Q]))
-            systhistosarray[Coco][i].SetDirectory(outfile)
+            #systhistosarray[Coco][i].SetDirectory(outfile)
+            outfile.cd()
             systhistosarray[Coco][i].Write()
             #systhistosarray[Coco][i].Draw("goff")
             #histosX[i].Write()
@@ -466,10 +473,26 @@ f.write('CMS_vhbb_boost_EWK\tlnN\t1.05\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_boost_QCD\tlnN\t1.10\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_ST\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.29\t-\t-\n')
 f.write('CMS_vhbb_VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t1.30\t-\n')
-for line in scalefactors:
-    f.write(line)
-f.write('CMS_trigger_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_trigger_e\tlnN\t1.02\t-\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
+#for line in scalefactors:
+#    f.write(line)
+
+f.write('CMS_vhbb_ZjLF_SF\tlnN\t-\t-\t-\t1.206\t0.808\t1.081\t1.000\t-\t-\t-\t-\n')
+f.write('CMS_vhbb_ZjCF_SF\tlnN\t-\t-\t-\t0.621\t1.406\t0.759\t1.001\t-\t-\t-\t-\n')
+f.write('CMS_vhbb_ZjHF_SF\tlnN\t-\t-\t-\t1.079\t0.882\t1.199\t0.964\t-\t-\t-\t-\n')
+f.write('CMS_vhbb_TT_SF\tlnN\t-\t-\t-\t1.000\t1.000\t0.969\t1.169\t-\t-\t-\t-\n')
+
+if options[10]=='Zee':
+    f.write('CMS_eff_m lnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+    f.write('CMS_eff_e lnN\t1.04\t-\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
+    f.write('CMS_trigger_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+    f.write('CMS_trigger_e\tlnN\t1.02\t-\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
+
+if options[10]=='Zmm':
+    f.write('CMS_eff_e lnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+    f.write('CMS_eff_m lnN\t1.04\t-\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
+    f.write('CMS_trigger_e\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+    f.write('CMS_trigger_m\tlnN\t1.02\t-\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
+
 f.write('CMS_vhbb_trigger_MET\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_stats_VH_%s\tshape\t1.0\t-\t-\t-\t-\t-\t-\t-\t-\t-\n'%options[10])
 f.write('CMS_vhbb_stats_ZjLF_%s\tshape\t-\t-\t-\t1.0\t-\t-\t-\t-\t-\t-\n'%options[10])
