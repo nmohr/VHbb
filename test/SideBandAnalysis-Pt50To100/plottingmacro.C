@@ -22,9 +22,9 @@ void plottingmacro()
   double fa = 0.46502;
   double fb = 0.53498;
   bool debug_ = false;
-  bool getSFfromFile = false;
+  bool getSFfromFile = true;
 
-  std::string path("PlotsMay5/");
+  std::string path("PlotsMay8/");
 
   if(debug_)
     std::cout << "Init the style form setTDRStyle" << std::endl;
@@ -88,8 +88,9 @@ void plottingmacro()
 
       //      if(!n.Contains(TRegexp("^BDTZlightControlRegionHZcombSB"))) continue;
       //      if(!n.Contains(TRegexp("^BDTZbbControlRegionHZcombSB"))) continue;
-      if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcombSB"))) continue;
+      //if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcombSB"))) continue;
       //      if(!n.Contains(TRegexp("^BDTSideBandRegionHZcombSB"))) continue;
+      if(!n.Contains(TRegexp("^BDTSignalRegionHZcombSB"))) continue;
       //if(!n.Contains(TRegexp("^BDTTrainingRegionHZcombSB"))) continue;
 
       if(n.Contains(TRegexp("RegionHZcomb")))
@@ -209,7 +210,10 @@ void plottingmacro()
 
 	      //TO FIX grouped map
 	      // sovrascrive histo con lo stesso nome tipo VV o ST etc...
-	      grouped[s[j].name]=(TH1F *)h->Clone(("_"+names[i]).c_str());
+	      if(grouped.find(s[j].name) != grouped.end())
+		grouped[s[j].name]->Add((TH1F *)h->Clone(("_"+names[i]).c_str()));
+	      else
+		grouped[s[j].name]=(TH1F *)h->Clone(("_"+names[i]).c_str());
 	    }
 	}
       
@@ -258,9 +262,12 @@ void plottingmacro()
       divisionErrorBand->SetMinimum(0);
       divisionErrorBand->SetMarkerStyle(20);
       divisionErrorBand->SetMarkerSize(0.55);
-      divisionErrorBand->GetXaxis()->SetTitleOffset(1.12);
+      std::string xtitle = hd->GetTitle();
+      xtitle = xtitle.substr(0,xtitle.find("("));
+      divisionErrorBand->GetXaxis()->SetTitle( xtitle.c_str() );
+      divisionErrorBand->GetXaxis()->SetTitleOffset(1.0); // 1.12
       divisionErrorBand->GetXaxis()->SetLabelSize(0.12);
-      divisionErrorBand->GetXaxis()->SetTitleSize(0.5);
+      divisionErrorBand->GetXaxis()->SetTitleSize(0.12); //0.5
       divisionErrorBand->GetYaxis()->SetTitle("Data/MC");
       divisionErrorBand->GetYaxis()->SetLabelSize(0.12);
       divisionErrorBand->GetYaxis()->SetTitleSize(0.12);
@@ -338,17 +345,18 @@ void plottingmacro()
       delete c;
 
       //NORMALIZED plots
+
       TCanvas *c_norm = new TCanvas();
       c_norm->SetFillStyle(4000);
       c_norm->SetLogy(false);
       c_norm->SetTitle(names[i].c_str());
 
-//       v_hist.at(0)->GetYaxis()->SetRangeUser(0,1);
-//       v_hist.at(0)->SetFillStyle(0);
-//       v_hist.at(0)->DrawNormalized("HIST");
-//       for(int i=1;i<v_hist.size();++i){
-// 	v_hist.at(i)->SetFillStyle(0);
-// 	if() v_hist.at(i)->DrawNormalized("HIST same"); }
+      TLegend * nl = new TLegend(o.legendx1,o.legendy1,o.legendx2,o.legendy2); //0.7,0.1,0.9,0.6);
+      nl->SetFillColor(kWhite);
+      nl->SetBorderSize(0);
+      nl->SetTextFont(62);
+      nl->SetTextSize(0.03);
+
       bool drawed = false;
       bool keepSample=false;  
       double maxYnorm = 0;
@@ -357,6 +365,17 @@ void plottingmacro()
       sampleToKeep.push_back("ZH");
       sampleToKeep.push_back("TTbar");
 
+      //getMaximum for drawing
+      for( std::map<std::string,TH1F*>::iterator it=grouped.begin(); it!=grouped.end();++it ){
+	keepSample = false;
+	TString sampleName=(*it).first;
+	for(unsigned int ss=0; ss<sampleToKeep.size(); ++ss)
+	  if( (sampleName.Contains(TRegexp(sampleToKeep.at(ss)))) ) keepSample = true;
+	if(!keepSample) continue;
+	if( (*it).second->GetMaximum()/(*it).second->Integral() > maxYnorm ) maxYnorm = (*it).second->GetMaximum()/(*it).second->Integral();
+      }
+
+      //Now draw it!
       for( std::map<std::string,TH1F*>::iterator it=grouped.begin(); it!=grouped.end();++it ){
 	keepSample = false;
 	std::cout << "Normalized sample = " << (*it).first << std::endl;
@@ -364,14 +383,29 @@ void plottingmacro()
 	for(unsigned int ss=0; ss<sampleToKeep.size(); ++ss)
 	  if( (sampleName.Contains(TRegexp(sampleToKeep.at(ss)))) ) keepSample = true;
 	if(!keepSample) continue;
+	nl->AddEntry((*it).second, (*it).first.c_str() , "F");
 	(*it).second->SetFillStyle(0);
-	if( (*it).second->GetMaximum() > maxYnorm ) maxYnorm = (*it).second->GetMaximum();
-	(*it).second->GetYaxis()->SetRangeUser(0. , maxYnorm*1.5 ); // you need to give the unscaled range...
-	if( drawed == false ){ (*it).second->DrawNormalized("HIST") ;  drawed = true; }
+	(*it).second->GetYaxis()->SetRangeUser(0. , (*it).second->Integral()*maxYnorm*1.5 ); // you need to give the unscaled range...
+	if( drawed == false ){
+	  std::string xtitle = (*it).second->GetTitle();
+	  xtitle = xtitle.substr(0,xtitle.find("("));
+	  (*it).second->GetXaxis()->SetTitle( xtitle.c_str() );
+	  (*it).second->GetXaxis()->SetTitleOffset(1.0); // 1.12
+	  (*it).second->GetXaxis()->SetLabelSize(0.04);
+	  (*it).second->GetXaxis()->SetTitleSize(0.04); //0.5
+	  (*it).second->GetYaxis()->SetTitle("Normlized Entries");
+	  (*it).second->GetYaxis()->SetTitleOffset(1.5); // 1.12
+	  (*it).second->GetYaxis()->SetLabelSize(0.04);
+	  (*it).second->GetYaxis()->SetTitleSize(0.04); //0.5
+
+	  (*it).second->DrawNormalized("HIST") ;  
+	  drawed = true; 
+	}
       	else (*it).second->DrawNormalized("HIST same"); 
       }
 
-	
+
+      nl->Draw("same");	
       latex.SetNDC();
       latex.SetTextAlign(12);
       latex.SetTextSize(0.052);
