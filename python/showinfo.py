@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from samplesclass import sample
+from samplesinfo import sample
 import pickle
 import sys
 

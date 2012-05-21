@@ -427,6 +427,10 @@ for sys in ['JER','JES','beff','bmis']:
                     #printc('red','','added %s to %s'%(typsX[k],typsX[k+1]))
                     del systhistosarray[Coco][k+1]
                     del typsX[k+1]
+                    
+        # .
+        # .
+        # finaly lpop over histos
         for i in range(0,len(systhistosarray[Coco])):
             systhistosarray[Coco][i].SetName('%sCMS_%s%s'%(discr_names[i],sys,UD[Q]))
             #systhistosarray[Coco][i].SetDirectory(outfile)
@@ -447,7 +451,7 @@ WS.writeToFile(outpath+'vhbb_WS_'+ROOToutname+'.root')
 
 
 #write DATAcard:
-pier = open (Wdir+'/pier.txt','r')
+pier = open(Wdir+'/pier.txt','r')
 scalefactors=pier.readlines()
 pier.close()
 
