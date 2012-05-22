@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.6
 
 
 
@@ -132,9 +132,10 @@ def getHistoFromTree(job,options):
         ScaleFactor = getScale(job)
         if ScaleFactor != 0:
             hTree.Scale(ScaleFactor)
-            
+    #input.Close()
     print '\t-->import %s\t Integral: %s'%(job.name,hTree.Integral())
-            
+    hTree.SetDirectory(0)
+    input.Close()        
     return hTree, job.group
     
 
@@ -151,6 +152,11 @@ info = pickle.load(infofile)
 infofile.close()
 
 options = plot.split(',')
+
+if len(options) < 12:
+    print "You have to choose option[11]: either Mjj or BDT"
+    sys.exit("You have to choose option[11]: either Mjj or BDT")
+
 name=options[1]
 title = options[2]
 nBins=int(options[3])
@@ -160,7 +166,7 @@ xMax=float(options[5])
 
 mass=options[9]
 data=options[10]
-
+anType=options[11]
 
 setup=config.get('Limit','setup')
 setup=setup.split(',')
@@ -172,7 +178,7 @@ discr_names = ['ZjLF','ZjCF','ZjHF', 'TT','VV', 's_Top', 'VH', 'WjLF', 'WjHF', '
 data_name = ['data_obs']
 WS = ROOT.RooWorkspace('%s'%options[10],'%s'%options[10]) #Zee
 print 'WS initialized'
-disc= ROOT.RooRealVar('BDT','BDT',-1,1)
+disc= ROOT.RooRealVar(name,name,xMin,xMax)
 obs = ROOT.RooArgList(disc)
 
 ROOT.gROOT.SetStyle("Plain")
@@ -358,12 +364,26 @@ UD = ['Up','Down']
 systhistosarray=[]
 Coco=0
 
-for sys in ['JER','JES','beff','bmis']:
+print str(anType)
+print len(options)
+if str(anType) == 'BDT':
+    bdt = True
+    systematics = ['JER','JES','beff','bmis']
+elif str(anType) == 'Mjj':
+    mjj = True
+    systematics = ['JER','JES']
+    
+
+for sys in systematics:
 
     for Q in range(0,2):
-    
+
         ff=options[0].split('.')
-        ff[1]='%s_%s'%(sys,ud[Q])
+        if bdt == True:
+            ff[1]='%s_%s'%(sys,ud[Q])
+        elif mjj == True:
+            ff[0]='H_%s'%(sys)
+            ff[1]='mass_%s'%(ud[Q])
         options[0]='.'.join(ff)
 
 
@@ -459,7 +479,7 @@ f = open(outpath+'vhbb_DC_'+ROOToutname+'.txt','w')
 f.write('imax\t1\tnumber of channels\n')
 f.write('jmax\t9\tnumber of backgrounds (\'*\' = automatic)\n')
 f.write('kmax\t*\tnumber of nuisance parameters (sources of systematical uncertainties)\n\n')
-f.write('shapes * * vhbb_WS_%s.root $CHANNEL:$PROCESS $CHANNEL:$PROCESS$SYSTEMATIC\n\n'%ROOToutname)
+f.write('shapes * * vhbb_TH_%s.root $PROCESS $PROCESS$SYSTEMATIC\n\n'%ROOToutname)
 f.write('bin\t%s\n\n'%options[10])
 f.write('observation\t%s\n\n'%d1.Integral())
 f.write('bin\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(options[10],options[10],options[10],options[10],options[10],options[10],options[10],options[10],options[10],options[10]))
@@ -508,8 +528,10 @@ f.write('CMS_vhbb_stats_VV_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\n'%options[
 #SYST
 f.write('CMS_JER\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
 f.write('CMS_JES\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
-f.write('CMS_beff\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
-f.write('CMS_bmis\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+if bdt==True:
+    f.write('CMS_beff\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+    f.write('CMS_bmis\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+
 f.close()
 
 outfile.Write()
