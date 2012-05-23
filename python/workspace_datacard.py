@@ -1,8 +1,5 @@
-#!/usr/bin/env python2.6
+#!/usr/bin/env python
 
-
-
-import sys
 import os
 
 import ROOT 
@@ -386,8 +383,8 @@ for sys in systematics:
             ff[1]='mass_%s'%(ud[Q])
         options[0]='.'.join(ff)
 
-
-        printc('blue','','\t\t--> doing systematic %s %s'%(sys,ud[Q])) 
+        print '\n'
+        printc('blue','','\t--> doing systematic %s %s'%(sys,ud[Q])) 
 
         systhistosarray.append([])
         #histosX = []
@@ -447,7 +444,22 @@ for sys in systematics:
                     #printc('red','','added %s to %s'%(typsX[k],typsX[k+1]))
                     del systhistosarray[Coco][k+1]
                     del typsX[k+1]
-                    
+        '''
+        # .
+        # .
+        # do the linear fit blabla
+        for i in range(0,len(systhistosarray[Coco])):
+            #systhistosarray[Coco][i]
+            #histos[i]
+            for bin in range(0,histos[i].GetSize()):
+                A=systhistosarray[Coco][i].GetBinContent(bin)
+                B=histos[i].GetBinContent(bin)
+                systhistosarray[Coco][i].SetBinContent(bin,A-B)
+            #Fit:
+            FitFunction=ROOT.TF1('FitFunction','pol1')
+            systhistosarray[Coco][i].Fit('FitFunction')
+        '''
+                        
         # .
         # .
         # finaly lpop over histos
@@ -525,9 +537,21 @@ f.write('CMS_vhbb_stats_ZjHF_%s\tshape\t-\t-\t-\t-\t-\t1.0\t-\t-\t-\t-\n'%option
 f.write('CMS_vhbb_stats_TT_%s\tshape\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\t-\n'%options[10])
 f.write('CMS_vhbb_stats_s_Top_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\n'%options[10])
 f.write('CMS_vhbb_stats_VV_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\n'%options[10])
+
 #SYST
 f.write('CMS_JER\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
 f.write('CMS_JES\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+'''
+f.write('CMS_beff\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+f.write('CMS_bmis\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+'''
+'''
+#SYST4
+f.write('CMS_JER\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
+f.write('CMS_JES\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
+f.write('CMS_beff\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
+f.write('CMS_bmis\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
+'''
 if bdt==True:
     f.write('CMS_beff\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
     f.write('CMS_bmis\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')

@@ -3,14 +3,17 @@ from copytree import copytree
 from printcolor import printc
 from samplesclass import sample
 import pickle
+import sys
 
-
-prefix='ZllH.May8Reg.'
+prefix='ZllH.May23.'
 
 lumi=4980
 
-pathIN='/scratch/May08/'
-pathOUT='/scratch/May08/env/'
+#pathIN='/scratch/May08/'
+#pathOUT='/scratch/May08/env/'
+
+pathIN=sys.argv[1]
+pathOUT=sys.argv[2]
 
 weightexpression='((0.46502*PUweight+0.53498*PUweight2011B)*weightTrig)'
 
@@ -69,7 +72,7 @@ info = []
 # i>1 because no WW sample!!! only temporary fix
 
 for i in range(0,len(InFiles0)):
-    copytree(pathIN,pathOUT,prefix,InFiles0[i],Aprefix0[0],cut0[0]+Precut)
+    #copytree(pathIN,pathOUT,prefix,InFiles0[i],Aprefix0[0],cut0[0]+Precut)
     info.append(sample(samplenames0[i],sampletypes0[i]))
     info[-1].path=pathOUT
     info[-1].identifier=Aprefix0[0]+InFiles0[i]
@@ -82,7 +85,7 @@ for i in range(0,len(InFiles0)):
     info[-1].addtreecut(cut0[0])
 
 for i in range(3):
-    copytree(pathIN,pathOUT,prefix,InFiles1[i],Aprefix1[i],cut1[i]+Precut)
+    #copytree(pathIN,pathOUT,prefix,InFiles1[i],Aprefix1[i],cut1[i]+Precut)
     info.append(sample(samplenames1[i],sampletypes1[i]))
     info[-1].path=pathOUT
     info[-1].identifier=Aprefix1[i]+InFiles1[i]
@@ -95,7 +98,7 @@ for i in range(3):
     info[-1].addtreecut(cut1[i])
     
 for i in range(3):
-    copytree(pathIN,pathOUT,prefix,InFiles2[i],Aprefix2[i],cut2[i]+Precut)
+    #copytree(pathIN,pathOUT,prefix,InFiles2[i],Aprefix2[i],cut2[i]+Precut)
     info.append(sample(samplenames2[i],sampletypes2[i]))
     info[-1].path=pathOUT
     info[-1].identifier=Aprefix2[i]+InFiles2[i]

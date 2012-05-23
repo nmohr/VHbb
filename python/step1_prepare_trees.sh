@@ -1,6 +1,6 @@
-path=/scratch/May08
+path=/scratch/May23
 mkdir $path/env
-ln -s $path/ZllH.May8Reg.DataZ.root $path/ZllH.May8Reg.DataZee.root
-ln -s $path/ZllH.May8Reg.DataZ.root $path/ZllH.May8Reg.DataZmm.root
-./prepare_environment.py
+ln -s $path/ZllH.May23.DataZ.root $path/ZllH.May23.DataZee.root
+ln -s $path/ZllH.May23.DataZ.root $path/ZllH.May23.DataZmm.root
+./prepare_environment.py $path $path/env/
 ./showinfo.py $path/env

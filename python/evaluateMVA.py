@@ -10,7 +10,7 @@ from copy import copy
 import warnings
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
 from ConfigParser import SafeConfigParser
-from samplesinfo import sample
+from samplesclass import sample
 from mvainfos import mvainfo
 import pickle
 from progbar import progbar
@@ -89,6 +89,7 @@ for MVA in MVAlist:
 
 #define variables and specatators
 MVA_var_buffer = []
+MVA_var_buffer4 = []
 for i in range(len( MVA_Vars['Nominal'])):
     MVA_var_buffer.append(array( 'f', [ 0 ] ))
     for reader in readers:
@@ -134,18 +135,24 @@ for job in Ainfo:
         #MCs:
         if job.type != 'DATA':
             MVA_formulas={}
+            MVA_formulas4={}
             for systematic in systematics: 
                 #print '\t\t - ' + systematic
                 MVA_formulas[systematic]=[]
+                MVA_formulas4[systematic]=[]
                 #create TTreeFormulas
                 for j in range(len( MVA_Vars['Nominal'])):
                     MVA_formulas[systematic].append(ROOT.TTreeFormula("MVA_formula%s_%s"%(j,systematic),MVA_Vars[systematic][j],tree))
+                    MVA_formulas4[systematic].append(ROOT.TTreeFormula("MVA_formula4%s_%s"%(j,systematic),MVA_Vars['Nominal'][j]+'+('+MVA_Vars[systematic][j]+'-'+MVA_Vars['Nominal'][j]+')*4',tree))#HERE change
             outfile.cd()
             #Setup Branches
             MVAbranches=[]
+            MVAbranches4=[]
             for i in range(0,len(readers)):
                 MVAbranches.append(array('f',[0]*9))
+                MVAbranches4.append(array('f',[0]*9))
                 newtree.Branch(MVAinfos[i].MVAname,MVAbranches[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down/F')
+                newtree.Branch(MVAinfos[i].MVAname+'_4',MVAbranches4[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down/F')
             print '\n--> ' + job.name +':'
             #progbar setup
             if nEntries >= longe:
@@ -167,6 +174,12 @@ for job in Ainfo:
                         
                     for j in range(0,len(readers)):
                         MVAbranches[j][systematics.index(systematic)] = readers[j].EvaluateMVA(MVAinfos[j].MVAname)
+                        
+                    for j in range(len( MVA_Vars['Nominal'])):
+                        MVA_var_buffer[j][0] = MVA_formulas4[systematic][j].EvalInstance()
+                        
+                    for j in range(0,len(readers)):
+                        MVAbranches4[j][systematics.index(systematic)] = readers[j].EvaluateMVA(MVAinfos[j].MVAname)
                 #Fill:
                 newtree.Fill()
             newtree.AutoSave()
@@ -184,6 +197,7 @@ for job in Ainfo:
             for i in range(0,len(readers)):
                 MVAbranches.append(array('f',[0]))
                 newtree.Branch(MVAinfos[i].MVAname,MVAbranches[i],'nominal/F') 
+                newtree.Branch(MVAinfos[i].MVAname+'_4',MVAbranches[i],'nominal/F') 
             #progbar           
             print '\n--> ' + job.name +':'
             if nEntries >= longe:

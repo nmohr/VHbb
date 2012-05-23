@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from samplesinfo import sample
+from samplesclass import sample
 from printcolor import printc
 import pickle
 import ROOT 

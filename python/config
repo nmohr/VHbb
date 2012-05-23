@@ -1,7 +1,7 @@
 [Directories]
-Wdir: /Users/pier/Physics/VHbbAnalysis/MjjShapeAnalysis/python_old/
-plotpath: /Users/pier/Physics/VHbbAnalysis/MjjShapeAnalysis/python_old/Stacks/
-limits: /Users/pier/Physics/VHbbAnalysis/MjjShapeAnalysis/python_old/Limits/May11/
+Wdir: /Users/peller/UserCode/VHbb/python
+plotpath: /Users/peller/VHbb/Stacks/May11/
+limits: /Users/peller/VHbb/Limits/May23/
 
 MVAdir: /MVAout/
 #MVAdir: /MVAoutCMVA/
@@ -20,6 +20,15 @@ MMCC_pt100_ZH115: nov10_diJet_MMCC_MVAcut_pt100_ZH115.nominal,MMCC_pt100_ZH115,B
 MMCC_pt50_ZH115: nov10_diJet_MMCC_MVAcut_pt50_ZH115.nominal,MMCC_pt50_ZH115,BDT output,20,-1,1,MMCC_pt50_ZH115.png,noCut,noCut
 CCMM_pt100_ZH115: nov10_diJet_CCMM_MVAcut_pt100_ZH115.nominal,CCMM_pt100_ZH115,BDT output,20,-1,1,CCMM_pt100_ZH115.png,noCut,noCut
 CCMM_pt50_ZH115: nov10_diJet_CCMM_MVAcut_pt50_ZH115.nominal,BDT,BDT output,20,-1,1,CCMM_pt50_ZH115.png,noCut,noCut
+
+
+#May11
+
+RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125.png,RTight,RTight,ZH125,Zee Zmm,blind
+RMed_ZH125: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125.png,RMed,RMed,ZH125,Zee Zmm,blind
+Light_RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125_Light.png,Light,Light,ZH125,Zee Zmm,noblind
+Top_RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125_Top.png,Top,Top,ZH125,Zee Zmm,noblind
+bb_RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125_bb.png,bb,bb,ZH125,Zee Zmm,noblind
 
 
 
@@ -42,9 +51,10 @@ ZZbb_loose_MM: nov10_diJet_ZZbb_loose.nominal,BDT,BDT output,20,-1,1,ZZbb_loose_
 
 
 logy: 1
-setup: DY jets udscg,DY jets b,TT-bar,WW/WZ/ZZ,Single top,Hbb 115
+#setup: DY jets udscg,DY jets b,TT-bar,WW/WZ/ZZ,Single top,Hbb 115
 #setup: DY jets b,DY jets udscg,TT-bar,Single top,Hbb 115,WW/WZ/ZZ
-
+setup: DYlight,DYc,DYb,TT,ST,VV,ZH
+color: 401,41,5,596,602,17,2
 
 
 [Compare]
@@ -180,6 +190,41 @@ RMed_ZH125_MM: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125_Zmm,RM
 RMed_ZH130_MM: RMed_ZH130_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M130_Zmm,RMed_MM,RMed_MM,ZH130,Zmm,BDT
 
 
+
+
+
+#SYST 4
+
+
+#Tight EE
+RTight4_ZH110_EE: RTight_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M110_Zee,RTight_EE,RTight_EE,ZH110,Zee
+RTight4_ZH115_EE: RTight_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M115_Zee,RTight_EE,RTight_EE,ZH115,Zee
+RTight4_ZH120_EE: RTight_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M120_Zee,RTight_EE,RTight_EE,ZH120,Zee
+RTight4_ZH125_EE: RTight_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M125_Zee,RTight_EE,RTight_EE,ZH125,Zee
+RTight4_ZH130_EE: RTight_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M130_Zee,RTight_EE,RTight_EE,ZH130,Zee
+
+#Tight MM
+RTight4_ZH110_MM: RTight_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M110_Zmm,RTight_MM,RTight_MM,ZH110,Zmm
+RTight4_ZH115_MM: RTight_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M115_Zmm,RTight_MM,RTight_MM,ZH115,Zmm
+RTight4_ZH120_MM: RTight_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M120_Zmm,RTight_MM,RTight_MM,ZH120,Zmm
+RTight4_ZH125_MM: RTight_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M125_Zmm,RTight_MM,RTight_MM,ZH125,Zmm
+RTight4_ZH130_MM: RTight_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M130_Zmm,RTight_MM,RTight_MM,ZH130,Zmm
+
+#Med EE
+RMed4_ZH110_EE: RMed_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M110_Zee,RMed_EE,RMed_EE,ZH110,Zee
+RMed4_ZH115_EE: RMed_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M115_Zee,RMed_EE,RMed_EE,ZH115,Zee
+RMed4_ZH120_EE: RMed_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M120_Zee,RMed_EE,RMed_EE,ZH120,Zee
+RMed4_ZH125_EE: RMed_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M125_Zee,RMed_EE,RMed_EE,ZH125,Zee
+RMed4_ZH130_EE: RMed_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M130_Zee,RMed_EE,RMed_EE,ZH130,Zee
+
+#Med MM
+RMed4_ZH110_MM: RMed_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M110_Zmm,RMed_MM,RMed_MM,ZH110,Zmm
+RMed4_ZH115_MM: RMed_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M115_Zmm,RMed_MM,RMed_MM,ZH115,Zmm
+RMed4_ZH120_MM: RMed_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M120_Zmm,RMed_MM,RMed_MM,ZH120,Zmm
+RMed4_ZH125_MM: RMed_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M125_Zmm,RMed_MM,RMed_MM,ZH125,Zmm
+RMed4_ZH130_MM: RMed_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M130_Zmm,RMed_MM,RMed_MM,ZH130,Zmm
+
+
 #CSV Tests
 RTightCIVF_ZH125_EE: RTightCIVF_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCIVF_M125_Zee,RTight_EE,RTight_EE,ZH125,Zee,BDT
 RTightCIVF_ZH125_MM: RTightCIVF_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCIVF_M125_Zmm,RTight_MM,RTight_MM,ZH125,Zmm,BDT
@@ -279,7 +324,7 @@ ZH115: CC5050_pt100_ZH115,CC5050_pt50_ZH115,MM5050_pt100_ZH115,MM5050_pt50_ZH115
 [RTight_ZH110_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH110
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -288,7 +333,7 @@ treecut: RTight
 [RTight_ZH115_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH115
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -297,7 +342,7 @@ treecut: RTight
 [RTight_ZH120_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH120
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -306,7 +351,7 @@ treecut: RTight
 [RTight_ZH125_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH125
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -315,7 +360,7 @@ treecut: RTight
 [RTightCIVF_ZH125_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH125
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsCIVF
@@ -324,7 +369,7 @@ treecut: RTight
 [RTightCMVA_ZH125_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH125
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsCMVA
@@ -333,7 +378,7 @@ treecut: RTight
 [RTight_ZH130_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH130
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -343,7 +388,7 @@ treecut: RTight
 [RMed_ZH110_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH110
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -352,7 +397,7 @@ treecut: RMed
 [RMed_ZH115_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH115
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -361,7 +406,7 @@ treecut: RMed
 [RMed_ZH120_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH120
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -370,7 +415,7 @@ treecut: RMed
 [RMed_ZH125_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH125
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -379,7 +424,7 @@ treecut: RMed
 [RMedCIVF_ZH125_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH125
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsCIVF
@@ -388,7 +433,7 @@ treecut: RMed
 [RMedCMVA_ZH125_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH125
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsCMVA
@@ -397,7 +442,7 @@ treecut: RMed
 [RMed_ZH130_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May08/env/sys/
+path: /scratch/May23/env/sys/
 signals: ZH130
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -490,7 +535,13 @@ blind: nov10_diJet_ZZbb_tight.nominal<0
 #Niklas' Additional Regions:
 
 RMed:   hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1])  > 0.5   & min(hJet_csv[0],hJet_csv[1]) > 0.244   & V.pt > 50.  & V.pt < 100.  & V.mass > 75. & V.mass < 105 & H.mass < 150. & H.mass > 80.
-RTight: hJet_pt[0]>20. && hJet_pt[1] > 20. && abs(hJet_eta[0])<2.4 && abs(hJet_eta[1])<2.4 & hbhe && max(hJet_csv[0],hJet_csv[1])>0.244 && min(hJet_csv[0],hJet_csv[1]) > 0.244 && V.pt > 100. && V.mass > 75. && V.mass < 105 && H.mass < 250.
+RTight:  hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1]) > 0.244 & min(hJet_csv[0],hJet_csv[1]) > 0.244 & V.pt > 100. & V.mass > 75. & V.mass < 105 & H.mass < 250.
+
+
+Light: hJet_pt[0] > 20. & hJet_pt[1] > 20. & EVENT.json & abs( HVdPhi ) > 2.9 & Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) == 0 & V.mass > 75. & V.mass < 105 & !(hJet_csv[0] > 0.898 | hJet_csv[1] > 0.898) & H.mass < 250. & hJet_csv[0] > 0. & hJet_csv[1] > 0. & H.mass > 50. & V.pt > 100.
+Top:   hJet_pt[0] > 20. & hJet_pt[1] > 20. & EVENT.json & H.pt > 100. & H.mass < 250. & ((hJet_csv[0] > 0.898 & hJet_csv[1] > 0.5) | (hJet_csv[0] > 0.5 & hJet_csv[1] > 0.898)) & (V.mass > 105 | V.mass < 75.)
+bb:    hJet_pt[0] > 20. & hJet_pt[1] > 20. & EVENT.json & (H.mass < 90. | H.mass > 145.) & H.mass < 250. & V.mass > 75. & V.mass < 105 & ((hJet_csv[0] > 0.898 & hJet_csv[1] > 0.5) | (hJet_csv[0] > 0.5 & hJet_csv[1] > 0.898)) & Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) < 2. & abs( HVdPhi ) > 2.9 
+
 
 RTight_EE: Vtype==1 & hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1]) > 0.244 & min(hJet_csv[0],hJet_csv[1]) > 0.244 & V.pt > 100. & V.mass > 75. & V.mass < 105 & H.mass < 250.
 RTight_MM: Vtype==0 & hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1])  > 0.244   & min(hJet_csv[0],hJet_csv[1]) > 0.244 & V.pt > 100. & V.mass > 75. & V.mass < 105 & H.mass < 250.
