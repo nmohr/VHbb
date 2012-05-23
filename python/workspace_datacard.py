@@ -539,22 +539,23 @@ f.write('CMS_vhbb_stats_s_Top_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\n'%optio
 f.write('CMS_vhbb_stats_VV_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\n'%options[10])
 
 #SYST
-f.write('CMS_JER\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
-f.write('CMS_JES\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
-'''
-f.write('CMS_beff\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
-f.write('CMS_bmis\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
-'''
-'''
-#SYST4
-f.write('CMS_JER\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
-f.write('CMS_JES\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
-f.write('CMS_beff\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
-f.write('CMS_bmis\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
-'''
 if bdt==True:
+    '''
     f.write('CMS_beff\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
     f.write('CMS_bmis\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+    f.write('CMS_JER\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+    f.write('CMS_JES\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+    '''
+    #SYST4
+    f.write('CMS_JER\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
+    f.write('CMS_JES\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
+    f.write('CMS_beff\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
+    f.write('CMS_bmis\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
+
+else:
+    f.write('CMS_JER\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+    f.write('CMS_JES\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+
 
 f.close()
 

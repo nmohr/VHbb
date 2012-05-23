@@ -7,49 +7,19 @@ MVAdir: /MVAout/
 #MVAdir: /MVAoutCMVA/
 #MVAdir: /MVAoutCIVF/
 
-#Plotting:
+
+###########################################################################################
+# Plotting etc...
 [Plot]
-Hpt: H.pt,Higgs_pt,Higgs pt,20,100,400,Higgs_pt.png,noCut,noCut
-Vpt: V.pt,Vector_pt,Vector pt,20,100,400,Vector_pt.png,noCut,noCut
-
-CC5050_pt100_ZH115: nov10_diJet_CC5050_MVAcut_pt100_ZH115.nominal,CC5050_pt100_ZH115,BDT output,20,-1,1,CC5050_pt100_ZH115.png,noCut,noCut
-CC5050_pt50_ZH115: nov10_diJet_CC5050_MVAcut_pt50_ZH115.nominal,CC5050_pt50_ZH115,BDT output,20,-1,1,CC5050_pt50_ZH115.png,noCut,noCut
-MM5050_pt100_ZH115: nov10_diJet_MM5050_MVAcut_pt100_ZH115.nominal,MM5050_pt100_ZH115,BDT output,20,-1,1,MM5050_pt100_ZH115.png,noCut,noCut
-MM5050_pt50_ZH115: nov10_diJet_MM5050_MVAcut_pt50_ZH115.nominal,MM5050_pt50_ZH115,BDT output,20,-1,1,MM5050_pt50_ZH115.png,noCut,noCut
-MMCC_pt100_ZH115: nov10_diJet_MMCC_MVAcut_pt100_ZH115.nominal,MMCC_pt100_ZH115,BDT output,20,-1,1,MMCC_pt100_ZH115.png,noCut,noCut
-MMCC_pt50_ZH115: nov10_diJet_MMCC_MVAcut_pt50_ZH115.nominal,MMCC_pt50_ZH115,BDT output,20,-1,1,MMCC_pt50_ZH115.png,noCut,noCut
-CCMM_pt100_ZH115: nov10_diJet_CCMM_MVAcut_pt100_ZH115.nominal,CCMM_pt100_ZH115,BDT output,20,-1,1,CCMM_pt100_ZH115.png,noCut,noCut
-CCMM_pt50_ZH115: nov10_diJet_CCMM_MVAcut_pt50_ZH115.nominal,BDT,BDT output,20,-1,1,CCMM_pt50_ZH115.png,noCut,noCut
-
 
 #May11
-
 RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125.png,RTight,RTight,ZH125,Zee Zmm,blind
 RMed_ZH125: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125.png,RMed,RMed,ZH125,Zee Zmm,blind
 Light_RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125_Light.png,Light,Light,ZH125,Zee Zmm,noblind
 Top_RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125_Top.png,Top,Top,ZH125,Zee Zmm,noblind
 bb_RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125_bb.png,bb,bb,ZH125,Zee Zmm,noblind
 
-
-
-#RCuts
-
-BB_RTight_ZH115: BB_RTight_ZH115.nominal,BDT,BDT output,20,-1,1,BB_RTight_ZH115.png,noCut,noCut
-BB_RMed_ZH115: BB_RMed_ZH115.nominal,BDT,BDT output,20,-1,1,BB_RMed_ZH115.png,noCut,noCut
-BB_RLoose_ZH115: BB_RLoose_ZH115.nominal,BDT,BDT output,20,-1,1,BB_RLoose_ZH115.png,noCut,noCut
-
-
-
-#MVAZZBb: nov10_diJet_btags_MVAcut_ZZb.nominal,BDT,BDT output,20,-1,1,nov10_diJet_btags_MVAcut_ZZb.png
-
-ZZbb_tight: nov10_diJet_ZZbb_tight.nominal,BDT,BDT output,20,-1,1,ZZbb_tight.png,noCut,blind
-ZZbb_tight_CC: nov10_diJet_ZZbb_tight.nominal,BDT,BDT output,20,-1,1,ZZbb_tight_CC.png,CC,blind
-ZZbb_tight_MM: nov10_diJet_ZZbb_tight.nominal,BDT,BDT output,20,-1,1,ZZbb_tight_MM.png,MM,blind
-ZZbb_loose: nov10_diJet_ZZbb_loose.nominal,BDT,BDT output,20,-1,1,ZZbb_loose.png,noCut,blind
-ZZbb_loose_CC: nov10_diJet_ZZbb_loose.nominal,BDT,BDT output,20,-1,1,ZZbb_loose_CC.png,CC,blind
-ZZbb_loose_MM: nov10_diJet_ZZbb_loose.nominal,BDT,BDT output,20,-1,1,ZZbb_loose_MM.png,MM,blind
-
-
+# GENERAL SETUP FOR PLOTS
 logy: 1
 #setup: DY jets udscg,DY jets b,TT-bar,WW/WZ/ZZ,Single top,Hbb 115
 #setup: DY jets b,DY jets udscg,TT-bar,Single top,Hbb 115,WW/WZ/ZZ
@@ -57,9 +27,8 @@ setup: DYlight,DYc,DYb,TT,ST,VV,ZH
 color: 401,41,5,596,602,17,2
 
 
+
 [Compare]
-
-
 cutA: EE
 cutB: MM
 
@@ -74,61 +43,30 @@ csv1: hJet_csv[1],hJet_csv1,CSV of hJet[1],20,0.2,1,csv1_compare.png,noCut
 AK7: deltaPullAngleAK7,deltaPullAngleAK7,deltaPullAngleAK7,20,-3.5,3.5,deltaPullAngleAK7_compare.png,noCut
 Sum: Sum$(aJet_pt>20.&abs(aJet_eta)<2.4),Sum,Sum$(aJet_pt>20.&abs(aJet_eta)<2.4),6,0,6,Sum_compare.png,noCut
 
-
 BKG: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
 SIG: ZH115
-
 Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
 
 
 
-
 [FoM]
-
 CC5050_pt100_ZH115: nov10_diJet_CC5050_MVAcut_pt100_ZH115.nominal,FoM_CC5050_pt100_ZH115,Figure of Merit,100,-1,1,FoM_CC5050_pt100_ZH115.png,noCut,noCut
 MMCC5050_pt100_ZH115: nov10_diJet_MMCC5050_MVAcut_pt100_ZH115.nominal,FoM_MMCC5050_pt100_ZH115,Figure of Merit,100,-1,1,FoM_MMCC5050_pt100_ZH115.png,noCut,noCut
 
-
-
 #RCuts
-
 BB_RTight_ZH115: BB_RTight_ZH115.nominal,FoM_BB_RTight_ZH115,Figure of Merit,100,-1,1,FoM_BB_RTight_ZH115.png,noCut
 BB_RMed_ZH115: BB_RMed_ZH115.nominal,FoM_BB_RMed_ZH115,Figure of Merit,100,-1,1,FoM_BB_RMed_ZH115.png,noCut
 BB_RLoose_ZH115: BB_RLoose_ZH115.nominal,FoM_BB_RLoose_ZH115,Figure of Merit,100,-1,1,FoM_BB_RLoose_ZH115.png,noCut
-
-
 BB_RTight_ZH115_noVmass: BB_RTight_ZH115_noVmass.nominal,FoM_BB_RTight_ZH115_noVmass,Figure of Merit,100,-1,1,FoM_BB_RTight_ZH115_noVmass.png,noCut
 BB_RTight_ZH115_MET: BB_RTight_ZH115_MET.nominal,FoM_BB_RTight_ZH115_MET,Figure of Merit,100,-1,1,FoM_BB_RTight_ZH115_MET.png,noCut
 
-
-
-
-ZZbb_tight: nov10_diJet_ZZbb_tight.nominal,FoM,Figure of Merit for ZZbb tight,20,-1,1,FoM_ZZbb_tight.png,noCut
-ZZbb_tight_CC: nov10_diJet_ZZbb_tight.nominal,FoM,Figure of Merit for ZZbb tight,20,-1,1,FoM_ZZbb_tight_CC.png,CC
-ZZbb_tight_MM: nov10_diJet_ZZbb_tight.nominal,FoM,Figure of Merit for ZZbb tight,20,-1,1,FoM_ZZbb_tight_MM.png,MM
-ZZbb_loose: nov10_diJet_ZZbb_loose.nominal,FoM,Figure of Merit for ZZbb loose,20,-1,1,FoM_ZZbb_loose.png,noCut
-ZZbb_loose_CC: nov10_diJet_ZZbb_loose.nominal,FoM,Figure of Merit for ZZbb loose,20,-1,1,FoM_ZZbb_loose_CC.png,CC
-ZZbb_loose_MM: nov10_diJet_ZZbb_loose.nominal,FoM,Figure of Merit for ZZbb loose,20,-1,1,FoM_ZZbb_loose_MM.png,MM
-
-# Zee  Zmm  Zusdcg  Zusdcg_pt100  Zbb  Zbb_pt100  WW  WZ  ZZ  ZZb  ZZudscg  TT  ST_s  ST_t  ST_tW  STbar_s  STbar_t  STbar_tW  ZH110  ZH115  ZH120  ZH125  ZH130  ZH135
-#BKG: Zusdcg Zusdcg_pt100 Zbb Zbb_pt100 WW WZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW 
-#SIG: ZZ
-
+# GENERAL SETUP FoM:
 BKG: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WW WZ ZZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
 SIG: ZH115
 
 
-
-
-
-
-
-
-#new names: vhbb_DC_BDT_M120_Zee.txt
-#new names: vhbb_DC_BDTRTight_M120_Zee.txt
-
-
-
+###########################################################################################
+# LIMIT
 [Limit]
 
 #Mjj low EE
@@ -160,7 +98,6 @@ Mjj_highPt_ZH125_MM: H.mass,Mjj,Mjj,25,0.,250.,Mjj_highPt_M125_Zmm,Mjj_highPt_MM
 Mjj_highPt_ZH130_MM: H.mass,Mjj,Mjj,25,0.,250.,Mjj_highPt_M130_Zmm,Mjj_highPt_MM,Mjj_highPt_MM,ZH130,Zmm,Mjj
 
 
-
 #Tight EE
 RTight_ZH110_EE: RTight_ZH110_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M110_Zee,RTight_EE,RTight_EE,ZH110,Zee,BDT
 RTight_ZH115_EE: RTight_ZH115_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M115_Zee,RTight_EE,RTight_EE,ZH115,Zee,BDT
@@ -190,12 +127,7 @@ RMed_ZH125_MM: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125_Zmm,RM
 RMed_ZH130_MM: RMed_ZH130_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M130_Zmm,RMed_MM,RMed_MM,ZH130,Zmm,BDT
 
 
-
-
-
 #SYST 4
-
-
 #Tight EE
 RTight4_ZH110_EE: RTight_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M110_Zee,RTight_EE,RTight_EE,ZH110,Zee
 RTight4_ZH115_EE: RTight_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M115_Zee,RTight_EE,RTight_EE,ZH115,Zee
@@ -237,7 +169,6 @@ RMedCMVA_ZH125_EE: RMedCMVA_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMedCMVA
 RMedCMVA_ZH125_MM: RMedCMVA_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMedCMVA_M125_Zmm,RMed_MM,RMed_MM,ZH125,Zmm,BDT
 
 
-
 #One Mass (125):
 #Tight EE
 sRTight_ZH110_EE: RTight_ZH125.nominal,BDT,BDT output,20,-1,1,sRTight_ZH110_EE_limittest,RTight_EE,RTight_EE,ZH110,Zee,BDT
@@ -268,58 +199,22 @@ sRMed_ZH125_MM: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH125_MM_limitte
 sRMed_ZH130_MM: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH130_MM_limittest,RMed_MM,RMed_MM,ZH130,Zmm,BDT
 
 
-
-
+#GENERAL SETUP LIMIT:
 setup: DYlight,DYc,DYb,TT,VV,ST,ZH
-
-
-
-
-
-
-
-
-#RCuts
-
-BBEE_RTight_ZH115: BB_RTight_ZH115.nominal,limit,BDT output,20,-1,1,BB_RTight_ZH115_EE_limittest,noCut,noCut
-BBEE_RMed_ZH115: BB_RMed_ZH115.nominal,limit,BDT output,20,-1,1,BB_RMed_ZH115_EE_limittest,noCut,noCut
-BBEE_RLoose_ZH115: BB_RLoose_ZH115.nominal,limit,BDT output,20,-1,1,BB_RLoose_ZH115_EE_limittest,noCut,noCut
-
-
-BBMM_RTight_ZH115: BB_RTight_ZH115.nominal,limit,BDT output,20,-1,1,BB_RTight_ZH115_MM_limittest,noCut,noCut
-BBMM_RMed_ZH115: BB_RMed_ZH115.nominal,limit,BDT output,20,-1,1,BB_RMed_ZH115_MM_limittest,noCut,noCut
-BBMM_RLoose_ZH115: BB_RLoose_ZH115.nominal,limit,BDT output,20,-1,1,BB_RLoose_ZH115_MM_limittest,noCut,noCut
-
-
 
 
 
 
 ##############################################################################################
 # MVA definitions
-
 [factory]
 factoryname: MVA
 factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Transformations=I
 #:Transformations=I;D;P;G,D
 
-#######################
-# Hbb:
 
 [MVALists]
-ZH115: CC5050_pt100_ZH115,CC5050_pt50_ZH115,MM5050_pt100_ZH115,MM5050_pt50_ZH115,MMCC_pt100_ZH115,MMCC_pt50_ZH115,CCMM_pt100_ZH115,CCMM_pt50_ZH115
-
-
-##################
-#     ZH115      #
-##################
-
-
-
 #list of all: RTight_ZH110,RTight_ZH115,RTight_ZH120,RTight_ZH125,RTight_ZH130,RTight_ZH135,RMed_ZH110,RMed_ZH115,RMed_ZH120,RMed_ZH125,RMed_ZH130,RMed_ZH135
-
-
-
 
 [RTight_ZH110_may]
 MVAtype: BDT
@@ -449,12 +344,6 @@ treeVarSet: treeVarsICHEP
 treecut: RMed
 
 
-
-##################
-
-
-
-
 ##############################################################################################
 # SYSTEMATICS:
 
@@ -506,7 +395,6 @@ bmis_up: H.mass H.pt HVdPhi V.mass V.pt H.dR max(hJet_csvFUp[0],hJet_csvFUp[1]) 
 bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dR max(hJet_csvFDown[0],hJet_csvFDown[1]) min(hJet_csvFDown[0],hJet_csvFDown[1]) deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
 spectators:
 
-
 [treeVarsold]
 Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
 JER_up: H_JER.mass_up H_JER.pt_up HVdPhi V.mass V.pt H.dR hJet_csv[0] hJet_csv[1] deltaPullAngleAK7 Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
@@ -524,31 +412,24 @@ spectators:
 # TreeCuts:
 
 [Cuts]
-#plot
 
-noCut: 1
-EE: Vtype == 1
-MM: Vtype == 0
-
-blind: nov10_diJet_ZZbb_tight.nominal<0
-
-#Niklas' Additional Regions:
-
+#V.pt regions:
 RMed:   hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1])  > 0.5   & min(hJet_csv[0],hJet_csv[1]) > 0.244   & V.pt > 50.  & V.pt < 100.  & V.mass > 75. & V.mass < 105 & H.mass < 150. & H.mass > 80.
 RTight:  hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1]) > 0.244 & min(hJet_csv[0],hJet_csv[1]) > 0.244 & V.pt > 100. & V.mass > 75. & V.mass < 105 & H.mass < 250.
 
-
+#control regions
 Light: hJet_pt[0] > 20. & hJet_pt[1] > 20. & EVENT.json & abs( HVdPhi ) > 2.9 & Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) == 0 & V.mass > 75. & V.mass < 105 & !(hJet_csv[0] > 0.898 | hJet_csv[1] > 0.898) & H.mass < 250. & hJet_csv[0] > 0. & hJet_csv[1] > 0. & H.mass > 50. & V.pt > 100.
 Top:   hJet_pt[0] > 20. & hJet_pt[1] > 20. & EVENT.json & H.pt > 100. & H.mass < 250. & ((hJet_csv[0] > 0.898 & hJet_csv[1] > 0.5) | (hJet_csv[0] > 0.5 & hJet_csv[1] > 0.898)) & (V.mass > 105 | V.mass < 75.)
 bb:    hJet_pt[0] > 20. & hJet_pt[1] > 20. & EVENT.json & (H.mass < 90. | H.mass > 145.) & H.mass < 250. & V.mass > 75. & V.mass < 105 & ((hJet_csv[0] > 0.898 & hJet_csv[1] > 0.5) | (hJet_csv[0] > 0.5 & hJet_csv[1] > 0.898)) & Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) < 2. & abs( HVdPhi ) > 2.9 
 
-
+#lepton individual
 RTight_EE: Vtype==1 & hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1]) > 0.244 & min(hJet_csv[0],hJet_csv[1]) > 0.244 & V.pt > 100. & V.mass > 75. & V.mass < 105 & H.mass < 250.
 RTight_MM: Vtype==0 & hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1])  > 0.244   & min(hJet_csv[0],hJet_csv[1]) > 0.244 & V.pt > 100. & V.mass > 75. & V.mass < 105 & H.mass < 250.
 
 RMed_EE: Vtype==1 & hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1])  > 0.5   & min(hJet_csv[0],hJet_csv[1]) > 0.244   & V.pt > 50.  & V.pt < 100.  & V.mass > 75. & V.mass < 105 & H.mass < 150. & H.mass > 80.
 RMed_MM: Vtype==0 & hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1])  > 0.5   & min(hJet_csv[0],hJet_csv[1]) > 0.244   & V.pt > 50.  & V.pt < 100.  & V.mass > 75. & V.mass < 105 & H.mass < 150. & H.mass > 80.
 
+#Mjj
 Mjj_lowPt_EE: V.mass > 75. & V.mass < 105. & V.pt > 50. & V.pt < 100 & H.pt > 0. & H.mass < 250. & ( hJet_csv[0] > 0.898 || hJet_csv[1] > 0.898 ) & hJet_csv[0] > 0.5 & hJet_csv[1] > 0.5 & hJet_pt[0] > 20. & hJet_pt[1] > 20. & TMath::Abs(HVdPhi) > 2.9 & EVENT.json == 1 & hbhe == 1 & MET.et < 50 & ( Vtype ==1 && ( triggerFlags[5] || triggerFlags[6] ) ) 
 Mjj_lowPt_MM: V.mass > 75. & V.mass < 105. & V.pt > 50. & V.pt < 100. & H.pt > 0. & H.mass < 250. & ( hJet_csv[0] > 0.898 || hJet_csv[1] > 0.898 ) & hJet_csv[0] > 0.5 & hJet_csv[1] > 0.5 & hJet_pt[0] > 20. & hJet_pt[1] > 20. & TMath::Abs(HVdPhi) > 2.9 & EVENT.json == 1 & hbhe == 1 & MET.et < 50 &  ( Vtype == 0 && (((EVENT.run<173198 && (triggerFlags[0]>0 || triggerFlags[13]>0 || triggerFlags[14]>0 || triggerFlags[20]>0 || triggerFlags[21]>0)) || (EVENT.run>=173198 && EVENT.run<175832  && (triggerFlags[13]>0 ||triggerFlags[14]>0 || triggerFlags[22]>0 || triggerFlags[23]>0))|| (EVENT.run>=175832 && EVENT.run<178390 && (triggerFlags[13]>0 ||triggerFlags[14]>0 ||triggerFlags[15]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0)) || (EVENT.run>=178390 && (triggerFlags[14]>0 ||triggerFlags[15]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0 || triggerFlags[24]>0 || triggerFlags[25]>0 || triggerFlags[26]>0 || triggerFlags[27]>0)))) ) 
 
