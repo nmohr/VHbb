@@ -17,7 +17,7 @@ for job in info:
     print '\t\twith luminosity = %s and xsec = %s'%(job.lumi,job.xsec)    
     print '\t\tdefined as type %s'%job.type
     print '\t\tcuts applied: %s'%job.treecut
-    print '\t\tsplitiing factor: %s'%job.split
+    print '\t\tScalefactor: %s'%job.sf
     print '\t\tSystematics available:'
     for sys in job.SYS: print '\t\t\t\033[1;32m- %s\033[1;m'%sys
     comments=str.split(job.comment,'\n')
