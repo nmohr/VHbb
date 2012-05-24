@@ -361,6 +361,9 @@ UD = ['Up','Down']
 systhistosarray=[]
 Coco=0
 
+bdt = False
+mjj = False
+
 print str(anType)
 print len(options)
 if str(anType) == 'BDT':
