@@ -3,9 +3,10 @@
 echo "As input it takes as input the dir where the ntuple are stored"
 
 DIR=${1}
+VERSION=${2}
 mkdir histos
 cd histos
-ls ${DIR}*root | grep -v histos >> fileList.txt
+ls ${DIR}*${VERSION}*root | grep -v histos >> fileList.txt
 #find ${DIR} -type f -print | grep -v histos >> fileList.txt
 while read line
 do ln -s $line ${line/*ZllH/ZllH} 
