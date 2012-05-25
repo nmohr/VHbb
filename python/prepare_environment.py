@@ -5,7 +5,7 @@ from samplesclass import sample
 import pickle
 import sys
 
-prefix='ZllH.May23.'
+prefix='ZllH.May23Like.'
 
 lumi=4980
 
@@ -23,12 +23,12 @@ Precut='& V.pt > 50 & V.mass > 75. & V.mass < 105 & hJet_pt[0] > 20. & hJet_pt[1
 
 
 #Montecarlos
-InFiles0 = ['WW_TuneZ2_7TeV_pythia6_tauola', 'WZ_TuneZ2_7TeV_pythia6_tauola','ZZ_TuneZ2_7TeV_pythia6_tauola','TTJets_TuneZ2_7TeV-madgraph-tauola','T_TuneZ2_s-channel_7TeV-powheg-tauola','T_TuneZ2_t-channel_7TeV-powheg-tauola', 'T_TuneZ2_tW-channel-DR_7TeV-powheg-tauola','Tbar_TuneZ2_s-channel_7TeV-powheg-tauola','Tbar_TuneZ2_t-channel_7TeV-powheg-tauola', 'Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola','ZH_ZToLL_HToBB_M-110_7TeV-powheg-herwigpp','ZH_ZToLL_HToBB_M-115_7TeV-powheg-herwigpp','ZH_ZToLL_HToBB_M-120_7TeV-powheg-herwigpp','ZH_ZToLL_HToBB_M-125_7TeV-powheg-herwigpp','ZH_ZToLL_HToBB_M-130_7TeV-powheg-herwigpp']
-samplenames0 =['WW','WZ','ZZ','TT','ST_s','ST_t','ST_tW','STbar_s','STbar_t','STbar_tW','ZH110','ZH115','ZH120','ZH125','ZH130']
-sampletypes0 =['BKG','BKG','BKG','BKG','BKG','BKG','BKG','BKG','BKG','BKG','SIG','SIG','SIG','SIG','SIG']
-samplesgroup0=['VV','VV','VV','TT','ST','ST','ST','ST','ST','ST','ZH','ZH','ZH','ZH','ZH']
-xsecs0 = [42.9, 18.3, 5.9, 165, 3.19, 41.92, 7.87, 1.44, 22.65, 7.87, 0.4721*0.100974*0.745, 0.4107*0.100974*0.704, 0.3598*0.100974*0.648, 0.3158*0.100974*0.577, 0.2778*0.100974*0.493]
-SF0=[1.0,1.0,1.0,1.04,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0]
+InFiles0 = ['WW_TuneZ2_7TeV_pythia6_tauola', 'WZ_TuneZ2_7TeV_pythia6_tauola','ZZ_TuneZ2_7TeV_pythia6_tauola','TTJets_TuneZ2_7TeV-madgraph-tauola','T_TuneZ2_s-channel_7TeV-powheg-tauola','T_TuneZ2_t-channel_7TeV-powheg-tauola', 'T_TuneZ2_tW-channel-DR_7TeV-powheg-tauola','Tbar_TuneZ2_s-channel_7TeV-powheg-tauola','Tbar_TuneZ2_t-channel_7TeV-powheg-tauola', 'Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola','ZH_ZToLL_HToBB_M-110_7TeV-powheg-herwigpp','ZH_ZToLL_HToBB_M-115_7TeV-powheg-herwigpp','ZH_ZToLL_HToBB_M-120_7TeV-powheg-herwigpp','ZH_ZToLL_HToBB_M-125_7TeV-powheg-herwigpp','ZH_ZToLL_HToBB_M-130_7TeV-powheg-herwigpp','ZH_ZToLL_HToBB_M-135_7TeV-powheg-herwigpp']
+samplenames0 =['WW','WZ','ZZ','TT','ST_s','ST_t','ST_tW','STbar_s','STbar_t','STbar_tW','ZH110','ZH115','ZH120','ZH125','ZH130','ZH135']
+sampletypes0 =['BKG','BKG','BKG','BKG','BKG','BKG','BKG','BKG','BKG','BKG','SIG','SIG','SIG','SIG','SIG','SIG']
+samplesgroup0=['VV','VV','VV','TT','ST','ST','ST','ST','ST','ST','ZH','ZH','ZH','ZH','ZH','ZH']
+xsecs0 = [42.9, 18.3, 5.9, 165, 3.19, 41.92, 7.87, 1.44, 22.65, 7.87, 0.4721*0.100974*0.745, 0.4107*0.100974*0.704, 0.3598*0.100974*0.648, 0.3158*0.100974*0.577, 0.2778*0.100974*0.493,0.2453*0.100974*0.403]
+SF0=[1.0,1.0,1.0,1.03224,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0]
 Aprefix0 = ['']
 cut0 = ['(Vtype == 1 || Vtype == 0) && EVENT.json && hbhe']
 
@@ -39,7 +39,7 @@ samplenames1 =['Zudsg','Zbb','Zcc']
 sampletypes1 =['BKG']*3
 samplesgroup1=['DYlight','DYb','DYc']
 xsecs1 = [3048]*3
-SF1=[1.00,0.95,1.24]
+SF1=[1.0513,1.19108,0.970138]
 Aprefix1 = ['udsg_120_', 'b_120_','c_120_']
 cut1 = ['(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav != 5 & eventFlav != 4 & genZpt <= 120.','(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav == 5 & genZpt <= 120.','(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav == 4 & genZpt <= 120.']
 
@@ -49,7 +49,7 @@ samplenames2 =['Zudsg_pt120','Zbb_pt120','Zcc_pt120']
 sampletypes2 =['BKG']*3
 samplesgroup2=['DYlight','DYb','DYc']
 xsecs2 = [30]*3
-SF2=[1.00,0.95,1.24]
+SF2=[1.0513,1.19108,0.970138]
 Aprefix2 = ['udsg_120_', 'b_120_','c_120_']
 cut2 = ['(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav != 5 & eventFlav != 4 & genZpt > 120.','(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav == 5 & genZpt > 120.','(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav == 4 & genZpt > 120.']
 

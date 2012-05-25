@@ -534,7 +534,7 @@ for sys in systematics:
             systhistosarray[Coco][i].Fit('FitFunction')
         '''
                     
-                    
+        '''
         #or now i try some rescaling by 4:
         
         for i in range(0,len(systhistosarray[Coco])):
@@ -544,7 +544,7 @@ for sys in systematics:
                 A=systhistosarray[Coco][i].GetBinContent(bin)
                 B=histos[i].GetBinContent(bin)
                 systhistosarray[Coco][i].SetBinContent(bin,B+((A-B)/4.))
-        
+        '''
         # .
         # .
         # finaly lpop over histos
@@ -630,18 +630,18 @@ f.write('CMS_vhbb_stats_VV_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\n'%options[
 
 #SYST
 if bdt==True:
-    
-    f.write('Btag\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
-    f.write('BtagFake\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+    '''
     f.write('JER\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
     f.write('JEC\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+    f.write('Btag\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
+    f.write('BtagFake\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
     '''
     #SYST4
     f.write('JER\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
     f.write('JEC\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
     f.write('Btag\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
     f.write('BtagFake\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n')
-    '''
+    
 else:
     f.write('JER\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
     f.write('JEC\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n')
