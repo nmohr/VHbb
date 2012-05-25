@@ -38,19 +38,23 @@ bool sCut( ntupleReader & p , Sample & sample ){
 };
 
 std::string generateName( std::string & baseName, int btag = 0, int jec = 0 ) {
-  if( jec > 0 )
+  if( jec == 1 )
     return ( "SystJecUP"+baseName );
-  else if( jec < 0 )
+  else if( jec == -1 )
     return ( "SystJecDOWN"+baseName );
+  else if( jec == 2 )
+    return ( "SystJerUP"+baseName );
+  else if( jec == -2 )
+    return ( "SystJerDOWN"+baseName );
   if( btag == 1)
     return ( "SystBtagUP"+baseName );
   else if( btag == -1 )
     return ( "SystBtagDOWN"+baseName );
- else if( btag == 2 )
+  else if( btag == 2 )
     return ( "SystBtagFUP"+baseName );
- else if( btag == -2 )
+  else if( btag == -2 )
     return ( "SystBtagFDOWN"+baseName );
-  if( btag == 0 && jec == 0)
+  else if( btag == 0 && jec == 0)
     return baseName;
 };
 
