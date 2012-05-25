@@ -17,27 +17,28 @@ void prepareAllZHistos(std::vector<CutsAndHistos *> & allHistosZ,TFile *fout  )
 
   //Standard histos
   allHistosZ.push_back(new CutsAndHistos(new BDTTTbarControlRegionHZcombSB( 0, 0 ),new StandardHistos));
-  allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegionHZcombSB( 0 , 0 ),new StandardHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegionHZcombSB( 0 , 0 ),new StandardHistos));
   allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegionHZcombSB( 0, 0 ),new StandardHistos));
   allHistosZ.push_back(new CutsAndHistos(new BDTTrainingRegionHZcombSB( 0, 0 ),new StandardHistos));
-  allHistosZ.push_back(new CutsAndHistos(new BDTZbbControlRegionHZcombSB( 0, 0 ),new StandardHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new BDTZbbControlRegionHZcombSB( 0, 0 ),new StandardHistos));
   //Systematics histos
   allHistosZ.push_back(new CutsAndHistos(new BDTTTbarControlRegionHZcombSB( 0, 0 ),new SystematicsHistos));
-  allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegionHZcombSB( 0 , 0 ),new SystematicsHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegionHZcombSB( 0 , 0 ),new SystematicsHistos));
   allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegionHZcombSB( 0, 0 ),new SystematicsHistos));
   allHistosZ.push_back(new CutsAndHistos(new BDTTrainingRegionHZcombSB( 0, 0 ),new SystematicsHistos));
-  allHistosZ.push_back(new CutsAndHistos(new BDTZbbControlRegionHZcombSB( 0, 0 ),new SystematicsHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new BDTZbbControlRegionHZcombSB( 0, 0 ),new SystematicsHistos));
   
-  int jec [] = { -1, 1 };
+  int jec [] = { -2, -1, 1, 2 };
   int btag [] = { -2, -1, 0, 1, 2 };
 
-  for(int j=0; j<2; ++j){ // jec systematics
+  for(int j=0; j<4; ++j){ // jec systematics
     //Standard histos
     allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegionHZcombSB( jec[j], 0 ),new StandardHistos));
     //Systematics histos
     allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegionHZcombSB( jec[j], 0 ),new SystematicsHistos));
+    allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegionHZcombSB( jec[j], 0 ),new SystematicsHistos));
   }
-  for( int b=0; b<5; ++b){ //btag systematics
+  for( int b=0; b<5; ++b){ //btag systematics + no systematics ( [0,0] bin )  
     //Standard histos
     allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegionHZcombSB( 0, btag[b] ),new StandardHistos));
     //Systematics histos
@@ -88,7 +89,7 @@ int main(int argc, char **argv)
     if(samples.at(iS).data) { data=true; splitBCLIGHT=false;}
     else{ data=false; splitBCLIGHT=true;}
   
-    //  mkdir("./Histograms",755);
+    //    mkdir("./Histograms",755);
 
     if(verbose_)
       std::cout << "opening the output file" << std::endl;
