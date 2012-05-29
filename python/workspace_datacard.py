@@ -61,7 +61,7 @@ outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
 
 ##############################
 # MAYBE EDIT THIS:
-discr_names = ['ZjLF','ZjCF','ZjHF', 'TT','VV', 's_Top', 'VH', 'WjLF', 'WjHF', 'QCD'] #corresponding to setup
+discr_names = ['ZjLF','ZjHF', 'TT','VV', 's_Top', 'VH', 'WjLF', 'WjHF', 'QCD'] #corresponding to setup
 data_name = ['data_obs']
 systematicsnaming={'JER':'JER','JES':'JEC','beff':'Btag','bmis':'BtagFake'}
 #### rescaling by factor 4
@@ -180,7 +180,7 @@ for i in range(0,len(histos)):
 
 #dunnmies - only to fill in empty histos for QCD and Wj
 #Wlight,Wbb,QCD
-for i in range(7,10):
+for i in range(6,9):
     dummy = ROOT.TH1F(discr_names[i], 'discriminator', nBins, xMin, xMax)
     outfile.cd()
     dummy.Write()
@@ -305,7 +305,7 @@ scalefactors=pier.readlines()
 pier.close()
 f = open(outpath+'vhbb_DC_'+ROOToutname+'.txt','w')
 f.write('imax\t1\tnumber of channels\n')
-f.write('jmax\t9\tnumber of backgrounds (\'*\' = automatic)\n')
+f.write('jmax\t8\tnumber of backgrounds (\'*\' = automatic)\n')
 f.write('kmax\t*\tnumber of nuisance parameters (sources of systematical uncertainties)\n\n')
 if bdt==True:
     f.write('shapes * * vhbb_WS_%s.root $CHANNEL:$PROCESS $CHANNEL:$PROCESS$SYSTEMATIC\n\n'%ROOToutname)
@@ -313,63 +313,58 @@ else:
     f.write('shapes * * vhbb_TH_%s.root $PROCESS $PROCESS$SYSTEMATIC\n\n'%ROOToutname)
 f.write('bin\t%s\n\n'%Datacradbin)
 f.write('observation\t%s\n\n'%d1.Integral())
-f.write('bin\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin))
-f.write('process\tVH\tWjLF\tWjHF\tZjLF\tZjCF\tZjHF\tTT\ts_Top\tVV\tQCD\n')
-f.write('process\t0\t1\t2\t3\t4\t5\t6\t7\t8\t9\n')
-f.write('rate\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(histos[6].Integral(),0,0,histos[0].Integral(),histos[1].Integral(),histos[2].Integral(),histos[3].Integral(),histos[5].Integral(),histos[4].Integral(),0)) #\t1.918\t0.000 0.000\t135.831  117.86  18.718 1.508\t7.015\t0.000
-f.write('lumi\tlnN\t1.045\t-\t-\t-\t-\t-\t-\t1.045\t1.045\t1.045\n')
-f.write('pdf_qqbar\tlnN\t1.01\t-\t-\t-\t-\t-\t-\t-\t1.01\t-\n')
-f.write('pdf_gg\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.01\t-\t1.01\n')
-f.write('QCDscale_VH\tlnN\t1.04\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('QCDscale_ttbar\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.06\t-\t-\n')
-f.write('QCDscale_VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t1.04\t-\n')
-f.write('QCDscale_QCD\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t1.30\n')
-f.write('CMS_vhbb_boost_EWK\tlnN\t1.05\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_boost_QCD\tlnN\t1.10\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_ST\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.29\t-\t-\n')
-f.write('CMS_vhbb_VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t1.30\t-\n')
+f.write('bin\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin))
+f.write('process\tVH\tWjLF\tWjHF\tZjLF\tZjHF\tTT\ts_Top\tVV\tQCD\n')
+
+f.write('process\t0\t1\t2\t3\t4\t5\t6\t7\t8\n')
+f.write('rate\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(histos[5].Integral(),0,0,histos[0].Integral(),histos[1].Integral(),histos[2].Integral(),histos[4].Integral(),histos[3].Integral(),0)) #\t1.918\t0.000 0.000\t135.831  117.86  18.718 1.508\t7.015\t0.000
+f.write('lumi\tlnN\t1.045\t-\t-\t-\t-\t-\t1.045\t1.045\t1.045\n')
+f.write('pdf_qqbar\tlnN\t1.01\t-\t-\t-\t-\t-\t-\t1.01\t-\n')
+f.write('pdf_gg\tlnN\t-\t-\t-\t-\t-\t-\t1.01\t-\t1.01\n')
+f.write('QCDscale_VH\tlnN\t1.04\t-\t-\t-\t-\t-\t-\t-\t-\n')
+f.write('QCDscale_ttbar\tlnN\t-\t-\t-\t-\t-\t-\t1.06\t-\t-\n')
+f.write('QCDscale_VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.04\t-\n')
+f.write('QCDscale_QCD\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t1.30\n')
+f.write('CMS_vhbb_boost_EWK\tlnN\t1.05\t-\t-\t-\t-\t-\t-\t-\t-\n')
+f.write('CMS_vhbb_boost_QCD\tlnN\t1.10\t-\t-\t-\t-\t-\t-\t-\t-\n')
+f.write('CMS_vhbb_ST\tlnN\t-\t-\t-\t-\t-\t-\t1.29\t-\t-\n')
+f.write('CMS_vhbb_VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.30\t-\n')
 for line in scalefactors:
     f.write(line)
-'''
-f.write('CMS_vhbb_ZjLF_SF\tlnN\t-\t-\t-\t1.206\t0.808\t1.081\t1.000\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_ZjCF_SF\tlnN\t-\t-\t-\t0.621\t1.406\t0.759\t1.001\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_ZjHF_SF\tlnN\t-\t-\t-\t1.079\t0.882\t1.199\t0.964\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_TT_SF\tlnN\t-\t-\t-\t1.000\t1.000\t0.969\t1.169\t-\t-\t-\t-\n')
-'''
 if options[10]=='Zee':
-    f.write('CMS_eff_m lnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-    f.write('CMS_eff_e lnN\t1.04\t-\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
-    f.write('CMS_trigger_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-    f.write('CMS_trigger_e\tlnN\t1.02\t-\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
+    f.write('CMS_eff_m lnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+    f.write('CMS_eff_e lnN\t1.04\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
+    f.write('CMS_trigger_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+    f.write('CMS_trigger_e\tlnN\t1.02\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
 if options[10]=='Zmm':
-    f.write('CMS_eff_e lnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-    f.write('CMS_eff_m lnN\t1.04\t-\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
-    f.write('CMS_trigger_e\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-    f.write('CMS_trigger_m\tlnN\t1.02\t-\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
-f.write('CMS_vhbb_trigger_MET\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_%s_%s\tshape\t1.0\t-\t-\t-\t-\t-\t-\t-\t-\t-\n'%(discr_names[6], options[10]))
-f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t1.0\t-\t-\t-\t-\t-\t-\n'%(discr_names[0], options[10]))
-f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t1.0\t-\t-\t-\t-\t-\n'%(discr_names[1], options[10]))
-f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t-\t1.0\t-\t-\t-\t-\n'%(discr_names[2], options[10]))
-f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\t-\n'%(discr_names[3], options[10]))
-f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\n'%(discr_names[5], options[10]))
-f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\n'%(discr_names[4], options[10]))
+    f.write('CMS_eff_e lnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+    f.write('CMS_eff_m lnN\t1.04\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
+    f.write('CMS_trigger_e\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+    f.write('CMS_trigger_m\tlnN\t1.02\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
+
+f.write('CMS_vhbb_trigger_MET\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+f.write('CMS_vhbb_stats_%s_%s\tshape\t1.0\t-\t-\t-\t-\t-\t-\t-\t-\n'%(discr_names[5], options[10]))
+f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t1.0\t-\t-\t-\t-\t-\n'%(discr_names[0], options[10]))
+f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t1.0\t-\t-\t-\t-\n'%(discr_names[1], options[10]))
+f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t-\t1.0\t-\t-\t-\n'%(discr_names[2], options[10]))
+f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\n'%(discr_names[4], options[10]))
+f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\n'%(discr_names[3], options[10]))
 #SYST
 if bdt==True:
     if scaling:
-        f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['JER'])
-        f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['JES'])
-        f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['beff'])
-        f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['bmis'])
+        f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['JER'])
+        f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['JES'])
+        f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['beff'])
+        f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['bmis'])
     else:
         #SYST4
-        f.write('%s\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n'%systematicsnaming['JER'])
-        f.write('%s\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n'%systematicsnaming['JES'])
-        f.write('%s\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n'%systematicsnaming['beff'])
-        f.write('%s\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n'%systematicsnaming['bmis'])
+        f.write('%s\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n'%systematicsnaming['JER'])
+        f.write('%s\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n'%systematicsnaming['JES'])
+        f.write('%s\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n'%systematicsnaming['beff'])
+        f.write('%s\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n'%systematicsnaming['bmis'])
 else:
-    f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['JER'])
-    f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['JES'])
+    f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['JER'])
+    f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['JES'])
 f.close()
 
 outfile.Write()

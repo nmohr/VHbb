@@ -23,11 +23,13 @@ config.read('./config')
 Wdir=config.get('Directories','Wdir')
 
 
-
+Normalize=True
 
 path = sys.argv[1]
 var = sys.argv[2]
 
+if 'bb' in var or 'Light' in var or 'Top' in var:
+    Normalize=True
 
 plot=config.get('Plot',var)
 
@@ -126,7 +128,6 @@ for j in range(0,k):
     
 
 d1 = ROOT.TH1F('noData','noData',nBins,xMin,xMax)
-
 datatitle=''
 for i in range(0,len(datas)):
     d1.Add(datas[i],1)
@@ -139,6 +140,15 @@ flow = d1.GetEntries()-d1.Integral()
 if flow > 0:
     print "\033[1;31m\tU/O flow: %s\033[1;m"%flow
 l.AddEntry(d1,datatitle,'PL')
+
+if Normalize:
+    stackscale=d1.Integral()/MC_integral
+    stackhists=allStack.GetHists()
+    for blabla in stackhists:
+        blabla.Scale(stackscale)
+
+
+
 allStack.SetTitle()
 allStack.Draw("hist")
 allStack.GetXaxis().SetTitle(title)
@@ -198,7 +208,12 @@ m_one_line.SetLineStyle(7)
 m_one_line.SetLineColor(4)
 m_one_line.Draw("Same")
 
+t = ROOT.TLatex()
+t.SetNDC()
+t.SetTextAlign(12)
+t.SetTextSize(0.15)
+t.DrawLatex(0.12,0.8,"KS: %s"%(ksScore))
+t.DrawLatex(0.12,0.25,"x2: %s"%(chiScore))
 
 name = '%s/%s' %(config.get('Directories','plotpath'),options[6])
 c.Print(name)
-

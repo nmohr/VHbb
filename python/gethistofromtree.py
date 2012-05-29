@@ -102,7 +102,7 @@ def orderandadd(histos,typs,setup):
     num=[0]*len(setup)
     for i in range(0,len(setup)):
         for j in range(0,len(histos)):
-            if typs[j] == setup[i]:
+            if typs[j] in setup[i]:
                 num[i]+=1
                 ordnung.append(histos[j])
                 ordnungtyp.append(typs[j])
@@ -119,7 +119,7 @@ def orderandadd(histos,typs,setup):
             
                 #add
                 histos[k].Add(histos[k+1],1)
-                #printc('red','','\t--> added %s to %s'%(typs[k],typs[k+1]))
+                printc('magenta','','\t--> added %s to %s'%(typs[k],typs[k+1]))
                 del histos[k+1]
                 del typs[k+1]
 
