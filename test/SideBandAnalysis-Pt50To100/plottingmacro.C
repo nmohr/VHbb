@@ -88,7 +88,7 @@ void plottingmacro()
 
       //      if(!n.Contains(TRegexp("^BDTZlightControlRegionHZcombSB"))) continue;
       //      if(!n.Contains(TRegexp("^BDTZbbControlRegionHZcombSB"))) continue;
-      //      if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcombSB"))) continue;
+      //if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcombSB"))) continue;
       if(!n.Contains(TRegexp("^BDTSideBandRegionHZcombSB"))) continue;
       //if(!n.Contains(TRegexp("^BDTSignalRegionHZcombSB"))) continue;
       //if(!n.Contains(TRegexp("^BDTTrainingRegionHZcombSB"))) continue;
@@ -284,8 +284,10 @@ void plottingmacro()
       std::vector<double> syst(divisionSystErrorBand->GetNbinsX(),1.);
       std::vector<double> syst_err(divisionSystErrorBand->GetNbinsX(), 0.15 );
       for(int i=0; i<divisionSystErrorBand->GetNbinsX();++i){
-	divisionSystErrorBand->SetBinContent( i+1, syst.at(i) );
-	divisionSystErrorBand->SetBinError( i+1, syst_err.at(i) );
+	if(hmc->GetBinContent(i+1) > 0. ){
+	  divisionSystErrorBand->SetBinContent( i+1, syst.at(i) );
+	  divisionSystErrorBand->SetBinError( i+1, syst_err.at(i) );
+	}
       }
       divisionSystErrorBand->Draw("E2 same");      
       divisionSystErrorBand->SetMaximum(2.49);
@@ -298,6 +300,7 @@ void plottingmacro()
 
       //redraw to make it visible
       divisionErrorBand->Draw("E2 same"); 
+      BtmPad->RedrawAxis(); 
 
 
       TH1D * division = (TH1D*)(hd)->Clone("division");
@@ -362,7 +365,7 @@ void plottingmacro()
       latex.SetTextSize(0.052);
       latex.DrawLatex(0.17,0.89,"CMS Preliminary");
       latex.SetTextSize(0.04);
-      latex.DrawLatex(0.17,0.84,"#sqrt{s} = 7 TeV, L = 4.7 fb^{-1}");
+      latex.DrawLatex(0.17,0.84,"#sqrt{s} = 7 TeV, L = 5.0 fb^{-1}");
       latex.DrawLatex(0.17,0.79,process.c_str());
 
       c->Update();
@@ -444,7 +447,7 @@ void plottingmacro()
       latex.SetTextSize(0.052);
       latex.DrawLatex(0.17,0.89,"CMS Preliminary");
       latex.SetTextSize(0.04);
-      latex.DrawLatex(0.17,0.84,"#sqrt{s} = 7 TeV, L = 4.7 fb^{-1}");
+      latex.DrawLatex(0.17,0.84,"#sqrt{s} = 7 TeV");
       latex.DrawLatex(0.17,0.79,process.c_str());
       std::string cName_norm= hd->GetName();
 
