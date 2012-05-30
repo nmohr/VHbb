@@ -85,13 +85,21 @@ histos = []
 typs = []
 statUps=[]
 statDowns=[]
-
+blind=eval(config.get('Limit','blind'))
+if blind: 
+    print 'I AM BLINDED!'
+counter=0
 for job in info:
     if job.type == 'BKG':
         #print 'MC'
         hTemp, typ = getHistoFromTree(job,options,2)
         histos.append(hTemp)
         typs.append(typ)
+        if counter == 0:
+            hDummy = hTemp
+        else:
+            hDummy.Add(hTemp)
+        counter += 1
     elif job.type == 'SIG' and job.name == mass:
         hTemp, typ = getHistoFromTree(job,options,2)
         histos.append(hTemp)
@@ -205,7 +213,14 @@ if flow > 0:
 d1.SetName(data_name[0])
 outfile.cd()
 d1.Write()
-histPdf = ROOT.RooDataHist('data_obs','data_obs',obs,d1)
+if blind:
+    hDummy.SetName(data_name[0])
+    rooDummy = ROOT.RooDataHist('data_obs','data_obs',obs,hDummy)
+    toy = ROOT.RooHistPdf('data_obs','data_obs',ROOT.RooArgSet(obs),rooDummy)
+    rooDataSet = toy.generate(ROOT.RooArgSet(obs),int(d1.Integral()))
+    histPdf = ROOT.RooDataHist('data_obs','data_obs',ROOT.RooArgSet(obs),rooDataSet.reduce(ROOT.RooArgSet(obs)))
+else:
+    histPdf = ROOT.RooDataHist('data_obs','data_obs',obs,d1)
 #ROOT.RooAbsData.plotOn(histPdf,frame)
 #frame.Draw()
 #IMPORT
@@ -329,6 +344,9 @@ f.write('CMS_vhbb_boost_EWK\tlnN\t1.05\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_boost_QCD\tlnN\t1.10\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_ST\tlnN\t-\t-\t-\t-\t-\t-\t1.29\t-\t-\n')
 f.write('CMS_vhbb_VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.30\t-\n')
+f.write('CMS_vhbb_ZjLF_ex\tlnN\t-\t-\t-\t1.05\t-\t-\t-\t-\t-\n')
+f.write('CMS_vhbb_ZjHF_ex\tlnN\t-\t-\t-\t-\t1.05\t-\t-\t-\t-\n')
+f.write('CMS_vhbb_TT_ex\tlnN\t-\t-\t-\t-\t-\t1.05\t-\t-\t-\n')
 for line in scalefactors:
     f.write(line)
 if options[10]=='Zee':
