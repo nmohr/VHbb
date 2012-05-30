@@ -52,7 +52,7 @@ int main(int argc, char **argv){
   bool debug_=false;
   bool fitSys = true;
   bool fitMC = false;
-  bool getSFfromFile = false;
+  bool getSFfromFile = true;
 
   std::string btag_up = "btag_up";
   std::string btag_down = "btag_down";
@@ -74,15 +74,20 @@ int main(int argc, char **argv){
   if(syst_string == btag_down){ s_suffix_Zlight_SB = "SystDOWN$";  }
   if(syst_string == mistag_up){ s_suffix_Zlight_SB = "SystFUP$";  }
   if(syst_string == mistag_down){ s_suffix_Zlight_SB = "SystFDOWN$";  }
-  if(syst_string == jec_up){ s_suffix_Zbb_SB = "SystUP$";  s_sysprefix_Zbb = "SystJecUPBDT";  }
-  if(syst_string == jec_down){ s_suffix_Zbb_SB = "SystDOWN$"; s_sysprefix_Zbb = "SystJecDOWNBDT"; }
-  if(syst_string == jer_up){ s_suffix_Zbb_SB = "SystJERUP$"; s_sysprefix_Zbb = "SystJerUPBDT"; }
-  if(syst_string == jer_down){ s_suffix_Zbb_SB = "SystJERDOWN$"; s_sysprefix_Zbb = "SystJerDOWNBDT"; }
+  if(syst_string == jec_up){ s_suffix_Zbb_SB = "SystUP$"; }
+  if(syst_string == jec_down){ s_suffix_Zbb_SB = "SystDOWN$"; }
+  if(syst_string == jer_up){ s_suffix_Zbb_SB = "SystJERUP$"; }
+  if(syst_string == jer_down){ s_suffix_Zbb_SB = "SystJERDOWN$"; }
+
+//   if(syst_string == jec_up){ s_suffix_Zbb_SB = "SystUP$";  s_sysprefix_Zbb = "SystJecUPBDT";  }
+//   if(syst_string == jec_down){ s_suffix_Zbb_SB = "SystDOWN$"; s_sysprefix_Zbb = "SystJecDOWNBDT"; }
+//   if(syst_string == jer_up){ s_suffix_Zbb_SB = "SystJERUP$"; s_sysprefix_Zbb = "SystJerUPBDT"; }
+//   if(syst_string == jer_down){ s_suffix_Zbb_SB = "SystJERDOWN$"; s_sysprefix_Zbb = "SystJerDOWNBDT"; }
 
   if(debug_)
     std::cout << "Init the sample" << std::endl;
  
-  std::vector<Sample> s = Nov10SideBandHistos();
+  std::vector<Sample> s = histos();
 
   Sample data(1,"fake data","S1.root",0,true,1000);
 
@@ -154,7 +159,7 @@ int main(int argc, char **argv){
     std::cout << " filled the fit info " << std::endl;
  
   Options o;
-  double SF[] = {1.0,1.0,1.0,1.0}; // SF for scaling
+  double SF[] = {1.0,1.0,1.0}; // SF for scaling
 
   //here I need to get the SF from the file
   std::ifstream SFfile;
@@ -166,16 +171,16 @@ int main(int argc, char **argv){
 	size_t pos_point = line.find('.'); // decimal of the double
 	istringstream tokenizer(line.substr(pos_point-1));
 	if(line.find(DYL,0)!=string::npos) tokenizer >> SF[0];
-	if(line.find(DYC,0)!=string::npos) tokenizer >> SF[1];
-	if(line.find(DYB,0)!=string::npos) tokenizer >> SF[2];
-	if(line.find(TTbar,0)!=string::npos) tokenizer >> SF[3];
+	//	if(line.find(DYC,0)!=string::npos) tokenizer >> SF[1];
+	if(line.find(DYB,0)!=string::npos) tokenizer >> SF[1];
+	if(line.find(TTbar,0)!=string::npos) tokenizer >> SF[2];
       }
       SFfile.close();
     }
   }
 
   cout << "Scale factors applied to DYL, DYC, DYB, TTbar" << endl;
-  cout << SF[0]  << endl << SF[1] << endl << SF[2] << endl << SF[3] << endl;
+  cout << SF[0]  << endl << SF[1] << endl << SF[2] << endl << endl;
   TH1F * h = new TH1F;
   h->Sumw2();
 
@@ -217,8 +222,8 @@ int main(int argc, char **argv){
     }
   }    
 
-  std::string zlightTemplate = "DYL";
-  std::string zcharmTemplate = "DYC";
+  std::string zlightTemplate = "DYL+DYC";
+  //  std::string zcharmTemplate = "DYC";
   std::string zbbTemplate = "DYB";
   std::string ttbarTemplate = "TTbar";
   std::string stTemplate = "ST";
@@ -228,7 +233,7 @@ int main(int argc, char **argv){
   std::vector<std::string> fixedTemplateNames;
 
   templateNames.push_back(zlightTemplate);
-  templateNames.push_back(zcharmTemplate);
+  //  templateNames.push_back(zcharmTemplate);
   templateNames.push_back(zbbTemplate);
   templateNames.push_back(ttbarTemplate);
   fixedTemplateNames.push_back(stTemplate);
@@ -308,7 +313,7 @@ int main(int argc, char **argv){
    for(int i=0; i<f_vars.size(); ++i)
      std::cout << "Name = " << f_vars.at(i)->GetName() << "; Value = " << f_vars.at(i)->getVal() << "; Error = " << f_vars.at(i)->getError() << " + " << f_vars.at(i)->getAsymErrorHi() << " - " << f_vars.at(i)->getAsymErrorLo()  << std::endl;
 
-  DYL = "f_DYL";
+  DYL = "f_DYL+DYC";
   DYC = "f_DYC";
   DYB = "f_DYB";
   TTbar = "f_TTbar";
