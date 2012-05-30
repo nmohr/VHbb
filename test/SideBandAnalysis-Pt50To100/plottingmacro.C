@@ -24,7 +24,7 @@ void plottingmacro()
   bool debug_ = false;
   bool getSFfromFile = true;
 
-  std::string path("PlotsMay8/");
+  std::string path("PlotsMay23/");
 
   if(debug_)
     std::cout << "Init the style form setTDRStyle" << std::endl;
@@ -35,7 +35,7 @@ void plottingmacro()
   
   if(debug_)
     std::cout << "Init the sample" << std::endl;
-  std::vector<Sample> s = Nov10SideBandHistos();
+  std::vector<Sample> s = histos();
 
   Sample data(1,"fake data","S1.root",0,true,1000);
 
@@ -88,9 +88,9 @@ void plottingmacro()
 
       //      if(!n.Contains(TRegexp("^BDTZlightControlRegionHZcombSB"))) continue;
       //      if(!n.Contains(TRegexp("^BDTZbbControlRegionHZcombSB"))) continue;
-      //if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcombSB"))) continue;
-      //      if(!n.Contains(TRegexp("^BDTSideBandRegionHZcombSB"))) continue;
-      if(!n.Contains(TRegexp("^BDTSignalRegionHZcombSB"))) continue;
+      //      if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcombSB"))) continue;
+      if(!n.Contains(TRegexp("^BDTSideBandRegionHZcombSB"))) continue;
+      //if(!n.Contains(TRegexp("^BDTSignalRegionHZcombSB"))) continue;
       //if(!n.Contains(TRegexp("^BDTTrainingRegionHZcombSB"))) continue;
 
       if(n.Contains(TRegexp("RegionHZcomb")))
@@ -128,7 +128,7 @@ void plottingmacro()
 
       if(debug_)
 	std::cout << "Creating the THStack and Legend" << std::endl;
-      std::vector<TH1F*> v_hist;  v_hist.clear();
+      //      std::vector<TH1F*> v_hist;  v_hist.clear();
       THStack * sta = new THStack("sta",hd->GetTitle());
       TLegend * l = new TLegend(o.legendx1,o.legendy1,o.legendx2,o.legendy2); //0.7,0.1,0.9,0.6);
       l->SetFillColor(kWhite);
@@ -142,7 +142,8 @@ void plottingmacro()
 	std::cout << "Adding MC to the THStack" << std::endl;  
 
       //scale factors {DYL, TTBar, , DYC, DYB}
-      double SF[] = {1.00,1.00,1.00,1.00}; //
+      //      double SF[] = {1.00,1.00,1.00,1.00}; //
+      double SF[] = {1.00,1.00,1.00}; //
 
       //here I get the SF from the file
       if(getSFfromFile){
@@ -158,15 +159,15 @@ void plottingmacro()
 	    size_t pos_point = line.find('.'); // decimal of the double
 	    istringstream tokenizer(line.substr(pos_point-1));
 	    if(line.find(DYL,0)!=string::npos) tokenizer >> SF[0];
-	    if(line.find(DYC,0)!=string::npos) tokenizer >> SF[1];
-	    if(line.find(DYB,0)!=string::npos) tokenizer >> SF[2];
-	    if(line.find(TTbar,0)!=string::npos) tokenizer >> SF[3];
+	    //	    if(line.find(DYC,0)!=string::npos) tokenizer >> SF[1];
+	    if(line.find(DYB,0)!=string::npos) tokenizer >> SF[1];
+	    if(line.find(TTbar,0)!=string::npos) tokenizer >> SF[2];
 	  }
 	  SFfile.close();
 	}
       }
 
-      for(int i = 0; i< 4; ++i)
+      for(int i = 0; i< 3; ++i)
 	std::cout << "SF [" << i << "] = " << SF[i] << std::endl;
 
 //       TCanvas * c2 = new TCanvas("Normalized_plots","Normalized_plots",600,600);
@@ -200,20 +201,19 @@ void plottingmacro()
 		std::cout << "Cloning and update legend " << std::endl;  
 	      if(grouped.find(s[j].name) == grouped.end()){
 		l->AddEntry(h,s[j].name.c_str(),"F");
+		h->SetLineColor(kBlack);
 	      }
 	      std::cout << "Sample : " << s[j].name << " - Integral for plot " << names[i] << " = " << h->Integral(-10000,10000) << std::endl;
 	      mcIntegral += h->Integral();
 	      sta->Add(h);
 	      hmc->Add(h);
 
-	      v_hist.push_back(h);
-
-	      //TO FIX grouped map
-	      // sovrascrive histo con lo stesso nome tipo VV o ST etc...
+	      // for normalized plots
 	      if(grouped.find(s[j].name) != grouped.end())
 		grouped[s[j].name]->Add((TH1F *)h->Clone(("_"+names[i]).c_str()));
 	      else
 		grouped[s[j].name]=(TH1F *)h->Clone(("_"+names[i]).c_str());
+	      grouped[s[j].name]->SetLineColor(s[j].color);
 	    }
 	}
       
@@ -241,7 +241,7 @@ void plottingmacro()
       hd->Draw("E1X0");
       sta->Draw("sameHIST");
       hmc->Draw("sameE2");
-      hmc->SetFillColor(2);
+      hmc->SetFillColor(kGray+3);
       hmc->SetMarkerSize(0);
       hmc->SetFillStyle(3013);
       hd->Draw("E1X0same");
@@ -274,9 +274,31 @@ void plottingmacro()
       divisionErrorBand->GetYaxis()->SetTitleOffset(0.40);
       divisionErrorBand->GetYaxis()->SetNdivisions(505);
       //divisionErrorBand->UseCurrentStyle();
-      divisionErrorBand->SetFillColor(2);
-      divisionErrorBand->SetFillStyle(3001);
+      divisionErrorBand->SetFillColor(kGray+3);
+      //      divisionErrorBand->SetFillStyle(3001);
+      divisionErrorBand->SetFillStyle(3013);
       divisionErrorBand->SetMarkerSize(0.);
+
+      TH1D * divisionSystErrorBand = (TH1D*)(hmc)->Clone("divisionErrorBand");
+      divisionSystErrorBand->Sumw2();
+      std::vector<double> syst(divisionSystErrorBand->GetNbinsX(),1.);
+      std::vector<double> syst_err(divisionSystErrorBand->GetNbinsX(), 0.15 );
+      for(int i=0; i<divisionSystErrorBand->GetNbinsX();++i){
+	divisionSystErrorBand->SetBinContent( i+1, syst.at(i) );
+	divisionSystErrorBand->SetBinError( i+1, syst_err.at(i) );
+      }
+      divisionSystErrorBand->Draw("E2 same");      
+      divisionSystErrorBand->SetMaximum(2.49);
+      divisionSystErrorBand->SetMinimum(0);
+      divisionSystErrorBand->SetMarkerStyle(20);
+      divisionSystErrorBand->SetMarkerSize(0.55);
+      divisionSystErrorBand->SetFillColor(kYellow);
+      divisionSystErrorBand->SetFillStyle(1001);
+      divisionSystErrorBand->SetMarkerSize(0.);
+
+      //redraw to make it visible
+      divisionErrorBand->Draw("E2 same"); 
+
 
       TH1D * division = (TH1D*)(hd)->Clone("division");
       division->Sumw2();
@@ -300,7 +322,8 @@ void plottingmacro()
 // 	(ratio.make_rebinned_ratios(hd, hmc, 0.2, true).at(0));
 
       TLine *line = new TLine(min, 1.0, max, 1.0);
-      line->SetLineColor(kRed);
+      //      line->SetLineColor(kRed);
+      line->SetLineStyle(2); //dashed
       line->Draw("same");
       
       TLegend * leg3 =new TLegend(0.50,0.86,0.69,0.96);
@@ -311,6 +334,15 @@ void plottingmacro()
       leg3->SetTextFont(62);
       leg3->SetTextSize(0.06);
       leg3->Draw();
+
+      TLegend * leg4 =new TLegend(0.69,0.86,0.88,0.96);
+      leg4->AddEntry(divisionSystErrorBand,"MC uncert. (syst.)","f");
+      leg4->SetFillColor(0);
+      leg4->SetLineColor(0);
+      leg4->SetShadowColor(0);
+      leg4->SetTextFont(62);
+      leg4->SetTextSize(0.06);
+      leg4->Draw();
 
       TPaveText *pave = new TPaveText(0.15,0.85,0.32,0.96,"brNDC");
       pave->SetTextAlign(12);
@@ -385,6 +417,7 @@ void plottingmacro()
 	if(!keepSample) continue;
 	nl->AddEntry((*it).second, (*it).first.c_str() , "F");
 	(*it).second->SetFillStyle(0);
+	(*it).second->SetLineWidth(2.);
 	(*it).second->GetYaxis()->SetRangeUser(0. , (*it).second->Integral()*maxYnorm*1.5 ); // you need to give the unscaled range...
 	if( drawed == false ){
 	  std::string xtitle = (*it).second->GetTitle();
