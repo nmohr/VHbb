@@ -53,7 +53,7 @@ for line in file:
 
     if ( line.find('DYB') ) > 0:
         if( line.find('stat') > 0 ):
-            stat[2] = getfloat_from_line(line)
+            stat[1] = getfloat_from_line(line)
         if ( line.find('btag') > 0 )  or (line.find('mistag') > 0 ):
             dyb_btag = get_errors( line, dyb_btag )
         if ( line.find('jer') > 0 ) or ( line.find('jec') > 0):
@@ -61,7 +61,7 @@ for line in file:
 
     if ( line.find('TTbar') ) > 0:
         if( line.find('stat') > 0 ):
-            stat[3] = getfloat_from_line(line)
+            stat[2] = getfloat_from_line(line)
         if ( line.find('btag') > 0 )  or (line.find('mistag') > 0 ):
             ttbar_btag = get_errors( line, ttbar_btag )
         if ( line.find('jer') > 0 ) or ( line.find('jec') > 0):
@@ -69,24 +69,26 @@ for line in file:
 
 
 dyl_syst = sum_errors( max(dyl_btag), max(dyl_je) )
-dyc_syst = sum_errors( max(dyc_btag), max(dyc_je) )
+#dyc_syst = sum_errors( max(dyc_btag), max(dyc_je) )
 dyb_syst = sum_errors( max(dyb_btag), max(dyb_je) )
 ttbar_syst = sum_errors( max(dyl_btag), max(ttbar_je) )
 
+
+print 'Systematics only'
 print dyl_syst
-print dyc_syst
+#print dyc_syst
 print dyb_syst
 print ttbar_syst
 
 print "Final"
 
 dyl_err = sum_errors( stat[0], dyl_syst )
-dyc_err = sum_errors( stat[1], dyc_syst )
-dyb_err = sum_errors( stat[2], dyb_syst )
-ttbar_err = sum_errors( stat[3], ttbar_syst )
+#dyc_err = sum_errors( stat[1], dyc_syst )
+dyb_err = sum_errors( stat[1], dyb_syst )
+ttbar_err = sum_errors( stat[2], ttbar_syst )
 
 print dyl_err
-print dyc_err
+#print dyc_err
 print dyb_err
 print ttbar_err
 
@@ -94,19 +96,24 @@ correlation_file = open('CorrelationMatrix_Pt50To100.txt','r')
 corr = get_correlation_matrix( correlation_file )
 print corr
 
-dyl_string = 'CMS_vhbb_ZjLF_SF    lnN    -    -     -    ' + '%.3f' % (1.+float(corr[0][0])*dyl_err) + ' ' + '%.3f' %(1.+(float(corr[0][1])*dyl_err)) + ' ' + '%.3f' %(1.+float(corr[0][2])*dyl_err) + ' ' + '%.3f' %(1.+float(corr[0][3])*dyl_err) + '   -   -   -   -  \n'
-dyc_string = 'CMS_vhbb_ZjCF_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[1][0])*dyc_err) + ' ' + '%.3f' %(1.+(float(corr[1][1])*dyc_err)) + ' ' + '%.3f' %(1.+float(corr[1][2])*dyc_err) + ' ' + '%.3f' %(1.+float(corr[1][3])*dyc_err) + '   -   -   -   -  \n'
-dyb_string = 'CMS_vhbb_ZjHF_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[2][0])*dyb_err) + ' ' + '%.3f' %(1.+(float(corr[2][1])*dyb_err)) + ' ' + '%.3f' %(1.+float(corr[2][2])*dyb_err) + ' ' + '%.3f' %(1.+float(corr[2][3])*dyb_err) + '   -   -   -   -  \n'
-ttbar_string = 'CMS_vhbb_TT_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[3][0])*ttbar_err) + ' ' + '%.3f' %(1.+(float(corr[3][1])*ttbar_err)) + ' ' + '%.3f' %(1.+float(corr[3][2])*ttbar_err) + ' ' + '%.3f' %(1.+float(corr[3][3])*ttbar_err) + '   -   -   -   -  \n'
+# dyl_string = 'CMS_vhbb_ZjLF_SF    lnN    -    -     -    ' + '%.3f' % (1.+float(corr[0][0])*dyl_err) + ' ' + '%.3f' %(1.+(float(corr[0][1])*dyl_err)) + ' ' + '%.3f' %(1.+float(corr[0][2])*dyl_err) + ' ' + '%.3f' %(1.+float(corr[0][3])*dyl_err) + '   -   -   -   -  \n'
+# dyc_string = 'CMS_vhbb_ZjCF_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[1][0])*dyc_err) + ' ' + '%.3f' %(1.+(float(corr[1][1])*dyc_err)) + ' ' + '%.3f' %(1.+float(corr[1][2])*dyc_err) + ' ' + '%.3f' %(1.+float(corr[1][3])*dyc_err) + '   -   -   -   -  \n'
+# dyb_string = 'CMS_vhbb_ZjHF_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[2][0])*dyb_err) + ' ' + '%.3f' %(1.+(float(corr[2][1])*dyb_err)) + ' ' + '%.3f' %(1.+float(corr[2][2])*dyb_err) + ' ' + '%.3f' %(1.+float(corr[2][3])*dyb_err) + '   -   -   -   -  \n'
+# ttbar_string = 'CMS_vhbb_TT_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[3][0])*ttbar_err) + ' ' + '%.3f' %(1.+(float(corr[3][1])*ttbar_err)) + ' ' + '%.3f' %(1.+float(corr[3][2])*ttbar_err) + ' ' + '%.3f' %(1.+float(corr[3][3])*ttbar_err) + '   -   -   -   -  \n'
+
+dyl_string = 'CMS_vhbb_ZjLF_SF    lnN    -    -     -    ' + '%.3f' % (1.+float(corr[0][0])*dyl_err) + ' ' + '%.3f' %(1.+(float(corr[0][1])*dyl_err)) + ' ' + '%.3f' %(1.+float(corr[0][2])*dyl_err) + '   -   -   -   -  \n'
+dyb_string = 'CMS_vhbb_ZjHF_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[1][0])*dyb_err) + ' ' + '%.3f' %(1.+(float(corr[1][1])*dyb_err)) + ' ' + '%.3f' %(1.+float(corr[1][2])*dyb_err) + '   -   -   -   -  \n'
+ttbar_string = 'CMS_vhbb_TT_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[2][0])*ttbar_err) + ' ' + '%.3f' %(1.+(float(corr[2][1])*ttbar_err)) + ' ' + '%.3f' %(1.+float(corr[2][2])*ttbar_err) + '   -   -   -   -  \n'
+
 
 print dyl_string
-print dyc_string
+#print dyc_string
 print dyb_string
 print ttbar_string
 
 outfile = open("Datacard.txt",'w')
 outfile.writelines(dyl_string)
-outfile.writelines(dyc_string)
+#outfile.writelines(dyc_string)
 outfile.writelines(dyb_string)
 outfile.writelines(ttbar_string)
 outfile.close()
