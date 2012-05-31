@@ -70,8 +70,7 @@ int main(int argc, char **argv)
   int event_all_c=0;
   int event_all_l=0;
 
-  //  std::vector<Sample> samples = Nov10Fall1160MTopSlim();
-  std::vector<Sample> samples =  Nov10SideBand();
+  std::vector<Sample> samples =  trees();
 
   //loop over all the samples
   for(unsigned int iS=0; iS<samples.size(); ++iS){
