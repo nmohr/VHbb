@@ -1,5 +1,5 @@
 #!/bin/bash
-path=/scratch/May23/env/sys/MVAout/
+path=/scratch/May23sys/MVAout/
 sys="4"
 ## RTight EE
 #./workspace_datacard.py $path RTight${sys}_ZH110_EE
@@ -21,7 +21,7 @@ sys="4"
 ./workspace_datacard.py $path RMed${sys}_ZH120_EE
 ./workspace_datacard.py $path RMed${sys}_ZH125_EE
 ./workspace_datacard.py $path RMed${sys}_ZH130_EE
-#./workspace_datacard.py $path RMed${sys}_ZH135_EE
+./workspace_datacard.py $path RMed${sys}_ZH135_EE
 ## RMed MM
 #./workspace_datacard.py $path RMed${sys}_ZH110_MM
 #./workspace_datacard.py $path RMed${sys}_ZH115_MM

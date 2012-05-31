@@ -5,7 +5,7 @@ from samplesclass import sample
 import pickle
 import sys
 
-prefix='ZllH.May23Likelihood.'
+prefix='ZllH.May5.'
 
 lumi=4980
 
@@ -25,7 +25,7 @@ samplenames0 =['WW','WZ','ZZ','TT','ST_s','ST_t','ST_tW','STbar_s','STbar_t','ST
 sampletypes0 =['BKG','BKG','BKG','BKG','BKG','BKG','BKG','BKG','BKG','BKG','SIG','SIG','SIG','SIG','SIG','SIG']
 samplesgroup0=['VV','VV','VV','TT','ST','ST','ST','ST','ST','ST','ZH','ZH','ZH','ZH','ZH','ZH']
 xsecs0 = [42.9, 18.3, 5.9, 165, 3.19, 41.92, 7.87, 1.44, 22.65, 7.87, 0.4721*0.100974*0.745, 0.4107*0.100974*0.704, 0.3598*0.100974*0.648, 0.3158*0.100974*0.577, 0.2778*0.100974*0.493,0.2453*0.100974*0.403]
-SF0=[1.0,1.0,1.0,1.03224,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0]
+SF0=[1.0,1.0,1.0,1.03181,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0]
 Aprefix0 = ['']
 cut0 = ['(Vtype == 1 || Vtype == 0) && EVENT.json && hbhe']
 
@@ -36,7 +36,7 @@ samplenames1 =['Zudsg','Zbb','Zcc']
 sampletypes1 =['BKG']*3
 samplesgroup1=['DYlight','DYb','DYc']
 xsecs1 = [3048]*3
-SF1=[1.0513,1.19108,0.970138]
+SF1=[1.10814,1.10814,0.98372]
 Aprefix1 = ['udsg_120_', 'b_120_','c_120_']
 cut1 = ['(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav != 5 & eventFlav != 4 & genZpt <= 120.','(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav == 5 & genZpt <= 120.','(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav == 4 & genZpt <= 120.']
 
@@ -46,7 +46,7 @@ samplenames2 =['Zudsg_pt120','Zbb_pt120','Zcc_pt120']
 sampletypes2 =['BKG']*3
 samplesgroup2=['DYlight','DYb','DYc']
 xsecs2 = [30]*3
-SF2=[1.0513,1.19108,0.970138]
+SF2=[1.10814,1.10814,0.98372]
 Aprefix2 = ['udsg_120_', 'b_120_','c_120_']
 cut2 = ['(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav != 5 & eventFlav != 4 & genZpt > 120.','(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav == 5 & genZpt > 120.','(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav == 4 & genZpt > 120.']
 

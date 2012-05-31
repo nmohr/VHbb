@@ -96,7 +96,7 @@ for job in info:
         histos.append(hTemp)
         typs.append(typ)
         if counter == 0:
-            hDummy = hTemp
+            hDummy = copy(hTemp)
         else:
             hDummy.Add(hTemp)
         counter += 1
@@ -174,7 +174,6 @@ for i in range(0,len(histos)):
             statDowns[i].SetBinContent(j,0)
     ###################
     '''
-
     statUps[i].Write()
     statDowns[i].Write()
     histPdf = ROOT.RooDataHist(discr_names[i],discr_names[i],obs,histos[i])
@@ -186,7 +185,7 @@ for i in range(0,len(histos)):
     getattr(WS,'import')(RooStatsUp)
     getattr(WS,'import')(RooStatsDown)
 
-#dunnmies - only to fill in empty histos for QCD and Wj
+#dumnmies - only to fill in empty histos for QCD and Wj
 #Wlight,Wbb,QCD
 for i in range(6,9):
     dummy = ROOT.TH1F(discr_names[i], 'discriminator', nBins, xMin, xMax)
