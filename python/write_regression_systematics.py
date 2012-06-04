@@ -84,6 +84,7 @@ for job in info:
         #print key.GetName()
         obj.Write(key.GetName())
         
+    input.cd()
     tree = input.Get(job.tree)
     nEntries = tree.GetEntries()
         
