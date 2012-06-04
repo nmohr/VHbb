@@ -67,9 +67,9 @@ systematicsnaming={'JER':'JER','JES':'JEC','beff':'Btag','bmis':'BtagFake'}
 #### rescaling by factor 4
 scaling=True
 if 'RTight' in RCut:
-    Datacradbin=options[10]+'_Tight'
+    Datacradbin=options[10]
 elif 'RMed' in RCut:
-    Datacradbin=options[10]+'_Med'
+    Datacradbin=options[10]
 else:
     Datacradbin=options[10]
 #############################
@@ -174,6 +174,7 @@ for i in range(0,len(histos)):
             statDowns[i].SetBinContent(j,0)
     ###################
     '''
+
     statUps[i].Write()
     statDowns[i].Write()
     histPdf = ROOT.RooDataHist(discr_names[i],discr_names[i],obs,histos[i])
@@ -185,7 +186,7 @@ for i in range(0,len(histos)):
     getattr(WS,'import')(RooStatsUp)
     getattr(WS,'import')(RooStatsDown)
 
-#dumnmies - only to fill in empty histos for QCD and Wj
+#dunnmies - only to fill in empty histos for QCD and Wj
 #Wlight,Wbb,QCD
 for i in range(6,9):
     dummy = ROOT.TH1F(discr_names[i], 'discriminator', nBins, xMin, xMax)
@@ -247,10 +248,13 @@ for sys in systematics:
         ff=options[0].split('.')
         if bdt == True:
             ff[1]='%s_%s'%(sys,Q.lower())
+            options[0]=options[0].replace('.nominal','.%s_%s'%(sys,Q.lower()))
         elif mjj == True:
             ff[0]='H_%s'%(sys)
             ff[1]='mass_%s'%(Q.lower())
-        options[0]='.'.join(ff)
+            options[0]='.'.join(ff)
+        print options[0]
+
 
         print '\n'
         printc('blue','','\t--> doing systematic %s %s'%(sys,Q.lower())) 
@@ -332,7 +336,7 @@ f.write('process\tVH\tWjLF\tWjHF\tZjLF\tZjHF\tTT\ts_Top\tVV\tQCD\n')
 
 f.write('process\t0\t1\t2\t3\t4\t5\t6\t7\t8\n')
 f.write('rate\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(histos[5].Integral(),0,0,histos[0].Integral(),histos[1].Integral(),histos[2].Integral(),histos[4].Integral(),histos[3].Integral(),0)) #\t1.918\t0.000 0.000\t135.831  117.86  18.718 1.508\t7.015\t0.000
-f.write('lumi\tlnN\t1.045\t-\t-\t-\t-\t-\t1.045\t1.045\t1.045\n')
+f.write('lumi\tlnN\t1.022\t-\t-\t-\t-\t-\t1.022\t1.022\t1.022\n')
 f.write('pdf_qqbar\tlnN\t1.01\t-\t-\t-\t-\t-\t-\t1.01\t-\n')
 f.write('pdf_gg\tlnN\t-\t-\t-\t-\t-\t-\t1.01\t-\t1.01\n')
 f.write('QCDscale_VH\tlnN\t1.04\t-\t-\t-\t-\t-\t-\t-\t-\n')
@@ -348,16 +352,16 @@ f.write('CMS_vhbb_ZjHF_ex\tlnN\t-\t-\t-\t-\t1.05\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_TT_ex\tlnN\t-\t-\t-\t-\t-\t1.05\t-\t-\t-\n')
 for line in scalefactors:
     f.write(line)
-if options[10]=='Zee':
+if 'Zee' in options[10]:
     f.write('CMS_eff_m lnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
     f.write('CMS_eff_e lnN\t1.04\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
     f.write('CMS_trigger_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
     f.write('CMS_trigger_e\tlnN\t1.02\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
-if options[10]=='Zmm':
+if 'Zmm' in options[10]:
     f.write('CMS_eff_e lnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
     f.write('CMS_eff_m lnN\t1.04\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
     f.write('CMS_trigger_e\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-    f.write('CMS_trigger_m\tlnN\t1.02\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
+    f.write('CMS_trigger_m\tlnN\t1.01\t-\t-\t-\t-\t-\t1.01\t1.01\t-\n')
 
 f.write('CMS_vhbb_trigger_MET\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_stats_%s_%s\tshape\t1.0\t-\t-\t-\t-\t-\t-\t-\t-\n'%(discr_names[5], options[10]))

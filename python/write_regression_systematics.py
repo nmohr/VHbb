@@ -68,8 +68,6 @@ for job in info:
     btagFDown = BTagShape("../data/csvdiscr.root")
     btagFDown.computeFunctions(0.,-1.)
     
-    btag = BTagShape("csvdiscr.root")
-    btagNom.computeFunctions()
     print '\t - %s' %(job.name)
     input = TFile.Open(job.getpath(),'read')
     output = TFile.Open(job.path+'/sys/'+job.prefix+job.identifier+'.root','recreate')

@@ -1,11 +1,11 @@
 [Directories]
-Wdir: /Users/peller/UserCode/VHbb/python
+Wdir: /Users/niklas/Test/VHbb/python
 #plotpath: /Users/peller/VHbb/Stacks/May28
 #limits: /Users/peller/VHbb/Limits/May23_sys_scaledown/
 #limits: /Users/peller/VHbb/Limits/May23_sys_factor4/
-limits: /Users/peller/VHbb/Limits/May23sys/
+limits: /Users/niklas/Test/VHbb/Limits/ichepPreapproval/
 #limits: /Users/peller/VHbb/Limits/May23Like_sys_factor4/
-plotpath: /Users/peller/VHbb/Stacks/May23sys/
+plotpath: /Users/peller/VHbb/Stacks/May28/
 
 
 MVAdir: /MVAout/
@@ -161,7 +161,7 @@ Mjj_highPt_ZH135_MM: H.mass,Mjj,Mjj,25,0.,250.,Mjj_highPt_M135_Zmm,Mjj_highPt_MM
 RTight_ZH110_EE: RTight_ZH110_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M110_Zee,RTight_EE,RTight_EE,ZH110,Zee,BDT
 RTight_ZH115_EE: RTight_ZH115_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M115_Zee,RTight_EE,RTight_EE,ZH115,Zee,BDT
 RTight_ZH120_EE: RTight_ZH120_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M120_Zee,RTight_EE,RTight_EE,ZH120,Zee,BDT
-RTight_ZH125_EE: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125_Zee,RTight_EE,RTight_EE,ZH125,Zee,BDT
+RTight_ZH125_EE: RTight_ZH125_may.nominal,BDT,BDT output,10,-1,1,BDTRTight_M125_Zee,RTight_EE,RTight_EE,ZH125,Zee,BDT
 RTight_ZH130_EE: RTight_ZH130_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M130_Zee,RTight_EE,RTight_EE,ZH130,Zee,BDT
 RTight_ZH135_EE: RTight_ZH135_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M135_Zee,RTight_EE,RTight_EE,ZH135,Zee,BDT
 
@@ -169,7 +169,7 @@ RTight_ZH135_EE: RTight_ZH135_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M135_
 RTight_ZH110_MM: RTight_ZH110_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M110_Zmm,RTight_MM,RTight_MM,ZH110,Zmm,BDT
 RTight_ZH115_MM: RTight_ZH115_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M115_Zmm,RTight_MM,RTight_MM,ZH115,Zmm,BDT
 RTight_ZH120_MM: RTight_ZH120_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M120_Zmm,RTight_MM,RTight_MM,ZH120,Zmm,BDT
-RTight_ZH125_MM: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125_Zmm,RTight_MM,RTight_MM,ZH125,Zmm,BDT
+RTight_ZH125_MM: RTight_ZH125_may.nominal,BDT,BDT output,10,-1,1,BDTRTight_M125_Zmm,RTight_MM,RTight_MM,ZH125,Zmm,BDT
 RTight_ZH130_MM: RTight_ZH130_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M130_Zmm,RTight_MM,RTight_MM,ZH130,Zmm,BDT
 RTight_ZH135_MM: RTight_ZH135_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M135_Zmm,RTight_MM,RTight_MM,ZH135,Zmm,BDT
 
@@ -177,7 +177,7 @@ RTight_ZH135_MM: RTight_ZH135_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M135_
 RMed_ZH110_EE: RMed_ZH110_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M110_Zee,RMed_EE,RMed_EE,ZH110,Zee,BDT
 RMed_ZH115_EE: RMed_ZH115_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M115_Zee,RMed_EE,RMed_EE,ZH115,Zee,BDT
 RMed_ZH120_EE: RMed_ZH120_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M120_Zee,RMed_EE,RMed_EE,ZH120,Zee,BDT
-RMed_ZH125_EE: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125_Zee,RMed_EE,RMed_EE,ZH125,Zee,BDT
+RMed_ZH125_EE: RMed_ZH125_may.nominal,BDT,BDT output,10,-1,1,BDTRMed_M125_Zee,RMed_EE,RMed_EE,ZH125,Zee,BDT
 RMed_ZH130_EE: RMed_ZH130_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M130_Zee,RMed_EE,RMed_EE,ZH130,Zee,BDT
 RMed_ZH135_EE: RMed_ZH135_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M135_Zee,RMed_EE,RMed_EE,ZH135,Zee,BDT
 
@@ -185,92 +185,48 @@ RMed_ZH135_EE: RMed_ZH135_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M135_Zee,RM
 RMed_ZH110_MM: RMed_ZH110_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M110_Zmm,RMed_MM,RMed_MM,ZH110,Zmm,BDT
 RMed_ZH115_MM: RMed_ZH115_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M115_Zmm,RMed_MM,RMed_MM,ZH115,Zmm,BDT
 RMed_ZH120_MM: RMed_ZH120_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M120_Zmm,RMed_MM,RMed_MM,ZH120,Zmm,BDT
-RMed_ZH125_MM: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125_Zmm,RMed_MM,RMed_MM,ZH125,Zmm,BDT
+RMed_ZH125_MM: RMed_ZH125_may.nominal,BDT,BDT output,10,-1,1,BDTRMed_M125_Zmm,RMed_MM,RMed_MM,ZH125,Zmm,BDT
 RMed_ZH130_MM: RMed_ZH130_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M130_Zmm,RMed_MM,RMed_MM,ZH130,Zmm,BDT
 RMed_ZH135_MM: RMed_ZH135_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M135_Zmm,RMed_MM,RMed_MM,ZH135,Zmm,BDT
 
 
 #SYST 4
 #Tight EE
-RTight4_ZH110_EE: RTight_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M110_Zee,RTight_EE,RTight_EE,ZH110,Zee,BDT
-RTight4_ZH115_EE: RTight_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M115_Zee,RTight_EE,RTight_EE,ZH115,Zee,BDT
-RTight4_ZH120_EE: RTight_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M120_Zee,RTight_EE,RTight_EE,ZH120,Zee,BDT
-RTight4_ZH125_EE: RTight_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M125_Zee,RTight_EE,RTight_EE,ZH125,Zee,BDT
-RTight4_ZH130_EE: RTight_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M130_Zee,RTight_EE,RTight_EE,ZH130,Zee,BDT
-RTight4_ZH135_EE: RTight_ZH135_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M135_Zee,RTight_EE,RTight_EE,ZH135,Zee,BDT
+RTight4_ZH110_EE: tanh(1.3*RTight_ZH110_may_4.nominal)/tanh(1.3),BDT,BDT output,20,-1,1,BDTRTight4_M110_Zee,RTight_EE,RTight_EE,ZH110,ZeeTight,BDT
+RTight4_ZH115_EE: tanh(1.3*RTight_ZH115_may_4.nominal)/tanh(1.3),BDT,BDT output,20,-1,1,BDTRTight4_M115_Zee,RTight_EE,RTight_EE,ZH115,ZeeTight,BDT
+RTight4_ZH120_EE: tanh(1.3*RTight_ZH120_may_4.nominal)/tanh(1.3),BDT,BDT output,20,-1,1,BDTRTight4_M120_Zee,RTight_EE,RTight_EE,ZH120,ZeeTight,BDT
+RTight4_ZH125_EE: tanh(1.3*RTight_ZH125_may_4.nominal)/tanh(1.3),BDT,BDT output,20,-1,1,BDTRTight4_M125_Zee,RTight_EE,RTight_EE,ZH125,ZeeTight,BDT
+RTight4_ZH130_EE: tanh(1.3*RTight_ZH130_may_4.nominal)/tanh(1.3),BDT,BDT output,20,-1,1,BDTRTight4_M130_Zee,RTight_EE,RTight_EE,ZH130,ZeeTight,BDT
+RTight4_ZH135_EE: tanh(1.3*RTight_ZH135_may_4.nominal)/tanh(1.3),BDT,BDT output,20,-1,1,BDTRTight4_M135_Zee,RTight_EE,RTight_EE,ZH135,ZeeTight,BDT
 
 #Tight MM
-RTight4_ZH110_MM: RTight_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M110_Zmm,RTight_MM,RTight_MM,ZH110,Zmm,BDT
-RTight4_ZH115_MM: RTight_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M115_Zmm,RTight_MM,RTight_MM,ZH115,Zmm,BDT
-RTight4_ZH120_MM: RTight_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M120_Zmm,RTight_MM,RTight_MM,ZH120,Zmm,BDT
-RTight4_ZH125_MM: RTight_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M125_Zmm,RTight_MM,RTight_MM,ZH125,Zmm,BDT
-RTight4_ZH130_MM: RTight_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M130_Zmm,RTight_MM,RTight_MM,ZH130,Zmm,BDT
-RTight4_ZH135_MM: RTight_ZH135_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M135_Zmm,RTight_MM,RTight_MM,ZH135,Zmm,BDT
+RTight4_ZH110_MM: RTight_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M110_Zmm,RTight_MM,RTight_MM,ZH110,ZmmTight,BDT
+RTight4_ZH115_MM: RTight_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M115_Zmm,RTight_MM,RTight_MM,ZH115,ZmmTight,BDT
+RTight4_ZH120_MM: RTight_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M120_Zmm,RTight_MM,RTight_MM,ZH120,ZmmTight,BDT
+RTight4_ZH125_MM: RTight_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M125_Zmm,RTight_MM,RTight_MM,ZH125,ZmmTight,BDT
+RTight4_ZH130_MM: RTight_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M130_Zmm,RTight_MM,RTight_MM,ZH130,ZmmTight,BDT
+RTight4_ZH135_MM: RTight_ZH135_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M135_Zmm,RTight_MM,RTight_MM,ZH135,ZmmTight,BDT
 
 #Med EE
-RMed4_ZH110_EE: RMed_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M110_Zee,RMed_EE,RMed_EE,ZH110,Zee,BDT
-RMed4_ZH115_EE: RMed_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M115_Zee,RMed_EE,RMed_EE,ZH115,Zee,BDT
-RMed4_ZH120_EE: RMed_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M120_Zee,RMed_EE,RMed_EE,ZH120,Zee,BDT
-RMed4_ZH125_EE: RMed_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M125_Zee,RMed_EE,RMed_EE,ZH125,Zee,BDT
-RMed4_ZH130_EE: RMed_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M130_Zee,RMed_EE,RMed_EE,ZH130,Zee,BDT
-RMed4_ZH135_EE: RMed_ZH135_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M135_Zee,RMed_EE,RMed_EE,ZH135,Zee,BDT
+RMed4_ZH110_EE: RMed_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M110_Zee,RMed_EE,RMed_EE,ZH110,ZeeLoose,BDT
+RMed4_ZH115_EE: RMed_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M115_Zee,RMed_EE,RMed_EE,ZH115,ZeeLoose,BDT
+RMed4_ZH120_EE: RMed_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M120_Zee,RMed_EE,RMed_EE,ZH120,ZeeLoose,BDT
+RMed4_ZH125_EE: RMed_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M125_Zee,RMed_EE,RMed_EE,ZH125,ZeeLoose,BDT
+RMed4_ZH130_EE: RMed_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M130_Zee,RMed_EE,RMed_EE,ZH130,ZeeLoose,BDT
+RMed4_ZH135_EE: RMed_ZH135_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M135_Zee,RMed_EE,RMed_EE,ZH135,ZeeLoose,BDT
 
 #Med MM
-RMed4_ZH110_MM: RMed_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M110_Zmm,RMed_MM,RMed_MM,ZH110,Zmm,BDT
-RMed4_ZH115_MM: RMed_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M115_Zmm,RMed_MM,RMed_MM,ZH115,Zmm,BDT
-RMed4_ZH120_MM: RMed_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M120_Zmm,RMed_MM,RMed_MM,ZH120,Zmm,BDT
-RMed4_ZH125_MM: RMed_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M125_Zmm,RMed_MM,RMed_MM,ZH125,Zmm,BDT
-RMed4_ZH130_MM: RMed_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M130_Zmm,RMed_MM,RMed_MM,ZH130,Zmm,BDT
-RMed4_ZH135_MM: RMed_ZH135_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M135_Zmm,RMed_MM,RMed_MM,ZH135,Zmm,BDT
-
-
-#CSV Tests
-RTightCIVF_ZH125_EE: RTightCIVF_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCIVF_M125_Zee,RTight_EE,RTight_EE,ZH125,Zee,BDT
-RTightCIVF_ZH125_MM: RTightCIVF_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCIVF_M125_Zmm,RTight_MM,RTight_MM,ZH125,Zmm,BDT
-RMedCIVF_ZH125_EE: RMedCIVF_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMedCIVF_M125_Zee,RMed_EE,RMed_EE,ZH125,Zee,BDT
-RMedCIVF_ZH125_MM: RMedCIVF_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMedCIVF_M125_Zmm,RMed_MM,RMed_MM,ZH125,Zmm,BDT
-
-RTightCMVA_ZH125_EE: RTightCMVA_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCMVA_M125_Zee,RTight_EE,RTight_EE,ZH125,Zee,BDT
-RTightCMVA_ZH125_MM: RTightCMVA_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTightCMVA_M125_Zmm,RTight_MM,RTight_MM,ZH125,Zmm,BDT
-RMedCMVA_ZH125_EE: RMedCMVA_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMedCMVA_M125_Zee,RMed_EE,RMed_EE,ZH125,Zee,BDT
-RMedCMVA_ZH125_MM: RMedCMVA_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMedCMVA_M125_Zmm,RMed_MM,RMed_MM,ZH125,Zmm,BDT
-
-
-#One Mass (125):
-#Tight EE
-sRTight_ZH110_EE: RTight_ZH125.nominal,BDT,BDT output,20,-1,1,sRTight_ZH110_EE_limittest,RTight_EE,RTight_EE,ZH110,Zee,BDT
-sRTight_ZH115_EE: RTight_ZH125.nominal,BDT,BDT output,20,-1,1,sRTight_ZH115_EE_limittest,RTight_EE,RTight_EE,ZH115,Zee,BDT
-sRTight_ZH120_EE: RTight_ZH125.nominal,BDT,BDT output,20,-1,1,sRTight_ZH120_EE_limittest,RTight_EE,RTight_EE,ZH120,Zee,BDT
-sRTight_ZH125_EE: RTight_ZH125.nominal,BDT,BDT output,20,-1,1,sRTight_ZH125_EE_limittest,RTight_EE,RTight_EE,ZH125,Zee,BDT
-sRTight_ZH130_EE: RTight_ZH125.nominal,BDT,BDT output,20,-1,1,sRTight_ZH130_EE_limittest,RTight_EE,RTight_EE,ZH130,Zee,BDT
-
-#Tight MM
-sRTight_ZH110_MM: RTight_ZH125.nominal,BDT,BDT output,20,-1,1,sRTight_ZH110_MM_limittest,RTight_MM,RTight_MM,ZH110,Zmm,BDT
-sRTight_ZH115_MM: RTight_ZH125.nominal,BDT,BDT output,20,-1,1,sRTight_ZH115_MM_limittest,RTight_MM,RTight_MM,ZH115,Zmm,BDT
-sRTight_ZH120_MM: RTight_ZH125.nominal,BDT,BDT output,20,-1,1,sRTight_ZH120_MM_limittest,RTight_MM,RTight_MM,ZH120,Zmm,BDT
-sRTight_ZH125_MM: RTight_ZH125.nominal,BDT,BDT output,20,-1,1,sRTight_ZH125_MM_limittest,RTight_MM,RTight_MM,ZH125,Zmm,BDT
-sRTight_ZH130_MM: RTight_ZH125.nominal,BDT,BDT output,20,-1,1,sRTight_ZH130_MM_limittest,RTight_MM,RTight_MM,ZH130,Zmm,BDT
-
-#Med EE
-sRMed_ZH110_EE: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH110_EE_limittest,RMed_EE,RMed_EE,ZH110,Zee,BDT
-sRMed_ZH115_EE: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH115_EE_limittest,RMed_EE,RMed_EE,ZH115,Zee,BDT
-sRMed_ZH120_EE: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH120_EE_limittest,RMed_EE,RMed_EE,ZH120,Zee,BDT
-sRMed_ZH125_EE: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH125_EE_limittest,RMed_EE,RMed_EE,ZH125,Zee,BDT
-sRMed_ZH130_EE: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH130_EE_limittest,RMed_EE,RMed_EE,ZH130,Zee,BDT
-
-#Med MM
-sRMed_ZH110_MM: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH110_MM_limittest,RMed_MM,RMed_MM,ZH110,Zmm,BDT
-sRMed_ZH115_MM: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH115_MM_limittest,RMed_MM,RMed_MM,ZH115,Zmm,BDT
-sRMed_ZH120_MM: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH120_MM_limittest,RMed_MM,RMed_MM,ZH120,Zmm,BDT
-sRMed_ZH125_MM: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH125_MM_limittest,RMed_MM,RMed_MM,ZH125,Zmm,BDT
-sRMed_ZH130_MM: RMed_ZH125.nominal,BDT,BDT output,20,-1,1,sRMed_ZH130_MM_limittest,RMed_MM,RMed_MM,ZH130,Zmm,BDT
+RMed4_ZH110_MM: RMed_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M110_Zmm,RMed_MM,RMed_MM,ZH110,ZmmLoose,BDT
+RMed4_ZH115_MM: RMed_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M115_Zmm,RMed_MM,RMed_MM,ZH115,ZmmLoose,BDT
+RMed4_ZH120_MM: RMed_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M120_Zmm,RMed_MM,RMed_MM,ZH120,ZmmLoose,BDT
+RMed4_ZH125_MM: RMed_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M125_Zmm,RMed_MM,RMed_MM,ZH125,ZmmLoose,BDT
+RMed4_ZH130_MM: RMed_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M130_Zmm,RMed_MM,RMed_MM,ZH130,ZmmLoose,BDT
+RMed4_ZH135_MM: RMed_ZH135_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M135_Zmm,RMed_MM,RMed_MM,ZH135,ZmmLoose,BDT
 
 
 #GENERAL SETUP LIMIT:
 setup: DYlight+DYc,DYb,TT,VV,ST,ZH
 blind: True
-
-
 
 
 ##############################################################################################
@@ -287,7 +243,7 @@ factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Tr
 [RTight_ZH110_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May23sys/
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
 signals: ZH110
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -296,7 +252,7 @@ treecut: RTight
 [RTight_ZH115_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May23sys/
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
 signals: ZH115
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -305,7 +261,7 @@ treecut: RTight
 [RTight_ZH120_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May23sys/
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
 signals: ZH120
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -314,16 +270,34 @@ treecut: RTight
 [RTight_ZH125_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May23sys/
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
 signals: ZH125
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
 treecut: RTight
 
+[RTightCIVF_ZH125_may]
+MVAtype: BDT
+MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
+signals: ZH125
+backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
+treeVarSet: treeVarsCIVF
+treecut: RTight
+
+[RTightCMVA_ZH125_may]
+MVAtype: BDT
+MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
+signals: ZH125
+backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
+treeVarSet: treeVarsCMVA
+treecut: RTight
+
 [RTight_ZH130_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May23sys/
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
 signals: ZH130
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -332,7 +306,7 @@ treecut: RTight
 [RTight_ZH135_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May23sys/
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
 signals: ZH135
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -342,7 +316,7 @@ treecut: RTight
 [RMed_ZH110_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May23sys/
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
 signals: ZH110
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -351,7 +325,7 @@ treecut: RMed
 [RMed_ZH115_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May23sys/
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
 signals: ZH115
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -360,7 +334,7 @@ treecut: RMed
 [RMed_ZH120_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May23sys/
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
 signals: ZH120
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -369,7 +343,7 @@ treecut: RMed
 [RMed_ZH125_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May23sys/
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
 signals: ZH125
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -378,7 +352,7 @@ treecut: RMed
 [RMed_ZH130_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May23sys/
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
 signals: ZH130
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
@@ -387,12 +361,11 @@ treecut: RMed
 [RMed_ZH135_may]
 MVAtype: BDT
 MVAsettings: !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /scratch/May23sys/
+path: /Users/niklas/Higgs/Histos/May5/env/sys/
 signals: ZH135
 backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 treeVarSet: treeVarsICHEP
 treecut: RMed
-
 
 
 ##############################################################################################
@@ -413,7 +386,7 @@ beff_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvDown[0],hJet_csvDow
 bmis_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFUp[0],hJet_csvFUp[1]) min(hJet_csvFUp[0],hJet_csvFUp[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2
 bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFDown[0],hJet_csvFDown[1]) min(hJet_csvFDown[0],hJet_csvFDown[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2
 
-[treeVarsBaseLine]
+[treeVarsICHEPold]
 Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
 JER_up: H_JER.mass_up H_JER.pt_up HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
 JER_down: H_JER.mass_down H_JER.pt_down HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4)
