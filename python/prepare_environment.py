@@ -7,7 +7,7 @@ import sys
 
 prefix='ZllH.May5.'
 
-lumi=4980
+lumi=4983.4
 
 pathIN=sys.argv[1]
 pathOUT=sys.argv[2]
@@ -15,7 +15,7 @@ pathOUT=sys.argv[2]
 weightexpression='((0.46502*PUweight+0.53498*PUweight2011B)*weightTrig)'
 
 #this is only to speed it up, remove for final trees!
-Precut='& V.pt > 50 & V.mass > 75. & V.mass < 105 & hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4'
+Precut=''
 
 
 
@@ -25,9 +25,9 @@ samplenames0 =['WW','WZ','ZZ','TT','ST_s','ST_t','ST_tW','STbar_s','STbar_t','ST
 sampletypes0 =['BKG','BKG','BKG','BKG','BKG','BKG','BKG','BKG','BKG','BKG','SIG','SIG','SIG','SIG','SIG','SIG']
 samplesgroup0=['VV','VV','VV','TT','ST','ST','ST','ST','ST','ST','ZH','ZH','ZH','ZH','ZH','ZH']
 xsecs0 = [42.9, 18.3, 5.9, 165, 3.19, 41.92, 7.87, 1.44, 22.65, 7.87, 0.4721*0.100974*0.745, 0.4107*0.100974*0.704, 0.3598*0.100974*0.648, 0.3158*0.100974*0.577, 0.2778*0.100974*0.493,0.2453*0.100974*0.403]
-SF0=[1.0,1.0,1.0,1.03181,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0]
+SF0=[1.0,1.0,1.0,1.032,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0]
 Aprefix0 = ['']
-cut0 = ['(Vtype == 1 || Vtype == 0) && EVENT.json && hbhe']
+cut0 = ['(Vtype == 1 || Vtype == 0)']
 
 #split DY in flavours
 #genZpt < 120
@@ -36,9 +36,9 @@ samplenames1 =['Zudsg','Zbb','Zcc']
 sampletypes1 =['BKG']*3
 samplesgroup1=['DYlight','DYb','DYc']
 xsecs1 = [3048]*3
-SF1=[1.10814,1.10814,0.98372]
+SF1=[1.108,0.984,1.108]
 Aprefix1 = ['udsg_120_', 'b_120_','c_120_']
-cut1 = ['(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav != 5 & eventFlav != 4 & genZpt <= 120.','(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav == 5 & genZpt <= 120.','(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav == 4 & genZpt <= 120.']
+cut1 = ['(Vtype == 1 || Vtype == 0) & EVENT.json  & eventFlav != 5 & eventFlav != 4 & genZpt <= 120.','(Vtype == 1 || Vtype == 0) & EVENT.json  & eventFlav == 5 & genZpt <= 120.','(Vtype == 1 || Vtype == 0) & EVENT.json  & eventFlav == 4 & genZpt <= 120.']
 
 #genZpt > 120
 InFiles2 = ['DYJetsToLL_PtZ-100_TuneZ2_7TeV-madgraph-tauola']*3
@@ -46,9 +46,9 @@ samplenames2 =['Zudsg_pt120','Zbb_pt120','Zcc_pt120']
 sampletypes2 =['BKG']*3
 samplesgroup2=['DYlight','DYb','DYc']
 xsecs2 = [30]*3
-SF2=[1.10814,1.10814,0.98372]
+SF2=[1.108,0.984,1.108]
 Aprefix2 = ['udsg_120_', 'b_120_','c_120_']
-cut2 = ['(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav != 5 & eventFlav != 4 & genZpt > 120.','(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav == 5 & genZpt > 120.','(Vtype == 1 || Vtype == 0) & EVENT.json & hbhe & eventFlav == 4 & genZpt > 120.']
+cut2 = ['(Vtype == 1 || Vtype == 0) & EVENT.json  & eventFlav != 5 & eventFlav != 4 & genZpt > 120.','(Vtype == 1 || Vtype == 0) & EVENT.json  & eventFlav == 5 & genZpt > 120.','(Vtype == 1 || Vtype == 0) & EVENT.json  & eventFlav == 4 & genZpt > 120.']
 
 #The Data
 dataFiles = ['DataZee', 'DataZmm']
@@ -56,7 +56,7 @@ datanames =['Zee','Zmm']
 datatypes =['DATA','DATA']
 datagroup=['DATA','DATA']
 AdataPrefix = ['']
-datacuts=['(Vtype==1 && EVENT.json && hbhe) && (triggerFlags[5] | triggerFlags[6])','(Vtype==0 && EVENT.json && hbhe)&&((EVENT.run<173198 && (triggerFlags[0]>0 || triggerFlags[13]>0 || triggerFlags[14]>0 || triggerFlags[20]>0 || triggerFlags[21]>0)) || (EVENT.run>=173198 && EVENT.run<175832  && (triggerFlags[13]>0 ||triggerFlags[14]>0 || triggerFlags[22]>0 || triggerFlags[23]>0))|| (EVENT.run>=175832 && EVENT.run<178390 && (triggerFlags[13]>0 ||triggerFlags[14]>0 ||triggerFlags[15]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0)) || (EVENT.run>=178390 && (triggerFlags[14]>0 ||triggerFlags[15]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0 || triggerFlags[24]>0 || triggerFlags[25]>0 || triggerFlags[26]>0 || triggerFlags[27]>0)))']
+datacuts=['(Vtype==1)','(Vtype==0)']
 
 
 
