@@ -14,17 +14,17 @@ void prepareAllZHistos(std::vector<CutsAndHistos *> & allHistosZ,TFile *fout  )
 {
   std::string Zee115("ZH115");
   std::cout << "Book Z" << std::endl;
-
+  int ch =1;
   //Standard histos
-  allHistosZ.push_back(new CutsAndHistos(new CnC50To100TTbarRegionHZcomb( 0, 0 ),new StandardHistos));
-  allHistosZ.push_back(new CutsAndHistos(new CnC50To100VlightRegionHZcomb( 0 , 0 ),new StandardHistos));
-  allHistosZ.push_back(new CutsAndHistos(new CnC50To100VbbRegionHZcomb( 0, 0 ),new StandardHistos));
-  allHistosZ.push_back(new CutsAndHistos(new CnC50To100SignalRegionHZcomb( 0, 0 ),new StandardHistos));
+  allHistosZ.push_back(new CutsAndHistos(new CnC50To100TTbarRegion( ch,  0, 0 ),new StandardHistos));
+  allHistosZ.push_back(new CutsAndHistos(new CnC50To100VlightRegion( ch , 0 , 0 ),new StandardHistos));
+  allHistosZ.push_back(new CutsAndHistos(new CnC50To100VbbRegion( ch, 0, 0 ),new StandardHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new CnC50To100SignalRegion( ch,  0, 0 ),new StandardHistos));
   //Systematics histos
-  allHistosZ.push_back(new CutsAndHistos(new CnC50To100TTbarRegionHZcomb( 0, 0 ),new SystematicsHistos));
-  allHistosZ.push_back(new CutsAndHistos(new CnC50To100VlightRegionHZcomb( 0 , 0 ),new SystematicsHistos));
-  allHistosZ.push_back(new CutsAndHistos(new CnC50To100VbbRegionHZcomb( 0, 0 ),new SystematicsHistos));
-  allHistosZ.push_back(new CutsAndHistos(new CnC50To100SignalRegionHZcomb( 0, 0 ),new SystematicsHistos));  
+  //  allHistosZ.push_back(new CutsAndHistos(new CnC50To100TTbarRegion( ch,  0, 0 ),new SystematicsHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new CnC50To100VlightRegion( ch,  0 , 0 ),new SystematicsHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new CnC50To100VbbRegion( ch,  0, 0 ),new SystematicsHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new CnC50To100SignalRegion( ch,  0, 0 ),new SystematicsHistos));  
 
   for(size_t a=0;a < allHistosZ.size(); a++)
     {
@@ -42,8 +42,6 @@ int main(int argc, char **argv)
   std::string file_appendix = "Paper1211CnC-Pt50To100";
   //std::string file_appendix = "";
 
-  double fa = 0.46502;
-  double fb = 0.53498;
   Double_t eventWeight=0;
   int event_all=0;
   int event_all_b=0;
@@ -52,13 +50,13 @@ int main(int argc, char **argv)
   int event_all_l=0;
 
   //  std::vector<Sample> samples = Nov10Fall1160MTopSlim();
-  std::vector<Sample> samples =  Nov10SideBand();
+  std::vector<Sample> samples =  trees();
 
   //loop over all the samples
   for(unsigned int iS=0; iS<samples.size(); ++iS){
 
     std::string name = samples.at(iS).filename;
-    samples.at(iS).dump(1,fa,fb);
+    samples.at(iS).dump(1);
 
     std::cout << "is data = " << samples.at(iS).data << std::endl; 
     //if appendix is needed
@@ -171,7 +169,7 @@ int main(int argc, char **argv)
       event.GetEntry(iEvent);
       event_all++;
       if(data == false)
-	eventWeight = (fa*event.PUweight+fb*event.PUweight2011B)*event.weightTrig;
+	eventWeight = event.PUweight*event.weightTrig2012A;
       else
 	eventWeight = 1;
 

@@ -22,6 +22,25 @@ Sample( float xs, std::string n, std::string f, int c, bool isdata, float datalu
   float lumi() {  if(data) return luminosity; else return numberOfEvents()/xsec; }
   float lumi(double fA, double fB) {  if(data) return luminosity; else return numberOfEvents(fA,fB)/xsec; }
   float scale(float l) { if(lumi()>0) return l/lumi(); else return 0;}
+  float scale(float l, double *SF) { 
+    std::string DYL("DYL");
+    std::string DYC("DYC");
+    std::string DYNoB("DYNoB");
+    std::string DYB("DYB");
+    std::string TTbar("TTbar");
+    if(lumi()>0){
+      if(name == DYL || name == DYC || name == DYNoB)
+	return SF[0]*l/lumi();
+      else if(name == TTbar) 
+	return SF[1]*l/lumi(); 
+      else if(name == DYB)
+	return SF[2]*l/lumi();
+      else
+	return scale(l);
+    }
+    else 
+      return 0; }
+
   float scale(float l, double fA, double fB) { if(lumi(fA,fB)>0) return l/lumi(fA,fB); else return 0;}
   float scale(float l, double fA, double fB, double *SF) { 
     std::string DYL("DYL");
@@ -63,7 +82,8 @@ Sample( float xs, std::string n, std::string f, int c, bool isdata, float datalu
     if(nevents !=-1) return nevents;
     else
       {
-	return ((TH1F*)file()->Get("Count"))->GetBinContent(1);
+	//	return ((TH1F*)file()->Get("Count"))->GetBinContent(1);
+	return  ((TH1F*)file()->Get("CountWithPU"))->GetBinContent(1);
       }
   }  
 

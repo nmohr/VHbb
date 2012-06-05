@@ -14,35 +14,35 @@ void prepareAllZHistos(std::vector<CutsAndHistos *> & allHistosZ,TFile *fout  )
 {
   std::string Zee115("ZH115");
   std::cout << "Book Z" << std::endl;
-
+  int channel = 1;
   //Standard histos
-  allHistosZ.push_back(new CutsAndHistos(new BDTTTbarControlRegionHZcombSB( 0, 0 ),new StandardHistos));
-  //  allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegionHZcombSB( 0 , 0 ),new StandardHistos));
-  allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegionHZcombSB( 0, 0 ),new StandardHistos));
-  allHistosZ.push_back(new CutsAndHistos(new BDTTrainingRegionHZcombSB( 0, 0 ),new StandardHistos));
-  //  allHistosZ.push_back(new CutsAndHistos(new BDTZbbControlRegionHZcombSB( 0, 0 ),new StandardHistos));
+  allHistosZ.push_back(new CutsAndHistos(new BDTTTbarControlRegion( channel, 0, 0 ),new StandardHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegion( channel, 0 , 0 ),new StandardHistos));
+  allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion( channel, 0, 0 ),new StandardHistos));
+  allHistosZ.push_back(new CutsAndHistos(new BDTTrainingRegion( channel, 0, 0 ),new StandardHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new BDTZbbControlRegion( channel, 0, 0 ),new StandardHistos));
   //Systematics histos
-  allHistosZ.push_back(new CutsAndHistos(new BDTTTbarControlRegionHZcombSB( 0, 0 ),new SystematicsHistos));
-  //  allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegionHZcombSB( 0 , 0 ),new SystematicsHistos));
-  allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegionHZcombSB( 0, 0 ),new SystematicsHistos));
-  allHistosZ.push_back(new CutsAndHistos(new BDTTrainingRegionHZcombSB( 0, 0 ),new SystematicsHistos));
-  //  allHistosZ.push_back(new CutsAndHistos(new BDTZbbControlRegionHZcombSB( 0, 0 ),new SystematicsHistos));
+  allHistosZ.push_back(new CutsAndHistos(new BDTTTbarControlRegion( channel, 0, 0 ),new SystematicsHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegion( channel, 0 , 0 ),new SystematicsHistos));
+  allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion( channel, 0, 0 ),new SystematicsHistos));
+  allHistosZ.push_back(new CutsAndHistos(new BDTTrainingRegion( channel, 0, 0 ),new SystematicsHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new BDTZbbControlRegion( channel, 0, 0 ),new SystematicsHistos));
   
   int jec [] = { -2, -1, 1, 2 };
   int btag [] = { -2, -1, 0, 1, 2 };
 
   for(int j=0; j<4; ++j){ // jec systematics
     //Standard histos
-    allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegionHZcombSB( jec[j], 0 ),new StandardHistos));
+    allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegion( channel, jec[j], 0 ),new StandardHistos));
     //Systematics histos
-    allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegionHZcombSB( jec[j], 0 ),new SystematicsHistos));
-    allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegionHZcombSB( jec[j], 0 ),new SystematicsHistos));
+    allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegion( channel, jec[j], 0 ),new SystematicsHistos));
+    allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion( channel, jec[j], 0 ),new SystematicsHistos));
   }
   for( int b=0; b<5; ++b){ //btag systematics + no systematics ( [0,0] bin )  
     //Standard histos
-    allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegionHZcombSB( 0, btag[b] ),new StandardHistos));
+    allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegion( channel, 0, btag[b] ),new StandardHistos));
     //Systematics histos
-    allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegionHZcombSB( 0, btag[b] ),new SystematicsHistos));
+    allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegion( channel, 0, btag[b] ),new SystematicsHistos));
   }
 
   for(size_t a=0;a < allHistosZ.size(); a++)
@@ -57,12 +57,10 @@ int main(int argc, char **argv)
   std::cout << "Hello word" << std::endl;
 
   bool verbose_ = false;
-  bool stitching = true;
+  bool stitching = false;
   std::string file_appendix = "SideBand-Pt50To100";
   //std::string file_appendix = "";
 
-  double fa = 0.46502;
-  double fb = 0.53498;
   Double_t eventWeight=0;
   int event_all=0;
   int event_all_b=0;
@@ -76,7 +74,7 @@ int main(int argc, char **argv)
   for(unsigned int iS=0; iS<samples.size(); ++iS){
 
     std::string name = samples.at(iS).filename;
-    samples.at(iS).dump(1,fa,fb);
+    samples.at(iS).dump(1);
 
     std::cout << "is data = " << samples.at(iS).data << std::endl; 
     //if appendix is needed
@@ -189,7 +187,7 @@ int main(int argc, char **argv)
       event.GetEntry(iEvent);
       event_all++;
       if(data == false)
-	eventWeight = (fa*event.PUweight+fb*event.PUweight2011B)*event.weightTrig;
+	eventWeight = (event.PUweight)*event.weightTrig;
       else
 	eventWeight = 1;
 

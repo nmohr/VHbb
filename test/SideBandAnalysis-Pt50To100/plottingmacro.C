@@ -19,12 +19,10 @@
 void plottingmacro()
 {
 
-  double fa = 0.46502;
-  double fb = 0.53498;
   bool debug_ = false;
-  bool getSFfromFile = true;
+  bool getSFfromFile = false;
 
-  std::string path("PlotsMay23/");
+  std::string path("PlotsMay26/");
 
   if(debug_)
     std::cout << "Init the style form setTDRStyle" << std::endl;
@@ -49,7 +47,7 @@ void plottingmacro()
 
   if(debug_)
     std::cout << "Init the mc sample" << std::endl;
-  for(size_t i=0;i< s.size();i++) s[i].dump(1,fa,fb);
+  for(size_t i=0;i< s.size();i++) s[i].dump(1);
 
   std::vector<std::string> names;
 
@@ -86,12 +84,12 @@ void plottingmacro()
       std::map<std::string,TH1F *> grouped;
       TString n=names[i];
 
-      //      if(!n.Contains(TRegexp("^BDTZlightControlRegionHZcombSB"))) continue;
-      //      if(!n.Contains(TRegexp("^BDTZbbControlRegionHZcombSB"))) continue;
-      //if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcombSB"))) continue;
-      if(!n.Contains(TRegexp("^BDTSideBandRegionHZcombSB"))) continue;
-      //if(!n.Contains(TRegexp("^BDTSignalRegionHZcombSB"))) continue;
-      //if(!n.Contains(TRegexp("^BDTTrainingRegionHZcombSB"))) continue;
+      //      if(!n.Contains(TRegexp("^BDTZlightControlRegionHZee"))) continue;
+      //      if(!n.Contains(TRegexp("^BDTZbbControlRegionHZee"))) continue;
+      if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZee"))) continue;
+      //if(!n.Contains(TRegexp("^BDTSideBandRegionHZee"))) continue;
+      //if(!n.Contains(TRegexp("^BDTSignalRegionHZee"))) continue;
+      //if(!n.Contains(TRegexp("^BDTTrainingRegionHZee"))) continue;
 
       if(n.Contains(TRegexp("RegionHZcomb")))
 	process = "Z(l^{+}l^{-})H(b#bar{b})";
@@ -184,11 +182,11 @@ void plottingmacro()
 	      h->Sumw2();
 	      if(debug_){
 		std::cout << "TH1F created from file " << s[j].name << std::endl;  
-		std::cout << "Scaling : " << s[j].scale(data.lumi(),fa,fb) << std::endl;  
-		std::cout << "Scaling with SF : " << s[j].scale(data.lumi(),fa,fb,SF) << std::endl;  
+		std::cout << "Scaling : " << s[j].scale(data.lumi()) << std::endl;  
+		std::cout << "Scaling with SF : " << s[j].scale(data.lumi()) << std::endl;  
 		std::cout << "Histo integral before scaling = " << h->Integral() << std::endl;
 	      }
-	      h->Scale(s[j].scale(data.lumi(),fa,fb,SF));
+	      h->Scale(s[j].scale(data.lumi()));
 	      if(debug_){
 		std::cout << "Histo integral after scaling = " << h->Integral() << std::endl;
 		std::cout << "Managing style... " << std::endl;  
@@ -365,7 +363,7 @@ void plottingmacro()
       latex.SetTextSize(0.052);
       latex.DrawLatex(0.17,0.89,"CMS Preliminary");
       latex.SetTextSize(0.04);
-      latex.DrawLatex(0.17,0.84,"#sqrt{s} = 7 TeV, L = 5.0 fb^{-1}");
+      latex.DrawLatex(0.17,0.84,"#sqrt{s} = 8 TeV, L = 0.5 fb^{-1}");
       latex.DrawLatex(0.17,0.79,process.c_str());
 
       c->Update();
@@ -447,7 +445,7 @@ void plottingmacro()
       latex.SetTextSize(0.052);
       latex.DrawLatex(0.17,0.89,"CMS Preliminary");
       latex.SetTextSize(0.04);
-      latex.DrawLatex(0.17,0.84,"#sqrt{s} = 7 TeV");
+      latex.DrawLatex(0.17,0.84,"#sqrt{s} = 8 TeV");
       latex.DrawLatex(0.17,0.79,process.c_str());
       std::string cName_norm= hd->GetName();
 

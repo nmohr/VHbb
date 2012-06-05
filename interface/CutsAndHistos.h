@@ -172,7 +172,7 @@ public:
   {
     if(cutS->pass(event,s))
       for(size_t i=0; i< histos.size(); i++) 
-	histos.at(i)->fill(event,w);
+	histos.at(i)->fill(event, (w * cutS->weight(event,s)) );
   }
 
   Cut * cut;

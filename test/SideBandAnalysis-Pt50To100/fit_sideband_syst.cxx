@@ -47,8 +47,6 @@ int main(int argc, char **argv){
       exit(1);
     }
 
-  double fa = 0.46502;
-  double fb = 0.53498;
   bool debug_=false;
   bool fitSys = true;
   bool fitMC = false;
@@ -101,7 +99,7 @@ int main(int argc, char **argv){
 
   if(debug_)
     std::cout << "Init the mc sample" << std::endl;
-  for(size_t i=0;i< s.size();i++) s[i].dump(1,fa,fb);
+  for(size_t i=0;i< s.size();i++) s[i].dump(1);
 
   std::vector<std::string> names;
 
@@ -128,8 +126,8 @@ int main(int argc, char **argv){
   std::vector<controlRegion*> crToFit;  
 
 
-  std::string s_channel = "HZcombSB";
-  //  std::string s_channel = "HZeeSB";
+  //  std::string s_channel = "HZcomb";
+  std::string s_channel = "HZee";
   std::string s_prefix = "BDT";
   // systematics prefix is needed for the yields effect
   //  std::string s_sysprefix = "SystBtagUPBDT"; //BDTSystJecDOWN, BDTSystBtagFDOWN 
@@ -192,7 +190,7 @@ int main(int argc, char **argv){
 	  TString sampleName=s[j].name;
 	  h = ((TH1F*)s[j].file()->Get(names[i].c_str()));
 	  if(!s[j].data)
-	    h->Scale(s[j].scale(data.lumi(),fa,fb,SF));
+	    h->Scale(s[j].scale(data.lumi(),SF));
 	  for( int r=0; r<fitInfos.size(); ++r ){
 	    if( n.Contains(TRegexp((fitInfos.at(r)->s_regionString).c_str())) ){ // normal histos
 	      if(debug_) std::cout << "Filling fitting region " << (fitInfos.at(r)->s_regionString).c_str() << std::endl;
