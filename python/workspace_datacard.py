@@ -63,7 +63,8 @@ outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
 # MAYBE EDIT THIS:
 discr_names = ['ZjLF','ZjHF', 'TT','VV', 's_Top', 'VH', 'WjLF', 'WjHF', 'QCD'] #corresponding to setup
 data_name = ['data_obs']
-systematicsnaming={'JER':'JER','JES':'JEC','beff':'Btag','bmis':'BtagFake'}
+systematicsnaming={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b'}
+#systematicsnaming={'JER':'cms_res_j','JES':'JEC','beff':'Btag','bmis':'BtagFake'}
 #### rescaling by factor 4
 scaling=True
 if 'RTight' in RCut:
@@ -318,7 +319,10 @@ WS.writeToFile(outpath+'vhbb_WS_'+ROOToutname+'.root')
    
 
 #write DATAcard:
-pier = open(Wdir+'/pier.txt','r')
+if '8TeV' in options[10]:
+    pier = open(Wdir+'/pier8TeV.txt','r')
+else:
+    pier = open(Wdir+'/pier.txt','r')
 scalefactors=pier.readlines()
 pier.close()
 f = open(outpath+'vhbb_DC_'+ROOToutname+'.txt','w')
@@ -330,7 +334,7 @@ if bdt==True:
 else:
     f.write('shapes * * vhbb_TH_%s.root $PROCESS $PROCESS$SYSTEMATIC\n\n'%ROOToutname)
 f.write('bin\t%s\n\n'%Datacradbin)
-f.write('observation\t%s\n\n'%d1.Integral())
+f.write('observation\t%s\n\n'%(int(d1.Integral())))
 f.write('bin\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin))
 f.write('process\tVH\tWjLF\tWjHF\tZjLF\tZjHF\tTT\ts_Top\tVV\tQCD\n')
 
