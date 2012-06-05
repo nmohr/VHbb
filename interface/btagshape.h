@@ -137,12 +137,12 @@ class BTagShape
     gc->SetMarkerColor(kGreen);
     gl->SetMarkerColor(kBlue);
 
-    sb->Draw(opts);
+    /*sb->Draw(opts);
     sc->Draw("same");
     sl->Draw("same");
     gb->Draw("P");
     gc->Draw("P");
-    gl->Draw("P");
+    gl->Draw("P");*/
   }
 
   std::vector<std::pair<float, float> > m_cutsAndSF;
