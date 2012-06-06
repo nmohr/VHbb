@@ -149,6 +149,12 @@ for job in info:
     readerJet0.BookMVA( "jet0Regression",  regWeight );
     readerJet1.BookMVA( "jet1Regression", regWeight );
         
+    #Add training Flag
+    EventForTraining = array('f',[0])
+    newtree.Branch('EventForTraining',EventForTraining,'EventForTraining/F')
+    EventForTraining[0]=0
+    #EventForTraining=0
+
         
     if job.type != 'DATA':
         #CSV branches
@@ -189,10 +195,6 @@ for job in info:
         H_JES = array('f',[0]*4)
         newtree.Branch('H_JES',H_JES,'mass_up:mass_down:pt_up:pt_down/F')
         
-        #Add training Flag
-        EventForTraining = array('f',[0])
-        newtree.Branch('EventForTraining',EventForTraining,'EventForTraining/F')
-
         
         #iter=0
         
@@ -209,10 +211,9 @@ for job in info:
             #    EventForTraining[0]=0
             #iter+=1
             
-            if job.type != 'DATA':
-                EventForTraining[0]=int(not TFlag.EvalInstance())
-            else:
-                EventForTraining[0]=0
+#            if job.type != 'DATA':
+#                EventForTraining=int(not TFlag.EvalInstance())
+            EventForTraining[0]=int(not TFlag.EvalInstance())
 
             #get
             hJet_pt = tree.hJet_pt
