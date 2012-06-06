@@ -18,23 +18,7 @@
 // The signal regions must be implemented incrementally since cutflow is needed
 
 bool sCut( ntupleReader & p , Sample & sample ){
-  bool sampleCut = false;
-  bool boost = false;
-  bool isB = false;
-  if(p.genZpt >= 120)
-    boost = true;
-    if(p.eventFlav == 5)
-      isB = true;
-    std::string DY("DY");
-    std::string DYBOOSTED("DYBOOSTED");
-    if( sample.name == DY && !boost )
-      sampleCut = true;
-    else if( sample.name == DYBOOSTED && boost )
-      sampleCut = true;
-    else if( sample.name != DY && sample.name != DYBOOSTED )
-      sampleCut = true;
-    else sampleCut=false;
-    return ( sampleCut && p.EVENT_json == true && p.hbhe == true );
+  return ( sampleCut && p.EVENT_json == true && p.hbhe == true );
 };
 
 std::string generateName( std::string & baseName, int ch = -1, int btag = 0, int jec = 0 ) {
