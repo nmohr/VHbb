@@ -1,5 +1,5 @@
 [Directories]
-Wdir: /Users/niklas/Test/VHbb/python
+Wdir: /afs/cern.ch/user/n/nmohr/scratch0/CMSSW_5_2_2/src/UserCode/VHbb/python
 #plotpath: /Users/peller/VHbb/Stacks/May28
 #limits: /Users/peller/VHbb/Limits/May23_sys_scaledown/
 #limits: /Users/peller/VHbb/Limits/May23_sys_factor4/
@@ -156,73 +156,68 @@ Mjj_highPt_ZH125_MM: H.mass,Mjj,Mjj,25,0.,250.,Mjj_highPt_M125_Zmm,Mjj_highPt_MM
 Mjj_highPt_ZH130_MM: H.mass,Mjj,Mjj,25,0.,250.,Mjj_highPt_M130_Zmm,Mjj_highPt_MM,Mjj_highPt_MM,ZH130,Zmm,Mjj
 Mjj_highPt_ZH135_MM: H.mass,Mjj,Mjj,25,0.,250.,Mjj_highPt_M135_Zmm,Mjj_highPt_MM,Mjj_highPt_MM,ZH135,Zmm,Mjj
 
-
-#Tight EE
-RTight_ZH110_EE: RTight_ZH110_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M110_Zee,RTight_EE,RTight_EE,ZH110,Zee,BDT
-RTight_ZH115_EE: RTight_ZH115_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M115_Zee,RTight_EE,RTight_EE,ZH115,Zee,BDT
-RTight_ZH120_EE: RTight_ZH120_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M120_Zee,RTight_EE,RTight_EE,ZH120,Zee,BDT
-RTight_ZH125_EE: RTight_ZH125_may.nominal,BDT,BDT output,10,-1,1,BDTRTight_M125_Zee,RTight_EE,RTight_EE,ZH125,Zee,BDT
-RTight_ZH130_EE: RTight_ZH130_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M130_Zee,RTight_EE,RTight_EE,ZH130,Zee,BDT
-RTight_ZH135_EE: RTight_ZH135_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M135_Zee,RTight_EE,RTight_EE,ZH135,Zee,BDT
+RTight_ZH110_EE_7TeV: tanh(1.3*RTight_ZH110_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M110_Zee_7TeV,RTight_EE,RTight_EE,ZH110,ZeeTight_7TeV,BDT
+RTight_ZH115_EE_7TeV: tanh(1.3*RTight_ZH115_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M115_Zee_7TeV,RTight_EE,RTight_EE,ZH115,ZeeTight_7TeV,BDT
+RTight_ZH120_EE_7TeV: tanh(1.3*RTight_ZH120_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M120_Zee_7TeV,RTight_EE,RTight_EE,ZH120,ZeeTight_7TeV,BDT
+RTight_ZH125_EE_7TeV: tanh(1.3*RTight_ZH125_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M125_Zee_7TeV,RTight_EE,RTight_EE,ZH125,ZeeTight_7TeV,BDT
+RTight_ZH130_EE_7TeV: tanh(1.3*RTight_ZH130_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M130_Zee_7TeV,RTight_EE,RTight_EE,ZH130,ZeeTight_7TeV,BDT
+RTight_ZH135_EE_7TeV: tanh(1.3*RTight_ZH135_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M135_Zee_7TeV,RTight_EE,RTight_EE,ZH135,ZeeTight_7TeV,BDT
 
 #Tight MM
-RTight_ZH110_MM: RTight_ZH110_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M110_Zmm,RTight_MM,RTight_MM,ZH110,Zmm,BDT
-RTight_ZH115_MM: RTight_ZH115_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M115_Zmm,RTight_MM,RTight_MM,ZH115,Zmm,BDT
-RTight_ZH120_MM: RTight_ZH120_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M120_Zmm,RTight_MM,RTight_MM,ZH120,Zmm,BDT
-RTight_ZH125_MM: RTight_ZH125_may.nominal,BDT,BDT output,10,-1,1,BDTRTight_M125_Zmm,RTight_MM,RTight_MM,ZH125,Zmm,BDT
-RTight_ZH130_MM: RTight_ZH130_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M130_Zmm,RTight_MM,RTight_MM,ZH130,Zmm,BDT
-RTight_ZH135_MM: RTight_ZH135_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M135_Zmm,RTight_MM,RTight_MM,ZH135,Zmm,BDT
+RTight_ZH110_MM_7TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M110_Zmm_7TeV,RTight_MM,RTight_MM,ZH110,ZmmTight_7TeV,BDT
+RTight_ZH115_MM_7TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M115_Zmm_7TeV,RTight_MM,RTight_MM,ZH115,ZmmTight_7TeV,BDT
+RTight_ZH120_MM_7TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M120_Zmm_7TeV,RTight_MM,RTight_MM,ZH120,ZmmTight_7TeV,BDT
+RTight_ZH125_MM_7TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M125_Zmm_7TeV,RTight_MM,RTight_MM,ZH125,ZmmTight_7TeV,BDT
+RTight_ZH130_MM_7TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M130_Zmm_7TeV,RTight_MM,RTight_MM,ZH130,ZmmTight_7TeV,BDT
+RTight_ZH135_MM_7TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M135_Zmm_7TeV,RTight_MM,RTight_MM,ZH135,ZmmTight_7TeV,BDT
 
 #Med EE
-RMed_ZH110_EE: RMed_ZH110_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M110_Zee,RMed_EE,RMed_EE,ZH110,Zee,BDT
-RMed_ZH115_EE: RMed_ZH115_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M115_Zee,RMed_EE,RMed_EE,ZH115,Zee,BDT
-RMed_ZH120_EE: RMed_ZH120_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M120_Zee,RMed_EE,RMed_EE,ZH120,Zee,BDT
-RMed_ZH125_EE: RMed_ZH125_may.nominal,BDT,BDT output,10,-1,1,BDTRMed_M125_Zee,RMed_EE,RMed_EE,ZH125,Zee,BDT
-RMed_ZH130_EE: RMed_ZH130_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M130_Zee,RMed_EE,RMed_EE,ZH130,Zee,BDT
-RMed_ZH135_EE: RMed_ZH135_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M135_Zee,RMed_EE,RMed_EE,ZH135,Zee,BDT
+RMed_ZH110_EE_7TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M110_Zee_7TeV,RMed_EE,RMed_EE,ZH110,ZeeLoose_7TeV,BDT
+RMed_ZH115_EE_7TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M115_Zee_7TeV,RMed_EE,RMed_EE,ZH115,ZeeLoose_7TeV,BDT
+RMed_ZH120_EE_7TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M120_Zee_7TeV,RMed_EE,RMed_EE,ZH120,ZeeLoose_7TeV,BDT
+RMed_ZH125_EE_7TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M125_Zee_7TeV,RMed_EE,RMed_EE,ZH125,ZeeLoose_7TeV,BDT
+RMed_ZH130_EE_7TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M130_Zee_7TeV,RMed_EE,RMed_EE,ZH130,ZeeLoose_7TeV,BDT
+RMed_ZH135_EE_7TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M135_Zee_7TeV,RMed_EE,RMed_EE,ZH135,ZeeLoose_7TeV,BDT
 
 #Med MM
-RMed_ZH110_MM: RMed_ZH110_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M110_Zmm,RMed_MM,RMed_MM,ZH110,Zmm,BDT
-RMed_ZH115_MM: RMed_ZH115_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M115_Zmm,RMed_MM,RMed_MM,ZH115,Zmm,BDT
-RMed_ZH120_MM: RMed_ZH120_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M120_Zmm,RMed_MM,RMed_MM,ZH120,Zmm,BDT
-RMed_ZH125_MM: RMed_ZH125_may.nominal,BDT,BDT output,10,-1,1,BDTRMed_M125_Zmm,RMed_MM,RMed_MM,ZH125,Zmm,BDT
-RMed_ZH130_MM: RMed_ZH130_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M130_Zmm,RMed_MM,RMed_MM,ZH130,Zmm,BDT
-RMed_ZH135_MM: RMed_ZH135_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M135_Zmm,RMed_MM,RMed_MM,ZH135,Zmm,BDT
+RMed_ZH110_MM_7TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M110_Zmm_7TeV,RMed_MM,RMed_MM,ZH110,ZmmLoose7TeV,BDT
+RMed_ZH115_MM_7TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M115_Zmm_7TeV,RMed_MM,RMed_MM,ZH115,ZmmLoose7TeV,BDT
+RMed_ZH120_MM_7TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M120_Zmm_7TeV,RMed_MM,RMed_MM,ZH120,ZmmLoose7TeV,BDT
+RMed_ZH125_MM_7TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M125_Zmm_7TeV,RMed_MM,RMed_MM,ZH125,ZmmLoose7TeV,BDT
+RMed_ZH130_MM_7TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M130_Zmm_7TeV,RMed_MM,RMed_MM,ZH130,ZmmLoose7TeV,BDT
+RMed_ZH135_MM_7TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M135_Zmm_7TeV,RMed_MM,RMed_MM,ZH135,ZmmLoose7TeV,BDT
 
-
-#SYST 4
 #Tight EE
-RTight4_ZH110_EE: tanh(1.3*RTight_ZH110_may_4.nominal)/tanh(1.3),BDT,BDT output,20,-1,1,BDTRTight4_M110_Zee,RTight_EE,RTight_EE,ZH110,ZeeTight,BDT
-RTight4_ZH115_EE: tanh(1.3*RTight_ZH115_may_4.nominal)/tanh(1.3),BDT,BDT output,20,-1,1,BDTRTight4_M115_Zee,RTight_EE,RTight_EE,ZH115,ZeeTight,BDT
-RTight4_ZH120_EE: tanh(1.3*RTight_ZH120_may_4.nominal)/tanh(1.3),BDT,BDT output,20,-1,1,BDTRTight4_M120_Zee,RTight_EE,RTight_EE,ZH120,ZeeTight,BDT
-RTight4_ZH125_EE: tanh(1.3*RTight_ZH125_may_4.nominal)/tanh(1.3),BDT,BDT output,20,-1,1,BDTRTight4_M125_Zee,RTight_EE,RTight_EE,ZH125,ZeeTight,BDT
-RTight4_ZH130_EE: tanh(1.3*RTight_ZH130_may_4.nominal)/tanh(1.3),BDT,BDT output,20,-1,1,BDTRTight4_M130_Zee,RTight_EE,RTight_EE,ZH130,ZeeTight,BDT
-RTight4_ZH135_EE: tanh(1.3*RTight_ZH135_may_4.nominal)/tanh(1.3),BDT,BDT output,20,-1,1,BDTRTight4_M135_Zee,RTight_EE,RTight_EE,ZH135,ZeeTight,BDT
+RTight_ZH110_EE_8TeV: tanh(1.3*RTight_ZH110_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M110_Zee_8TeV,RTight_EE,RTight_EE,ZH110,ZeeTight_8TeV,BDT
+RTight_ZH115_EE_8TeV: tanh(1.3*RTight_ZH115_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M115_Zee_8TeV,RTight_EE,RTight_EE,ZH115,ZeeTight_8TeV,BDT
+RTight_ZH120_EE_8TeV: tanh(1.3*RTight_ZH120_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M120_Zee_8TeV,RTight_EE,RTight_EE,ZH120,ZeeTight_8TeV,BDT
+RTight_ZH125_EE_8TeV: tanh(1.3*RTight_ZH125_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M125_Zee_8TeV,RTight_EE,RTight_EE,ZH125,ZeeTight_8TeV,BDT
+RTight_ZH130_EE_8TeV: tanh(1.3*RTight_ZH130_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M130_Zee_8TeV,RTight_EE,RTight_EE,ZH130,ZeeTight_8TeV,BDT
+RTight_ZH135_EE_8TeV: tanh(1.3*RTight_ZH135_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M135_Zee_8TeV,RTight_EE,RTight_EE,ZH135,ZeeTight_8TeV,BDT
 
 #Tight MM
-RTight4_ZH110_MM: RTight_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M110_Zmm,RTight_MM,RTight_MM,ZH110,ZmmTight,BDT
-RTight4_ZH115_MM: RTight_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M115_Zmm,RTight_MM,RTight_MM,ZH115,ZmmTight,BDT
-RTight4_ZH120_MM: RTight_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M120_Zmm,RTight_MM,RTight_MM,ZH120,ZmmTight,BDT
-RTight4_ZH125_MM: RTight_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M125_Zmm,RTight_MM,RTight_MM,ZH125,ZmmTight,BDT
-RTight4_ZH130_MM: RTight_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M130_Zmm,RTight_MM,RTight_MM,ZH130,ZmmTight,BDT
-RTight4_ZH135_MM: RTight_ZH135_may_4.nominal,BDT,BDT output,20,-1,1,BDTRTight4_M135_Zmm,RTight_MM,RTight_MM,ZH135,ZmmTight,BDT
+RTight_ZH110_MM_8TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M110_Zmm_8TeV,RTight_MM,RTight_MM,ZH110,ZmmTight_8TeV,BDT
+RTight_ZH115_MM_8TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M115_Zmm_8TeV,RTight_MM,RTight_MM,ZH115,ZmmTight_8TeV,BDT
+RTight_ZH120_MM_8TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M120_Zmm_8TeV,RTight_MM,RTight_MM,ZH120,ZmmTight_8TeV,BDT
+RTight_ZH125_MM_8TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M125_Zmm_8TeV,RTight_MM,RTight_MM,ZH125,ZmmTight_8TeV,BDT
+RTight_ZH130_MM_8TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M130_Zmm_8TeV,RTight_MM,RTight_MM,ZH130,ZmmTight_8TeV,BDT
+RTight_ZH135_MM_8TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M135_Zmm_8TeV,RTight_MM,RTight_MM,ZH135,ZmmTight_8TeV,BDT
 
 #Med EE
-RMed4_ZH110_EE: RMed_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M110_Zee,RMed_EE,RMed_EE,ZH110,ZeeLoose,BDT
-RMed4_ZH115_EE: RMed_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M115_Zee,RMed_EE,RMed_EE,ZH115,ZeeLoose,BDT
-RMed4_ZH120_EE: RMed_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M120_Zee,RMed_EE,RMed_EE,ZH120,ZeeLoose,BDT
-RMed4_ZH125_EE: RMed_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M125_Zee,RMed_EE,RMed_EE,ZH125,ZeeLoose,BDT
-RMed4_ZH130_EE: RMed_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M130_Zee,RMed_EE,RMed_EE,ZH130,ZeeLoose,BDT
-RMed4_ZH135_EE: RMed_ZH135_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M135_Zee,RMed_EE,RMed_EE,ZH135,ZeeLoose,BDT
+RMed_ZH110_EE_8TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M110_Zee_8TeV,RMed_EE,RMed_EE,ZH110,ZeeLoose_8TeV,BDT
+RMed_ZH115_EE_8TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M115_Zee_8TeV,RMed_EE,RMed_EE,ZH115,ZeeLoose_8TeV,BDT
+RMed_ZH120_EE_8TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M120_Zee_8TeV,RMed_EE,RMed_EE,ZH120,ZeeLoose_8TeV,BDT
+RMed_ZH125_EE_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M125_Zee_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLoose_8TeV,BDT
+RMed_ZH130_EE_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M130_Zee_8TeV,RMed_EE,RMed_EE,ZH130,ZeeLoose_8TeV,BDT
+RMed_ZH135_EE_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M135_Zee_8TeV,RMed_EE,RMed_EE,ZH135,ZeeLoose_8TeV,BDT
 
 #Med MM
-RMed4_ZH110_MM: RMed_ZH110_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M110_Zmm,RMed_MM,RMed_MM,ZH110,ZmmLoose,BDT
-RMed4_ZH115_MM: RMed_ZH115_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M115_Zmm,RMed_MM,RMed_MM,ZH115,ZmmLoose,BDT
-RMed4_ZH120_MM: RMed_ZH120_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M120_Zmm,RMed_MM,RMed_MM,ZH120,ZmmLoose,BDT
-RMed4_ZH125_MM: RMed_ZH125_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M125_Zmm,RMed_MM,RMed_MM,ZH125,ZmmLoose,BDT
-RMed4_ZH130_MM: RMed_ZH130_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M130_Zmm,RMed_MM,RMed_MM,ZH130,ZmmLoose,BDT
-RMed4_ZH135_MM: RMed_ZH135_may_4.nominal,BDT,BDT output,20,-1,1,BDTRMed4_M135_Zmm,RMed_MM,RMed_MM,ZH135,ZmmLoose,BDT
-
+RMed_ZH110_MM_8TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M110_Zmm_8TeV,RMed_MM,RMed_MM,ZH110,ZmmLoose_8TeV,BDT
+RMed_ZH115_MM_8TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M115_Zmm_8TeV,RMed_MM,RMed_MM,ZH115,ZmmLoose_8TeV,BDT
+RMed_ZH120_MM_8TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M120_Zmm_8TeV,RMed_MM,RMed_MM,ZH120,ZmmLoose_8TeV,BDT
+RMed_ZH125_MM_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M125_Zmm_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLoose_8TeV,BDT
+RMed_ZH130_MM_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M130_Zmm_8TeV,RMed_MM,RMed_MM,ZH130,ZmmLoose_8TeV,BDT
+RMed_ZH135_MM_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M135_Zmm_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLoose_8TeV,BDT
 
 #GENERAL SETUP LIMIT:
 setup: DYlight+DYc,DYb,TT,VV,ST,ZH
