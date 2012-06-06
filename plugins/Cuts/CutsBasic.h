@@ -85,4 +85,57 @@ class BasicRegionHZcomb: public CutSample{
 };
 
 
+class Basic50RegionHZcomb: public CutSample{
+ public:
+ Basic50RegionHZcomb(int jec_= 0 , int btag_ = 0):
+  jec(jec_),btag(btag_){ baseName = "Basic50RegionHZcomb"; };
+  Bool_t pass(ntupleReader &p){
+    return ( p.hJet_PT(0,jec) > 20.  
+	     && p.hJet_PT(1,jec) > 20. 
+	     && p.V_mass > 50.
+	     && p.V_pt > 50.
+	     && ( (  p.Vtype == 1 && ( p.triggerFlags[5] || p.triggerFlags[6] ) )
+		  || ( p.Vtype == 0 && (((p.EVENT_run<173198 && (p.triggerFlags[0]>0 || p.triggerFlags[13]>0 || p.triggerFlags[14]>0 || p.triggerFlags[20]>0 || p.triggerFlags[21]>0)) || (p.EVENT_run>=173198 && p.EVENT_run<175832  && (p.triggerFlags[13]>0 ||p.triggerFlags[14]>0 || p.triggerFlags[22]>0 || p.triggerFlags[23]>0))|| (p.EVENT_run>=175832 && p.EVENT_run<178390 && (p.triggerFlags[13]>0 ||p.triggerFlags[14]>0 ||p.triggerFlags[15]>0 || p.triggerFlags[21]>0 || p.triggerFlags[22]>0 || p.triggerFlags[23]>0)) || (p.EVENT_run>=178390 && (p.triggerFlags[14]>0 ||p.triggerFlags[15]>0 || p.triggerFlags[21]>0 || p.triggerFlags[22]>0 || p.triggerFlags[23]>0 || p.triggerFlags[24]>0 || p.triggerFlags[25]>0 || p.triggerFlags[26]>0 || p.triggerFlags[27]>0)))) ) )
+	     );
+  }
+  Bool_t pass(ntupleReader &p, Sample &sample){
+    return ( sCut( p , sample ) == true && pass( p ) );
+  }
+  double weight(ntupleReader &p, Sample &sample) {if(sample.data) return 1; else return ((fA*p.PUweight+fB*p.PUweight2011B)*p.weightTrig); } 
+
+ private:
+  std::string name(){ return( generateName(baseName, btag, jec) ) ;};
+  std::string baseName;
+  int btag;
+  int jec;
+
+};
+
+class Basic100RegionHZcomb: public CutSample{
+ public:
+ Basic100RegionHZcomb(int jec_= 0 , int btag_ = 0):
+  jec(jec_),btag(btag_){ baseName = "Basic100RegionHZcomb"; };
+  Bool_t pass(ntupleReader &p){
+    return ( p.hJet_PT(0,jec) > 20.  
+	     && p.hJet_PT(1,jec) > 20. 
+	     && p.V_mass > 50.
+	     && p.V_pt > 100.
+	     && ( (  p.Vtype == 1 && ( p.triggerFlags[5] || p.triggerFlags[6] ) )
+		  || ( p.Vtype == 0 && (((p.EVENT_run<173198 && (p.triggerFlags[0]>0 || p.triggerFlags[13]>0 || p.triggerFlags[14]>0 || p.triggerFlags[20]>0 || p.triggerFlags[21]>0)) || (p.EVENT_run>=173198 && p.EVENT_run<175832  && (p.triggerFlags[13]>0 ||p.triggerFlags[14]>0 || p.triggerFlags[22]>0 || p.triggerFlags[23]>0))|| (p.EVENT_run>=175832 && p.EVENT_run<178390 && (p.triggerFlags[13]>0 ||p.triggerFlags[14]>0 ||p.triggerFlags[15]>0 || p.triggerFlags[21]>0 || p.triggerFlags[22]>0 || p.triggerFlags[23]>0)) || (p.EVENT_run>=178390 && (p.triggerFlags[14]>0 ||p.triggerFlags[15]>0 || p.triggerFlags[21]>0 || p.triggerFlags[22]>0 || p.triggerFlags[23]>0 || p.triggerFlags[24]>0 || p.triggerFlags[25]>0 || p.triggerFlags[26]>0 || p.triggerFlags[27]>0)))) ) )
+	     );
+  }
+  Bool_t pass(ntupleReader &p, Sample &sample){
+    return ( sCut( p , sample ) == true && pass( p ) );
+  }
+  double weight(ntupleReader &p, Sample &sample) {if(sample.data) return 1; else return ((fA*p.PUweight+fB*p.PUweight2011B)*p.weightTrig); } 
+
+ private:
+  std::string name(){ return( generateName(baseName, btag, jec) ) ;};
+  std::string baseName;
+  int btag;
+  int jec;
+
+};
+
+
 #endif
