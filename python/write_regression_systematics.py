@@ -154,7 +154,7 @@ for job in info:
     newtree.Branch('EventForTraining',EventForTraining,'EventForTraining/F')
     EventForTraining[0]=0
     #EventForTraining=0
-
+    TFlag=ROOT.TTreeFormula("EventForTraining","EVENT.event%2",tree)
         
     if job.type != 'DATA':
         #CSV branches
@@ -198,7 +198,6 @@ for job in info:
         
         #iter=0
         
-        TFlag=ROOT.TTreeFormula("EventForTraining","EVENT.event%2",tree)
         
     for entry in range(0,nEntries):
             tree.GetEntry(entry)
