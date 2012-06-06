@@ -6,7 +6,7 @@ import ROOT
 from ROOT import TFile, TTree
 import ROOT
 from array import array
-from ConfigParser import SafeConfigParser
+from BetterConfigParser import BetterConfigParser
 import sys
 from mvainfos import mvainfo
 
@@ -19,7 +19,7 @@ from mvainfos import mvainfo
 #CONFIGURE
 
 #load config
-config = SafeConfigParser()
+config = BetterConfigParser()
 config.read('./config')
 
 #get locations:

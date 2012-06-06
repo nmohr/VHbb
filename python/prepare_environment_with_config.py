@@ -4,7 +4,7 @@ from printcolor import printc
 from samplesclass import sample
 import pickle
 import sys
-from ConfigParser import SafeConfigParser
+from BetterConfigParser import BetterConfigParser
 import ROOT
 
 pathIN=sys.argv[1]
@@ -16,7 +16,7 @@ Precut=''
 info = []
 
 #get files info from config
-config = SafeConfigParser()
+config = BetterConfigParser()
 config.read('./8TeVsamples.cfg')
 
 prefix=config.get('General','prefix')

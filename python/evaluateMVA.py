@@ -9,7 +9,7 @@ from copy import copy
 #suppres the EvalInstace conversion warning bug
 import warnings
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
-from ConfigParser import SafeConfigParser
+from BetterConfigParser import BetterConfigParser
 from samplesclass import sample
 from mvainfos import mvainfo
 import pickle
@@ -19,7 +19,7 @@ from printcolor import printc
 #CONFIGURE
 
 #load config
-config = SafeConfigParser()
+config = BetterConfigParser()
 config.read('./config')
 
 #get locations:
