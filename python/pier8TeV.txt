@@ -1,0 +1,3 @@
+CMS_vhbb_ZjLF_SF_8TeV    lnN    -    -     -    1.198 0.875 1.003   -   -   -  
+CMS_vhbb_ZjHF_SF_8TeV    lnN    -    -     -    0.873 1.202 0.957   -   -   -  
+CMS_vhbb_TT_SF_8TeV    lnN    -    -     -    1.002 0.974 1.123   -   -   - 
