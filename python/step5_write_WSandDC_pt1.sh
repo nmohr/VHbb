@@ -1,31 +1,33 @@
 #!/bin/bash
-path=/scratch/May23sys/MVAout/
+path=/Users/niklas/Higgs/Histos/May5/env/sys/MVAout/
 sys="4"
+sys=""
+en="7TeV"
 # RTight EE
-./workspace_datacard.py $path RTight${sys}_ZH110_EE
-./workspace_datacard.py $path RTight${sys}_ZH115_EE
-./workspace_datacard.py $path RTight${sys}_ZH120_EE
-./workspace_datacard.py $path RTight${sys}_ZH125_EE
-./workspace_datacard.py $path RTight${sys}_ZH130_EE
-./workspace_datacard.py $path RTight${sys}_ZH135_EE
+./workspace_datacard.py $path RTight${sys}_ZH110_EE_${en}
+./workspace_datacard.py $path RTight${sys}_ZH115_EE_${en}
+./workspace_datacard.py $path RTight${sys}_ZH120_EE_${en}
+./workspace_datacard.py $path RTight${sys}_ZH125_EE_${en}
+./workspace_datacard.py $path RTight${sys}_ZH130_EE_${en}
+./workspace_datacard.py $path RTight${sys}_ZH135_EE_${en}
 ## RTight MM
-#./workspace_datacard.py $path RTight${sys}_ZH110_MM
-#./workspace_datacard.py $path RTight${sys}_ZH115_MM
-#./workspace_datacard.py $path RTight${sys}_ZH120_MM
-#./workspace_datacard.py $path RTight${sys}_ZH125_MM
-#./workspace_datacard.py $path RTight${sys}_ZH130_MM
-#./workspace_datacard.py $path RTight${sys}_ZH135_MM
+./workspace_datacard.py $path RTight${sys}_ZH110_MM_${en}
+./workspace_datacard.py $path RTight${sys}_ZH115_MM_${en}
+./workspace_datacard.py $path RTight${sys}_ZH120_MM_${en}
+./workspace_datacard.py $path RTight${sys}_ZH125_MM_${en}
+./workspace_datacard.py $path RTight${sys}_ZH130_MM_${en}
+./workspace_datacard.py $path RTight${sys}_ZH135_MM_${en}
 ## RMed EE
-#./workspace_datacard.py $path RMed${sys}_ZH110_EE
-#./workspace_datacard.py $path RMed${sys}_ZH115_EE
-#./workspace_datacard.py $path RMed${sys}_ZH120_EE
-#./workspace_datacard.py $path RMed${sys}_ZH125_EE
-#./workspace_datacard.py $path RMed${sys}_ZH130_EE
-#./workspace_datacard.py $path RMed${sys}_ZH135_EE
+./workspace_datacard.py $path RMed${sys}_ZH110_EE_${en}
+./workspace_datacard.py $path RMed${sys}_ZH115_EE_${en}
+./workspace_datacard.py $path RMed${sys}_ZH120_EE_${en}
+./workspace_datacard.py $path RMed${sys}_ZH125_EE_${en}
+./workspace_datacard.py $path RMed${sys}_ZH130_EE_${en}
+./workspace_datacard.py $path RMed${sys}_ZH135_EE_${en}
 ## RMed MM
-#./workspace_datacard.py $path RMed${sys}_ZH110_MM
-#./workspace_datacard.py $path RMed${sys}_ZH115_MM
-#./workspace_datacard.py $path RMed${sys}_ZH120_MM
-#./workspace_datacard.py $path RMed${sys}_ZH125_MM
-#./workspace_datacard.py $path RMed${sys}_ZH130_MM
-#./workspace_datacard.py $path RMed${sys}_ZH135_MM
+./workspace_datacard.py $path RMed${sys}_ZH110_MM_${en}
+./workspace_datacard.py $path RMed${sys}_ZH115_MM_${en}
+./workspace_datacard.py $path RMed${sys}_ZH120_MM_${en}
+./workspace_datacard.py $path RMed${sys}_ZH125_MM_${en}
+./workspace_datacard.py $path RMed${sys}_ZH130_MM_${en}
+./workspace_datacard.py $path RMed${sys}_ZH135_MM_${en}
