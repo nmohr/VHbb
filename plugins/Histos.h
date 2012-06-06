@@ -295,7 +295,10 @@ public:
     StH_HdPhi = new TH1F(("HdPhi"+suffix).c_str(),("Higgs deltaPhi ("+suffix+")").c_str(), bin_deltaPhi, min_deltaPhi, max_deltaPhi );
     StH_HdEta = new TH1F(("HdEta"+suffix).c_str(),("Higgs deltaEta ("+suffix+")").c_str(), bin_deltaEta, min_deltaEta, max_deltaEta );
     StH_HHel = new TH1F(("HiggsHel"+suffix).c_str(),("Higgs helicity angle ("+suffix+")").c_str(), bin_hel, min_hel, max_hel );
-    StH_HPullAngle = new TH1F(("HiggsPullAngle"+suffix).c_str(),("Higgs pull angle ("+suffix+")").c_str(), bin_deltaPhi, min_deltaPhi, max_deltaPhi );
+    StH_HPullAngle1 = new TH1F(("HiggsPullAngle1"+suffix).c_str(),("Higgs pull angle1 ("+suffix+")").c_str(), bin_deltaPhi, min_deltaPhi, max_deltaPhi );
+    StH_HPullAngle2 = new TH1F(("HiggsPullAngle2"+suffix).c_str(),("Higgs pull angle2 ("+suffix+")").c_str(), bin_deltaPhi, min_deltaPhi, max_deltaPhi );
+    StH_HPullAK7Angle1 = new TH1F(("HiggsPullAK7Angle1"+suffix).c_str(),("Higgs pullAK7 angle1 ("+suffix+")").c_str(), bin_deltaPhi, min_deltaPhi, max_deltaPhi );
+    StH_HPullAK7Angle2 = new TH1F(("HiggsPullAK7Angle2"+suffix).c_str(),("Higgs pullAK7 angle2 ("+suffix+")").c_str(), bin_deltaPhi, min_deltaPhi, max_deltaPhi );
     StH_HdR_addJets = new TH1F(("HdR_addJets"+suffix).c_str(),("Higgs deltaR addJets ("+suffix+")").c_str(), bin_deltaR, min_deltaR, max_deltaR );
     StH_HdR_leading_addJets = new TH1F(("HdR_leading_addJets"+suffix).c_str(),("Higgs deltaR leading-add Jets ("+suffix+")").c_str(), bin_deltaR, min_deltaR, max_deltaR );
     StH_HdR_following_addJets = new TH1F(("HdR_following_addJets"+suffix).c_str(),("Higgs deltaR following-add Jets ("+suffix+")").c_str(), bin_deltaR, min_deltaR, max_deltaR );
@@ -372,7 +375,11 @@ public:
     StH_HdEta->Fill(iEvent.H_dEta, w);
 
     StH_HHel->Fill(iEvent.hJet_cosTheta[0], w); 
-    StH_HPullAngle->Fill(iEvent.deltaPullAngle, w); 
+
+    StH_HPullAngle1->Fill(iEvent.deltaPullAngle, w); 
+    StH_HPullAngle2->Fill(iEvent.deltaPullAngle2, w); 
+    StH_HPullAK7Angle1->Fill(iEvent.deltaPullAngleAK7, w); 
+    StH_HPullAK7Angle2->Fill(iEvent.deltaPullAngle2AK7, w); 
 
     bool debug_ = false;
     TLorentzVector higgs, hJet1, hJet2, addJet;
@@ -496,6 +503,9 @@ public:
   TH1F * StH_HdEta;
   TH1F * StH_HHel;
   TH1F * StH_HPullAngle;
+  TH1F * StH_HPullAngle2;
+  TH1F * StH_HPullAK7Angle;
+  TH1F * StH_HPullAK7Angle2;
   TH1F * StH_HdR_addJets;
   TH1F * StH_HdR_leading_addJets;
   TH1F * StH_HdR_following_addJets;
