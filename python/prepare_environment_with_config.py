@@ -7,10 +7,6 @@ import sys
 from ConfigParser import SafeConfigParser
 import ROOT
 
-prefix='ZllH.Jun01.'
-
-lumi=(530.+1725.)
-
 pathIN=sys.argv[1]
 pathOUT=sys.argv[2]
 
@@ -22,13 +18,18 @@ info = []
 #get files info from config
 config = SafeConfigParser()
 config.read('./8TeVsamples.cfg')
+
+prefix=config.get('General','prefix')
+lumi=float(config.get('General','lumi'))
+
 for Sample in config.sections():
+    if not config.has_option(Sample,'infile'): continue
     infile = config.get(Sample,'infile')
     if not ROOT.TFile.Open(pathIN+prefix+infile+'.root',"READ"):
         print 'WARNING: No file ' + pathIN+prefix+infile+ ' found! '
         continue
 #this need exception handle    
-#    if type(eval(config.get(Sample,'sampleName'))) != list:
+    #if type(eval(config.get(Sample,'sampleName'))) != list: 
     if len(config.get(Sample,'sampleName').split(",")) == 1:
         sampleName = [(config.get(Sample,'sampleName'))]
         sampleType = [(config.get(Sample,'sampleType'))]
