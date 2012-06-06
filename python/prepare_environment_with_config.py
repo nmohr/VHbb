@@ -9,7 +9,7 @@ import ROOT
 
 prefix='ZllH.Jun01.'
 
-lumi=530.
+lumi=(530.+1725.)
 
 pathIN=sys.argv[1]
 pathOUT=sys.argv[2]
@@ -61,8 +61,8 @@ for Sample in config.sections():
         info[-1].prefix=prefix
         info[-1].addtreecut(cut[i])
         if sampleType[i] != 'DATA':
-            info[-1].xsec=xSec[i]
-            info[-1].sf=SF[i]
+            info[-1].xsec=(xSec[i])
+            info[-1].sf=(SF[i])
         
 #dump info   
 infofile = open(pathOUT+'/samples.info','w')
