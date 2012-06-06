@@ -18,7 +18,7 @@
 // The signal regions must be implemented incrementally since cutflow is needed
 
 bool sCut( ntupleReader & p , Sample & sample ){
-  return ( sampleCut && p.EVENT_json == true && p.hbhe == true );
+  return (  p.EVENT_json == true && p.hbhe == true );
 };
 
 

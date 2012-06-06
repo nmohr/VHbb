@@ -16,7 +16,7 @@
 
 
 bool sCut( ntupleReader & p , Sample & sample ){
-  return ( sampleCut && p.EVENT_json == true && p.hbhe == true );
+  return ( p.EVENT_json == true && p.hbhe == true );
 };
 
 std::string generateName( std::string & baseName, int btag = 0, int jec = 0 ) {
