@@ -28,10 +28,11 @@ Wdir=config.get('Directories','Wdir')
 systematics=config.get('systematics','systematics')
 systematics=systematics.split(' ')
 #TreeVar Array
-MVA_Vars={}
-for systematic in systematics:
-    MVA_Vars[systematic]=config.get('treeVars',systematic)
-    MVA_Vars[systematic]=MVA_Vars[systematic].split(' ')
+#Niklas: Not needed?
+#MVA_Vars={}
+#for systematic in systematics:
+#    MVA_Vars[systematic]=config.get('treeVars',systematic)
+#    MVA_Vars[systematic]=MVA_Vars[systematic].split(' ')
 weightF=config.get('Weights','weightF')
 path=sys.argv[1]
 var=sys.argv[2]
