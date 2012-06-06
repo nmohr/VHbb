@@ -6,6 +6,7 @@ Wdir: /afs/cern.ch/user/n/nmohr/scratch0/CMSSW_5_2_2/src/UserCode/VHbb/python
 limits: /Users/niklas/Test/VHbb/Limits/ichepPreapproval/
 #limits: /Users/peller/VHbb/Limits/May23Like_sys_factor4/
 plotpath: /Users/peller/VHbb/Stacks/May28/
+samplepath= /data1/nmohr/2012Ana/env/sys/
 
 
 MVAdir: /MVAout/
@@ -226,6 +227,12 @@ blind: True
 
 ##############################################################################################
 # MVA definitions
+[MVAGeneral]
+type = BDT
+SettingsTight = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+MVAsettingsMed = !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+backgrounds = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
+
 [factory]
 factoryname: MVA
 factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Transformations=I
@@ -236,13 +243,13 @@ factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Tr
 #list of all: RTight_ZH110,RTight_ZH115,RTight_ZH120,RTight_ZH125,RTight_ZH130,RTight_ZH135,RMed_ZH110,RMed_ZH115,RMed_ZH120,RMed_ZH125,RMed_ZH130,RMed_ZH135
 
 [RTight_ZH110_may]
-MVAtype: BDT
-MVAsettings: !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-path: /Users/niklas/Higgs/Histos/May5/env/sys/
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>
 signals: ZH110
-backgrounds: Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
+backgrounds: <!MVAGeneral|backgrounds!>
 treeVarSet: treeVarsICHEP
-treecut: RTight
+treeCut: RTight
 
 [RTight_ZH115_may]
 MVAtype: BDT
@@ -452,12 +459,29 @@ spectators:
 
 #############################################################################################
 # TreeCuts:
+[ZHbb]
+CSVT = 0.898
+CSVT = 0.5
+CSVL = 0.244
+minBtag = min(hJet_csv[0],hJet_csv[1])
+maxBtag = max(hJet_csv[0],hJet_csv[1])
+tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
+preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & EVENT.json
+zWindow = V.mass > 75. & V.mass < 105
+vetoHMass = (H.mass < 90. | H.mass > 145.)
+pullAngle = deltaPullAngle < 10. & deltaPullAngle2 < 10.
+rTight = V.pt > 100.
+rMed = V.pt > 50. & V.pt < 100.
+upperHMass = H.mass < 250.
+looseHMass = H.mass > 80. & H.mass < 150.
 
 [Cuts]
 
 #V.pt regions:
-RMed:   hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1])  > 0.5   & min(hJet_csv[0],hJet_csv[1]) > 0.244   & V.pt > 50.  & V.pt < 100.  & V.mass > 75. & V.mass < 105 & H.mass < 150. & H.mass > 80. & deltaPullAngle < 10. & deltaPullAngle2 < 10.
-RTight:  hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1]) > 0.244 & min(hJet_csv[0],hJet_csv[1]) > 0.244 & V.pt > 100. & V.mass > 75. & V.mass < 105 & H.mass < 250. & deltaPullAngle < 10. & deltaPullAngle2 < 10.
+RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!>
+#RMed:   hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1])  > 0.5   & min(hJet_csv[0],hJet_csv[1]) > 0.244   & V.pt > 50.  & V.pt < 100.  & V.mass > 75. & V.mass < 105 & H.mass < 150. & H.mass > 80. & deltaPullAngle < 10. & deltaPullAngle2 < 10.
+RTight = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> 
+#hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1]) > 0.244 & min(hJet_csv[0],hJet_csv[1]) > 0.244 & V.pt > 100. & V.mass > 75. & V.mass < 105 & H.mass < 250. & deltaPullAngle < 10. & deltaPullAngle2 < 10.
 
 #control regions
 Light: hJet_pt[0] > 20. & hJet_pt[1] > 20. & EVENT.json & abs( HVdPhi ) > 2.9 & Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) == 0 & V.mass > 75. & V.mass < 105 & !(hJet_csv[0] > 0.898 | hJet_csv[1] > 0.898) & H.mass < 250. & hJet_csv[0] > 0. & hJet_csv[1] > 0. & H.mass > 50. & V.pt > 100.
