@@ -359,13 +359,13 @@ for line in scalefactors:
 if 'Zee' in options[10]:
     f.write('CMS_eff_m lnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
     f.write('CMS_eff_e lnN\t1.04\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
-    f.write('CMS_trigger_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-    f.write('CMS_trigger_e\tlnN\t1.02\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
+    #f.write('CMS_trigger_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+    #f.write('CMS_trigger_e\tlnN\t1.02\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
 if 'Zmm' in options[10]:
     f.write('CMS_eff_e lnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
     f.write('CMS_eff_m lnN\t1.04\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
-    f.write('CMS_trigger_e\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-    f.write('CMS_trigger_m\tlnN\t1.01\t-\t-\t-\t-\t-\t1.01\t1.01\t-\n')
+    #f.write('CMS_trigger_e\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
+    #f.write('CMS_trigger_m\tlnN\t1.01\t-\t-\t-\t-\t-\t1.01\t1.01\t-\n')
 
 f.write('CMS_vhbb_trigger_MET\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_stats_%s_%s\tshape\t1.0\t-\t-\t-\t-\t-\t-\t-\t-\n'%(discr_names[5], options[10]))
