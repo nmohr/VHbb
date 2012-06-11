@@ -156,7 +156,9 @@ for job in info:
 
     lheWeight = array('f',[0])
     newtree.Branch('lheWeight',lheWeight,'lheWeight/F')
-    lheWeight[0] = 1.
+    lheWeight[0]=0.
+    if job.type != "DY":
+        lheWeight[0] = 1.
 
     #EventForTraining=0
     TFlag=ROOT.TTreeFormula("EventForTraining","EVENT.event%2",tree)
@@ -218,6 +220,15 @@ for job in info:
 #            if job.type != 'DATA':
 #                EventForTraining=int(not TFlag.EvalInstance())
             EventForTraining[0]=int(not TFlag.EvalInstance())
+            if job.type == 'DY':
+                if tree.lheV_pt < 50.:
+                    lheWeight = input_lheWeight.GetBinContent(1)
+                if tree.lheV_pt >= 50. and tree.lheV_pt < 70.:
+                    lheWeight = input_lheWeight.GetBinContent(2)
+                if tree.lheV_pt >= 70. and tree.lheV_pt < 100.:
+                    lheWeight = input_lheWeight.GetBinContent(3)
+                if tree.lheV_pt >= 100.:
+                    lheWeight = input_lheWeight.GetBinContent(4)
 
             #get
             hJet_pt = tree.hJet_pt
