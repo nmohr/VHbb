@@ -5,20 +5,20 @@
 #include <TLegend.h>
 #include <iostream>
 #include "../interface/CutsAndHistos.h"
-#include "../interface/Histos.h"
-#include "../plugins/Cuts/Cuts.h"
+#include "../plugins/Histos.h"
+#include "../plugins/Cuts/Cuts.hpp"
 #include "TF1.h"
 #include "TH1.h"
 #include "../interface/samples.hpp"
 #include "../interface/ntupleReader.hpp"
-#include "sampleCollection.h"
+#include "../test/SideBandAnalysis-Pt50To100/sampleSideBand.h"
 #include "Riostream.h"
 #include "TMatrixD.h"
 #include "TVectorD.h"
 #include "TDecompChol.h"
 #include "TDecompSVD.h"
-#include "setTDRStyle.C"
-#include "controlRegions.h"
+#include "../plugins/setTDRStyle.C"
+#include "../interface/controlRegions.h"
 
 #define ZeeL 4683.5
 #define fA 0.46502
@@ -27,7 +27,7 @@
 int main(int argc, char **argv)
 {
   
-  typedef std::vector<Sample> samplesCollection;
+  typedef std::vector<Sample> sampleCollection;
   setTDRStyle();
   bool verbose_ = true;
   TCanvas * c1 = new TCanvas("c1","c1", 600,600);
@@ -39,15 +39,12 @@ int main(int argc, char **argv)
   signalRegionCutFlow.add( new VMassCutMin(75.) );
   signalRegionCutFlow.add( new VMassCutMax(105.) );
   signalRegionCutFlow.add( new JetPtCut(20.) );
-  signalRegionCutFlow.add( new HPtCut(100.) );
   signalRegionCutFlow.add( new VPtCut(100.) );
-  signalRegionCutFlow.add( new JetBtagCut(0.5, 0.898) );
-  signalRegionCutFlow.add( new HVdPhiCut(2.9) );
-  signalRegionCutFlow.add( new JetVeto(2) );
-  signalRegionCutFlow.add( new HMassCut(100.) );
-  signalRegionCutFlow.add( new HMassCutMax(130.) );
+  signalRegionCutFlow.add( new JetBtagCut(0.244, 0.244) );
+  signalRegionCutFlow.add( new HMassCut(80.) );
+  signalRegionCutFlow.add( new HMassCutMax(120.) );
 
-  samplesCollection samples = Nov10thDiJetPtUpdatedFall11OKSlim();
+  sampleCollection samples = trees();
   std::vector< controlRegion > cutFlowCR;
 
   for(int i=0; i<signalRegionCutFlow.size(); ++i){
