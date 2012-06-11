@@ -1,10 +1,10 @@
 #ifndef CUTS_H
 #define CUTS_H
-#include "../interface/CutsAndHistos.h"
-#include "../interface/ntupleReader.hpp"
+#include "../../interface/CutsAndHistos.h"
+#include "../../interface/ntupleReader.hpp"
 #include <TH1F.h>
 #include <sstream>
-#include "../interface/samples.hpp"
+#include "../../interface/samples.hpp"
 #include "TKey.h"
 
 #define CSVM 0.679
