@@ -220,6 +220,10 @@ for job in info:
 #            if job.type != 'DATA':
 #                EventForTraining=int(not TFlag.EvalInstance())
             EventForTraining[0]=int(not TFlag.EvalInstance())
+
+            inFilelheWeihgt = TFile.Open("lheWeightHisto.root","READ")            
+            input_lheWeight = inFilelheWeight.Get('h_lheWeight')
+
             if job.type == 'DY':
                 if tree.lheV_pt < 50.:
                     lheWeight = input_lheWeight.GetBinContent(1)
