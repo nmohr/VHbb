@@ -156,7 +156,7 @@ for job in info:
 
     lheWeight = array('f',[0])
     newtree.Branch('lheWeight',lheWeight,'lheWeight/F')
-    lheWeight = 1.
+    lheWeight[0] = 1.
 
     #EventForTraining=0
     TFlag=ROOT.TTreeFormula("EventForTraining","EVENT.event%2",tree)
