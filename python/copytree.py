@@ -3,9 +3,9 @@ from ROOT import TFile
 from printcolor import printc
 
         
-def copytree(pathIN,pathOUT,prefix,file,Aprefix,Acut):
+def copytree(pathIN,pathOUT,prefix,newprefix,file,Aprefix,Acut):
     input = TFile.Open("%s/%s%s.root" %(pathIN,prefix,file),'read')
-    output = TFile.Open("%s/%s%s%s.root" %(pathOUT,prefix,Aprefix,file),'recreate')
+    output = TFile.Open("%s/%s%s%s.root" %(pathOUT,newprefix,Aprefix,file),'recreate')
 
     input.cd()
     obj = ROOT.TObject
