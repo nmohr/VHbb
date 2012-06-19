@@ -20,6 +20,7 @@ config = BetterConfigParser()
 config.read('./8TeVsamples.cfg')
 
 prefix=config.get('General','prefix')
+newprefix=config.get('General','newprefix')
 lumi=float(config.get('General','lumi'))
 
 for Sample in config.sections():
@@ -52,14 +53,14 @@ for Sample in config.sections():
     for i in range(0,len(sampleName)):
         print cut[i]
         print Aprefix[i]
-        copytree(pathIN,pathOUT,prefix,infile,Aprefix[i],cut[i]+Precut)
+        copytree(pathIN,pathOUT,prefix,newprefix,infile,Aprefix[i],cut[i]+Precut)
         info.append(sample(sampleName[i],sampleType[i]))
         info[-1].path=pathOUT
         info[-1].identifier=Aprefix[i]+infile
         info[-1].weightexpression=weightexpression
         info[-1].group=sampleGroup[i]
         info[-1].lumi=lumi
-        info[-1].prefix=prefix
+        info[-1].prefix=newprefix
         info[-1].addtreecut(cut[i])
         if sampleType[i] != 'DATA':
             info[-1].xsec=(xSec[i])
