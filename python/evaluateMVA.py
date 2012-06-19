@@ -32,10 +32,10 @@ systematics=config.get('systematics','systematics')
 systematics=systematics.split(' ')
 
 #TreeVar Array
-MVA_Vars={}
-for systematic in systematics:
-    MVA_Vars[systematic]=config.get('treeVars',systematic)
-    MVA_Vars[systematic]=MVA_Vars[systematic].split(' ')
+#MVA_Vars={}
+#for systematic in systematics:
+#    MVA_Vars[systematic]=config.get('treeVars',systematic)
+#    MVA_Vars[systematic]=MVA_Vars[systematic].split(' ')
 
 ######################
 #Evaluate multi: Must Have same treeVars!!!
