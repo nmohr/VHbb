@@ -24,7 +24,7 @@ def getScale(job,rescale):
     CountWithPU = input.Get("CountWithPU")
     CountWithPU2011B = input.Get("CountWithPU2011B")
     #print lumi*xsecs[i]/hist.GetBinContent(1)
-    return float(job.lumi)*float(job.xsec)*float(job.sf)/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*rescale/float(job.split)
+    return float(job.lumi)*float(job.xsec)*float(job.sf)/(CountWithPU.GetBinContent(1))*rescale/float(job.split)
 
 
 def getHistoFromTree(job,options,rescale=1):

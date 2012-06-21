@@ -94,7 +94,7 @@ counter=0
 for job in info:
     if job.type == 'BKG':
         #print 'MC'
-        hTemp, typ = getHistoFromTree(job,options,2)
+        hTemp, typ = getHistoFromTree(job,options,1)
         histos.append(hTemp)
         typs.append(typ)
         if counter == 0:
@@ -103,7 +103,7 @@ for job in info:
             hDummy.Add(hTemp)
         counter += 1
     elif job.type == 'SIG' and job.name == mass:
-        hTemp, typ = getHistoFromTree(job,options,2)
+        hTemp, typ = getHistoFromTree(job,options,1)
         histos.append(hTemp)
         typs.append(typ)    
     elif job.name in data:
@@ -119,6 +119,7 @@ for histo in histos:
 printc('green','', 'MC integral = %s'%MC_integral)  
 #order and add together
 histos, typs = orderandadd(histos,typs,setup)
+rescaleSqrtN = True
 
 for i in range(0,len(histos)):
     histos[i].SetName(discr_names[i])
@@ -131,11 +132,26 @@ for i in range(0,len(histos)):
     statDowns[i].SetName('%sCMS_vhbb_stats_%s_%sDown'%(discr_names[i],discr_names[i],options[10]))
     #statUps[i].Sumw2()
     #statDowns[i].Sumw2()
+    errorsum=0
+    total=0
+    for j in range(histos[i].GetNbinsX()+1):
+        errorsum=errorsum+(histos[i].GetBinError(j))**2
+        
+    errorsum=sqrt(errorsum)
+    total=histos[i].Integral()
     
     #shift up and down with statistical error
-    for j in range(histos[i].GetNbinsX()):
-        statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
-        statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
+    for j in range(histos[i].GetNbinsX()+1):
+	if rescaleSqrtN:
+            statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j)/total*errorsum)
+        else:
+            statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
+        if rescaleSqrtN:
+            statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j)/total*errorsum)
+        else:
+            statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
+        #statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
+        #statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
 
     '''
     ######################
@@ -244,13 +260,15 @@ if str(anType) == 'BDT':
 elif str(anType) == 'Mjj':
     mjj = True
     systematics = ['JER','JES']
+
+nominalShape = options[0]
     
 for sys in systematics:
     for Q in UD:
         ff=options[0].split('.')
         if bdt == True:
             ff[1]='%s_%s'%(sys,Q.lower())
-            options[0]=options[0].replace('.nominal','.%s_%s'%(sys,Q.lower()))
+            options[0]=nominalShape.replace('.nominal','.%s_%s'%(sys,Q.lower()))
         elif mjj == True:
             ff[0]='H_%s'%(sys)
             ff[1]='mass_%s'%(Q.lower())
@@ -341,7 +359,10 @@ f.write('process\tVH\tWjLF\tWjHF\tZjLF\tZjHF\tTT\ts_Top\tVV\tQCD\n')
 
 f.write('process\t0\t1\t2\t3\t4\t5\t6\t7\t8\n')
 f.write('rate\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(histos[5].Integral(),0,0,histos[0].Integral(),histos[1].Integral(),histos[2].Integral(),histos[4].Integral(),histos[3].Integral(),0)) #\t1.918\t0.000 0.000\t135.831  117.86  18.718 1.508\t7.015\t0.000
-f.write('lumi\tlnN\t1.022\t-\t-\t-\t-\t-\t1.022\t1.022\t1.022\n')
+if '7TeV' in options[10]:
+    f.write('lumi_7TeV\tlnN\t1.022\t-\t-\t-\t-\t-\t1.022\t1.022\t1.022\n')
+if '8TeV' in options[10]:
+    f.write('lumi_8TeV\tlnN\t1.05\t-\t-\t-\t-\t-\t1.05\t1.05\t1.05\n')
 f.write('pdf_qqbar\tlnN\t1.01\t-\t-\t-\t-\t-\t-\t1.01\t-\n')
 f.write('pdf_gg\tlnN\t-\t-\t-\t-\t-\t-\t1.01\t-\t1.01\n')
 f.write('QCDscale_VH\tlnN\t1.04\t-\t-\t-\t-\t-\t-\t-\t-\n')

@@ -83,7 +83,7 @@ for job in info:
     #btagFUp.computeFunctions(0.,+1.)
     #btagFDown = BTagShape("../data/csvdiscr.root")
     #btagFDown.computeFunctions(0.,-1.)
-    ROOT.gROOT.LoadMacro('../interface/BTagReshaping.h++')
+    ROOT.gSystem.Load('/shome/nmohr/CMSSW_5_2_4_patch4/src/UserCode/VHbb/interface/BTagReshaping_h.so')
     from ROOT import BTagShapeInterface
     btagNom = BTagShapeInterface("../data/csvdiscr.root",0,0)
     btagUp = BTagShapeInterface("../data/csvdiscr.root",+1,0)
@@ -179,12 +179,6 @@ for job in info:
     newtree.Branch('EventForTraining',EventForTraining,'EventForTraining/F')
     EventForTraining[0]=0
 
-    lheWeight = array('f',[0])
-    newtree.Branch('lheWeight',lheWeight,'lheWeight/F')
-    lheWeight[0]=0.
-    if job.type != "DY":
-        lheWeight[0] = 1.
-
     TFlag=ROOT.TTreeFormula("EventForTraining","EVENT.event%2",tree)
         
     if job.type != 'DATA':
@@ -245,18 +239,6 @@ for job in info:
 #                EventForTraining=int(not TFlag.EvalInstance())
             #EventForTraining[0]=int(not TFlag.EvalInstance())
 
-            inFilelheWeihgt = TFile.Open("lheWeightHisto.root","READ")            
-            input_lheWeight = inFilelheWeight.Get('h_lheWeight')
-
-            if job.type == 'DY':
-                if tree.lheV_pt < 50.:
-                    lheWeight = input_lheWeight.GetBinContent(1)
-                if tree.lheV_pt >= 50. and tree.lheV_pt < 70.:
-                    lheWeight = input_lheWeight.GetBinContent(2)
-                if tree.lheV_pt >= 70. and tree.lheV_pt < 100.:
-                    lheWeight = input_lheWeight.GetBinContent(3)
-                if tree.lheV_pt >= 100.:
-                    lheWeight = input_lheWeight.GetBinContent(4)
 
             #get
             hJet_pt = tree.hJet_pt
@@ -446,6 +428,6 @@ for job in info:
     output.Close()
         
 #dump info
-infofile = open(path+'/sys'+'/samples.info','w')
-pickle.dump(info,infofile)
-infofile.close()
+#infofile = open(path+'/sys'+'/samples.info','w')
+#pickle.dump(info,infofile)
+#infofile.close()
