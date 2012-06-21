@@ -1,9 +1,9 @@
 [Directories]
-Wdir: /Users/niklas/VHbb/python
+Wdir: /shome/nmohr/
 #plotpath: /Users/peller/VHbb/Stacks/May28
 #limits: /Users/peller/VHbb/Limits/May23_sys_scaledown/
 #limits: /Users/peller/VHbb/Limits/May23_sys_factor4/
-limits: /Users/niklas/VHbb/Limits/ichepPreApp/
+limits: /shome/nmohr/Limit/ichep8TeV/
 #limits: /Users/peller/VHbb/Limits/May23Like_sys_factor4/
 plotpath: /Users/peller/VHbb/Stacks/May28/
 samplepath= /data1/nmohr/2012Ana/env/sys/
@@ -193,40 +193,40 @@ RMed_ZH130_MM_7TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1
 RMed_ZH135_MM_7TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M135_Zmm_7TeV,RMed_MM,RMed_MM,ZH135,ZmmLoose7TeV,BDT
 
 #Tight EE
-RTight_ZH110_EE_8TeV: tanh(1.3*RTight_ZH110_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M110_Zee_8TeV,RTight_EE,RTight_EE,ZH110,ZeeTight_8TeV,BDT
-RTight_ZH115_EE_8TeV: tanh(1.3*RTight_ZH115_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M115_Zee_8TeV,RTight_EE,RTight_EE,ZH115,ZeeTight_8TeV,BDT
-RTight_ZH120_EE_8TeV: tanh(1.3*RTight_ZH120_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M120_Zee_8TeV,RTight_EE,RTight_EE,ZH120,ZeeTight_8TeV,BDT
-RTight_ZH125_EE_8TeV: tanh(1.3*RTight_ZH125_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M125_Zee_8TeV,RTight_EE,RTight_EE,ZH125,ZeeTight_8TeV,BDT
-RTight_ZH130_EE_8TeV: tanh(1.3*RTight_ZH130_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M130_Zee_8TeV,RTight_EE,RTight_EE,ZH130,ZeeTight_8TeV,BDT
-RTight_ZH135_EE_8TeV: tanh(1.3*RTight_ZH135_may_4.nominal)/tanh(1.3),CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M135_Zee_8TeV,RTight_EE,RTight_EE,ZH135,ZeeTight_8TeV,BDT
+RTight_ZH110_EE_8TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRTight_M110_Zee_8TeV,RTight_EE,RTight_EE,ZH110,ZeeTight_8TeV,BDT
+RTight_ZH115_EE_8TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRTight_M115_Zee_8TeV,RTight_EE,RTight_EE,ZH115,ZeeTight_8TeV,BDT
+RTight_ZH120_EE_8TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRTight_M120_Zee_8TeV,RTight_EE,RTight_EE,ZH120,ZeeTight_8TeV,BDT
+RTight_ZH125_EE_8TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRTight_M125_Zee_8TeV,RTight_EE,RTight_EE,ZH125,ZeeTight_8TeV,BDT
+RTight_ZH130_EE_8TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRTight_M130_Zee_8TeV,RTight_EE,RTight_EE,ZH130,ZeeTight_8TeV,BDT
+RTight_ZH135_EE_8TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRTight_M135_Zee_8TeV,RTight_EE,RTight_EE,ZH135,ZeeTight_8TeV,BDT
 
 #Tight MM
-RTight_ZH110_MM_8TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M110_Zmm_8TeV,RTight_MM,RTight_MM,ZH110,ZmmTight_8TeV,BDT
-RTight_ZH115_MM_8TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M115_Zmm_8TeV,RTight_MM,RTight_MM,ZH115,ZmmTight_8TeV,BDT
-RTight_ZH120_MM_8TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M120_Zmm_8TeV,RTight_MM,RTight_MM,ZH120,ZmmTight_8TeV,BDT
-RTight_ZH125_MM_8TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M125_Zmm_8TeV,RTight_MM,RTight_MM,ZH125,ZmmTight_8TeV,BDT
-RTight_ZH130_MM_8TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M130_Zmm_8TeV,RTight_MM,RTight_MM,ZH130,ZmmTight_8TeV,BDT
-RTight_ZH135_MM_8TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRTight_M135_Zmm_8TeV,RTight_MM,RTight_MM,ZH135,ZmmTight_8TeV,BDT
+RTight_ZH110_MM_8TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRTight_M110_Zmm_8TeV,RTight_MM,RTight_MM,ZH110,ZmmTight_8TeV,BDT
+RTight_ZH115_MM_8TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRTight_M115_Zmm_8TeV,RTight_MM,RTight_MM,ZH115,ZmmTight_8TeV,BDT
+RTight_ZH120_MM_8TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRTight_M120_Zmm_8TeV,RTight_MM,RTight_MM,ZH120,ZmmTight_8TeV,BDT
+RTight_ZH125_MM_8TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRTight_M125_Zmm_8TeV,RTight_MM,RTight_MM,ZH125,ZmmTight_8TeV,BDT
+RTight_ZH130_MM_8TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRTight_M130_Zmm_8TeV,RTight_MM,RTight_MM,ZH130,ZmmTight_8TeV,BDT
+RTight_ZH135_MM_8TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRTight_M135_Zmm_8TeV,RTight_MM,RTight_MM,ZH135,ZmmTight_8TeV,BDT
 
 #Med EE
-RMed_ZH110_EE_8TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M110_Zee_8TeV,RMed_EE,RMed_EE,ZH110,ZeeLoose_8TeV,BDT
-RMed_ZH115_EE_8TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M115_Zee_8TeV,RMed_EE,RMed_EE,ZH115,ZeeLoose_8TeV,BDT
-RMed_ZH120_EE_8TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M120_Zee_8TeV,RMed_EE,RMed_EE,ZH120,ZeeLoose_8TeV,BDT
-RMed_ZH125_EE_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M125_Zee_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLoose_8TeV,BDT
-RMed_ZH130_EE_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M130_Zee_8TeV,RMed_EE,RMed_EE,ZH130,ZeeLoose_8TeV,BDT
-RMed_ZH135_EE_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M135_Zee_8TeV,RMed_EE,RMed_EE,ZH135,ZeeLoose_8TeV,BDT
+RMed_ZH110_EE_8TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRMed_M110_Zee_8TeV,RMed_EE,RMed_EE,ZH110,ZeeLoose_8TeV,BDT
+RMed_ZH115_EE_8TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRMed_M115_Zee_8TeV,RMed_EE,RMed_EE,ZH115,ZeeLoose_8TeV,BDT
+RMed_ZH120_EE_8TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRMed_M120_Zee_8TeV,RMed_EE,RMed_EE,ZH120,ZeeLoose_8TeV,BDT
+RMed_ZH125_EE_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRMed_M125_Zee_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLoose_8TeV,BDT
+RMed_ZH130_EE_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRMed_M130_Zee_8TeV,RMed_EE,RMed_EE,ZH130,ZeeLoose_8TeV,BDT
+RMed_ZH135_EE_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRMed_M135_Zee_8TeV,RMed_EE,RMed_EE,ZH135,ZeeLoose_8TeV,BDT
 
 #Med MM
-RMed_ZH110_MM_8TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M110_Zmm_8TeV,RMed_MM,RMed_MM,ZH110,ZmmLoose_8TeV,BDT
-RMed_ZH115_MM_8TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M115_Zmm_8TeV,RMed_MM,RMed_MM,ZH115,ZmmLoose_8TeV,BDT
-RMed_ZH120_MM_8TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M120_Zmm_8TeV,RMed_MM,RMed_MM,ZH120,ZmmLoose_8TeV,BDT
-RMed_ZH125_MM_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M125_Zmm_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLoose_8TeV,BDT
-RMed_ZH130_MM_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M130_Zmm_8TeV,RMed_MM,RMed_MM,ZH130,ZmmLoose_8TeV,BDT
-RMed_ZH135_MM_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,20,-1,1,BDTRMed_M135_Zmm_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLoose_8TeV,BDT
+RMed_ZH110_MM_8TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRMed_M110_Zmm_8TeV,RMed_MM,RMed_MM,ZH110,ZmmLoose_8TeV,BDT
+RMed_ZH115_MM_8TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRMed_M115_Zmm_8TeV,RMed_MM,RMed_MM,ZH115,ZmmLoose_8TeV,BDT
+RMed_ZH120_MM_8TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRMed_M120_Zmm_8TeV,RMed_MM,RMed_MM,ZH120,ZmmLoose_8TeV,BDT
+RMed_ZH125_MM_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRMed_M125_Zmm_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLoose_8TeV,BDT
+RMed_ZH130_MM_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRMed_M130_Zmm_8TeV,RMed_MM,RMed_MM,ZH130,ZmmLoose_8TeV,BDT
+RMed_ZH135_MM_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll,BDT output,10,-1,1,BDTRMed_M135_Zmm_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLoose_8TeV,BDT
 
 #GENERAL SETUP LIMIT:
 setup: DYlight+DYc,DYb,TT,VV,ST,ZH
-blind: True
+blind: False
 
 
 ##############################################################################################
@@ -395,7 +395,7 @@ maxBtag = max(hJet_csv[0],hJet_csv[1])
 tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
-preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & EVENT.json
+preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & EVENT.json & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
 zWindow = V.mass > 75. & V.mass < 105
 zVeto =  (V.mass > 105 | V.mass < 75.)
 noAddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) == 0 
@@ -422,10 +422,10 @@ Top = <!ZHbb|preselection!> & <!ZHbb|upperHMass!> & <!ZHbb|tlBtag!> & <!ZHbb|zVe
 bb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|zWindow!> & <!ZHbb|tlBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!>
 
 #lepton individual
-RTight_EE: Vtype==1 & <!Cuts|RTight!>
-RTight_MM: Vtype==0 & <!Cuts|RTight!>
-RMed_EE: Vtype==1 & <!Cuts|RMed!>
-RMed_MM: Vtype==0 & <!Cuts|RMed!>
+RTight_EE: Vtype==1 & (triggerFlags[5]>0 || triggerFlags[6]>0) & <!Cuts|RTight!>
+RTight_MM: Vtype==0 & (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) & <!Cuts|RTight!>
+RMed_EE: Vtype==1 & (triggerFlags[5]>0 || triggerFlags[6]>0) & <!Cuts|RMed!>
+RMed_MM: Vtype==0 & (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) & <!Cuts|RMed!>
 
 #Mjj
 Mjj_lowPt_EE: V.mass > 75. & V.mass < 105. & V.pt > 50. & V.pt < 100 & H.pt > 0. & H.mass < 250. & ( hJet_csv[0] > 0.898 || hJet_csv[1] > 0.898 ) & hJet_csv[0] > 0.5 & hJet_csv[1] > 0.5 & hJet_pt[0] > 20. & hJet_pt[1] > 20. & TMath::Abs(HVdPhi) > 2.9 & EVENT.json == 1 & hbhe == 1 & MET.et < 50 & ( Vtype ==1 && ( triggerFlags[5] || triggerFlags[6] ) ) 
@@ -439,6 +439,6 @@ Mjj_highPt_MM: V.mass > 75. & V.mass < 105. & V.pt > 100. & H.pt > 0. & H.mass <
 # other things:
 
 [Weights]
-weightF: ((0.46502*PUweight+0.53498*PUweight2011B)*weightTrig)
+weightF: (PUweight*weightTrig2012A)
 
 # LocalWords:  Mjj
