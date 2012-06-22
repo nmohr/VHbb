@@ -96,77 +96,41 @@ public:
       subDir = f.GetDirectory(suffix.c_str());
     subDir->cd();
     
-    bin_btag_prob = 20;
-    min_btag_prob = 0;
-    max_btag_prob = 1;
-
-    bin_btag_count = 10;
-    min_btag_count = 0;
-    max_btag_count = 10;
+    bin_btag = 40;
+    min_btag = -1;
+    max_btag = 1;
 
     //Candidates
-    BTagH_bJet1_csv = new TH1F(("BJet1_CSV"+suffix).c_str(),("BJet1 CSV ("+suffix+")").c_str(), bin_btag_prob, min_btag_prob, max_btag_prob );
-    BTagH_bJet2_csv = new TH1F(("BJet2_CSV"+suffix).c_str(),("BJet2 CSV ("+suffix+")").c_str(), bin_btag_prob, min_btag_prob, max_btag_prob );
-/*     BTagH_bJet1_csvmva = new TH1F(("BJet1_CSVMVA"+suffix).c_str(),("BJet1 CSVMVA ("+suffix+")").c_str(), bin_btag_prob, min_btag_prob, max_btag_prob ); */
-/*     BTagH_bJet2_csvmva = new TH1F(("BJet2_CSVMVA"+suffix).c_str(),("BJet2 CSVMVA ("+suffix+")").c_str(), bin_btag_prob, min_btag_prob, max_btag_prob ); */
-/*     BTagH_bJet1_ssvhe = new TH1F(("BJet1_SSVHE"+suffix).c_str(),("BJet1 SSVHE ("+suffix+")").c_str(), bin_btag_prob, min_btag_prob, max_btag_prob ); */
-/*     BTagH_bJet2_ssvhe = new TH1F(("BJet2_SSVHE"+suffix).c_str(),("BJet2 SSVHE ("+suffix+")").c_str(), bin_btag_prob, min_btag_prob, max_btag_prob ); */
-/*     BTagH_bJet1_jpb = new TH1F(("BJet1_JPB"+suffix).c_str(),("BJet1 JPB ("+suffix+")").c_str(), bin_btag_prob, min_btag_prob, max_btag_prob ); */
-/*     BTagH_bJet2_jpb = new TH1F(("BJet2_JPB"+suffix).c_str(),("BJet2 JPB ("+suffix+")").c_str(), bin_btag_prob, min_btag_prob, max_btag_prob ); */
-/*     BTagH_bJet1_tche = new TH1F(("BJet1_TCHE"+suffix).c_str(),("BJet1 TCHE ("+suffix+")").c_str(), bin_btag_count, min_btag_count, max_btag_count ); */
-/*     BTagH_bJet2_tche = new TH1F(("BJet2_TCHE"+suffix).c_str(),("BJet2 TCHE ("+suffix+")").c_str(), bin_btag_count, min_btag_count, max_btag_count ); */
-/*     BTagH_bJet1_jp = new TH1F(("BJet1_JP"+suffix).c_str(),("BJet1 JP ("+suffix+")").c_str(), bin_btag_prob, min_btag_prob, max_btag_prob ); */
-/*     BTagH_bJet2_jp = new TH1F(("BJet2_JP"+suffix).c_str(),("BJet2 JP ("+suffix+")").c_str(), bin_btag_prob, min_btag_prob, max_btag_prob ); */
-/*     BTagH_bJet1_tchp = new TH1F(("BJet1_TCHP"+suffix).c_str(),("BJet1 TCHP ("+suffix+")").c_str(), bin_btag_count, min_btag_count, max_btag_count ); */
-/*     BTagH_bJet2_tchp = new TH1F(("BJet2_TCHP"+suffix).c_str(),("BJet2 TCHP ("+suffix+")").c_str(), bin_btag_count, min_btag_count, max_btag_count ); */
+    StH_simpleJet1_bTag = new TH1F(("SimpleJet1_bTag"+suffix).c_str(),("Simple Jet1 bTag ("+suffix+")").c_str(), bin_btag, min_btag, max_btag );
+    StH_simpleJet2_bTag = new TH1F(("SimpleJet2_bTag"+suffix).c_str(),("Simple Jet2 bTag ("+suffix+")").c_str(), bin_btag, min_btag, max_btag );
+/*     StH_simpleJet1_bTag_reshaped = new TH1F(("SimpleJet1_bTag_reshaped"+suffix).c_str(),("Simple Jet1 bTag reshaped ("+suffix+")").c_str(), bin_btag, min_btag, max_btag ); */
+/*     StH_simpleJet2_bTag_reshaped = new TH1F(("SimpleJet2_bTag_reshaped"+suffix).c_str(),("Simple Jet2 bTag reshaped ("+suffix+")").c_str(), bin_btag, min_btag, max_btag ); */
 
   }
   
   virtual void fill(ntupleReader &iEvent,float w) {
       
-      BTagH_bJet1_csv->Fill(iEvent.hJet_csv[0], w);
-      BTagH_bJet2_csv->Fill(iEvent.hJet_csv[1], w);
-/*       BTagH_bJet1_csvmva->Fill(iEvent.H.jets.at(0).csvmva, w); */
-/*       BTagH_bJet2_csvmva->Fill(iEvent.H.jets.at(1).csvmva, w); */
-/*       BTagH_bJet1_ssvhe->Fill(iEvent.H.jets.at(0).ssvhe, w); */
-/*       BTagH_bJet2_ssvhe->Fill(iEvent.H.jets.at(1).ssvhe, w); */
-/*       BTagH_bJet1_tche->Fill(iEvent.H.jets.at(0).tche, w); */
-/*       BTagH_bJet2_tche->Fill(iEvent.H.jets.at(1).tche, w); */
-/*       BTagH_bJet1_tchp->Fill(iEvent.H.jets.at(0).tchp, w); */
-/*       BTagH_bJet2_tchp->Fill(iEvent.H.jets.at(1).tchp, w); */
-/*       BTagH_bJet1_jpb->Fill(iEvent.H.jets.at(0).jpb, w); */
-/*       BTagH_bJet2_jpb->Fill(iEvent.H.jets.at(1).jpb, w); */
-/*       BTagH_bJet1_jp->Fill(iEvent.H.jets.at(0).jp, w); */
-/*       BTagH_bJet2_jp->Fill(iEvent.H.jets.at(1).jp, w); */
-      
+    //vertex mas and btag sorted by btag
+    if( iEvent.hJet_CSV(0,0) > iEvent.hJet_CSV(1,0) ){
+      StH_simpleJet1_bTag->Fill(iEvent.hJet_CSV(0,0), w);
+      StH_simpleJet2_bTag->Fill(iEvent.hJet_CSV(1,0), w);
+    }
+    else{
+      StH_simpleJet1_bTag->Fill(iEvent.hJet_CSV(1,0), w);
+      StH_simpleJet2_bTag->Fill(iEvent.hJet_CSV(0,0), w);
+    }      
 
   }
-  
-  TH1F * BTagH_bJet1_csv;
-  TH1F * BTagH_bJet2_csv;
-/*   TH1F * BTagH_bJet1_csvmva; */
-/*   TH1F * BTagH_bJet2_csvmva; */
-/*   TH1F * BTagH_bJet1_ssvhe; */
-/*   TH1F * BTagH_bJet2_ssvhe; */
-/*   TH1F * BTagH_bJet1_jpb; */
-/*   TH1F * BTagH_bJet2_jpb; */
-/*   TH1F * BTagH_bJet1_tche; */
-/*   TH1F * BTagH_bJet2_tche; */
-/*   TH1F * BTagH_bJet1_jp; */
-/*   TH1F * BTagH_bJet2_jp; */
-/*   TH1F * BTagH_bJet1_tchp; */
-/*   TH1F * BTagH_bJet2_tchp; */
- 
+
+  TH1F * StH_simpleJet1_bTag;
+  TH1F * StH_simpleJet2_bTag;
+   
 private:
 
-  Int_t bin_btag_prob;
-  Double_t min_btag_prob;
-  Double_t max_btag_prob;
-  
-  Int_t bin_btag_count;
-  Double_t min_btag_count;
-  Double_t max_btag_count;
-  
+  Int_t bin_btag;
+  Double_t min_btag;
+  Double_t max_btag;
+    
 };
   
 
@@ -275,11 +239,15 @@ public:
     StH_simpleJet2_eta = new TH1F(("SimpleJet2_eta"+suffix).c_str(),("Simple Jet2 eta ("+suffix+")").c_str(), bin_eta, min_eta, max_eta );
     StH_simpleJet1_bTag = new TH1F(("SimpleJet1_bTag"+suffix).c_str(),("Simple Jet1 bTag ("+suffix+")").c_str(), bin_btag, min_btag, max_btag );
     StH_simpleJet2_bTag = new TH1F(("SimpleJet2_bTag"+suffix).c_str(),("Simple Jet2 bTag ("+suffix+")").c_str(), bin_btag, min_btag, max_btag );
+    StH_simpleJet1_bTag_reshaped = new TH1F(("SimpleJet1_bTag_reshaped"+suffix).c_str(),("Simple Jet1 bTag reshaped ("+suffix+")").c_str(), bin_btag, min_btag, max_btag );
+    StH_simpleJet2_bTag_reshaped = new TH1F(("SimpleJet2_bTag_reshaped"+suffix).c_str(),("Simple Jet2 bTag reshaped ("+suffix+")").c_str(), bin_btag, min_btag, max_btag );
     StH_simpleJet1_vtxMass = new TH1F(("SimpleJet1_vtxMass"+suffix).c_str(),("Simple Jet1 vtxMass ("+suffix+")").c_str(), bin_SVmass, min_SVmass, max_SVmass );
     StH_simpleJet2_vtxMass = new TH1F(("SimpleJet2_vtxMass"+suffix).c_str(),("Simple Jet2 vtxMass ("+suffix+")").c_str(), bin_SVmass, min_SVmass, max_SVmass );
 
     StH_simpleJets_bTag = new TH1F(("SimpleJets_bTag"+suffix).c_str(),("Simple Jets bTag ("+suffix+")").c_str(), bin_btag, min_btag, max_btag );
     StH_simpleJets_bTagSum = new TH1F(("SimpleJets_bTagSum"+suffix).c_str(),("Simple Jets bTagSum ("+suffix+")").c_str(), bin_btag*2, min_btag, max_btag*2 );
+    StH_simpleJets_bTag_reshaped = new TH1F(("SimpleJets_bTag_reshaped"+suffix).c_str(),("Simple Jets bTag reshaped ("+suffix+")").c_str(), bin_btag, min_btag, max_btag );
+    StH_simpleJets_bTag_reshapedSum = new TH1F(("SimpleJets_bTag_reshapedSum"+suffix).c_str(),("Simple Jets bTag reshapedSum ("+suffix+")").c_str(), bin_btag*2, min_btag, max_btag*2 );
     StH_simpleJets_vtxMass = new TH1F(("SimpleJets_vtxMass"+suffix).c_str(),("Simple Jets vtxMass ("+suffix+")").c_str(), bin_SVmass, min_SVmass, max_SVmass );
 
     StH_addJet1_pt = new TH1F(("AddJet1_pt"+suffix).c_str(),("Additional Jet1 pt ("+suffix+")").c_str(), bin_pt, min_pt, max_pt*0.8 );
@@ -310,7 +278,6 @@ public:
 
     StH_massDrop = new TH1F(("MassDrop"+suffix).c_str(),(" Higgs Mass Drop ("+suffix+")").c_str(), bin_btag, min_btag, max_btag );
     StH_y12 = new TH1F(("Y12"+suffix).c_str(),(" Higgs Y12 ("+suffix+")").c_str(), bin_btag, min_btag, max_btag*1.2 );
-
 
     StH_ZMass = new TH1F(("ZMass"+suffix).c_str(),(" Z Mass ("+suffix+")").c_str(), 100, 50, 150 );
     StH_ZPt = new TH1F(("ZPt"+suffix).c_str(),(" Z Pt ("+suffix+")").c_str(), bin_pt, min_pt, max_pt );
@@ -350,23 +317,39 @@ public:
     StH_simpleJet2_phi->Fill(iEvent.hJet_phi[1], w);
     StH_simpleJet1_eta->Fill(iEvent.hJet_eta[0], w);
     StH_simpleJet2_eta->Fill(iEvent.hJet_eta[1], w);
+
     //vertex mas and btag sorted by btag
-    if( iEvent.hJet_csv[0] > iEvent.hJet_csv[1] ){
-      StH_simpleJet1_bTag->Fill(iEvent.hJet_csv[0], w);
-      StH_simpleJet2_bTag->Fill(iEvent.hJet_csv[1], w);
+    if( iEvent.hJet_CSV(0,0) > iEvent.hJet_CSV(1,0) ){
+      StH_simpleJet1_bTag->Fill(iEvent.hJet_CSV(0,0), w);
+      StH_simpleJet2_bTag->Fill(iEvent.hJet_CSV(1,0), w);
       StH_simpleJet1_vtxMass->Fill(iEvent.hJet_vtxMass[0], w);
     }
     else{
-      StH_simpleJet1_bTag->Fill(iEvent.hJet_csv[1], w);
-      StH_simpleJet2_bTag->Fill(iEvent.hJet_csv[0], w);
+      StH_simpleJet1_bTag->Fill(iEvent.hJet_CSV(1,0), w);
+      StH_simpleJet2_bTag->Fill(iEvent.hJet_CSV(0,0), w);
       StH_simpleJet2_vtxMass->Fill(iEvent.hJet_vtxMass[1], w);
-    }
+    }      
+
     //here I fill both jets in one histo
-    StH_simpleJets_bTagSum->Fill(iEvent.hJet_csv[0]+iEvent.hJet_csv[1], w);
-    StH_simpleJets_bTag->Fill(iEvent.hJet_csv[0], w);
-    StH_simpleJets_bTag->Fill(iEvent.hJet_csv[1], w);
+    StH_simpleJets_bTagSum->Fill(iEvent.hJet_CSV(0,0)+iEvent.hJet_CSV(1,0), w);
+    StH_simpleJets_bTag->Fill(iEvent.hJet_CSV(0,0), w);
+    StH_simpleJets_bTag->Fill(iEvent.hJet_CSV(1,0), w);
     StH_simpleJets_vtxMass->Fill(iEvent.hJet_vtxMass[0], w);
     StH_simpleJets_vtxMass->Fill(iEvent.hJet_vtxMass[1], w);
+
+    //reshaped btag
+    //vertex mas and btag sorted by btag
+    if( iEvent.hJet_csv_nominal[0] > iEvent.hJet_csv_nominal[1] ){
+      StH_simpleJet1_bTag_reshaped->Fill(iEvent.hJet_csv_nominal[0], w);
+      StH_simpleJet2_bTag_reshaped->Fill(iEvent.hJet_csv_nominal[1], w);
+    }
+    else{
+      StH_simpleJet1_bTag_reshaped->Fill(iEvent.hJet_csv_nominal[1], w);
+      StH_simpleJet2_bTag_reshaped->Fill(iEvent.hJet_csv_nominal[0], w);
+    }
+    StH_simpleJets_bTag_reshapedSum->Fill(iEvent.hJet_csv_nominal[0]+iEvent.hJet_csv_nominal[1], w);
+    StH_simpleJets_bTag_reshaped->Fill(iEvent.hJet_csv_nominal[0], w);
+    StH_simpleJets_bTag_reshaped->Fill(iEvent.hJet_csv_nominal[1], w);
     
     StH_HMass->Fill(iEvent.H_mass, w); 
     StH_HPt->Fill(iEvent.H_pt, w); 
@@ -482,11 +465,15 @@ public:
   TH1F * StH_simpleJet2_eta;
   TH1F * StH_simpleJet1_bTag;
   TH1F * StH_simpleJet2_bTag;
+  TH1F * StH_simpleJet1_bTag_reshaped;
+  TH1F * StH_simpleJet2_bTag_reshaped;
   TH1F * StH_simpleJet1_vtxMass;
   TH1F * StH_simpleJet2_vtxMass;
 
   TH1F * StH_simpleJets_bTag;
   TH1F * StH_simpleJets_bTagSum;
+  TH1F * StH_simpleJets_bTag_reshaped;
+  TH1F * StH_simpleJets_bTag_reshapedSum;
   TH1F * StH_simpleJets_vtxMass;
 
   TH1F * StH_addJet1_pt;
@@ -704,28 +691,28 @@ public:
     SystJERUPH_simpleJet2_pt->Fill(iEvent.hJet_jer(1,+1).Pt(), w);
 
     //btag sorted by btag
-    if( iEvent.hJet_csv_cUP(0) > iEvent.hJet_csv_cUP(1) ){
-      SystUPH_simpleJet1_bTag->Fill(iEvent.hJet_csv_cUP(0), w);
-      SystUPH_simpleJet2_bTag->Fill(iEvent.hJet_csv_cUP(1), w);
+    if( iEvent.hJet_CSV(0,1) > iEvent.hJet_CSV(1,1) ){
+      SystUPH_simpleJet1_bTag->Fill(iEvent.hJet_CSV(0,1), w);
+      SystUPH_simpleJet2_bTag->Fill(iEvent.hJet_CSV(1,1), w);
     }
     else{
-      SystUPH_simpleJet1_bTag->Fill(iEvent.hJet_csv_cUP(1), w);
-      SystUPH_simpleJet2_bTag->Fill(iEvent.hJet_csv_cUP(0), w);
+      SystUPH_simpleJet1_bTag->Fill(iEvent.hJet_CSV(1,1), w);
+      SystUPH_simpleJet2_bTag->Fill(iEvent.hJet_CSV(0,1), w);
     }
-    if( iEvent.hJet_csv_cFUP(0) > iEvent.hJet_csv_cFUP(1) ){
-      SystFUPH_simpleJet1_bTag->Fill(iEvent.hJet_csv_cFUP(0), w);
-      SystFUPH_simpleJet2_bTag->Fill(iEvent.hJet_csv_cFUP(1), w);
+    if( iEvent.hJet_CSV(0,2) > iEvent.hJet_CSV(1,2) ){
+      SystFUPH_simpleJet1_bTag->Fill(iEvent.hJet_CSV(0,2), w);
+      SystFUPH_simpleJet2_bTag->Fill(iEvent.hJet_CSV(1,2), w);
     }
     else{
-      SystFUPH_simpleJet1_bTag->Fill(iEvent.hJet_csv_cFUP(1), w);
-      SystFUPH_simpleJet2_bTag->Fill(iEvent.hJet_csv_cFUP(0), w);
+      SystFUPH_simpleJet1_bTag->Fill(iEvent.hJet_CSV(1,2), w);
+      SystFUPH_simpleJet2_bTag->Fill(iEvent.hJet_CSV(0,2), w);
     }
 
     //here I fill both jets in one histo
-    SystUPH_simpleJets_bTag->Fill(iEvent.hJet_csv_cUP(0), w);
-    SystUPH_simpleJets_bTag->Fill(iEvent.hJet_csv_cUP(1), w);
-    SystFUPH_simpleJets_bTag->Fill(iEvent.hJet_csv_cFUP(0), w);
-    SystFUPH_simpleJets_bTag->Fill(iEvent.hJet_csv_cFUP(1), w);
+    SystUPH_simpleJets_bTag->Fill(iEvent.hJet_CSV(0,1), w);
+    SystUPH_simpleJets_bTag->Fill(iEvent.hJet_CSV(1,1), w);
+    SystFUPH_simpleJets_bTag->Fill(iEvent.hJet_CSV(0,2), w);
+    SystFUPH_simpleJets_bTag->Fill(iEvent.hJet_CSV(1,2), w);
 
     SystUPH_HMass->Fill(iEvent.H_jecUP().M(), w); 
     SystUPH_HPt->Fill(iEvent.H_jecUP().Pt(), w); 
@@ -747,28 +734,28 @@ public:
     SystJERDOWNH_simpleJet2_pt->Fill(iEvent.hJet_jer(1,-1).Pt(), w);
 
     //btag sorted by btag
-    if( iEvent.hJet_csv_cDOWN(0) > iEvent.hJet_csv_cDOWN(1) ){
-      SystDOWNH_simpleJet1_bTag->Fill(iEvent.hJet_csv_cDOWN(0), w);
-      SystDOWNH_simpleJet2_bTag->Fill(iEvent.hJet_csv_cDOWN(1), w);
+    if( iEvent.hJet_CSV(0,-1) > iEvent.hJet_CSV(1,-1) ){
+      SystDOWNH_simpleJet1_bTag->Fill(iEvent.hJet_CSV(0,-1), w);
+      SystDOWNH_simpleJet2_bTag->Fill(iEvent.hJet_CSV(1,-1), w);
     }
     else{
-      SystDOWNH_simpleJet1_bTag->Fill(iEvent.hJet_csv_cDOWN(1), w);
-      SystDOWNH_simpleJet2_bTag->Fill(iEvent.hJet_csv_cDOWN(0), w);
+      SystDOWNH_simpleJet1_bTag->Fill(iEvent.hJet_CSV(1,-1), w);
+      SystDOWNH_simpleJet2_bTag->Fill(iEvent.hJet_CSV(0,-1), w);
     }
-    if( iEvent.hJet_csv_cFDOWN(0) > iEvent.hJet_csv_cFDOWN(1) ){
-      SystFDOWNH_simpleJet1_bTag->Fill(iEvent.hJet_csv_cFDOWN(0), w);
-      SystFDOWNH_simpleJet2_bTag->Fill(iEvent.hJet_csv_cFDOWN(1), w);
+    if( iEvent.hJet_CSV(0,-2) > iEvent.hJet_CSV(1,-2) ){
+      SystFDOWNH_simpleJet1_bTag->Fill(iEvent.hJet_CSV(0,-2), w);
+      SystFDOWNH_simpleJet2_bTag->Fill(iEvent.hJet_CSV(1,-2), w);
     }
     else{
-      SystFDOWNH_simpleJet1_bTag->Fill(iEvent.hJet_csv_cFDOWN(1), w);
-      SystFDOWNH_simpleJet2_bTag->Fill(iEvent.hJet_csv_cFDOWN(0), w);
+      SystFDOWNH_simpleJet1_bTag->Fill(iEvent.hJet_CSV(1,-2), w);
+      SystFDOWNH_simpleJet2_bTag->Fill(iEvent.hJet_CSV(0,-2), w);
     }
 
     //here I fill both jets in one histo
-    SystDOWNH_simpleJets_bTag->Fill(iEvent.hJet_csv_cDOWN(0), w);
-    SystDOWNH_simpleJets_bTag->Fill(iEvent.hJet_csv_cDOWN(1), w);
-    SystFDOWNH_simpleJets_bTag->Fill(iEvent.hJet_csv_cFDOWN(0), w);
-    SystFDOWNH_simpleJets_bTag->Fill(iEvent.hJet_csv_cFDOWN(1), w);
+    SystDOWNH_simpleJets_bTag->Fill(iEvent.hJet_CSV(0,-1), w);
+    SystDOWNH_simpleJets_bTag->Fill(iEvent.hJet_CSV(1,-1), w);
+    SystFDOWNH_simpleJets_bTag->Fill(iEvent.hJet_CSV(0,-2), w);
+    SystFDOWNH_simpleJets_bTag->Fill(iEvent.hJet_CSV(1,-2), w);
     SystDOWNH_HMass->Fill(iEvent.H_jecDOWN().M(), w); 
     SystDOWNH_HPt->Fill(iEvent.H_jecDOWN().Pt(), w); 
     SystDOWNH_ZH_dPhi->Fill( TMath::Abs( iEvent.H_jecDOWN().DeltaPhi( iEvent.VectorBoson() ) ), w); 

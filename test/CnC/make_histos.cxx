@@ -4,7 +4,7 @@
 #include <iostream>
 #include "../../interface/CutsAndHistos.h"
 #include "../../plugins/Histos.h"
-#include "../../plugins/Cuts/CutsDec13-2011Paper.h"
+#include "../../plugins/Cuts/CutsBasic.h"
 //#include "../Cuts/CutsSideBandZee.h"
 //#include "../Cuts/CutsSideBandZmm.h"
 #include "../../interface/ntupleReader.hpp"
@@ -15,16 +15,17 @@ void prepareAllZHistos(std::vector<CutsAndHistos *> & allHistosZ,TFile *fout  )
   std::string Zee115("ZH115");
   std::cout << "Book Z" << std::endl;
 
+  int ch = 1;
   //Standard histos
-  allHistosZ.push_back(new CutsAndHistos(new CnCTTbarControlRegionHZcomb( 0, 0 ),new StandardHistos));
-  allHistosZ.push_back(new CutsAndHistos(new CnCVlightControlRegionHZcomb( 0 , 0 ),new StandardHistos));
-  allHistosZ.push_back(new CutsAndHistos(new CnCVbbControlRegionHZcomb( 0, 0 ),new StandardHistos));
-  allHistosZ.push_back(new CutsAndHistos(new CnCSignalRegionHZcomb( 0, 0 ),new StandardHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new CnCTTbarControlRegionHZcomb( 0, 0 ),new StandardHistos));
+  allHistosZ.push_back(new CutsAndHistos(new BasicRegion( ch, 0 , 0 ),new StandardHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new CnCVbbControlRegionHZcomb( 0, 0 ),new StandardHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new CnCSignalRegionHZcomb( 0, 0 ),new StandardHistos));
   //Systematics histos
-  allHistosZ.push_back(new CutsAndHistos(new CnCTTbarControlRegionHZcomb( 0, 0 ),new SystematicsHistos));
-  allHistosZ.push_back(new CutsAndHistos(new CnCVlightControlRegionHZcomb( 0 , 0 ),new SystematicsHistos));
-  allHistosZ.push_back(new CutsAndHistos(new CnCVbbControlRegionHZcomb( 0, 0 ),new SystematicsHistos));
-  allHistosZ.push_back(new CutsAndHistos(new CnCSignalRegionHZcomb( 0, 0 ),new SystematicsHistos));  
+  //  allHistosZ.push_back(new CutsAndHistos(new CnCTTbarControlRegionHZcomb( 0, 0 ),new SystematicsHistos));
+  allHistosZ.push_back(new CutsAndHistos(new BasicRegion( ch, 0 , 0 ),new SystematicsHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new CnCVbbControlRegionHZcomb( 0, 0 ),new SystematicsHistos));
+  //  allHistosZ.push_back(new CutsAndHistos(new CnCSignalRegionHZcomb( 0, 0 ),new SystematicsHistos));  
   
 //   int jec [] = { -1, 1 };
 //   int btag [] = { -2, -1, 0, 1, 2 };
@@ -54,8 +55,8 @@ int main(int argc, char **argv)
   std::cout << "Hello word" << std::endl;
 
   bool verbose_ = false;
-  bool stitching = true;
-  std::string file_appendix = "Dec13Paper";
+  bool stitching = false;
+  std::string file_appendix = "Basic";
   //std::string file_appendix = "";
 
   double fa = 0.46502;
@@ -67,7 +68,7 @@ int main(int argc, char **argv)
   int event_all_c=0;
   int event_all_l=0;
 
-  std::vector<Sample> samples =  May8();
+  std::vector<Sample> samples =  trees();
 
   //loop over all the samples
   for(unsigned int iS=0; iS<samples.size(); ++iS){
@@ -186,7 +187,7 @@ int main(int argc, char **argv)
       event.GetEntry(iEvent);
       event_all++;
       if(data == false)
-	eventWeight = (fa*event.PUweight+fb*event.PUweight2011B)*event.weightTrig;
+	eventWeight = (event.PUweight)*event.weightTrig2012A;
       else
 	eventWeight = 1;
 

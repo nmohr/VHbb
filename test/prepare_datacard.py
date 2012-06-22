@@ -1,4 +1,5 @@
-#!/usr/bin/python2.6  
+#!/afs/cern.ch/cms/slc5_amd64_gcc434/cms/cmssw/CMSSW_4_2_8/external/slc5_amd64_gcc434/bin/python2.6
+##!/usr/bin/python2.6  
 
 import os
 import math 

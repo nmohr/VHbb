@@ -20,9 +20,9 @@ void plottingmacro()
 {
 
   bool debug_ = false;
-  bool getSFfromFile = false;
+  bool getSFfromFile = true;
 
-  std::string path("PlotsMay26/");
+  std::string path("PlotsJune18_newReshaping/");
 
   if(debug_)
     std::cout << "Init the style form setTDRStyle" << std::endl;
@@ -86,10 +86,12 @@ void plottingmacro()
 
       //      if(!n.Contains(TRegexp("^BDTZlightControlRegionHZee"))) continue;
       //      if(!n.Contains(TRegexp("^BDTZbbControlRegionHZee"))) continue;
-      if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZee"))) continue;
-      //if(!n.Contains(TRegexp("^BDTSideBandRegionHZee"))) continue;
+      if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcomb"))) continue;
+      //      if(!n.Contains(TRegexp("^BDTSideBandRegionHZcomb"))) continue;
+      //      if(!n.Contains(TRegexp("^BDTSideBandRegion_noBTagHZcomb"))) continue;
+      //      if(!n.Contains(TRegexp("BDTSideBandRegionHZcombSystFUP"))) continue;
       //if(!n.Contains(TRegexp("^BDTSignalRegionHZee"))) continue;
-      //if(!n.Contains(TRegexp("^BDTTrainingRegionHZee"))) continue;
+      //      if(!n.Contains(TRegexp("^BDTTrainingRegionHZcomb"))) continue;
 
       if(n.Contains(TRegexp("RegionHZcomb")))
 	process = "Z(l^{+}l^{-})H(b#bar{b})";
@@ -363,7 +365,7 @@ void plottingmacro()
       latex.SetTextSize(0.052);
       latex.DrawLatex(0.17,0.89,"CMS Preliminary");
       latex.SetTextSize(0.04);
-      latex.DrawLatex(0.17,0.84,"#sqrt{s} = 8 TeV, L = 0.5 fb^{-1}");
+      latex.DrawLatex(0.17,0.84,"#sqrt{s} = 8 TeV, L = 4.0 fb^{-1}");
       latex.DrawLatex(0.17,0.79,process.c_str());
 
       c->Update();

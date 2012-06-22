@@ -17,6 +17,14 @@
 // New implementations of the control region
 // The signal regions must be implemented incrementally since cutflow is needed
 
+
+bool qualityCuts( ntupleReader & p ){
+  return ( p. hJet_puJetIdL[0] > 0. 
+	   && p. hJet_puJetIdL[1] > 0
+	   && p.EVENT_json == true 
+	   && p.hbhe == true );
+};
+
 bool sCut( ntupleReader & p , Sample & sample ){
   return ( p.EVENT_json == true && p.hbhe == true );
 };
@@ -53,7 +61,7 @@ std::string generateName( std::string & baseName, int ch = -1, int btag = 0, int
 Bool_t channel(ntupleReader & p, int ch = -1){
   bool trigger[2];
   //muons
-  trigger[0] = ( ( (((p.EVENT_run<173198 && (p.triggerFlags[0]>0 || p.triggerFlags[13]>0 || p.triggerFlags[14]>0 || p.triggerFlags[20]>0 || p.triggerFlags[21]>0)) || (p.EVENT_run>=173198 && p.EVENT_run<175832  && (p.triggerFlags[13]>0 ||p.triggerFlags[14]>0 || p.triggerFlags[22]>0 || p.triggerFlags[23]>0))|| (p.EVENT_run>=175832 && p.EVENT_run<178390 && (p.triggerFlags[13]>0 ||p.triggerFlags[14]>0 ||p.triggerFlags[15]>0 || p.triggerFlags[21]>0 || p.triggerFlags[22]>0 || p.triggerFlags[23]>0)) || (p.EVENT_run>=178390 && (p.triggerFlags[14]>0 ||p.triggerFlags[15]>0 || p.triggerFlags[21]>0 || p.triggerFlags[22]>0 || p.triggerFlags[23]>0 || p.triggerFlags[24]>0 || p.triggerFlags[25]>0 || p.triggerFlags[26]>0 || p.triggerFlags[27]>0)))) ) );
+  trigger[0] = ( ( p.triggerFlags[14] || p.triggerFlags[21] || p.triggerFlags[22] || p.triggerFlags[23] ) );
   //electrons
   trigger[1] = ( ( p.triggerFlags[5] || p.triggerFlags[6] ) );
 
@@ -83,6 +91,7 @@ class BDTTrainingRegion: public CutSample{
 	     && p.V_mass < 105 
 	     && p.Higgs(jec).M() < 250.
 	     //	     && p.CountAddJets() < 2 
+	     && qualityCuts( p )
 	     && channel( p, ch )  );
   }
   Bool_t pass(ntupleReader &p, Sample &sample){
@@ -105,11 +114,11 @@ class BDTSideBandRegion: public CutSample{
   Bool_t pass(ntupleReader &p){
     return ( p.hJet_PT(0,jec) > 20.  
 	     && p.hJet_PT(1,jec) > 20. 
-	     && p.hJet_CSV(0,btag) > CSVL 
-	     && p.hJet_CSV(1,btag) > CSVL 
+	     && p.hJet_CSV(0,btag) > CSVL
+	     && p.hJet_CSV(1,btag) > CSVL
 	     //Loose-Custom : ONLY FOR THE FIT for Scale Factors 
-	     && ( p.hJet_CSV(0,btag) > CSVC 
-		  || p.hJet_CSV(1,btag) > CSVC )
+/* 	     && ( p.hJet_CSV(0,btag) > CSVC */
+/* 		  || p.hJet_CSV(1,btag) > CSVC ) */
 	     //	     && p.Higgs(jec).Pt() > 100. 
 	     && p.V_pt < 100. 
 	     && p.V_pt > 50. 
@@ -117,8 +126,11 @@ class BDTSideBandRegion: public CutSample{
 	     && p.V_mass < 105 
 	     && ( p.Higgs(jec).M() < 80.
 		  || p.Higgs(jec).M() > 150. )
+	     //sanity check
+	     //	     && p.Higgs(jec).M() > 50.
 	     && p.Higgs(jec).M() < 250.
 	     //	     && p.CountAddJets() < 2 
+	     && qualityCuts( p )
 	     && channel( p, ch) );
   }
   Bool_t pass(ntupleReader &p, Sample &sample){
@@ -152,6 +164,7 @@ class BDTSignalRegion: public CutSample{
 	     && p.Higgs(jec).M() > 80.
 	     && p.Higgs(jec).M() < 150.
 	     //	     && p.CountAddJets() < 2 
+	     && qualityCuts( p )
 	     && channel( p, ch) );
   }
   Bool_t pass(ntupleReader &p, Sample &sample){
@@ -186,6 +199,7 @@ class BDTTTbarControlRegion: public CutSample{
 /* 	     && ( p.Higgs(jec).M() < 80. */
 /* 		  || p.Higgs(jec).M() > 150. ) */
 	     && p.Higgs(jec).M() < 250.
+	     && qualityCuts( p )
 	     && channel( p, ch) );
   }
   Bool_t pass(ntupleReader &p, Sample &sample){

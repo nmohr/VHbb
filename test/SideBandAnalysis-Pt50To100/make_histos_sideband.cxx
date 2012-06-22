@@ -5,6 +5,7 @@
 #include "../../interface/CutsAndHistos.h"
 #include "../../plugins/Histos.h"
 #include "../../plugins/Cuts/CutsSideBand-Pt50To100.h"
+#include "../../plugins/Cuts/CutsExtra.h"
 //#include "../Cuts/CutsSideBandZee.h"
 //#include "../Cuts/CutsSideBandZmm.h"
 #include "../../interface/ntupleReader.hpp"
@@ -14,7 +15,9 @@ void prepareAllZHistos(std::vector<CutsAndHistos *> & allHistosZ,TFile *fout  )
 {
   std::string Zee115("ZH115");
   std::cout << "Book Z" << std::endl;
-  int channel = 1;
+  int channel = -1;
+  //Btag histos
+  allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion_noBTag( channel, 0, 0 ),new BTagHistos));
   //Standard histos
   allHistosZ.push_back(new CutsAndHistos(new BDTTTbarControlRegion( channel, 0, 0 ),new StandardHistos));
   //  allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegion( channel, 0 , 0 ),new StandardHistos));
@@ -186,10 +189,14 @@ int main(int argc, char **argv)
     for (unsigned int iEvent = 0; iEvent < entries; ++iEvent){
       event.GetEntry(iEvent);
       event_all++;
-      if(data == false)
-	eventWeight = (event.PUweight)*event.weightTrig;
+      if(data == false){
+	eventWeight = (event.PUweight)*event.weightTrig2012A;
+	if( event.Vtype == 1 )
+	  eventWeight *= 1.01763; // from luminosity difference
+      }
       else
 	eventWeight = 1;
+
 
       if(splitBCLIGHT){
 	if( TMath::Abs(event.eventFlav) != 5 ){

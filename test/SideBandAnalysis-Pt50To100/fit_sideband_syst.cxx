@@ -72,6 +72,7 @@ int main(int argc, char **argv){
   if(syst_string == btag_down){ s_suffix_Zlight_SB = "SystDOWN$";  }
   if(syst_string == mistag_up){ s_suffix_Zlight_SB = "SystFUP$";  }
   if(syst_string == mistag_down){ s_suffix_Zlight_SB = "SystFDOWN$";  }
+
   if(syst_string == jec_up){ s_suffix_Zbb_SB = "SystUP$"; }
   if(syst_string == jec_down){ s_suffix_Zbb_SB = "SystDOWN$"; }
   if(syst_string == jer_up){ s_suffix_Zbb_SB = "SystJERUP$"; }
@@ -126,8 +127,8 @@ int main(int argc, char **argv){
   std::vector<controlRegion*> crToFit;  
 
 
-  //  std::string s_channel = "HZcomb";
-  std::string s_channel = "HZee";
+  std::string s_channel = "HZcomb";
+  //  std::string s_channel = "HZee";
   std::string s_prefix = "BDT";
   // systematics prefix is needed for the yields effect
   //  std::string s_sysprefix = "SystBtagUPBDT"; //BDTSystJecDOWN, BDTSystBtagFDOWN 
@@ -144,7 +145,7 @@ int main(int argc, char **argv){
 
   fitInfos.push_back( new fitInfo(s_region_Zbb_SB,s_var_Zbb_SB,s_prefix,s_sysprefix_Zbb,s_suffix_Zbb_SB,s_channel,0,4) );
   fitInfos.push_back( new fitInfo(s_region_ttbar_SB,s_var_ttbar_SB,s_prefix,s_sysprefix,s_suffix_ttbar_SB,s_channel,0,150) );
-  fitInfos.push_back( new fitInfo(s_region_Zlight_SB,s_var_Zlight_SB,s_prefix,s_sysprefix,s_suffix_Zlight_SB,s_channel,0.3,1) );
+  fitInfos.push_back( new fitInfo(s_region_Zlight_SB,s_var_Zlight_SB,s_prefix,s_sysprefix,s_suffix_Zlight_SB,s_channel,0.,1) );
 
   std::string signalString = s_sysprefix+"SignalRegion"+s_channel+"/HiggsMass"+s_sysprefix+"SignalRegion"+s_channel+"$";
   for(int i=0; i<fitInfos.size(); ++i){

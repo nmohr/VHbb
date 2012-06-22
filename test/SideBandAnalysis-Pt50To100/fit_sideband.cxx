@@ -166,8 +166,8 @@ int main(int argc, char **argv){
   std::vector<fitInfo *> fitInfos;
   std::vector<controlRegion*> crToFit;  
 
-  //  std::string s_channel = "HZcomb";
-  std::string s_channel = "HZee";
+  std::string s_channel = "HZcomb";
+  //  std::string s_channel = "HZee";
   std::string s_prefix = "BDT";
   // systematics prefix is needed for the yields effect
   //std::string s_sysprefix = "SystBtagFUPBDT"; //BDTSystJecDOWN, BDTSystBtagFDOWN 
@@ -181,7 +181,7 @@ int main(int argc, char **argv){
   //  std::string s_suffix_ttbar_SB = "SystDOWN$";
   std::string s_region_Zbb_SB = "SideBand"; // Zbb sideband
   std::string s_var_Zbb_SB = "ZH_dPhi"; //HiggsMass
-  std::string s_region_ttbar_SB = "TTbar";
+  std::string s_region_ttbar_SB = "TTbarControl";
   std::string s_var_ttbar_SB = "MET_et"; // one addjet required  
   std::string s_region_Zlight_SB = "SideBand";
   std::string s_var_Zlight_SB = "SimpleJet1_bTag";
