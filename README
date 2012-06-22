@@ -1,0 +1,44 @@
+#go to test
+cp prepare_histo_environment.sh SideBandAnalysis-Pt50To100/
+cd SideBandAnalysis-Pt50To100/
+./prepare_histo_environment.sh <dir where you have the trees> # this thing creates histo dir and put there all the links to the trees. An example would be `./prepare_histos_environment.sh /data1/nmohr/ichep8TeV/env/sys/`
+ls -l histos # check the links
+#if you still have the samples splitted by flavours then you need to do the following.
+#hadd ZllH.Jun18.DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball.root ZllH.Jun18.b_DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball.root ZllH.Jun18.c_DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball.root ZllH.Jun18.udsg_DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball.root > hadd_M50.log 2>&1 &
+#BETTER TO PARALLELIZE HERE...
+for file in ./b_*
+    do
+    FILE=${file/b_/}  
+    hadd ${FILE} b_${FILE1} c_${FILE} udsg_${FILE} hadd_${FILE}.log > 2>&1 &
+done
+
+#hadd also the data!
+hadd Zll.Jun18.DataZ.root ZllH.Jun18.DataZee.root ZllH.Jun18.DataZmm.root
+
+#Wait that this is done
+#then take the histos from b_ and the tree from the hadd"ed" file using this stupid script:
+cvs co -p  UserCode/bortigno/Utils/addHistos.py > addHistos.py
+# usage : ./addHistos.py -i <input histos file name> -t <input tree file name> 
+for file in ./b_*
+    do
+    FILE=${file/b_/}  
+    ./addHistos.py -t ${FILE} -i b_${FILE1} addHistos_${FILE}.log > 2>&1 &
+done
+
+#go to test dir
+cd ../
+./compile
+#run make_histos_pt50To100 and wait ~5 min
+./make_histos_Pt50To100
+# if you want to look to some plots do:
+cd SideBandAnalysis-Pt50To100/
+mkdir PlotsJune18
+root -b plotting_macros.C+
+#in the dir will show up the plots of the sideband
+
+#then run the fit and syst
+./do_fit_and_sys.sh
+
+#the output is a file with SF, one with the correlation matrix, one with the piece for the DC
+#The implementation does not consider the extrapolation systematics due to JER and JES yet.
+#It has to be done by hand...
