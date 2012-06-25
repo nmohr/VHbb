@@ -38,6 +38,9 @@ for file in ./b_*
     ./addHistos.py -t ${FILE} -i b_${FILE1} addHistos_${FILE}.log > 2>&1 &
 done
 
+#before running you need to update the name of files and dir in sampleSideBand.h
+vi sampleSideBand.h
+
 #go to test dir
 cd ../
 ./compile
