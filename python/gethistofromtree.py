@@ -37,10 +37,12 @@ def getHistoFromTree(job,options,rescale=1):
 
     if job.type != 'DATA':
         cutcut=config.get('Cuts',options[7])
-        treeCut='%s & EventForTraining == 0'%cutcut
+        treeCut='%s & EventForTraining == 0'%(cutcut)
 
     elif job.type == 'DATA':
-        treeCut=config.get('Cuts',options[8])
+        cutcut=config.get('Cuts',options[8])
+        treeCut='%s & EventForTraining == 0'%(cutcut)
+
 
     input = TFile.Open(job.getpath(),'read')
 

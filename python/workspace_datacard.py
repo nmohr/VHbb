@@ -18,6 +18,12 @@ from printcolor import printc
 from gethistofromtree import getHistoFromTree, orderandadd
 
 
+
+
+
+
+
+
 #CONFIGURE
 #load config
 config = BetterConfigParser()
@@ -74,6 +80,10 @@ elif 'RMed' in RCut:
     Datacradbin=options[10]
 else:
     Datacradbin=options[10]
+    
+    #EDIT!
+MC_rescale_factor=1.0
+
 #############################
 
 WS = ROOT.RooWorkspace('%s'%Datacradbin,'%s'%Datacradbin) #Zee
@@ -94,16 +104,18 @@ counter=0
 for job in info:
     if job.type == 'BKG':
         #print 'MC'
-        hTemp, typ = getHistoFromTree(job,options,1)
+        hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
         histos.append(hTemp)
         typs.append(typ)
+
         if counter == 0:
             hDummy = copy(hTemp)
         else:
             hDummy.Add(hTemp)
         counter += 1
+            
     elif job.type == 'SIG' and job.name == mass:
-        hTemp, typ = getHistoFromTree(job,options,1)
+        hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
         histos.append(hTemp)
         typs.append(typ)    
     elif job.name in data:
@@ -286,12 +298,12 @@ for sys in systematics:
             #print job.name
             if job.type == 'BKG':
                 #print 'MC'
-                hTemp, typ = getHistoFromTree(job,options,2)
+                hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
                 systhistosarray[Coco].append(hTemp)
                 typsX.append(typ)
             elif job.type == 'SIG' and job.name == mass:
                 #print 'MC'
-                hTemp, typ = getHistoFromTree(job,options,2)
+                hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
                 systhistosarray[Coco].append(hTemp)
                 typsX.append(typ)
 
@@ -322,7 +334,7 @@ for sys in systematics:
                     A=systhistosarray[Coco][i].GetBinContent(bin)
                     B=histos[i].GetBinContent(bin)
                     systhistosarray[Coco][i].SetBinContent(bin,B+((A-B)/4.))
-        # finaly lpop over histos
+        # finaly loop over histos
         for i in range(0,len(systhistosarray[Coco])):
             systhistosarray[Coco][i].SetName('%s%s%s'%(discr_names[i],systematicsnaming[sys],Q))
             outfile.cd()

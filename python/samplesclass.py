@@ -19,6 +19,8 @@ class sample:
         self.tree='tree'
         self.treecut=''
         self.comment=''
+        self.subsample=False
+        self.subcut=1
 
     def getpath(self):
         return self.path+'/'+self.prefix+self.identifier+'.root'
