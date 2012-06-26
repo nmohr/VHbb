@@ -19,10 +19,11 @@ ls -l histos # check the links
 #if you still have the samples splitted by flavours then you need to do the following.
 #hadd ZllH.Jun18.DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball.root ZllH.Jun18.b_DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball.root ZllH.Jun18.c_DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball.root ZllH.Jun18.udsg_DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball.root > hadd_M50.log 2>&1 &
 #BETTER TO PARALLELIZE HERE...
-for file in ./b_*
-    do
-    FILE=${file/b_/}  
-    hadd ${FILE} b_${FILE1} c_${FILE} udsg_${FILE} hadd_${FILE}.log > 2>&1 &
+cd histos
+for file in ZllH.Jun18.b_*; 
+do 
+    FILE=${file/b_/} ;  
+    hadd -f ${FILE} ${FILE/Jun18./Jun18.b_} ${FILE/Jun18./Jun18.c_} ${FILE/Jun18./Jun18.udsg_} > hadd_${FILE}.log 2>&1 & 
 done
 
 #hadd also the data!
@@ -31,14 +32,16 @@ hadd Zll.Jun18.DataZ.root ZllH.Jun18.DataZee.root ZllH.Jun18.DataZmm.root
 #Wait that this is done
 #then take the histos from b_ and the tree from the hadd"ed" file using this stupid script:
 cvs co -p  UserCode/bortigno/Utils/addHistos.py > addHistos.py
+chmod u+x addHistos.py
 # usage : ./addHistos.py -i <input histos file name> -t <input tree file name> 
-for file in ./b_*
+# looping does not work. You need to do it by hand...
+for file in ZllH.Jun18.b_*;
     do
-    FILE=${file/b_/}  
-    ./addHistos.py -t ${FILE} -i b_${FILE1} addHistos_${FILE}.log > 2>&1 &
+    FILE=${file/b_/};
+    ./addHistos.py -t ${FILE} -i ${FILE/Jun18./Jun18.b_} > addHistos_${FILE}.log 2>&1 &
 done
 
-#before running you need to update the name of files and dir in sampleSideBand.h
+#before running you need to update the name of files and dir in sampleSideBand.h and the lumi!
 vi sampleSideBand.h
 
 #go to test dir
