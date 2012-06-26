@@ -59,7 +59,7 @@ std::vector<Sample> trees(){
 std::vector<Sample> histos(){
   std::vector<Sample> s;
 
-  Double_t Lumi = 692.972+2825.; //2.88+0.7
+  Double_t Lumi = 2880.+700.+1500.;///692.972+2825.; //2.88+0.7
   std::string path("./SideBandAnalysis-Pt50To100/histos/");
   std::string pathData("./SideBandAnalysis-Pt50To100/histos/");
 /*   std::string path("./histos/"); */
