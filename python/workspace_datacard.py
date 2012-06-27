@@ -115,6 +115,14 @@ for job in info:
         hTemp, typ = getHistoFromTree(job,options)
         datas.append(hTemp)
         datatyps.append(typ)
+    if job.type == 'SIG' and job.name == 'ZH125':
+        hSigInjec, typen = getHistoFromTree(job,options,MC_rescale_factor)
+        if counter == 0:
+            hDummy = copy(hSigInjec)
+        else:
+            hDummy.Add(hSigInjec)
+        counter += 1
+
 
 MC_integral=0
 MC_entries=0
@@ -237,10 +245,11 @@ outfile.cd()
 d1.Write()
 if blind:
     hDummy.SetName(data_name[0])
-    rooDummy = ROOT.RooDataHist('data_obs','data_obs',obs,hDummy)
-    toy = ROOT.RooHistPdf('data_obs','data_obs',ROOT.RooArgSet(obs),rooDummy)
-    rooDataSet = toy.generate(ROOT.RooArgSet(obs),int(d1.Integral()))
-    histPdf = ROOT.RooDataHist('data_obs','data_obs',ROOT.RooArgSet(obs),rooDataSet.reduce(ROOT.RooArgSet(obs)))
+    histPdf = ROOT.RooDataHist('data_obs','data_obs',obs,hDummy)
+    #rooDummy = ROOT.RooDataHist('data_obs','data_obs',obs,hDummy)
+    #toy = ROOT.RooHistPdf('data_obs','data_obs',ROOT.RooArgSet(obs),rooDummy)
+    #rooDataSet = toy.generate(ROOT.RooArgSet(obs),int(d1.Integral()))
+    #histPdf = ROOT.RooDataHist('data_obs','data_obs',ROOT.RooArgSet(obs),rooDataSet.reduce(ROOT.RooArgSet(obs)))
 else:
     histPdf = ROOT.RooDataHist('data_obs','data_obs',obs,d1)
 #ROOT.RooAbsData.plotOn(histPdf,frame)
@@ -357,7 +366,10 @@ if bdt==True:
 else:
     f.write('shapes * * vhbb_TH_%s.root $PROCESS $PROCESS$SYSTEMATIC\n\n'%ROOToutname)
 f.write('bin\t%s\n\n'%Datacradbin)
-f.write('observation\t%s\n\n'%(int(d1.Integral())))
+if blind:
+    f.write('observation\t%s\n\n'%(hDummy.Integral()))
+else:
+    f.write('observation\t%s\n\n'%(int(d1.Integral())))
 f.write('bin\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin))
 f.write('process\tVH\tWjLF\tWjHF\tZjLF\tZjHF\tTT\ts_Top\tVV\tQCD\n')
 
