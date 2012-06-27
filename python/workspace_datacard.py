@@ -18,12 +18,6 @@ from printcolor import printc
 from gethistofromtree import getHistoFromTree, orderandadd
 
 
-
-
-
-
-
-
 #CONFIGURE
 #load config
 config = BetterConfigParser()
@@ -80,7 +74,7 @@ elif 'RMed' in RCut:
     Datacradbin=options[10]
 else:
     Datacradbin=options[10]
-    
+
     #EDIT!
 MC_rescale_factor=1.0
 
@@ -107,13 +101,11 @@ for job in info:
         hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
         histos.append(hTemp)
         typs.append(typ)
-
         if counter == 0:
             hDummy = copy(hTemp)
         else:
             hDummy.Add(hTemp)
         counter += 1
-            
     elif job.type == 'SIG' and job.name == mass:
         hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
         histos.append(hTemp)
@@ -131,7 +123,7 @@ for histo in histos:
 printc('green','', 'MC integral = %s'%MC_integral)  
 #order and add together
 histos, typs = orderandadd(histos,typs,setup)
-rescaleSqrtN = True
+rescaleSqrtN = False
 
 for i in range(0,len(histos)):
     histos[i].SetName(discr_names[i])
@@ -334,7 +326,7 @@ for sys in systematics:
                     A=systhistosarray[Coco][i].GetBinContent(bin)
                     B=histos[i].GetBinContent(bin)
                     systhistosarray[Coco][i].SetBinContent(bin,B+((A-B)/4.))
-        # finaly loop over histos
+        # finaly lpop over histos
         for i in range(0,len(systhistosarray[Coco])):
             systhistosarray[Coco][i].SetName('%s%s%s'%(discr_names[i],systematicsnaming[sys],Q))
             outfile.cd()
@@ -385,9 +377,14 @@ f.write('CMS_vhbb_boost_EWK\tlnN\t1.05\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_boost_QCD\tlnN\t1.10\t-\t-\t-\t-\t-\t-\t-\t-\n')
 f.write('CMS_vhbb_ST\tlnN\t-\t-\t-\t-\t-\t-\t1.29\t-\t-\n')
 f.write('CMS_vhbb_VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.30\t-\n')
-f.write('CMS_vhbb_ZjLF_ex\tlnN\t-\t-\t-\t1.05\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_ZjHF_ex\tlnN\t-\t-\t-\t-\t1.05\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_TT_ex\tlnN\t-\t-\t-\t-\t-\t1.05\t-\t-\t-\n')
+if '7TeV' in options[10]:
+	f.write('CMS_vhbb_ZjLF_ex\tlnN\t-\t-\t-\t1.05\t-\t-\t-\t-\t-\n')
+	f.write('CMS_vhbb_ZjHF_ex\tlnN\t-\t-\t-\t-\t1.05\t-\t-\t-\t-\n')
+	f.write('CMS_vhbb_TT_ex\tlnN\t-\t-\t-\t-\t-\t1.05\t-\t-\t-\n')
+if '8TeV' in options[10]:
+	f.write('CMS_vhbb_ZjLF_ex_8TeV\tlnN\t-\t-\t-\t1.05\t-\t-\t-\t-\t-\n')
+	f.write('CMS_vhbb_ZjHF_ex_8TeV\tlnN\t-\t-\t-\t-\t1.05\t-\t-\t-\t-\n')
+	f.write('CMS_vhbb_TT_ex_8TeV\tlnN\t-\t-\t-\t-\t-\t1.05\t-\t-\t-\n')
 for line in scalefactors:
     f.write(line)
 if 'Zee' in options[10]:
