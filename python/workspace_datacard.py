@@ -64,7 +64,10 @@ outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
 # MAYBE EDIT THIS:
 discr_names = ['ZjLF','ZjHF', 'TT','VV', 's_Top', 'VH', 'WjLF', 'WjHF', 'QCD'] #corresponding to setup
 data_name = ['data_obs']
-systematicsnaming={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b'}
+#systematicsnaming={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b'}
+systematicsnaming={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_7TeV'}
+if '8TeV' in options[10]:
+        systematicsnaming={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_8TeV'}
 #systematicsnaming={'JER':'cms_res_j','JES':'JEC','beff':'Btag','bmis':'BtagFake'}
 #### rescaling by factor 4
 scaling=True
