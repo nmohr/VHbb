@@ -37,6 +37,7 @@ if opts.config ==[]:
 print opts.config
 config = BetterConfigParser()
 config.read(opts.config)
+anaTag = config.get("Analysis","tag")
 
 def deltaPhi(phi1, phi2): 
     result = phi1 - phi2
@@ -83,25 +84,27 @@ for job in info:
         float         dEta;\
         } ;"
     )
-    #ROOT.gROOT.LoadMacro('../interface/btagshape.h+')
-    #from ROOT import BTagShape
-    #btagNom = BTagShape("../data/csvdiscr.root")
-    #btagNom.computeFunctions()
-    #btagUp = BTagShape("../data/csvdiscr.root")
-    #btagUp.computeFunctions(+1.,0.)
-    #btagDown = BTagShape("../data/csvdiscr.root")
-    #btagDown.computeFunctions(-1.,0.)
-    #btagFUp = BTagShape("../data/csvdiscr.root")
-    #btagFUp.computeFunctions(0.,+1.)
-    #btagFDown = BTagShape("../data/csvdiscr.root")
-    #btagFDown.computeFunctions(0.,-1.)
-    ROOT.gSystem.Load('/shome/nmohr/CMSSW_5_2_4_patch4/src/UserCode/VHbb/interface/BTagReshaping_h.so')
-    from ROOT import BTagShapeInterface
-    btagNom = BTagShapeInterface("../data/csvdiscr.root",0,0)
-    btagUp = BTagShapeInterface("../data/csvdiscr.root",+1,0)
-    btagDown = BTagShapeInterface("../data/csvdiscr.root",-1,0)
-    btagFUp = BTagShapeInterface("../data/csvdiscr.root",0,+1.)
-    btagFDown = BTagShapeInterface("../data/csvdiscr.root",0,-1.)
+    if anaTag == '7TeV':
+    	ROOT.gROOT.LoadMacro('../interface/btagshape.h+')
+    	from ROOT import BTagShape
+    	btagNom = BTagShape("../data/csvdiscr.root")
+    	btagNom.computeFunctions()
+    	btagUp = BTagShape("../data/csvdiscr.root")
+    	btagUp.computeFunctions(+1.,0.)
+    	btagDown = BTagShape("../data/csvdiscr.root")
+    	btagDown.computeFunctions(-1.,0.)
+    	btagFUp = BTagShape("../data/csvdiscr.root")
+    	btagFUp.computeFunctions(0.,+1.)
+    	btagFDown = BTagShape("../data/csvdiscr.root")
+    	btagFDown.computeFunctions(0.,-1.)
+    elif anaTag == '8TeV':
+    	ROOT.gSystem.Load('/shome/nmohr/CMSSW_5_2_4_patch4/src/UserCode/VHbb/interface/BTagReshaping_h.so')
+    	from ROOT import BTagShapeInterface
+    	btagNom = BTagShapeInterface("../data/csvdiscr.root",0,0)
+    	btagUp = BTagShapeInterface("../data/csvdiscr.root",+1,0)
+    	btagDown = BTagShapeInterface("../data/csvdiscr.root",-1,0)
+    	btagFUp = BTagShapeInterface("../data/csvdiscr.root",0,+1.)
+    	btagFDown = BTagShapeInterface("../data/csvdiscr.root",0,-1.)
     
     print '\t - %s' %(job.name)
     input = TFile.Open(job.getpath(),'read')
@@ -249,8 +252,9 @@ for job in info:
             #    EventForTraining[0]=0
             #iter+=1
             
-#            if job.type != 'DATA':
-#                EventForTraining=int(not TFlag.EvalInstance())
+	    
+            if job.type != 'DATA' and anaTag == '7TeV':
+                EventForTraining=int(not TFlag.EvalInstance())
             #EventForTraining[0]=int(not TFlag.EvalInstance())
 
 
@@ -343,17 +347,18 @@ for job in info:
                 eta = float(tree.hJet_eta[i])
                 csv = float(tree.hJet_csv[i])
 		hJet_csvOld[i] = csv 
-                tree.hJet_csv[i] = btagNom.reshape(eta,pt,csv,flavour)
-                hJet_csvDown[i] = btagDown.reshape(eta,pt,csv,flavour)
-                hJet_csvUp[i] = btagUp.reshape(eta,pt,csv,flavour) 
-                hJet_csvFDown[i] = btagFDown.reshape(eta,pt,csv,flavour)
-                hJet_csvFUp[i] = btagFUp.reshape(eta,pt,csv,flavour)
-                #print pt, eta, flavour, csv
-		#tree.hJet_csv[i] = corrCSV(btagNom,csv,flavour)
-                #hJet_csvDown[i] = corrCSV(btagDown,csv,flavour)
-                #hJet_csvUp[i] = corrCSV(btagUp,csv,flavour) 
-                #hJet_csvFDown[i] = corrCSV(btagFDown,csv,flavour)
-                #hJet_csvFUp[i] = corrCSV(btagFUp,csv,flavour)
+    		if anaTag == '7TeV':
+			tree.hJet_csv[i] = corrCSV(btagNom,csv,flavour)
+                	hJet_csvDown[i] = corrCSV(btagDown,csv,flavour)
+                	hJet_csvUp[i] = corrCSV(btagUp,csv,flavour) 
+                	hJet_csvFDown[i] = corrCSV(btagFDown,csv,flavour)
+                	hJet_csvFUp[i] = corrCSV(btagFUp,csv,flavour)
+    		elif anaTag == '8TeV':
+                	tree.hJet_csv[i] = btagNom.reshape(eta,pt,csv,flavour)
+                	hJet_csvDown[i] = btagDown.reshape(eta,pt,csv,flavour)
+               		hJet_csvUp[i] = btagUp.reshape(eta,pt,csv,flavour) 
+                	hJet_csvFDown[i] = btagFDown.reshape(eta,pt,csv,flavour)
+                	hJet_csvFUp[i] = btagFUp.reshape(eta,pt,csv,flavour)
 
             for updown in ['up','down']:
                 #JER

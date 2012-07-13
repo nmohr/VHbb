@@ -1,3 +1,6 @@
+[Analysis]
+tag = 7TeV
+
 [Directories]
 Wdir: /shome/nmohr/
 #plotpath: /Users/peller/VHbb/Stacks/May28
