@@ -88,10 +88,24 @@ for job in info:
 
 
 ROOT.gROOT.SetStyle("Plain")
-c = ROOT.TCanvas(name,title, 800, 700)
+import TdrStyles
+TdrStyles.tdrStyle()
+c = ROOT.TCanvas(name,title, 700, 600)
+c.SetFillStyle(4000)
+c.SetFrameFillStyle(1000)
+c.SetFrameFillColor(0)
 
-oben = ROOT.TPad('oben','oben',0,0.2 ,1.0,1.0,10)
-unten = ROOT.TPad('unten','unten',0,0.05,1.0,0.2,10)
+oben = ROOT.TPad('oben','oben',0,0.3 ,1.0,1.0)
+oben.SetBottomMargin(0)
+oben.SetFillStyle(4000)
+oben.SetFrameFillStyle(1000)
+oben.SetFrameFillColor(0)
+unten = ROOT.TPad('unten','unten',0,0.0,1.0,0.3)
+unten.SetTopMargin(0.)
+unten.SetBottomMargin(0.35)
+unten.SetFillStyle(4000)
+unten.SetFrameFillStyle(1000)
+unten.SetFrameFillColor(0)
 
 oben.Draw()
 unten.Draw()
@@ -192,6 +206,8 @@ unten.cd()
 ROOT.gPad.SetTicks(1,1)
 
 ratio, error, ksScore, chiScore = getRatio(d1,allMC,xMin,xMax)
+ksScore = allMC.KolmogorovTest( d1 )
+chiScore = allMC.Chi2Test( d1 , "UWCHI2/NDF")
 print ksScore
 print chiScore
 ratio.SetStats(0)
@@ -212,8 +228,8 @@ t = ROOT.TLatex()
 t.SetNDC()
 t.SetTextAlign(12)
 t.SetTextSize(0.15)
-t.DrawLatex(0.12,0.8,"KS: %s"%(ksScore))
-t.DrawLatex(0.12,0.25,"x2: %s"%(chiScore))
+t.DrawLatex(0.12,0.8,"K_{s}: %.2f"%(ksScore))
+t.DrawLatex(0.12,0.25,"#chi_{#nu}^{2}: %.2f"%(chiScore))
 
 name = '%s/%s' %(config.get('Directories','plotpath'),options[6])
 c.Print(name)
