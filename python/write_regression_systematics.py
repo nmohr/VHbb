@@ -11,6 +11,8 @@ from ROOT import TFile
 import ROOT
 from array import array
 import warnings
+from optparse import OptionParser
+from BetterConfigParser import BetterConfigParser
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
 
 
@@ -25,6 +27,16 @@ infofile = open(path+'/samples.info','r')
 info = pickle.load(infofile)
 infofile.close()
 #os.mkdir(path+'/sys')
+argv = sys.argv[3:]
+parser = OptionParser()
+parser.add_option("-C", "--config", dest="config", default=[], action="append", 
+                      help="configuration defining the plots to make")
+(opts, args) = parser.parse_args(argv)
+if opts.config ==[]:
+        opts.config = "config"
+print opts.config
+config = BetterConfigParser()
+config.read(opts.config)
 
 def deltaPhi(phi1, phi2): 
     result = phi1 - phi2
@@ -124,12 +136,12 @@ for job in info:
     hJ0 = ROOT.TLorentzVector()
     hJ1 = ROOT.TLorentzVector()
         
-    regWeight = "../data/MVA_BDT_REG_Jun16.weights.xml"
-    regDict = {"Jet_pt": "hJet_pt", "Jet_eta": "hJet_eta", "Jet_e": "hJet_e", "Jet_JECUnc": "hJet_JECUnc", "Jet_chf": "hJet_chf","Jet_nconstituents": "hJet_nconstituents", "Jet_vtxPt": "hJet_vtxPt", "Jet_vtx3dL": "hJet_vtx3dL", "Jet_vtx3deL": "hJet_vtx3deL"}
-    regVars = ["Jet_pt","Jet_eta","Jet_e","Jet_JECUnc", "Jet_chf","Jet_nconstituents", "Jet_vtxPt", "Jet_vtx3dL", "Jet_vtx3deL"]
-    regDict = {"Jet_pt": "hJet_pt", "Jet_eta": "hJet_eta", "Jet_e": "hJet_e", "Jet_ptRaw": "hJet_ptRaw", "Jet_chf": "hJet_chf","Jet_nconstituents": "hJet_nconstituents", "Jet_vtxPt": "hJet_vtxPt", "Jet_vtx3dL": "hJet_vtx3dL", "Jet_vtx3deL": "hJet_vtx3deL"}
-    regVars = ["Jet_pt","Jet_eta","Jet_e","Jet_ptRaw", "Jet_chf","Jet_nconstituents", "Jet_vtxPt", "Jet_vtx3dL", "Jet_vtx3deL"]
-        
+    regWeight = config.get("Regression","regWeight")
+    regDict = eval(config.get("Regression","regDict"))
+    regVars = eval(config.get("Regression","regVars"))
+    useMET = eval(config.get("Regression","useMET"))
+    usePtRaw = eval(config.get("Regression","usePtRaw"))
+    useRho25 = eval(config.get("Regression","useRho25"))
           
     #Regression branches
     applyRegression = True
@@ -159,18 +171,20 @@ for job in info:
         theVars0[var] = array( 'f', [ 0 ] )
         readerJet0.AddVariable(var,theVars0[var])
         theForms['form_reg_%s_0'%(regDict[var])] = ROOT.TTreeFormula("form_reg_%s_0"%(regDict[var]),'%s[0]' %(regDict[var]),tree)
-    readerJet0.AddVariable( "Jet_MET_dPhi", hJet_MET_dPhiArray[0] )
-    readerJet0.AddVariable( "METet", METet )
-    #readerJet0.AddVariable( "rho25", rho25 )
+    if useMET:
+    	readerJet0.AddVariable( "Jet_MET_dPhi", hJet_MET_dPhiArray[0] )
+    	readerJet0.AddVariable( "METet", METet )
+    if useRho25: readerJet0.AddVariable( "rho25", rho25 )
         
     theVars1 = {}
     for var in regVars:
         theVars1[var] = array( 'f', [ 0 ] )
         readerJet1.AddVariable(var,theVars1[var])
         theForms['form_reg_%s_1'%(regDict[var])] = ROOT.TTreeFormula("form_reg_%s_1"%(regDict[var]),'%s[1]' %(regDict[var]),tree)
-    readerJet1.AddVariable( "Jet_MET_dPhi", hJet_MET_dPhiArray[1] )
-    readerJet1.AddVariable( "METet", METet )
-    #readerJet1.AddVariable( "rho25", rho25 )
+    if useMET:
+    	readerJet1.AddVariable( "Jet_MET_dPhi", hJet_MET_dPhiArray[1] )
+    	readerJet1.AddVariable( "METet", METet )
+    if useRho25: readerJet1.AddVariable( "rho25", rho25 )
     readerJet0.BookMVA( "jet0Regression",  regWeight );
     readerJet1.BookMVA( "jet1Regression", regWeight );
         
@@ -267,7 +281,7 @@ for job in info:
                 hJet_MET_dPhi[i] = deltaPhi(METphi[0],tree.hJet_phi[i])
                 hJet_MET_dPhiArray[i][0] = deltaPhi(METphi[0],tree.hJet_phi[i])
             
-            if not job.type == 'DATA':
+            if not job.type == 'DATA' and usePtRaw:
 	    	theVars0['Jet_ptRaw'][0] = theForms["form_reg_hJet_ptRaw_0"].EvalInstance()*corrPt(tree.hJet_pt[0],tree.hJet_eta[0],tree.hJet_genPt[0])
 	    	theVars1['Jet_ptRaw'][0] = theForms["form_reg_hJet_ptRaw_1"].EvalInstance()*corrPt(tree.hJet_pt[1],tree.hJet_eta[1],tree.hJet_genPt[1])
             

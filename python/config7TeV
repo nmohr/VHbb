@@ -3,7 +3,7 @@ Wdir: /shome/nmohr/
 #plotpath: /Users/peller/VHbb/Stacks/May28
 #limits: /Users/peller/VHbb/Limits/May23_sys_scaledown/
 #limits: /Users/peller/VHbb/Limits/May23_sys_factor4/
-limits: /shome/nmohr/Limit/ichep8TeVCheck/
+limits: /shome/nmohr/Limit/ichep7TeVCheck/
 #limits: /Users/peller/VHbb/Limits/May23Like_sys_factor4/
 plotpath: /Users/peller/VHbb/Stacks/May28/
 samplepath= /data1/nmohr/2012Ana/env/sys/
@@ -123,12 +123,12 @@ SIG: ZH115
 ###########################################################################################
 # REGRESSION
 [Regression]
-regWeight = ../data/MVA_BDT_REG_Jun16.weights.xml
-regDict = {"Jet_pt": "hJet_pt", "Jet_eta": "hJet_eta", "Jet_e": "hJet_e", "Jet_ptRaw": "hJet_ptRaw", "Jet_chf": "hJet_chf","Jet_nconstituents": "hJet_nconstituents", "Jet_vtxPt": "hJet_vtxPt", "Jet_vtx3dL": "hJet_vtx3dL", "Jet_vtx3deL": "hJet_vtx3deL"}
-regVars = ["Jet_pt","Jet_eta","Jet_e","Jet_ptRaw", "Jet_chf","Jet_nconstituents", "Jet_vtxPt", "Jet_vtx3dL", "Jet_vtx3deL"]
+regWeight = ../data/MVA_BDT_REG_May23.weights.xml
+regDict = {"Jet_pt": "hJet_pt", "Jet_eta": "hJet_eta", "Jet_e": "hJet_e", "Jet_JECUnc": "hJet_ptRaw", "Jet_chf": "hJet_chf","Jet_nconstituents": "hJet_nconstituents", "Jet_vtxPt": "hJet_vtxPt", "Jet_vtx3dL": "hJet_vtx3dL", "Jet_vtx3deL": "hJet_vtx3deL"}
+regVars = ["Jet_pt","Jet_eta","Jet_e","Jet_JECUnc", "Jet_chf","Jet_nconstituents", "Jet_vtxPt", "Jet_vtx3dL", "Jet_vtx3deL"]
 useMET = True
-usePtRaw = True
-useRho25 = False
+usePtRaw = False
+useRho25 = True
 
 
 ###########################################################################################
@@ -172,36 +172,36 @@ Mjj_highPt_ZH130_MM: H.mass,Mjj,Mjj,25,0.,250.,Mjj_highPt_M130_Zmm,Mjj_highPt_MM
 Mjj_highPt_ZH135_MM: H.mass,Mjj,Mjj,25,0.,250.,Mjj_highPt_M135_Zmm,Mjj_highPt_MM,Mjj_highPt_MM,ZH135,Zmm,Mjj
 
 #Tight EE
-RTight_ZH110_EE_8TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M110_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH110,ZeeHighPt_8TeV,BDT
-RTight_ZH115_EE_8TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M115_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH115,ZeeHighPt_8TeV,BDT
-RTight_ZH120_EE_8TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M120_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH120,ZeeHighPt_8TeV,BDT
-RTight_ZH125_EE_8TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH125,ZeeHighPt_8TeV,BDT
-RTight_ZH130_EE_8TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M130_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH130,ZeeHighPt_8TeV,BDT
-RTight_ZH135_EE_8TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M135_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH135,ZeeHighPt_8TeV,BDT
+RTight_ZH110_EE_7TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M110_ZeeHighPt_7TeV,RTight_EE,RTight_EE,ZH110,ZeeHighPt_7TeV,BDT
+RTight_ZH115_EE_7TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M115_ZeeHighPt_7TeV,RTight_EE,RTight_EE,ZH115,ZeeHighPt_7TeV,BDT
+RTight_ZH120_EE_7TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M120_ZeeHighPt_7TeV,RTight_EE,RTight_EE,ZH120,ZeeHighPt_7TeV,BDT
+RTight_ZH125_EE_7TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M125_ZeeHighPt_7TeV,RTight_EE,RTight_EE,ZH125,ZeeHighPt_7TeV,BDT
+RTight_ZH130_EE_7TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M130_ZeeHighPt_7TeV,RTight_EE,RTight_EE,ZH130,ZeeHighPt_7TeV,BDT
+RTight_ZH135_EE_7TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M135_ZeeHighPt_7TeV,RTight_EE,RTight_EE,ZH135,ZeeHighPt_7TeV,BDT
 
 #Tight MM
-RTight_ZH110_MM_8TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M110_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH110,ZmmHighPt_8TeV,BDT
-RTight_ZH115_MM_8TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M115_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH115,ZmmHighPt_8TeV,BDT
-RTight_ZH120_MM_8TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M120_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH120,ZmmHighPt_8TeV,BDT
-RTight_ZH125_MM_8TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH125,ZmmHighPt_8TeV,BDT
-RTight_ZH130_MM_8TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M130_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH130,ZmmHighPt_8TeV,BDT
-RTight_ZH135_MM_8TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M135_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH135,ZmmHighPt_8TeV,BDT
+RTight_ZH110_MM_7TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M110_ZmmHighPt_7TeV,RTight_MM,RTight_MM,ZH110,ZmmHighPt_7TeV,BDT
+RTight_ZH115_MM_7TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M115_ZmmHighPt_7TeV,RTight_MM,RTight_MM,ZH115,ZmmHighPt_7TeV,BDT
+RTight_ZH120_MM_7TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M120_ZmmHighPt_7TeV,RTight_MM,RTight_MM,ZH120,ZmmHighPt_7TeV,BDT
+RTight_ZH125_MM_7TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M125_ZmmHighPt_7TeV,RTight_MM,RTight_MM,ZH125,ZmmHighPt_7TeV,BDT
+RTight_ZH130_MM_7TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M130_ZmmHighPt_7TeV,RTight_MM,RTight_MM,ZH130,ZmmHighPt_7TeV,BDT
+RTight_ZH135_MM_7TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M135_ZmmHighPt_7TeV,RTight_MM,RTight_MM,ZH135,ZmmHighPt_7TeV,BDT
 
 #Med EE
-RMed_ZH110_EE_8TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M110_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH110,ZeeLowPt_8TeV,BDT
-RMed_ZH115_EE_8TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M115_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH115,ZeeLowPt_8TeV,BDT
-RMed_ZH120_EE_8TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M120_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH120,ZeeLowPt_8TeV,BDT
-RMed_ZH125_EE_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLowPt_8TeV,BDT
-RMed_ZH130_EE_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M130_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH130,ZeeLowPt_8TeV,BDT
-RMed_ZH135_EE_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M135_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH135,ZeeLowPt_8TeV,BDT
+RMed_ZH110_EE_7TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M110_ZeeLowPt_7TeV,RMed_EE,RMed_EE,ZH110,ZeeLowPt_7TeV,BDT
+RMed_ZH115_EE_7TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M115_ZeeLowPt_7TeV,RMed_EE,RMed_EE,ZH115,ZeeLowPt_7TeV,BDT
+RMed_ZH120_EE_7TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M120_ZeeLowPt_7TeV,RMed_EE,RMed_EE,ZH120,ZeeLowPt_7TeV,BDT
+RMed_ZH125_EE_7TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M125_ZeeLowPt_7TeV,RMed_EE,RMed_EE,ZH125,ZeeLowPt_7TeV,BDT
+RMed_ZH130_EE_7TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M130_ZeeLowPt_7TeV,RMed_EE,RMed_EE,ZH130,ZeeLowPt_7TeV,BDT
+RMed_ZH135_EE_7TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M135_ZeeLowPt_7TeV,RMed_EE,RMed_EE,ZH135,ZeeLowPt_7TeV,BDT
 
 #Med MM
-RMed_ZH110_MM_8TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M110_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH110,ZmmLowPt_8TeV,BDT
-RMed_ZH115_MM_8TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M115_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH115,ZmmLowPt_8TeV,BDT
-RMed_ZH120_MM_8TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M120_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH120,ZmmLowPt_8TeV,BDT
-RMed_ZH125_MM_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLowPt_8TeV,BDT
-RMed_ZH130_MM_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M130_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH130,ZmmLowPt_8TeV,BDT
-RMed_ZH135_MM_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M135_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLowPt_8TeV,BDT
+RMed_ZH110_MM_7TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M110_ZmmLowPt_7TeV,RMed_MM,RMed_MM,ZH110,ZmmLowPt_7TeV,BDT
+RMed_ZH115_MM_7TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M115_ZmmLowPt_7TeV,RMed_MM,RMed_MM,ZH115,ZmmLowPt_7TeV,BDT
+RMed_ZH120_MM_7TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M120_ZmmLowPt_7TeV,RMed_MM,RMed_MM,ZH120,ZmmLowPt_7TeV,BDT
+RMed_ZH125_MM_7TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M125_ZmmLowPt_7TeV,RMed_MM,RMed_MM,ZH125,ZmmLowPt_7TeV,BDT
+RMed_ZH130_MM_7TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M130_ZmmLowPt_7TeV,RMed_MM,RMed_MM,ZH130,ZmmLowPt_7TeV,BDT
+RMed_ZH135_MM_7TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_7TeV,BDT output,10,-1,1,BDT_M135_ZmmLowPt_7TeV,RMed_MM,RMed_MM,ZH135,ZmmLowPt_7TeV,BDT
 
 #GENERAL SETUP LIMIT:
 setup: DYlight+DYc,DYb,TT,VV,ST,ZH
@@ -374,7 +374,7 @@ maxBtag = max(hJet_csv[0],hJet_csv[1])
 tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
-preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & EVENT.json & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
+preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & EVENT.json 
 zWindow = V.mass > 75. & V.mass < 105
 zVeto =  (V.mass > 105 | V.mass < 75.)
 noAddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) == 0 
@@ -391,7 +391,7 @@ dPhiVH = abs( HVdPhi ) > 2.9
 addCuts = Vtype==1 & (triggerFlags[5]>0 || triggerFlags[6]>0)
 
 [ZHmmbb]
-addCuts = Vtype==0 & (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0)
+addCuts = Vtype==0 & ((EVENT.run<173198 && (triggerFlags[0]>0 || triggerFlags[13]>0 || triggerFlags[14]>0 || triggerFlags[20]>0 || triggerFlags[21]>0)) || (EVENT.run>=173198 && EVENT.run<175832  && (triggerFlags[13]>0 ||triggerFlags[14]>0 || triggerFlags[22]>0 || triggerFlags[23]>0))|| (EVENT.run>=175832 && EVENT.run<178390 && (triggerFlags[13]>0 ||triggerFlags[14]>0 ||triggerFlags[15]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0)) || (EVENT.run>=178390 && (triggerFlags[14]>0 ||triggerFlags[15]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0 || triggerFlags[24]>0 || triggerFlags[25]>0 || triggerFlags[26]>0 || triggerFlags[27]>0)))
 
 [Cuts]
 mjjLowPt = <!ZHbb|preselection!> & <!ZHbb|rMed!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
@@ -399,9 +399,7 @@ mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tlBtag!> & <!ZHbb|z
 
 #V.pt regions:
 RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!> &  RMed_ZH125_may_4.nominal >= -0.6
-#RMed:   hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1])  > 0.5   & min(hJet_csv[0],hJet_csv[1]) > 0.244   & V.pt > 50.  & V.pt < 100.  & V.mass > 75. & V.mass < 105 & H.mass < 150. & H.mass > 80. & deltaPullAngle < 10. & deltaPullAngle2 < 10.
 RTight = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> 
-#hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1]) > 0.244 & min(hJet_csv[0],hJet_csv[1]) > 0.244 & V.pt > 100. & V.mass > 75. & V.mass < 105 & H.mass < 250. & deltaPullAngle < 10. & deltaPullAngle2 < 10.
 
 #control regions
 Light: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!>
@@ -409,10 +407,10 @@ Top = <!ZHbb|preselection!> & <!ZHbb|upperHMass!> & <!ZHbb|tlBtag!> & <!ZHbb|zVe
 bb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|zWindow!> & <!ZHbb|tlBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!>
 
 #lepton individual
-RTight_EE: Vtype==1 & (triggerFlags[5]>0 || triggerFlags[6]>0) & <!Cuts|RTight!>
-RTight_MM: Vtype==0 & (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) & <!Cuts|RTight!>
-RMed_EE: Vtype==1 & (triggerFlags[5]>0 || triggerFlags[6]>0) & <!Cuts|RMed!>
-RMed_MM: Vtype==0 & (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) & <!Cuts|RMed!>
+RTight_EE: <!ZHeebb|addCuts!> & <!Cuts|RTight!>
+RTight_MM: <!ZHmmbb|addCuts!>  & <!Cuts|RTight!>
+RMed_EE: <!ZHeebb|addCuts!> & <!Cuts|RMed!>
+RMed_MM: <!ZHmmbb|addCuts!> & <!Cuts|RMed!>
 
 #Mjj
 Mjj_lowPt_EE: <!ZHeebb|addCuts!> & <!Cuts|mjjLowPt!> 
@@ -425,6 +423,6 @@ Mjj_highPt_MM: <!ZHmmbb|addCuts!> & <!Cuts|mjjHighPt!>
 # other things:
 
 [Weights]
-weightF: (PUweight*weightTrig2012A)
+weightF: ((0.46502*PUweight+0.53498*PUweight2011B)*weightTrig)
 
 # LocalWords:  Mjj
