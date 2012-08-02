@@ -23,13 +23,16 @@ config.read('./config')
 Wdir=config.get('Directories','Wdir')
 
 
-Normalize=True
+Normalize=False
 
 path = sys.argv[1]
 var = sys.argv[2]
 
 if 'bb' in var or 'Light' in var or 'Top' in var:
     Normalize=True
+
+Normalize=False
+
 
 plot=config.get('Plot',var)
 
@@ -71,11 +74,11 @@ datanames=[]
 for job in info:
     if job.type == 'BKG':
         #print 'MC'
-        hTemp, typ = getHistoFromTree(job,options,2)
+        hTemp, typ = getHistoFromTree(job,options,1)
         histos.append(hTemp)
         typs.append(typ)
     elif job.type == 'SIG' and job.name == mass:
-        hTemp, typ = getHistoFromTree(job,options,2)
+        hTemp, typ = getHistoFromTree(job,options,1)
         histos.append(hTemp)
         typs.append(typ)    
     elif job.name in data:
@@ -137,6 +140,7 @@ for j in range(0,k):
     #print histos[j].GetBinContent(1)
     i=k-j-1
     histos[i].SetFillColor(int(color[i]))
+    histos[i].SetLineColor(1)
     allStack.Add(histos[i])
     l.AddEntry(histos[j],typs[j],'F')
     
@@ -198,7 +202,7 @@ t.SetTextAlign(12)
 t.SetTextSize(0.04)
 t.DrawLatex(0.13,0.85,"CMS Preliminary")#, BDT Shape")
 t.SetTextSize(0.03)
-t.DrawLatex(0.13,0.79,"#sqrt{s} = 7 TeV, L = 5.0 fb^{-1}")
+t.DrawLatex(0.13,0.79,"#sqrt{s} = 8 TeV, L = 5.0 fb^{-1}")
 #t.DrawLatex(0.13,0.74,"Z(ll)H(b#bar{b})")
 
 
@@ -233,3 +237,5 @@ t.DrawLatex(0.12,0.25,"#chi_{#nu}^{2}: %.2f"%(chiScore))
 
 name = '%s/%s' %(config.get('Directories','plotpath'),options[6])
 c.Print(name)
+print 'i am done!\n'
+sys.exit(0)

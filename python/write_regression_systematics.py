@@ -11,48 +11,24 @@ from ROOT import TFile
 import ROOT
 from array import array
 import warnings
-from optparse import OptionParser
-from BetterConfigParser import BetterConfigParser
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
 
 
 #usage: ./write_regression_systematic.py path
 
 path=sys.argv[1]
-namelistIN=sys.argv[2]
-namelist=namelistIN.split(',')
 
 #load info
 infofile = open(path+'/samples.info','r')
 info = pickle.load(infofile)
 infofile.close()
 #os.mkdir(path+'/sys')
-argv = sys.argv[3:]
-parser = OptionParser()
-parser.add_option("-C", "--config", dest="config", default=[], action="append", 
-                      help="configuration defining the plots to make")
-(opts, args) = parser.parse_args(argv)
-if opts.config ==[]:
-        opts.config = "config"
-print opts.config
-config = BetterConfigParser()
-config.read(opts.config)
-anaTag = config.get("Analysis","tag")
 
 def deltaPhi(phi1, phi2): 
     result = phi1 - phi2
     while (result > math.pi): result -= 2*math.pi
     while (result <= -math.pi): result += 2*math.pi
     return result
-
-def resolutionBias(eta):
-    if(eta< 1.1): return 0.05
-    if(eta< 2.5): return 0.10
-    if(eta< 5): return 0.30
-    return 0
-
-def corrPt(pt,eta,mcPt):
-    return (pt+resolutionBias(math.fabs(eta))*(pt-mcPt))/pt
 
 def corrCSV(btag,  csv, flav):
     if(csv < 0.): return csv
@@ -64,14 +40,9 @@ def corrCSV(btag,  csv, flav):
     return -10000
 
 
-def csvReshape(sh, pt, eta, csv, flav):
-	return sh.reshape(float(eta), float(pt), float(csv), int(flav))
-
-
 for job in info:
-    if not job.name in namelist: continue
     #print job.name
-    #if job.name != 'ZH120': continue
+    if job.name != 'ZH120': continue
     ROOT.gROOT.ProcessLine(
         "struct H {\
         int         HiggsFlag;\
@@ -84,27 +55,18 @@ for job in info:
         float         dEta;\
         } ;"
     )
-    if anaTag == '7TeV':
-    	ROOT.gROOT.LoadMacro('../interface/btagshape.h+')
-    	from ROOT import BTagShape
-    	btagNom = BTagShape("../data/csvdiscr.root")
-    	btagNom.computeFunctions()
-    	btagUp = BTagShape("../data/csvdiscr.root")
-    	btagUp.computeFunctions(+1.,0.)
-    	btagDown = BTagShape("../data/csvdiscr.root")
-    	btagDown.computeFunctions(-1.,0.)
-    	btagFUp = BTagShape("../data/csvdiscr.root")
-    	btagFUp.computeFunctions(0.,+1.)
-    	btagFDown = BTagShape("../data/csvdiscr.root")
-    	btagFDown.computeFunctions(0.,-1.)
-    elif anaTag == '8TeV':
-    	ROOT.gSystem.Load('/shome/nmohr/CMSSW_5_2_4_patch4/src/UserCode/VHbb/interface/BTagReshaping_h.so')
-    	from ROOT import BTagShapeInterface
-    	btagNom = BTagShapeInterface("../data/csvdiscr.root",0,0)
-    	btagUp = BTagShapeInterface("../data/csvdiscr.root",+1,0)
-    	btagDown = BTagShapeInterface("../data/csvdiscr.root",-1,0)
-    	btagFUp = BTagShapeInterface("../data/csvdiscr.root",0,+1.)
-    	btagFDown = BTagShapeInterface("../data/csvdiscr.root",0,-1.)
+    ROOT.gROOT.LoadMacro('../interface/btagshape.h+')
+    from ROOT import BTagShape
+    btagNom = BTagShape("../data/csvdiscr.root")
+    btagNom.computeFunctions()
+    btagUp = BTagShape("../data/csvdiscr.root")
+    btagUp.computeFunctions(+1.,0.)
+    btagDown = BTagShape("../data/csvdiscr.root")
+    btagDown.computeFunctions(-1.,0.)
+    btagFUp = BTagShape("../data/csvdiscr.root")
+    btagFUp.computeFunctions(0.,+1.)
+    btagFDown = BTagShape("../data/csvdiscr.root")
+    btagFDown.computeFunctions(0.,-1.)
     
     print '\t - %s' %(job.name)
     input = TFile.Open(job.getpath(),'read')
@@ -139,12 +101,10 @@ for job in info:
     hJ0 = ROOT.TLorentzVector()
     hJ1 = ROOT.TLorentzVector()
         
-    regWeight = config.get("Regression","regWeight")
-    regDict = eval(config.get("Regression","regDict"))
-    regVars = eval(config.get("Regression","regVars"))
-    useMET = eval(config.get("Regression","useMET"))
-    usePtRaw = eval(config.get("Regression","usePtRaw"))
-    useRho25 = eval(config.get("Regression","useRho25"))
+    regWeight = "../data/MVA_BDT_REG_May23.weights.xml"
+    regDict = {"Jet_pt": "hJet_pt", "Jet_eta": "hJet_eta", "Jet_e": "hJet_e", "Jet_JECUnc": "hJet_JECUnc", "Jet_chf": "hJet_chf","Jet_nconstituents": "hJet_nconstituents", "Jet_vtxPt": "hJet_vtxPt", "Jet_vtx3dL": "hJet_vtx3dL", "Jet_vtx3deL": "hJet_vtx3deL"}
+    regVars = ["Jet_pt","Jet_eta","Jet_e","Jet_JECUnc", "Jet_chf","Jet_nconstituents", "Jet_vtxPt", "Jet_vtx3dL", "Jet_vtx3deL"]
+        
           
     #Regression branches
     applyRegression = True
@@ -174,20 +134,18 @@ for job in info:
         theVars0[var] = array( 'f', [ 0 ] )
         readerJet0.AddVariable(var,theVars0[var])
         theForms['form_reg_%s_0'%(regDict[var])] = ROOT.TTreeFormula("form_reg_%s_0"%(regDict[var]),'%s[0]' %(regDict[var]),tree)
-    if useMET:
-    	readerJet0.AddVariable( "Jet_MET_dPhi", hJet_MET_dPhiArray[0] )
-    	readerJet0.AddVariable( "METet", METet )
-    if useRho25: readerJet0.AddVariable( "rho25", rho25 )
+    readerJet0.AddVariable( "Jet_MET_dPhi", hJet_MET_dPhiArray[0] )
+    readerJet0.AddVariable( "METet", METet )
+    readerJet0.AddVariable( "rho25", rho25 )
         
     theVars1 = {}
     for var in regVars:
         theVars1[var] = array( 'f', [ 0 ] )
         readerJet1.AddVariable(var,theVars1[var])
         theForms['form_reg_%s_1'%(regDict[var])] = ROOT.TTreeFormula("form_reg_%s_1"%(regDict[var]),'%s[1]' %(regDict[var]),tree)
-    if useMET:
-    	readerJet1.AddVariable( "Jet_MET_dPhi", hJet_MET_dPhiArray[1] )
-    	readerJet1.AddVariable( "METet", METet )
-    if useRho25: readerJet1.AddVariable( "rho25", rho25 )
+    readerJet1.AddVariable( "Jet_MET_dPhi", hJet_MET_dPhiArray[1] )
+    readerJet1.AddVariable( "METet", METet )
+    readerJet1.AddVariable( "rho25", rho25 )
     readerJet0.BookMVA( "jet0Regression",  regWeight );
     readerJet1.BookMVA( "jet1Regression", regWeight );
         
@@ -196,6 +154,13 @@ for job in info:
     newtree.Branch('EventForTraining',EventForTraining,'EventForTraining/F')
     EventForTraining[0]=0
 
+    lheWeight = array('f',[0])
+    newtree.Branch('lheWeight',lheWeight,'lheWeight/F')
+    lheWeight[0]=0.
+    if job.type != "DY":
+        lheWeight[0] = 1.
+
+    #EventForTraining=0
     TFlag=ROOT.TTreeFormula("EventForTraining","EVENT.event%2",tree)
         
     if job.type != 'DATA':
@@ -252,11 +217,20 @@ for job in info:
             #    EventForTraining[0]=0
             #iter+=1
             
-	    
-            if job.type != 'DATA' and anaTag == '7TeV':
-                EventForTraining=int(not TFlag.EvalInstance())
-            #EventForTraining[0]=int(not TFlag.EvalInstance())
+#            if job.type != 'DATA':
+#                EventForTraining=int(not TFlag.EvalInstance())
+            EventForTraining[0]=int(not TFlag.EvalInstance())
 
+
+#             if job.type == 'DY':
+#                 if tree.lheV_pt < 50.:
+#                     lheWeight = input_lheWeight.GetBinContent(1)
+#                 if tree.lheV_pt > 50. and tree.lheV_pt < 70.:
+#                     lheWeight = input_lheWeight.GetBinContent(2)
+#                 if tree.lheV_pt > 70. and tree.lheV_pt < 100.:
+#                     lheWeight = input_lheWeight.GetBinContent(3)
+#                 if tree.lheV_pt > 100.:
+#                     lheWeight = input_lheWeight.GetBinContent(4)
 
             #get
             hJet_pt = tree.hJet_pt
@@ -285,10 +259,6 @@ for job in info:
                 hJet_MET_dPhi[i] = deltaPhi(METphi[0],tree.hJet_phi[i])
                 hJet_MET_dPhiArray[i][0] = deltaPhi(METphi[0],tree.hJet_phi[i])
             
-            if not job.type == 'DATA' and usePtRaw:
-	    	theVars0['Jet_ptRaw'][0] = theForms["form_reg_hJet_ptRaw_0"].EvalInstance()*corrPt(tree.hJet_pt[0],tree.hJet_eta[0],tree.hJet_genPt[0])
-	    	theVars1['Jet_ptRaw'][0] = theForms["form_reg_hJet_ptRaw_1"].EvalInstance()*corrPt(tree.hJet_pt[1],tree.hJet_eta[1],tree.hJet_genPt[1])
-            
             if applyRegression:
                 hJ0.SetPtEtaPhiE(hJet_pt0,hJet_eta0,hJet_phi0,hJet_e0)
                 hJ1.SetPtEtaPhiE(hJet_pt1,hJet_eta1,hJet_phi1,hJet_e1)
@@ -300,8 +270,8 @@ for job in info:
                 HNoReg.dR = hJ0.DeltaR(hJ1)
                 HNoReg.dPhi = hJ0.DeltaPhi(hJ1)
                 HNoReg.dEta = abs(hJ0.Eta()-hJ1.Eta())
-                rPt0 = max(0.0001,readerJet0.EvaluateRegression( "jet0Regression" )[0])
-                rPt1 = max(0.0001,readerJet1.EvaluateRegression( "jet1Regression" )[0])
+                rPt0 = readerJet0.EvaluateRegression( "jet0Regression" )[0]
+                rPt1 = readerJet1.EvaluateRegression( "jet1Regression" )[0]
                 hJet_regWeight[0] = rPt0/hJet_pt0
                 hJet_regWeight[1] = rPt1/hJet_pt1
                 rE0 = hJet_e0*hJet_regWeight[0]
@@ -342,23 +312,14 @@ for job in info:
                 continue
 
             for i in range(2):
-                flavour = int(tree.hJet_flavour[i])
-                pt = float(tree.hJet_pt[i])
-                eta = float(tree.hJet_eta[i])
-                csv = float(tree.hJet_csv[i])
-		hJet_csvOld[i] = csv 
-    		if anaTag == '7TeV':
-			tree.hJet_csv[i] = corrCSV(btagNom,csv,flavour)
-                	hJet_csvDown[i] = corrCSV(btagDown,csv,flavour)
-                	hJet_csvUp[i] = corrCSV(btagUp,csv,flavour) 
-                	hJet_csvFDown[i] = corrCSV(btagFDown,csv,flavour)
-                	hJet_csvFUp[i] = corrCSV(btagFUp,csv,flavour)
-    		elif anaTag == '8TeV':
-                	tree.hJet_csv[i] = btagNom.reshape(eta,pt,csv,flavour)
-                	hJet_csvDown[i] = btagDown.reshape(eta,pt,csv,flavour)
-               		hJet_csvUp[i] = btagUp.reshape(eta,pt,csv,flavour) 
-                	hJet_csvFDown[i] = btagFDown.reshape(eta,pt,csv,flavour)
-                	hJet_csvFUp[i] = btagFUp.reshape(eta,pt,csv,flavour)
+                flavour = tree.hJet_flavour[i]
+                csv = tree.hJet_csv[i]
+                hJet_csvOld[i] = csv 
+                tree.hJet_csv[i] = corrCSV(btagNom,csv,flavour)
+                hJet_csvDown[i] = corrCSV(btagDown,csv,flavour)
+                hJet_csvUp[i] = corrCSV(btagUp,csv,flavour) 
+                hJet_csvFDown[i] = corrCSV(btagFDown,csv,flavour)
+                hJet_csvFUp[i] = corrCSV(btagFUp,csv,flavour)
 
             for updown in ['up','down']:
                 #JER
@@ -382,8 +343,8 @@ for job in info:
                     theVars1['Jet_pt'][0] = rPt1
                     theVars0['Jet_e'][0] = rE0
                     theVars1['Jet_e'][0] = rE1
-                    rPt0 = max(0.0001,readerJet0.EvaluateRegression( "jet0Regression" )[0])
-                    rPt1 = max(0.0001,readerJet1.EvaluateRegression( "jet1Regression" )[0])
+                    rPt0 = readerJet0.EvaluateRegression( "jet0Regression" )[0]
+                    rPt1 = readerJet1.EvaluateRegression( "jet1Regression" )[0]
                     rE0 = hJet_e0*rPt0/hJet_pt0
                     rE1 = hJet_e1*rPt1/hJet_pt1
                 hJ0.SetPtEtaPhiE(rPt0,hJet_eta0,hJet_phi0,rE0)
@@ -419,8 +380,8 @@ for job in info:
                     theVars1['Jet_pt'][0] = rPt1
                     theVars0['Jet_e'][0] = rE0
                     theVars1['Jet_e'][0] = rE1
-                    rPt0 = max(0.0001,readerJet0.EvaluateRegression( "jet0Regression" )[0])
-                    rPt1 = max(0.0001,readerJet1.EvaluateRegression( "jet1Regression" )[0])
+                    rPt0 = readerJet0.EvaluateRegression( "jet0Regression" )[0]
+                    rPt1 = readerJet1.EvaluateRegression( "jet1Regression" )[0]
                     rE0 = hJet_e0*rPt0/hJet_pt0
                     rE1 = hJet_e1*rPt1/hJet_pt1
                 hJ0.SetPtEtaPhiE(rPt0,hJet_eta0,hJet_phi0,rE0)
@@ -447,6 +408,6 @@ for job in info:
     output.Close()
         
 #dump info
-#infofile = open(path+'/sys'+'/samples.info','w')
-#pickle.dump(info,infofile)
-#infofile.close()
+infofile = open(path+'/sys'+'/samples.info','w')
+pickle.dump(info,infofile)
+infofile.close()

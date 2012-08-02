@@ -99,32 +99,39 @@ if blind:
     print 'I AM BLINDED!'
 counter=0
 for job in info:
-    if job.type == 'BKG':
-        #print 'MC'
-        hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
-        histos.append(hTemp)
-        typs.append(typ)
-        if counter == 0:
-            hDummy = copy(hTemp)
-        else:
-            hDummy.Add(hTemp)
-        counter += 1
-    elif job.type == 'SIG' and job.name == mass:
-        hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
-        histos.append(hTemp)
-        typs.append(typ)    
-    elif job.name in data:
-        #print 'DATA'
-        hTemp, typ = getHistoFromTree(job,options)
-        datas.append(hTemp)
-        datatyps.append(typ)
-    if job.type == 'SIG' and job.name == 'ZH125':
-        hSigInjec, typen = getHistoFromTree(job,options,MC_rescale_factor)
-        if counter == 0:
-            hDummy = copy(hSigInjec)
-        else:
-            hDummy.Add(hSigInjec)
-        counter += 1
+    if eval(job.active):
+        if job.type == 'BKG':
+            if job.subsamples:
+                for subsample in range(0,len(job.subnames)):
+                    hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor,subsample)
+                    histos.append(hTemp)
+                    typs.append(typ)
+            else:
+                hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
+                histos.append(hTemp)
+                typs.append(typ)
+            
+            if counter == 0:
+                hDummy = copy(hTemp)
+            else:
+                hDummy.Add(hTemp)
+            counter += 1
+        elif job.type == 'SIG' and job.name == mass:
+            hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
+            histos.append(hTemp)
+            typs.append(typ)    
+        elif job.name in data:
+            #print 'DATA'
+            hTemp, typ = getHistoFromTree(job,options)
+            datas.append(hTemp)
+            datatyps.append(typ)
+        if job.type == 'SIG' and job.name == 'ZH125':
+            hSigInjec, typen = getHistoFromTree(job,options,MC_rescale_factor)
+            if counter == 0:
+                hDummy = copy(hSigInjec)
+            else:
+                hDummy.Add(hSigInjec)
+            counter += 1
 
 
 MC_integral=0

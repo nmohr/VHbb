@@ -19,6 +19,8 @@ for job in info:
     print '\t\tcuts applied: %s'%job.treecut
     print '\t\tScalefactor: %s'%job.sf
     print '\t\tSplitting: %s'%job.split
+    print job.subcuts
+    print '\t\tActive: %s'%job.active
     print '\t\tSystematics available:'
     for sys in job.SYS: print '\t\t\t\033[1;32m- %s\033[1;m'%sys
     comments=str.split(job.comment,'\n')

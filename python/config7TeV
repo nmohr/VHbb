@@ -2,14 +2,22 @@
 tag = 7TeV
 
 [Directories]
-Wdir: /shome/nmohr/
+
+
+Wdir: /Users/peller/UserCode/VHbb/python
+limits: /Users/peller/VHbb/Limits/TopUp/nominal/
+plotpath: /Users/peller/VHbb/Stacks/TopUp/
+samplepath= /scratch/TestNoSplit/env/sys/
+
+
+#Wdir: /shome/nmohr/
 #plotpath: /Users/peller/VHbb/Stacks/May28
 #limits: /Users/peller/VHbb/Limits/May23_sys_scaledown/
 #limits: /Users/peller/VHbb/Limits/May23_sys_factor4/
-limits: /shome/nmohr/Limit/ichep7TeVCheck/
+#limits: /shome/nmohr/Limit/ichep7TeVCheck/
 #limits: /Users/peller/VHbb/Limits/May23Like_sys_factor4/
-plotpath: /Users/peller/VHbb/Stacks/May28/
-samplepath= /data1/nmohr/2012Ana/env/sys/
+#plotpath: /Users/peller/VHbb/Stacks/May28/
+#samplepath= /data1/nmohr/2012Ana/env/sys/
 
 
 MVAdir: /MVAout/
@@ -217,8 +225,8 @@ blind: False
 type = BDT
 SettingsTight = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 SettingsMed = !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-backgrounds = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
-backgroundsNoDiboson = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 TT
+backgrounds = DY DY120 WZ ZZ TT
+backgroundsNoDiboson = DY DY120 TT
 
 [factory]
 factoryname: MVA

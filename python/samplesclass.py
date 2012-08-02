@@ -8,6 +8,7 @@ class sample:
         self.type=type
         self.prefix=''
         self.identifier=''
+        self.active=True
         self.group=''
         self.path=''
         self.lumi=0.
@@ -19,8 +20,10 @@ class sample:
         self.tree='tree'
         self.treecut=''
         self.comment=''
-        self.subsample=False
-        self.subcut=1
+        #for DY falvours
+        self.subsamples=False
+        self.subnames=[]
+        self.subcuts=[]
 
     def getpath(self):
         return self.path+'/'+self.prefix+self.identifier+'.root'

@@ -19,21 +19,36 @@ anaTag=config.get('Analysis','tag')
 
 
 
-def getScale(job,rescale):
+def getScale(job,rescale,subsample=-1):
     input = TFile.Open(job.getpath())
     CountWithPU = input.Get("CountWithPU")
     CountWithPU2011B = input.Get("CountWithPU2011B")
     #print lumi*xsecs[i]/hist.GetBinContent(1)
+    
+    if subsample>-1:
+        xsec=float(job.xsec[subsample])
+        sf=float(job.sf[subsample])
+    else:
+        xsec=float(job.xsec)
+        sf=float(job.sf)
+    
+    
     theScale = 1.
     if anaTag == '7TeV':
-	theScale = float(job.lumi)*float(job.xsec)*float(job.sf)/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*rescale/float(job.split)
+        theScale = float(job.lumi)*xsec*sf/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*rescale/float(job.split)
     elif anaTag == '8TeV':
-    	theScale = float(job.lumi)*float(job.xsec)*float(job.sf)/(CountWithPU.GetBinContent(1))*rescale/float(job.split)
+    	theScale = float(job.lumi)*xsec*sf/(CountWithPU.GetBinContent(1))*rescale/float(job.split)
     return theScale 
 
-def getHistoFromTree(job,options,rescale=1):
+def getHistoFromTree(job,options,rescale=1,subsample=-1):
     treeVar=options[0]
-    name=job.name
+    if subsample>-1:
+        name=job.subnames[subsample]
+        group=job.group[subsample]
+    else:
+        name=job.name
+        group=job.group
+
     #title=job.plotname()
     nBins=int(options[3])
     xMin=float(options[4])
@@ -41,7 +56,10 @@ def getHistoFromTree(job,options,rescale=1):
 
     if job.type != 'DATA':
         cutcut=config.get('Cuts',options[7])
-        treeCut='%s & EventForTraining == 0'%(cutcut)
+        if subsample>0:
+            treeCut='%s & %s & EventForTraining == 0'%(cutcut,job.subcuts[subsample])        
+        else:
+            treeCut='%s & EventForTraining == 0'%(cutcut)
 
     elif job.type == 'DATA':
         cutcut=config.get('Cuts',options[8])
@@ -85,15 +103,18 @@ def getHistoFromTree(job,options,rescale=1):
     #print job.name + ' Sumw2', hTree.GetEntries()
 
     if job.type != 'DATA':
-        ScaleFactor = getScale(job,rescale)
+        ScaleFactor = getScale(job,rescale,subsample)
         if ScaleFactor != 0:
             hTree.Scale(ScaleFactor)
             
     print '\t-->import %s\t Integral: %s'%(job.name,hTree.Integral())
             
     hTree.SetDirectory(0)
-    input.Close()            
-    return hTree, job.group
+    input.Close()  
+    
+              
+    
+    return hTree, group
     
 
 ######################

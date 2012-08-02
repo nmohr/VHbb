@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.6
+#!/usr/bin/env python2.7
 from copytree import copytree
 from printcolor import printc
 from samplesclass import sample
@@ -17,7 +17,8 @@ info = []
 
 #get files info from config
 config = BetterConfigParser()
-config.read('./8TeVsamples.cfg')
+#config.read('./8TeVsamples.cfg')
+config.read('./7TeVsamples_nosplit.cfg')
 
 prefix=config.get('General','prefix')
 newprefix=config.get('General','newprefix')
@@ -29,43 +30,39 @@ for Sample in config.sections():
     if not ROOT.TFile.Open(pathIN+prefix+infile+'.root',"READ"):
         print 'WARNING: No file ' + pathIN+prefix+infile+ ' found! '
         continue
-#this need exception handle    
+    #this need exception handle    
     #if type(eval(config.get(Sample,'sampleName'))) != list: 
-    if len(config.get(Sample,'sampleName').split(",")) == 1:
-        sampleName = [(config.get(Sample,'sampleName'))]
-        sampleType = [(config.get(Sample,'sampleType'))]
-        sampleGroup = [(config.get(Sample,'sampleGroup'))]
-        Aprefix = [(config.get(Sample,'Aprefix'))]
-        cut = [(config.get(Sample, 'cut'))]
-        if sampleType[0] != 'DATA':
-            SF = [(config.get(Sample, 'SF'))]
-            xSec = [(config.get(Sample,'xSec'))]        
+    
+    
+    #Initialize samplecalss element
+    sampleName = config.get(Sample,'sampleName')
+    sampleType = config.get(Sample,'sampleType')
+    cut = config.get(Sample, 'cut')
+    info.append(sample(sampleName,sampleType))
+
+    info[-1].addtreecut(cut)
+    info[-1].path=pathOUT
+    info[-1].identifier=infile
+    info[-1].weightexpression=weightexpression
+    info[-1].lumi=lumi
+    info[-1].prefix=newprefix
+    
+    if eval(config.get(Sample,'subsamples')):
+        info[-1].subsamples=True
+        info[-1].group = eval((config.get(Sample,'sampleGroup')))
+        info[-1].subcuts = eval((config.get(Sample, 'subcuts')))
+        info[-1].subnames = eval((config.get(Sample, 'subnames')))
+        if sampleType != 'DATA':
+            info[-1].sf = eval((config.get(Sample, 'SF')))
+            info[-1].xsec = eval((config.get(Sample,'xSec')))    
     else:
-        sampleName = eval(config.get(Sample,'sampleName'))
-        sampleType = eval(config.get(Sample,'sampleType'))
-        sampleGroup = eval(config.get(Sample,'sampleGroup'))
-        Aprefix = eval(config.get(Sample,'Aprefix'))
-        cut = eval(config.get(Sample, 'cut'))
-        if sampleType[0] != 'DATA':
-            SF = eval(config.get(Sample, 'SF'))
-            xSec = eval(config.get(Sample,'xSec'))
+        info[-1].group = config.get(Sample,'sampleGroup')
+        if sampleType != 'DATA':
+            info[-1].sf = config.get(Sample, 'SF')
+            info[-1].xsec = config.get(Sample,'xSec')
         
-    for i in range(0,len(sampleName)):
-        print cut[i]
-        print Aprefix[i]
-        copytree(pathIN,pathOUT,prefix,newprefix,infile,Aprefix[i],cut[i]+Precut)
-        info.append(sample(sampleName[i],sampleType[i]))
-        info[-1].path=pathOUT
-        info[-1].identifier=Aprefix[i]+infile
-        info[-1].weightexpression=weightexpression
-        info[-1].group=sampleGroup[i]
-        info[-1].lumi=lumi
-        info[-1].prefix=newprefix
-        info[-1].addtreecut(cut[i])
-        if sampleType[i] != 'DATA':
-            info[-1].xsec=(xSec[i])
-            info[-1].sf=(SF[i])
-        
+    #copytree(pathIN,pathOUT,prefix,newprefix,infile,'',cut+Precut)
+
 #dump info   
 infofile = open(pathOUT+'/samples.info','w')
 pickle.dump(info,infofile)
