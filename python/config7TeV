@@ -225,8 +225,8 @@ blind: False
 type = BDT
 SettingsTight = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 SettingsMed = !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-backgrounds = DY DY120 WZ ZZ TT
-backgroundsNoDiboson = DY DY120 TT
+backgrounds = Zudsg Zbb Zcc Zudsg120 Zbb120 Zcc120 ZZ WW WZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+backgroundsNoDiboson = Zudsg Zbb Zcc Zudsg120 Zbb120 Zcc120 TT
 
 [factory]
 factoryname: MVA

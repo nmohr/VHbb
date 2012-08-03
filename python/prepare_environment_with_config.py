@@ -18,7 +18,7 @@ info = []
 #get files info from config
 config = BetterConfigParser()
 #config.read('./8TeVsamples.cfg')
-config.read('./7TeVsamples_nosplit.cfg')
+config.read('./7TeVsamples_ZZ.cfg')
 
 prefix=config.get('General','prefix')
 newprefix=config.get('General','newprefix')

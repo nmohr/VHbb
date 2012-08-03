@@ -3,12 +3,12 @@ class sample:
     def __init__(self,name,type):
         self.name=name
         #type = bkg, sig or data
-        if type not in ['BKG','SIG','DATA']:
-            raise Exception("type must be 'BKG', 'SIG', or 'DATA'!")
+        #if type not in ['BKG','SIG','DATA']:
+        #    raise Exception("type must be 'BKG', 'SIG', or 'DATA'!")
         self.type=type
         self.prefix=''
         self.identifier=''
-        self.active=True
+        self.active='True'
         self.group=''
         self.path=''
         self.lumi=0.
