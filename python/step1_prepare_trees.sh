@@ -1,7 +1,5 @@
 # Also edit ./prepare_environment.py !!!
-path=/scratch/May23Like
+path=/data1/VHbbAnalysis/EDMNtuple_step2/V12/5May12/Dilepton/
 mkdir $path/env
-ln -s $path/ZllH.May23Likelihood.DataZ.root $path/ZllH.May23Likelihood.DataZee.root
-ln -s $path/ZllH.May23Likelihood.DataZ.root $path/ZllH.May23Likelihood.DataZmm.root
-./prepare_environment.py $path $path/env/
+./prepare_environment_with_config.py -I $path -O $path/env/ -C 7TeVsamples_ZZ.cfg
 ./showinfo.py $path/env

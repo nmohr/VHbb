@@ -1,28 +1,41 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 from copytree import copytree
 from printcolor import printc
 from samplesclass import sample
 import pickle
 import sys
+from optparse import OptionParser
 from BetterConfigParser import BetterConfigParser
 import ROOT
 
-pathIN=sys.argv[1]
-pathOUT=sys.argv[2]
-
-weightexpression='(PUweight*weightTrig)'
-#this is only to speed it up, remove for final trees!
-Precut=''
-info = []
 
 #get files info from config
+parser = OptionParser()
+parser.add_option("-I", "--inPath", dest="pathIn", default="",
+                      help="path to the input files")
+parser.add_option("-O", "--outPath", dest="pathOut", default="",
+                      help="path to the output files")
+parser.add_option("-C", "--config", dest="config", default="",
+                      help="configuration defining the plots to make")
+argv=sys.argv
+(opts, args) = parser.parse_args(argv)
+
+pathIN=opts.pathIn
+pathOUT=opts.pathOut
+
+if opts.config =="":
+        opts.config = "7TeVsamples_ZZ.cfg"
+print "Config is: %s" %(opts.config)
 config = BetterConfigParser()
-#config.read('./8TeVsamples.cfg')
-config.read('./7TeVsamples_ZZ.cfg')
+config.read(opts.config)
 
 prefix=config.get('General','prefix')
 newprefix=config.get('General','newprefix')
 lumi=float(config.get('General','lumi'))
+weightexpression=config.get('General','weightexpression')
+#this is only to speed it up, remove for final trees!
+Precut=''
+info = []
 
 for Sample in config.sections():
     if not config.has_option(Sample,'infile'): continue
@@ -61,7 +74,7 @@ for Sample in config.sections():
             info[-1].sf = config.get(Sample, 'SF')
             info[-1].xsec = config.get(Sample,'xSec')
         
-    #copytree(pathIN,pathOUT,prefix,newprefix,infile,'',cut+Precut)
+    copytree(pathIN,pathOUT,prefix,newprefix,infile,'',cut+Precut)
 
 #dump info   
 infofile = open(pathOUT+'/samples.info','w')
