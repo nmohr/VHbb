@@ -9,6 +9,7 @@ from copy import copy
 #suppres the EvalInstace conversion warning bug
 import warnings
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
+from optparse import OptionParser
 from BetterConfigParser import BetterConfigParser
 from samplesclass import sample
 from mvainfos import mvainfo
@@ -19,8 +20,18 @@ from printcolor import printc
 #CONFIGURE
 
 #load config
+#os.mkdir(path+'/sys')
+argv = sys.argv[5:]
+parser = OptionParser()
+parser.add_option("-C", "--config", dest="config", default=[], action="append",
+                      help="configuration defining the plots to make")
+(opts, args) = parser.parse_args(argv)
+if opts.config ==[]:
+        opts.config = "config"
+print opts.config
 config = BetterConfigParser()
-config.read('./config')
+config.read(opts.config)
+anaTag = config.get("Analysis","tag")
 
 #get locations:
 Wdir=config.get('Directories','Wdir')
@@ -41,6 +52,9 @@ systematics=systematics.split(' ')
 #Evaluate multi: Must Have same treeVars!!!
 
 Apath=sys.argv[1]
+infofile = open(Apath+'/samples.info','r')
+info = pickle.load(infofile)
+infofile.close()
 arglist=sys.argv[2] #RTight_blavla,bsbsb
 
 namelistIN=sys.argv[3]
