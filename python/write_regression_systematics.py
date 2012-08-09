@@ -240,6 +240,10 @@ for job in info:
         newtree.Branch('hJet_e_JES_down',hJet_e_JES_down,'hJet_e_JES_down[2]/F')
         H_JES = array('f',[0]*4)
         newtree.Branch('H_JES',H_JES,'mass_up:mass_down:pt_up:pt_down/F')
+	lheWeight = array('f',[0])
+        if job.type != 'DY':
+    		newtree.Branch('lheWeight',lheWeight,'lheWeight/F')
+    	lheWeight[0] = 1.
         
         
         #iter=0
