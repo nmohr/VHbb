@@ -18,26 +18,30 @@ warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='crea
 
 #usage: ./write_regression_systematic.py path
 
-path=sys.argv[1]
-namelistIN=sys.argv[2]
-namelist=namelistIN.split(',')
 
-#load info
-infofile = open(path+'/samples.info','r')
-info = pickle.load(infofile)
-infofile.close()
 #os.mkdir(path+'/sys')
-argv = sys.argv[3:]
+argv = sys.argv
 parser = OptionParser()
-parser.add_option("-C", "--config", dest="config", default=[], action="append", 
+parser.add_option("-P", "--path", dest="path", default="", 
+                      help="path to samples")
+parser.add_option("-S", "--samples", dest="names", default="", 
+                      help="samples you want to run on")
+parser.add_option("-C", "--config", dest="config", default="", 
                       help="configuration defining the plots to make")
 (opts, args) = parser.parse_args(argv)
-if opts.config ==[]:
+if opts.config =="":
         opts.config = "config"
 print opts.config
 config = BetterConfigParser()
 config.read(opts.config)
 anaTag = config.get("Analysis","tag")
+btagLibrary = config.get('BTagReshaping','library')
+path=opts.path
+namelist=opts.names.split(',')
+#load info
+infofile = open(path+'/samples.info','r')
+info = pickle.load(infofile)
+infofile.close()
 
 def deltaPhi(phi1, phi2): 
     result = phi1 - phi2
@@ -85,7 +89,7 @@ for job in info:
         } ;"
     )
     if anaTag == '7TeV':
-    	ROOT.gROOT.LoadMacro('../interface/btagshape.h+')
+    	ROOT.gSystem.Load(btagLibrary)
     	from ROOT import BTagShape
     	btagNom = BTagShape("../data/csvdiscr.root")
     	btagNom.computeFunctions()
@@ -98,7 +102,7 @@ for job in info:
     	btagFDown = BTagShape("../data/csvdiscr.root")
     	btagFDown.computeFunctions(0.,-1.)
     elif anaTag == '8TeV':
-    	ROOT.gSystem.Load('/shome/nmohr/CMSSW_5_2_4_patch4/src/UserCode/VHbb/interface/BTagReshaping_h.so')
+    	ROOT.gSystem.Load(btagLibrary)
     	from ROOT import BTagShapeInterface
     	btagNom = BTagShapeInterface("../data/csvdiscr.root",0,0)
     	btagUp = BTagShapeInterface("../data/csvdiscr.root",+1,0)

@@ -141,6 +141,8 @@ useMET = True
 usePtRaw = False
 useRho25 = True
 
+[BTagReshaping]
+library=/shome/nmohr/CMSSW_5_3_2/src/UserCode/VHbb/interface/btagshape_h.so
 
 ###########################################################################################
 # LIMIT

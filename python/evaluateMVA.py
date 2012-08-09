@@ -21,14 +21,21 @@ from printcolor import printc
 
 #load config
 #os.mkdir(path+'/sys')
-argv = sys.argv[5:]
+argv = sys.argv
 parser = OptionParser()
-parser.add_option("-C", "--config", dest="config", default=[], action="append",
-                      help="configuration defining the plots to make")
+parser.add_option("-U", "--update", dest="update", default=0,
+                      help="update infofile")
+parser.add_option("-D", "--discr", dest="discr", default="",
+                      help="discriminators to be added")
+parser.add_option("-P", "--path", dest="path", default="",
+                      help="path to samples")
+parser.add_option("-S", "--samples", dest="names", default="",
+                      help="samples you want to run on")
+parser.add_option("-C", "--config", dest="config", default="",
+                      help="configuration file")
 (opts, args) = parser.parse_args(argv)
-if opts.config ==[]:
+if opts.config =="":
         opts.config = "config"
-print opts.config
 config = BetterConfigParser()
 config.read(opts.config)
 anaTag = config.get("Analysis","tag")
@@ -51,16 +58,16 @@ systematics=systematics.split(' ')
 ######################
 #Evaluate multi: Must Have same treeVars!!!
 
-Apath=sys.argv[1]
+Apath=opts.path
 infofile = open(Apath+'/samples.info','r')
 info = pickle.load(infofile)
 infofile.close()
-arglist=sys.argv[2] #RTight_blavla,bsbsb
+arglist=opts.discr #RTight_blavla,bsbsb
 
-namelistIN=sys.argv[3]
+namelistIN=opts.names
 namelist=namelistIN.split(',')
 
-doinfo=bool(int(sys.argv[4]))
+doinfo=bool(int(opts.update))
 
 MVAlist=arglist.split(',')
 
