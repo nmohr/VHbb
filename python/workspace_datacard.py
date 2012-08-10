@@ -21,7 +21,13 @@ from gethistofromtree import getHistoFromTree, orderandadd
 #CONFIGURE
 #load config
 config = BetterConfigParser()
-config.read('./config7TeV_ZZ')
+
+##############!!!!!!!!! need to change config file also in gethistofromtree.py
+config.read('./config7TeV')
+##############!!!!!!!!! need to change config file also in gethistofromtree.py
+
+
+
 #get locations:
 Wdir=config.get('Directories','Wdir')
 #systematics
@@ -58,28 +64,25 @@ ROOToutname = options[6]
 outpath=config.get('Directories','limits')
 outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
 
-
-##############################
-# MAYBE EDIT THIS:
-#discr_names = eval(config.get('LimitGeneral','discr_names'))
-#data_name = eval(config.get('LimitGeneral','data_name'))
+anaTag = config.get("Analysis","tag")
 
 
-#systematicsnaming={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b'}
 systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming7TeV'))
-
-if '8TeV' in options[10]:
+if anaTag =='8TeV':
     systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming8TeV'))
     MC_rescale_factor=1.0
 
-else:
+elif anaTag =='7TeV':
     MC_rescale_factor=2.0
     printc('red','', 'I  RESCALE by 2.0! (from training)')  
 
-#### rescaling by factor 4
+else:
+    print "What is your Analysis Tag in config? (anaTag)"
+    sys.exit("What is your Analysis Tag in config? (anaTag)")
+
+
 scaling=eval(config.get('LimitGeneral','scaling'))
 rescaleSqrtN=eval(config.get('LimitGeneral','rescaleSqrtN'))
-
 
 if 'RTight' in RCut:
     Datacradbin=options[10]
@@ -167,8 +170,6 @@ for histo in histos:
     MC_integral+=histo.Integral()
 printc('green','', 'MC integral = %s'%MC_integral)  
 #order and add together
-print typs
-print setup
 histos, typs = orderandadd(histos,typs,setup)
 
 for i in range(0,len(histos)):
