@@ -11,7 +11,7 @@ import sys
 
 #load config
 config = BetterConfigParser()
-config.read('./config')
+config.read('./config7TeV_ZZ')
 
 #get locations:
 Wdir=config.get('Directories','Wdir')
@@ -41,6 +41,9 @@ def getScale(job,rescale,subsample=-1):
     return theScale 
 
 def getHistoFromTree(job,options,rescale=1,subsample=-1):
+
+    #print job.getpath()
+    #print options
     treeVar=options[0]
     if subsample>-1:
         name=job.subnames[subsample]
@@ -56,14 +59,14 @@ def getHistoFromTree(job,options,rescale=1,subsample=-1):
 
     if job.type != 'DATA':
         cutcut=config.get('Cuts',options[7])
-        if subsample>0:
+        if subsample>-1:
             treeCut='%s & %s & EventForTraining == 0'%(cutcut,job.subcuts[subsample])        
         else:
             treeCut='%s & EventForTraining == 0'%(cutcut)
 
     elif job.type == 'DATA':
         cutcut=config.get('Cuts',options[8])
-        treeCut='%s & EventForTraining == 0'%(cutcut)
+        treeCut='%s'%(cutcut)
 
 
     input = TFile.Open(job.getpath(),'read')

@@ -17,7 +17,7 @@ from Ratio import getRatio
 
 #load config
 config = BetterConfigParser()
-config.read('./config')
+config.read('./config7TeV_ZZ')
 
 #get locations:
 Wdir=config.get('Directories','Wdir')
@@ -60,6 +60,7 @@ color=color.split(',')
 
 
 weightF=config.get('Weights','weightF')
+Group = eval(config.get('LimitGeneral','Group'))
 
 
 print '\nProducing Plot of %s\n'%title
@@ -70,7 +71,7 @@ typs = []
 datas = []
 datatyps =[]
 datanames=[]
-
+'''
 for job in info:
     if job.type == 'BKG':
         #print 'MC'
@@ -87,12 +88,41 @@ for job in info:
         datas.append(hTemp)
         datatyps.append(typ)
         datanames.append(job.name)
+'''
+for job in info:
+    if eval(job.active):
+        if job.subsamples:
+            for subsample in range(0,len(job.subnames)):
+                
+                if job.subnames[subsample] in setup:
+                    hTemp, typ = getHistoFromTree(job,options,1,subsample)
+                    histos.append(hTemp)
+                    typs.append(Group[job.subnames[subsample]])
+
+
+    
+        else:
+            if job.name in setup:
+                #print job.getpath()
+                hTemp, typ = getHistoFromTree(job,options,1)
+                histos.append(hTemp)
+                typs.append(Group[job.name])
+
+            elif job.name in data:
+                #print 'DATA'
+                hTemp, typ = getHistoFromTree(job,options)
+                datas.append(hTemp)
+                datatyps.append(typ)
+                datanames.append(job.name)
+
+
+
 
 
 
 ROOT.gROOT.SetStyle("Plain")
-import TdrStyles
-TdrStyles.tdrStyle()
+#import TdrStyles
+#TdrStyles.tdrStyle()
 c = ROOT.TCanvas(name,title, 700, 600)
 c.SetFillStyle(4000)
 c.SetFrameFillStyle(1000)
@@ -132,7 +162,7 @@ print "\033[1;32m\n\tMC integral = %s\033[1;m"%MC_integral
 
 #ORDER AND ADD TOGETHER
 
-histos, typs = orderandadd(histos,typs,setup)
+#histos, typs = orderandadd(histos,typs,setup)
 
 
 k=len(histos)
