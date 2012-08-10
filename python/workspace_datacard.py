@@ -21,7 +21,7 @@ from gethistofromtree import getHistoFromTree, orderandadd
 #CONFIGURE
 #load config
 config = BetterConfigParser()
-config.read('./config')
+config.read('./config7TeV_ZZ')
 #get locations:
 Wdir=config.get('Directories','Wdir')
 #systematics
@@ -49,12 +49,11 @@ title = options[2]
 nBins=int(options[3])
 xMin=float(options[4])
 xMax=float(options[5])
-mass=options[9]
+SIG=options[9]
 data=options[10]
 anType=options[11]
 RCut=options[7]
-setup=config.get('Limit','setup')
-setup=setup.split(',')
+setup=eval(config.get('LimitGeneral','setup'))
 ROOToutname = options[6]
 outpath=config.get('Directories','limits')
 outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
@@ -62,14 +61,26 @@ outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
 
 ##############################
 # MAYBE EDIT THIS:
-discr_names = ['ZjLF','ZjHF', 'TT','VV', 's_Top', 'VH', 'WjLF', 'WjHF', 'QCD'] #corresponding to setup
-data_name = ['data_obs']
+#discr_names = eval(config.get('LimitGeneral','discr_names'))
+#data_name = eval(config.get('LimitGeneral','data_name'))
+
+
 #systematicsnaming={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b'}
-systematicsnaming={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_7TeV'}
+systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming7TeV'))
+
 if '8TeV' in options[10]:
-        systematicsnaming={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_8TeV'}
+    systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming8TeV'))
+    MC_rescale_factor=1.0
+
+else:
+    MC_rescale_factor=2.0
+    printc('red','', 'I  RESCALE by 2.0! (from training)')  
+
 #### rescaling by factor 4
-scaling=True
+scaling=eval(config.get('LimitGeneral','scaling'))
+rescaleSqrtN=eval(config.get('LimitGeneral','rescaleSqrtN'))
+
+
 if 'RTight' in RCut:
     Datacradbin=options[10]
 elif 'RMed' in RCut:
@@ -77,9 +88,6 @@ elif 'RMed' in RCut:
 else:
     Datacradbin=options[10]
 
-    #EDIT!
-MC_rescale_factor=1.0
-if anaTag=='7TeV': MC_rescale_factor=2.0
 
 #############################
 
@@ -94,45 +102,64 @@ histos = []
 typs = []
 statUps=[]
 statDowns=[]
-blind=eval(config.get('Limit','blind'))
+blind=eval(config.get('LimitGeneral','blind'))
 if blind: 
-    print 'I AM BLINDED!'
+    printc('red','', 'I AM BLINDED!')  
 counter=0
+
+BKGlist = eval(config.get('LimitGeneral','BKG'))
+#Groups for adding samples together
+Group = eval(config.get('LimitGeneral','Group'))
+#naming for DC
+Dict= eval(config.get('LimitGeneral','Dict'))
+
+
 for job in info:
     if eval(job.active):
-        if job.type == 'BKG':
-            if job.subsamples:
-                for subsample in range(0,len(job.subnames)):
+        if job.subsamples:
+            for subsample in range(0,len(job.subnames)):
+                
+                if job.subnames[subsample] in BKGlist:
                     hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor,subsample)
                     histos.append(hTemp)
-                    typs.append(typ)
-            else:
+                    typs.append(Group[job.subnames[subsample]])
+                    if counter == 0:
+                        hDummy = copy(hTemp)
+                    else:
+                        hDummy.Add(hTemp)
+                    counter += 1
+                    
+                elif job.subnames[subsample] == SIG:
+                
+                    hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor,subsample)
+                    histos.append(hTemp)
+                    typs.append(Group[job.subnames[subsample]])
+
+
+    
+        else:
+            if job.name in BKGlist:
+                #print job.getpath()
                 hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
                 histos.append(hTemp)
-                typs.append(typ)
-            
-            if counter == 0:
-                hDummy = copy(hTemp)
-            else:
-                hDummy.Add(hTemp)
-            counter += 1
-        elif job.type == 'SIG' and job.name == mass:
-            hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
-            histos.append(hTemp)
-            typs.append(typ)    
-        elif job.name in data:
-            #print 'DATA'
-            hTemp, typ = getHistoFromTree(job,options)
-            datas.append(hTemp)
-            datatyps.append(typ)
-        if job.type == 'SIG' and job.name == 'ZH125':
-            hSigInjec, typen = getHistoFromTree(job,options,MC_rescale_factor)
-            if counter == 0:
-                hDummy = copy(hSigInjec)
-            else:
-                hDummy.Add(hSigInjec)
-            counter += 1
+                typs.append(Group[job.name])
 
+                if counter == 0:
+                    hDummy = copy(hTemp)
+                else:
+                    hDummy.Add(hTemp)
+                counter += 1
+                
+            elif job.name == SIG:
+                hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
+                histos.append(hTemp)
+                typs.append(Group[job.name])
+
+            elif job.name in data:
+                #print 'DATA'
+                hTemp, typ = getHistoFromTree(job,options)
+                datas.append(hTemp)
+                datatyps.append(typ)
 
 MC_integral=0
 MC_entries=0
@@ -140,18 +167,20 @@ for histo in histos:
     MC_integral+=histo.Integral()
 printc('green','', 'MC integral = %s'%MC_integral)  
 #order and add together
+print typs
+print setup
 histos, typs = orderandadd(histos,typs,setup)
-rescaleSqrtN = False
 
 for i in range(0,len(histos)):
-    histos[i].SetName(discr_names[i])
+    newname=Dict[typs[i]]
+    histos[i].SetName(newname)
     #histos[i].SetDirectory(outfile)
     outfile.cd()
     histos[i].Write()
     statUps.append(histos[i].Clone())
     statDowns.append(histos[i].Clone())
-    statUps[i].SetName('%sCMS_vhbb_stats_%s_%sUp'%(discr_names[i],discr_names[i],options[10]))
-    statDowns[i].SetName('%sCMS_vhbb_stats_%s_%sDown'%(discr_names[i],discr_names[i],options[10]))
+    statUps[i].SetName('%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]))
+    statDowns[i].SetName('%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]))
     #statUps[i].Sumw2()
     #statDowns[i].Sumw2()
     errorsum=0
@@ -175,72 +204,17 @@ for i in range(0,len(histos)):
         #statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
         #statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
 
-    '''
-    ######################
-    #trying some crazy shifting:
-    anzahlBins=histos[i].GetNbinsX()
-    contentarray=[]
-    errorarray=[]
-    indexarray=[]
-    for j in range(0,anzahlBins):
-        Ncontent=histos[i].GetBinContent(j)
-        Nerror=histos[i].GetBinError(j)
-        if Ncontent>0:
-            contentarray.append(Ncontent)
-            errorarray.append(Nerror)
-            indexarray.append(j)
-    nonzeroBins=len(contentarray)
-    ungerade=nonzeroBins%2
-    half=(nonzeroBins-ungerade)/2
-    newarray=[0]*nonzeroBins
-    if ungerade:
-        #factor=-1
-        for m in range(0,half):
-            newarray[m]=(half-m)*(-1)*errorarray[m]/half
-            newarray[m+half+1]=(m)*(+1)*errorarray[m+half+1]/half
-        newarray[half+1]=0
-    else:
-        #factor=-1
-        for m in range(0,half):
-            newarray[m]=(half-m)*(-1)*errorarray[m]/half
-            newarray[m+half]=(m)*(+1)*errorarray[m+half]/half
-    for j in range(0,anzahlBins):
-        if j in indexarray:
-            whereisit=indexarray.index(j)
-            statUps[i].SetBinContent(j,contentarray[whereisit]+newarray[whereisit])
-            statDowns[i].SetBinContent(j,contentarray[whereisit]-newarray[whereisit])
-        else:
-            statUps[i].SetBinContent(j,0)
-            statDowns[i].SetBinContent(j,0)
-    ###################
-    '''
-
     statUps[i].Write()
     statDowns[i].Write()
-    histPdf = ROOT.RooDataHist(discr_names[i],discr_names[i],obs,histos[i])
+    histPdf = ROOT.RooDataHist(newname,newname,obs,histos[i])
     #UP stats of MCs
-    RooStatsUp = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%sUp'%(discr_names[i],discr_names[i],options[10]),'%sCMS_vhbb_stats_%s_%sUp'%(discr_names[i],discr_names[i],options[10]),obs, statUps[i])
+    RooStatsUp = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]),'%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]),obs, statUps[i])
     #DOWN stats of MCs
-    RooStatsDown = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%sDown'%(discr_names[i],discr_names[i],options[10]),'%sCMS_vhbb_stats_%s_%sDown'%(discr_names[i],discr_names[i],options[10]),obs, statDowns[i])
+    RooStatsDown = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]),'%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]),obs, statDowns[i])
     getattr(WS,'import')(histPdf)
     getattr(WS,'import')(RooStatsUp)
     getattr(WS,'import')(RooStatsDown)
 
-#dunnmies - only to fill in empty histos for QCD and Wj
-#Wlight,Wbb,QCD
-for i in range(6,9):
-    dummy = ROOT.TH1F(discr_names[i], 'discriminator', nBins, xMin, xMax)
-    outfile.cd()
-    dummy.Write()
-    #nominal
-    histPdf = ROOT.RooDataHist(discr_names[i],discr_names[i],obs,dummy)
-    #UP stats of MCs
-    RooStatsUp = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%sUp'%(discr_names[i],discr_names[i],options[10]),'%sCMS_vhbb_stats_%s_%sUp'%(discr_names[i],discr_names[i],options[10]),obs, dummy)
-    #DOWN stats of MCs
-    RooStatsDown = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%sDown'%(discr_names[i],discr_names[i],options[10]),'%sCMS_vhbb_stats_%s_%sDown'%(discr_names[i],discr_names[i],options[10]),obs, dummy)
-    getattr(WS,'import')(histPdf)
-    getattr(WS,'import')(RooStatsUp)
-    getattr(WS,'import')(RooStatsDown)
 
 #HISTOGRAMM of DATA    
 d1 = ROOT.TH1F('d1','d1',nBins,xMin,xMax)
@@ -250,18 +224,18 @@ printc('green','','\nDATA integral = %s\n'%d1.Integral())
 flow = d1.GetEntries()-d1.Integral()
 if flow > 0:
     printc('red','','U/O flow: %s'%flow)
-d1.SetName(data_name[0])
+d1.SetName(Dict['Data'])
 outfile.cd()
 d1.Write()
 if blind:
-    hDummy.SetName(data_name[0])
-    histPdf = ROOT.RooDataHist('data_obs','data_obs',obs,hDummy)
+    hDummy.SetName(Dict['Data'])
+    histPdf = ROOT.RooDataHist(Dict['Data'],Dict['Data'],obs,hDummy)
     #rooDummy = ROOT.RooDataHist('data_obs','data_obs',obs,hDummy)
     #toy = ROOT.RooHistPdf('data_obs','data_obs',ROOT.RooArgSet(obs),rooDummy)
     #rooDataSet = toy.generate(ROOT.RooArgSet(obs),int(d1.Integral()))
     #histPdf = ROOT.RooDataHist('data_obs','data_obs',ROOT.RooArgSet(obs),rooDataSet.reduce(ROOT.RooArgSet(obs)))
 else:
-    histPdf = ROOT.RooDataHist('data_obs','data_obs',obs,d1)
+    histPdf = ROOT.RooDataHist(Dict['Data'],Dict['Data'],obs,d1)
 #ROOT.RooAbsData.plotOn(histPdf,frame)
 #frame.Draw()
 #IMPORT
@@ -279,10 +253,10 @@ mjj = False
 #print len(options)
 if str(anType) == 'BDT':
     bdt = True
-    systematics = ['JER','JES','beff','bmis']
+    systematics = eval(config.get('LimitGeneral','sys_BDT'))
 elif str(anType) == 'Mjj':
     mjj = True
-    systematics = ['JER','JES']
+    systematics = eval(config.get('LimitGeneral','sys_Mjj'))
 
 nominalShape = options[0]
     
@@ -306,36 +280,35 @@ for sys in systematics:
         typsX = []
 
         for job in info:
-            #print job.name
-            if job.type == 'BKG':
-                #print 'MC'
-                hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
-                systhistosarray[Coco].append(hTemp)
-                typsX.append(typ)
-            elif job.type == 'SIG' and job.name == mass:
-                #print 'MC'
-                hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
-                systhistosarray[Coco].append(hTemp)
-                typsX.append(typ)
+            if eval(job.active):
+                if job.subsamples:
+                    for subsample in range(0,len(job.subnames)):
+                        if job.subnames[subsample] in BKGlist:
+                            hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor,subsample)
+                            systhistosarray[Coco].append(hTemp)
+                            typsX.append(Group[job.subnames[subsample]])
+                        elif job.subnames[subsample] == SIG:
+                            hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor,subsample)
+                            systhistosarray[Coco].append(hTemp)
+                            typsX.append(Group[job.subnames[subsample]])
+                            
+                else:
+                    if job.name in BKGlist:
+                        hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
+                        systhistosarray[Coco].append(hTemp)
+                        typsX.append(Group[job.name])
+                    elif job.name == SIG:
+                        hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
+                        systhistosarray[Coco].append(hTemp)
+                        typsX.append(Group[job.name])
+
 
         MC_integral=0
         for histoX in systhistosarray[Coco]:
             MC_integral+=histoX.Integral()
         printc('green','', 'MC integral = %s'%MC_integral)  
         systhistosarray[Coco], typsX = orderandadd(systhistosarray[Coco],typsX,setup)
-        '''
-        # do the linear fit blabla
-        for i in range(0,len(systhistosarray[Coco])):
-            #systhistosarray[Coco][i]
-            #histos[i]
-            for bin in range(0,histos[i].GetSize()):
-                A=systhistosarray[Coco][i].GetBinContent(bin)
-                B=histos[i].GetBinContent(bin)
-                systhistosarray[Coco][i].SetBinContent(bin,A-B)
-            #Fit:
-            FitFunction=ROOT.TF1('FitFunction','pol1')
-            systhistosarray[Coco][i].Fit('FitFunction')
-        '''
+
         if scaling:
             #or now i try some rescaling by 4:
             for i in range(0,len(systhistosarray[Coco])):
@@ -347,10 +320,10 @@ for sys in systematics:
                     systhistosarray[Coco][i].SetBinContent(bin,B+((A-B)/4.))
         # finaly lpop over histos
         for i in range(0,len(systhistosarray[Coco])):
-            systhistosarray[Coco][i].SetName('%s%s%s'%(discr_names[i],systematicsnaming[sys],Q))
+            systhistosarray[Coco][i].SetName('%s%s%s'%(Dict[typs[i]],systematicsnaming[sys],Q))
             outfile.cd()
             systhistosarray[Coco][i].Write()            
-            histPdf = ROOT.RooDataHist('%s%s%s'%(discr_names[i],systematicsnaming[sys],Q),'%s%s%s'%(discr_names[i],systematicsnaming[sys],Q),obs,systhistosarray[Coco][i])
+            histPdf = ROOT.RooDataHist('%s%s%s'%(Dict[typs[i]],systematicsnaming[sys],Q),'%s%s%s'%(Dict[typs[i]],systematicsnaming[sys],Q),obs,systhistosarray[Coco][i])
             getattr(WS,'import')(histPdf)
         Coco+=1
         #print Coco
@@ -361,6 +334,8 @@ WS.writeToFile(outpath+'vhbb_WS_'+ROOToutname+'.root')
    
 
 #write DATAcard:
+columns=len(setup)
+
 if '8TeV' in options[10]:
     pier = open(Wdir+'/pier8TeV.txt','r')
 else:
@@ -369,7 +344,7 @@ scalefactors=pier.readlines()
 pier.close()
 f = open(outpath+'vhbb_DC_'+ROOToutname+'.txt','w')
 f.write('imax\t1\tnumber of channels\n')
-f.write('jmax\t8\tnumber of backgrounds (\'*\' = automatic)\n')
+f.write('jmax\t%s\tnumber of backgrounds (\'*\' = automatic)\n'%(columns-1))
 f.write('kmax\t*\tnumber of nuisance parameters (sources of systematical uncertainties)\n\n')
 if bdt==True:
     f.write('shapes * * vhbb_WS_%s.root $CHANNEL:$PROCESS $CHANNEL:$PROCESS$SYSTEMATIC\n\n'%ROOToutname)
@@ -380,70 +355,57 @@ if blind:
     f.write('observation\t%s\n\n'%(hDummy.Integral()))
 else:
     f.write('observation\t%s\n\n'%(int(d1.Integral())))
-f.write('bin\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin,Datacradbin))
-f.write('process\tVH\tWjLF\tWjHF\tZjLF\tZjHF\tTT\ts_Top\tVV\tQCD\n')
 
-f.write('process\t0\t1\t2\t3\t4\t5\t6\t7\t8\n')
-f.write('rate\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(histos[5].Integral(),0,0,histos[0].Integral(),histos[1].Integral(),histos[2].Integral(),histos[4].Integral(),histos[3].Integral(),0)) #\t1.918\t0.000 0.000\t135.831  117.86  18.718 1.508\t7.015\t0.000
-if '7TeV' in options[10]:
-    f.write('lumi_7TeV\tlnN\t1.022\t-\t-\t-\t-\t-\t1.022\t1.022\t1.022\n')
-if '8TeV' in options[10]:
-    f.write('lumi_8TeV\tlnN\t1.05\t-\t-\t-\t-\t-\t1.05\t1.05\t1.05\n')
-f.write('pdf_qqbar\tlnN\t1.01\t-\t-\t-\t-\t-\t-\t1.01\t-\n')
-f.write('pdf_gg\tlnN\t-\t-\t-\t-\t-\t-\t1.01\t-\t1.01\n')
-f.write('QCDscale_VH\tlnN\t1.04\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('QCDscale_ttbar\tlnN\t-\t-\t-\t-\t-\t-\t1.06\t-\t-\n')
-f.write('QCDscale_VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.04\t-\n')
-f.write('QCDscale_QCD\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t1.30\n')
-f.write('CMS_vhbb_boost_EWK\tlnN\t1.05\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_boost_QCD\tlnN\t1.10\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_ST\tlnN\t-\t-\t-\t-\t-\t-\t1.29\t-\t-\n')
-f.write('CMS_vhbb_VV\tlnN\t-\t-\t-\t-\t-\t-\t-\t1.30\t-\n')
-if '7TeV' in options[10]:
-	f.write('CMS_vhbb_ZjLF_ex\tlnN\t-\t-\t-\t1.05\t-\t-\t-\t-\t-\n')
-	f.write('CMS_vhbb_ZjHF_ex\tlnN\t-\t-\t-\t-\t1.05\t-\t-\t-\t-\n')
-	f.write('CMS_vhbb_TT_ex\tlnN\t-\t-\t-\t-\t-\t1.05\t-\t-\t-\n')
-if '8TeV' in options[10]:
-	f.write('CMS_vhbb_ZjLF_ex_8TeV\tlnN\t-\t-\t-\t1.05\t-\t-\t-\t-\t-\n')
-	f.write('CMS_vhbb_ZjHF_ex_8TeV\tlnN\t-\t-\t-\t-\t1.05\t-\t-\t-\t-\n')
-	f.write('CMS_vhbb_TT_ex_8TeV\tlnN\t-\t-\t-\t-\t-\t1.05\t-\t-\t-\n')
-for line in scalefactors:
-    f.write(line)
-if 'Zee' in options[10]:
-    f.write('CMS_eff_m lnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-    f.write('CMS_eff_e lnN\t1.04\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
-    #f.write('CMS_trigger_m\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-    #f.write('CMS_trigger_e\tlnN\t1.02\t-\t-\t-\t-\t-\t1.02\t1.02\t-\n')
-if 'Zmm' in options[10]:
-    f.write('CMS_eff_e lnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-    f.write('CMS_eff_m lnN\t1.04\t-\t-\t-\t-\t-\t1.04\t1.04\t1.04\n')
-    #f.write('CMS_trigger_e\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-    #f.write('CMS_trigger_m\tlnN\t1.01\t-\t-\t-\t-\t-\t1.01\t1.01\t-\n')
+f.write('bin')
+for c in range(0,columns): f.write('\t%s'%Datacradbin)
+f.write('\n')
 
-f.write('CMS_vhbb_trigger_MET\tlnN\t-\t-\t-\t-\t-\t-\t-\t-\t-\n')
-f.write('CMS_vhbb_stats_%s_%s\tshape\t1.0\t-\t-\t-\t-\t-\t-\t-\t-\n'%(discr_names[5], options[10]))
-f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t1.0\t-\t-\t-\t-\t-\n'%(discr_names[0], options[10]))
-f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t1.0\t-\t-\t-\t-\n'%(discr_names[1], options[10]))
-f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t-\t1.0\t-\t-\t-\n'%(discr_names[2], options[10]))
-f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t-\t-\t1.0\t-\t-\n'%(discr_names[4], options[10]))
-f.write('CMS_vhbb_stats_%s_%s\tshape\t-\t-\t-\t-\t-\t-\t-\t1.0\t-\n'%(discr_names[3], options[10]))
-#SYST
-if bdt==True:
-    if scaling:
-        f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['JER'])
-        f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['JES'])
-        f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['beff'])
-        f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['bmis'])
-    else:
-        #SYST4
-        f.write('%s\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n'%systematicsnaming['JER'])
-        f.write('%s\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n'%systematicsnaming['JES'])
-        f.write('%s\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n'%systematicsnaming['beff'])
-        f.write('%s\tshape\t0.25\t-\t-\t0.25\t0.25\t0.25\t0.25\t0.25\t-\n'%systematicsnaming['bmis'])
-else:
-    f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['JER'])
-    f.write('%s\tshape\t1.0\t-\t-\t1.0\t1.0\t1.0\t1.0\t1.0\t-\n'%systematicsnaming['JES'])
+f.write('process')
+for c in setup: f.write('\t%s'%Dict[c])
+f.write('\n')
+
+f.write('process')
+for c in range(0,columns): f.write('\t%s'%c)
+f.write('\n')
+
+f.write('rate')
+for c in range(0,columns): f.write('\t%s'%histos[c].Integral())
+f.write('\n')
+
+InUse=eval(config.get('Datacard','InUse'))
+#Parse from config
+for item in InUse:
+    f.write(item)
+    what=eval(config.get('Datacard',item))
+    f.write('\t%s'%what['type'])
+    for c in setup:
+        if c in what:
+            if item == 'CMS_eff_e' and 'Zmm' in options[10]: f.write('\t-')
+            elif item == 'CMS_eff_m' and 'Zee' in options[10]: f.write('\t-')
+            elif item == 'CMS_trigger_e' and 'Zmm' in options[10]: f.write('\t-')
+            elif item == 'CMS_trigger_m' and 'Zee' in options[10]: f.write('\t-')
+            else:
+                f.write('\t%s'%what[c])
+        else:
+            f.write('\t-')
+    f.write('\n')
+
+#Write shape stats and sys
+for c in setup:
+    f.write('CMS_vhbb_stats_%s_%s\tshape'%(Dict[c], options[10]))
+    for it in range(0,columns):
+        if it == setup.index(c):
+            f.write('\t1.0')
+        else:
+            f.write('\t-')
+    f.write('\n')
+    
+if scaling: sys_factor=0.25
+else: sys_factor=1.0
+for sys in systematics:
+    f.write('%s\tshape'%systematicsnaming[sys])
+    for c in range(0,columns): f.write('\t%s'%sys_factor)
+    f.write('\n')
 f.close()
-
 outfile.Write()
 outfile.Close()
