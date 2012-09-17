@@ -4,7 +4,7 @@ energy='8TeV'
 #energy='7TeV'
 
 def submit(job,en):
-	command = 'qsub -q all.q -N %s_%s -o /shome/nmohr/VHbbAnalysis/LOG/%s.out -e /shome/nmohr/VHbbAnalysis/LOG/%s.err runAll.sh %s %s' %(job,en,job,job,job,en)
+	command = 'qsub -cwd -q all.q -N %s_%s -o /shome/nmohr/VHbbAnalysis/LOG/%s.out -e /shome/nmohr/VHbbAnalysis/LOG/%s.err runAll.sh %s %s' %(job,en,job,job,job,en)
 	print command
 	subprocess.call([command], shell=True)
 
