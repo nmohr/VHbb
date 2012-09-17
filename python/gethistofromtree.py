@@ -19,8 +19,8 @@ anaTag=config.get('Analysis','tag')
 
 
 
-def getScale(job,rescale,subsample=-1):
-    input = TFile.Open(job.getpath())
+def getScale(job,path,rescale,subsample=-1):
+    input = TFile.Open(path+'/'+job.getpath())
     CountWithPU = input.Get("CountWithPU")
     CountWithPU2011B = input.Get("CountWithPU2011B")
     #print lumi*xsecs[i]/hist.GetBinContent(1)
@@ -40,7 +40,7 @@ def getScale(job,rescale,subsample=-1):
     	theScale = float(job.lumi)*xsec*sf/(CountWithPU.GetBinContent(1))*rescale/float(job.split)
     return theScale 
 
-def getHistoFromTree(job,options,rescale=1,subsample=-1):
+def getHistoFromTree(job,path,options,rescale=1,subsample=-1):
 
     #print job.getpath()
     #print options
@@ -69,7 +69,7 @@ def getHistoFromTree(job,options,rescale=1,subsample=-1):
         treeCut='%s'%(cutcut)
 
 
-    input = TFile.Open(job.getpath(),'read')
+    input = TFile.Open(path+'/'+job.getpath(),'read')
 
     Tree = input.Get(job.tree)
     #Tree=tmpTree.CloneTree()
@@ -106,7 +106,7 @@ def getHistoFromTree(job,options,rescale=1,subsample=-1):
     #print job.name + ' Sumw2', hTree.GetEntries()
 
     if job.type != 'DATA':
-        ScaleFactor = getScale(job,rescale,subsample)
+        ScaleFactor = getScale(job,path,rescale,subsample)
         if ScaleFactor != 0:
             hTree.Scale(ScaleFactor)
             

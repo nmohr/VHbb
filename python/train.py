@@ -6,6 +6,7 @@ import ROOT
 from ROOT import TFile, TTree
 import ROOT
 from array import array
+from optparse import OptionParser
 from BetterConfigParser import BetterConfigParser
 import sys
 from mvainfos import mvainfo
@@ -19,13 +20,24 @@ from gethistofromtree import getScale
 
 
 #CONFIGURE
+argv = sys.argv
+parser = OptionParser()
+parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False,
+                          help="Verbose mode.")
+parser.add_option("-T", "--training", dest="training", default="",
+                      help="Training")
+parser.add_option("-C", "--config", dest="config", default=[], action="append",
+                      help="configuration file")
+(opts, args) = parser.parse_args(argv)
+if opts.config =="":
+        opts.config = "config"
 
 #load config
 config = BetterConfigParser()
-#config.read('./config')
-#config.read('./config7TeV')
-config.read('./config7TeV_ZZ')
-
+config.read(opts.config)
+anaTag = config.get("Analysis","tag")
+run=opts.training
+gui=opts.verbose
 
 #GLOABAL rescale from Train/Test Spliiting:
 global_rescale=2.
@@ -42,9 +54,9 @@ weightF=config.get('Weights','weightF')
 
 
 
-def getTree(job,cut,subsample=-1):
-
-    newinput = TFile.Open(job.getpath(),'read')
+def getTree(job,cut,path,subsample=-1):
+    print path+'/'+job.getpath()
+    newinput = TFile.Open(path+'/'+job.getpath(),'read')
     output.cd()
     Tree = newinput.Get(job.tree)
     #Tree.SetDirectory(0)
@@ -70,8 +82,6 @@ def getTree(job,cut,subsample=-1):
 #    #print lumi*xsecs[i]/hist.GetBinContent(1)
 #    return float(job.lumi)*float(job.xsec)*float(job.sf)/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*2/float(job.split)
 
-run=sys.argv[1]
-gui=sys.argv[2]
 
 
 #CONFIG
@@ -117,8 +127,8 @@ infofile.close()
 workdir=ROOT.gDirectory.GetPath()
 
 
-TrainCut='%s && EventForTraining==1'%TCut
-EvalCut='%s && EventForTraining==0'%TCut
+TrainCut='%s & EventForTraining==1'%TCut
+EvalCut='%s & EventForTraining==0'%TCut
 
 #load TRAIN trees
 Tbackgrounds = []
@@ -140,17 +150,17 @@ for job in info:
             for subsample in range(0,len(job.group)):
                 if job.subnames[subsample] in signals:
                     print '\t- %s as SIG'%job.group[subsample]
-                    Tsignal = getTree(job,TrainCut,subsample)
+                    Tsignal = getTree(job,TrainCut,path,subsample)
                     ROOT.gDirectory.Cd(workdir)
-                    TsScale = getScale(job,global_rescale,subsample)
+                    TsScale = getScale(job,path,global_rescale,subsample)
                     Tsignals.append(Tsignal)
                     TsScales.append(TsScale)
                     print '\t\t\t%s events'%Tsignal.GetEntries()
                 elif job.subnames[subsample] in backgrounds:
                     print '\t- %s as BKG'%job.group[subsample]
-                    Tbackground = getTree(job,TrainCut,subsample)
+                    Tbackground = getTree(job,TrainCut,path,subsample)
                     ROOT.gDirectory.Cd(workdir)
-                    TbScale = getScale(job,global_rescale,subsample)
+                    TbScale = getScale(job,path,global_rescale,subsample)
                     Tbackgrounds.append(Tbackground)
                     TbScales.append(TbScale)
                     print '\t\t\t%s events'%Tbackground.GetEntries()
@@ -158,17 +168,17 @@ for job in info:
         else:
             if job.name in signals:
                 print '\tREADING IN %s AS SIG'%job.name
-                Tsignal = getTree(job,TrainCut)
+                Tsignal = getTree(job,TrainCut,path)
                 ROOT.gDirectory.Cd(workdir)
-                TsScale = getScale(job,global_rescale)
+                TsScale = getScale(job,path,global_rescale)
                 Tsignals.append(Tsignal)
                 TsScales.append(TsScale)
                 print '\t\t\t%s events'%Tsignal.GetEntries()
             elif job.name in backgrounds:
                 print '\tREADING IN %s AS BKG'%job.name
-                Tbackground = getTree(job,TrainCut)
+                Tbackground = getTree(job,TrainCut,path)
                 ROOT.gDirectory.Cd(workdir)
-                TbScale = getScale(job,global_rescale)
+                TbScale = getScale(job,path,global_rescale)
                 Tbackgrounds.append(Tbackground)
                 TbScales.append(TbScale)
                 print '\t\t\t%s events'%Tbackground.GetEntries()
@@ -191,17 +201,17 @@ for job in info:
             for subsample in range(0,len(job.group)):
                 if job.subnames[subsample] in signals:
                     print '\t- %s as SIG'%job.group[subsample]
-                    Esignal = getTree(job,EvalCut,subsample)
+                    Esignal = getTree(job,EvalCut,path,subsample)
                     ROOT.gDirectory.Cd(workdir)
-                    EsScale = getScale(job,global_rescale,subsample)
+                    EsScale = getScale(job,path,global_rescale,subsample)
                     Esignals.append(Esignal)
                     EsScales.append(EsScale)
                     print '\t\t\t%s events'%Esignal.GetEntries()
                 elif job.subnames[subsample] in backgrounds:
                     print '\t- %s as BKG'%job.group[subsample]
-                    Ebackground = getTree(job,EvalCut,subsample)
+                    Ebackground = getTree(job,EvalCut,path,subsample)
                     ROOT.gDirectory.Cd(workdir)
-                    EbScale = getScale(job,global_rescale,subsample)
+                    EbScale = getScale(job,path,global_rescale,subsample)
                     Ebackgrounds.append(Ebackground)
                     EbScales.append(EbScale)
                     print '\t\t\t%s events'%Ebackground.GetEntries()
@@ -209,17 +219,17 @@ for job in info:
         else:
             if job.name in signals:
                 print '\tREADING IN %s AS SIG'%job.name
-                Esignal = getTree(job,EvalCut)
+                Esignal = getTree(job,EvalCut,path)
                 ROOT.gDirectory.Cd(workdir)
-                EsScale = getScale(job,global_rescale)
+                EsScale = getScale(job,path,global_rescale)
                 Esignals.append(Esignal)
                 EsScales.append(EsScale)
                 print '\t\t\t%s events'%Esignal.GetEntries()
             elif job.name in backgrounds:
                 print '\tREADING IN %s AS BKG'%job.name
-                Ebackground = getTree(job,EvalCut)
+                Ebackground = getTree(job,EvalCut,path)
                 ROOT.gDirectory.Cd(workdir)
-                EbScale = getScale(job,global_rescale)
+                EbScale = getScale(job,path,global_rescale)
                 Ebackgrounds.append(Ebackground)
                 EbScales.append(EbScale)
                 print '\t\t\t%s events'%Ebackground.GetEntries()
@@ -276,7 +286,7 @@ pickle.dump(info,infofile)
 infofile.close()
 
 # open the TMVA Gui 
-if gui == 'gui': 
+if gui == True: 
     ROOT.gROOT.ProcessLine( ".L TMVAGui.C")
     ROOT.gROOT.ProcessLine( "TMVAGui(\"%s\")" % fnameOutput )
     ROOT.gApplication.Run() 
