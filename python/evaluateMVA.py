@@ -31,7 +31,7 @@ parser.add_option("-P", "--path", dest="path", default="",
                       help="path to samples")
 parser.add_option("-S", "--samples", dest="names", default="",
                       help="samples you want to run on")
-parser.add_option("-C", "--config", dest="config", default="",
+parser.add_option("-C", "--config", dest="config", default=[], action="append",
                       help="configuration file")
 (opts, args) = parser.parse_args(argv)
 if opts.config =="":
@@ -42,7 +42,6 @@ anaTag = config.get("Analysis","tag")
 
 #get locations:
 Wdir=config.get('Directories','Wdir')
-
 MVAdir=config.get('Directories','MVAdir')
 
 #systematics
@@ -135,7 +134,7 @@ for job in Ainfo:
     if eval(job.active):
         if job.name in namelist:
             #get trees:
-            input = TFile.Open(job.getpath(),'read')
+            input = TFile.Open(Apath+'/'+job.getpath(),'read')
             outfile = TFile.Open(job.path+'/'+MVAdir+job.prefix+job.identifier+'.root','recreate')
             input.cd()
             obj = ROOT.TObject

@@ -1,0 +1,7 @@
+[Directories]
+Wdir: /shome/nmohr/
+limits: <!Directories|Wdir!>/Limits/Test/
+plotpath: <!Directories|Wdir!>/Stacks/TopUp/
+samplepath= <!Directories|Wdir!>/VHbbAnalysis/EDMNtuple_step2/Aug9/
+SYSdir: /sys/
+MVAdir: /MVAout/

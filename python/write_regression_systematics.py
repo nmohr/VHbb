@@ -26,7 +26,7 @@ parser.add_option("-P", "--path", dest="path", default="",
                       help="path to samples")
 parser.add_option("-S", "--samples", dest="names", default="", 
                       help="samples you want to run on")
-parser.add_option("-C", "--config", dest="config", default="", 
+parser.add_option("-C", "--config", dest="config", default=[], action="append",
                       help="configuration defining the plots to make")
 (opts, args) = parser.parse_args(argv)
 if opts.config =="":
@@ -111,7 +111,7 @@ for job in info:
     	btagFDown = BTagShapeInterface("../data/csvdiscr.root",0,-1.)
     
     print '\t - %s' %(job.name)
-    input = TFile.Open(job.getpath(),'read')
+    input = TFile.Open(path+'/'+job.getpath(),'read')
     output = TFile.Open(job.path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
 
     input.cd()

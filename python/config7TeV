@@ -1,30 +1,6 @@
 [Analysis]
 tag = 7TeV
 
-[Directories]
-
-
-Wdir: /Users/peller/UserCode/VHbb/python
-limits: /Users/peller/VHbb/Limits/Test/
-plotpath: /Users/peller/VHbb/Stacks/TopUp/
-samplepath= /scratch/TestNoSplit/env/sys/
-
-
-#Wdir: /shome/nmohr/
-#plotpath: /Users/peller/VHbb/Stacks/May28
-#limits: /Users/peller/VHbb/Limits/May23_sys_scaledown/
-#limits: /Users/peller/VHbb/Limits/May23_sys_factor4/
-#limits: /shome/nmohr/Limit/ichep7TeVCheck/
-#limits: /Users/peller/VHbb/Limits/May23Like_sys_factor4/
-#plotpath: /Users/peller/VHbb/Stacks/May28/
-#samplepath= /data1/nmohr/2012Ana/env/sys/
-
-
-MVAdir: /MVAout/
-#MVAdir: /MVAoutCMVA/
-#MVAdir: /MVAoutCIVF/
-
-
 ###########################################################################################
 # Plotting etc...
 [Plot]

@@ -26,7 +26,7 @@ class sample:
         self.subcuts=[]
 
     def getpath(self):
-        return self.path+'/'+self.prefix+self.identifier+'.root'
+        return './'+self.prefix+self.identifier+'.root'
         
     def addtreecut(self, cut):
         if self.treecut == '':
