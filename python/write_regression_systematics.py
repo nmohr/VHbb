@@ -196,8 +196,8 @@ for job in info:
     readerJet1.BookMVA( "jet1Regression", regWeight );
         
     #Add training Flag
-    EventForTraining = array('f',[0])
-    newtree.Branch('EventForTraining',EventForTraining,'EventForTraining/F')
+    EventForTraining = array('i',[0])
+    newtree.Branch('EventForTraining',EventForTraining,'EventForTraining/I')
     EventForTraining[0]=0
 
     TFlag=ROOT.TTreeFormula("EventForTraining","EVENT.event%2",tree)
@@ -252,18 +252,8 @@ for job in info:
     for entry in range(0,nEntries):
             tree.GetEntry(entry)
 
-            #fill training flag 
-            #iter+=1
-            #if (iter%2==0):
-            #    EventForTraining[0]=1
-            #else:
-            #    EventForTraining[0]=0
-            #iter+=1
-            
-	    
             if job.type != 'DATA' and anaTag == '7TeV':
-                EventForTraining=int(not TFlag.EvalInstance())
-            #EventForTraining[0]=int(not TFlag.EvalInstance())
+                EventForTraining[0]=int(not TFlag.EvalInstance())
 
 
             #get
