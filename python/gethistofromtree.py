@@ -9,17 +9,8 @@ from BetterConfigParser import BetterConfigParser
 import sys
 
 
-#load config
-config = BetterConfigParser()
-config.read('./config7TeV_ZZ')
-
-#get locations:
-Wdir=config.get('Directories','Wdir')
-anaTag=config.get('Analysis','tag')
-
-
-
-def getScale(job,path,rescale,subsample=-1):
+def getScale(job,path,config,rescale,subsample=-1):
+    anaTag=config.get('Analysis','tag')
     input = TFile.Open(path+'/'+job.getpath())
     CountWithPU = input.Get("CountWithPU")
     CountWithPU2011B = input.Get("CountWithPU2011B")
@@ -40,7 +31,7 @@ def getScale(job,path,rescale,subsample=-1):
     	theScale = float(job.lumi)*xsec*sf/(CountWithPU.GetBinContent(1))*rescale/float(job.split)
     return theScale 
 
-def getHistoFromTree(job,path,options,rescale=1,subsample=-1):
+def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1):
 
     #print job.getpath()
     #print options
@@ -106,7 +97,7 @@ def getHistoFromTree(job,path,options,rescale=1,subsample=-1):
     #print job.name + ' Sumw2', hTree.GetEntries()
 
     if job.type != 'DATA':
-        ScaleFactor = getScale(job,path,rescale,subsample)
+        ScaleFactor = getScale(job,path,config,rescale,subsample)
         if ScaleFactor != 0:
             hTree.Scale(ScaleFactor)
             

@@ -9,6 +9,7 @@ from copy import copy
 #suppres the EvalInstace conversion warning bug
 import warnings
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
+from optparse import OptionParser
 from BetterConfigParser import BetterConfigParser
 from samplesclass import sample
 from mvainfos import mvainfo
@@ -19,14 +20,21 @@ from gethistofromtree import getHistoFromTree, orderandadd
 
 
 #CONFIGURE
-#load config
+argv = sys.argv
+parser = OptionParser()
+parser.add_option("-P", "--path", dest="path", default="",
+                      help="path to samples")
+parser.add_option("-V", "--var", dest="variable", default="",
+                      help="variable for shape analysis")
+parser.add_option("-C", "--config", dest="config", default=[], action="append",
+                      help="configuration file")
+(opts, args) = parser.parse_args(argv)
+if opts.config =="":
+        opts.config = "config"
+print opts.config
 config = BetterConfigParser()
-
-##############!!!!!!!!! need to change config file also in gethistofromtree.py
-config.read('./config7TeV')
-##############!!!!!!!!! need to change config file also in gethistofromtree.py
-
-
+config.read(opts.config)
+anaTag = config.get("Analysis","tag")
 
 #get locations:
 Wdir=config.get('Directories','Wdir')
@@ -40,8 +48,8 @@ systematics=systematics.split(' ')
 #    MVA_Vars[systematic]=config.get('treeVars',systematic)
 #    MVA_Vars[systematic]=MVA_Vars[systematic].split(' ')
 weightF=config.get('Weights','weightF')
-path=sys.argv[1]
-var=sys.argv[2]
+path=opts.path
+var=opts.variable
 plot=config.get('Limit',var)
 infofile = open(path+'/samples.info','r')
 info = pickle.load(infofile)
@@ -63,9 +71,6 @@ setup=eval(config.get('LimitGeneral','setup'))
 ROOToutname = options[6]
 outpath=config.get('Directories','limits')
 outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
-
-anaTag = config.get("Analysis","tag")
-
 
 systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming7TeV'))
 if anaTag =='8TeV':
@@ -123,7 +128,7 @@ for job in info:
             for subsample in range(0,len(job.subnames)):
                 
                 if job.subnames[subsample] in BKGlist:
-                    hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor,subsample)
+                    hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                     histos.append(hTemp)
                     typs.append(Group[job.subnames[subsample]])
                     if counter == 0:
@@ -134,7 +139,7 @@ for job in info:
                     
                 elif job.subnames[subsample] == SIG:
                 
-                    hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor,subsample)
+                    hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                     histos.append(hTemp)
                     typs.append(Group[job.subnames[subsample]])
 
@@ -143,7 +148,7 @@ for job in info:
         else:
             if job.name in BKGlist:
                 #print job.getpath()
-                hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
+                hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 histos.append(hTemp)
                 typs.append(Group[job.name])
 
@@ -154,13 +159,13 @@ for job in info:
                 counter += 1
                 
             elif job.name == SIG:
-                hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
+                hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 histos.append(hTemp)
                 typs.append(Group[job.name])
 
             elif job.name in data:
                 #print 'DATA'
-                hTemp, typ = getHistoFromTree(job,options)
+                hTemp, typ = getHistoFromTree(job,path,config,options)
                 datas.append(hTemp)
                 datatyps.append(typ)
 
@@ -285,21 +290,21 @@ for sys in systematics:
                 if job.subsamples:
                     for subsample in range(0,len(job.subnames)):
                         if job.subnames[subsample] in BKGlist:
-                            hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor,subsample)
+                            hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                             systhistosarray[Coco].append(hTemp)
                             typsX.append(Group[job.subnames[subsample]])
                         elif job.subnames[subsample] == SIG:
-                            hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor,subsample)
+                            hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                             systhistosarray[Coco].append(hTemp)
                             typsX.append(Group[job.subnames[subsample]])
                             
                 else:
                     if job.name in BKGlist:
-                        hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
+                        hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                         systhistosarray[Coco].append(hTemp)
                         typsX.append(Group[job.name])
                     elif job.name == SIG:
-                        hTemp, typ = getHistoFromTree(job,options,MC_rescale_factor)
+                        hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                         systhistosarray[Coco].append(hTemp)
                         typsX.append(Group[job.name])
 
