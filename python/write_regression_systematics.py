@@ -112,7 +112,7 @@ for job in info:
     
     print '\t - %s' %(job.name)
     input = TFile.Open(path+'/'+job.getpath(),'read')
-    output = TFile.Open(job.path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
+    output = TFile.Open(path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
 
     input.cd()
     obj = ROOT.TObject
