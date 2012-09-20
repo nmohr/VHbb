@@ -69,6 +69,7 @@ namelist=namelistIN.split(',')
 doinfo=bool(int(opts.update))
 
 MVAlist=arglist.split(',')
+MVAdir=config.get('Directories','vhbbpath')
 
 #CONFIG
 #factory
@@ -82,7 +83,7 @@ factoryname=config.get('factory','factoryname')
 #MVAinfofiles=[]
 MVAinfos=[]
 for MVAname in MVAlist:
-    MVAinfofile = open(Wdir+'/weights/'+factoryname+'_'+MVAname+'.info','r')
+    MVAinfofile = open(MVAdir+'/data/'+factoryname+'_'+MVAname+'.info','r')
     MVAinfos.append(pickle.load(MVAinfofile))
     MVAinfofile.close()
     
@@ -121,7 +122,7 @@ for i in range(len( MVA_Vars['Nominal'])):
 #        reader.AddSpectator(spectators[i],MVA_spectator_buffer[i])
 #Load raeder
 for i in range(0,len(readers)):
-    readers[i].BookMVA(MVAinfos[i].MVAname,MVAinfos[i].getweightfile())
+    readers[i].BookMVA(MVAinfos[i].MVAname,MVAdir+'/data/'+MVAinfos[i].getweightfile())
 #--> Now the MVA is booked
 
 #Apply samples

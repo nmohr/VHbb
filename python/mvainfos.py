@@ -17,7 +17,7 @@ class mvainfo:
         self.comment=''
         
     def getweightfile(self):
-        return self.weightfilepath+'/'+self.factoryname+'_'+self.MVAname+'.weights.xml'
+        return './'+self.factoryname+'_'+self.MVAname+'.weights.xml'
         
     def addtreecut(self, cut):
         if self.treecut == '':
