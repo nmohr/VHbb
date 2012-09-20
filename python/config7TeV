@@ -152,6 +152,11 @@ sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>c
 
 weightF_sys: True
 
+
+# bin-by-bin statistics
+binstat=True
+
+
 blind: False
 #### rescaling by factor 4
 scaling: True

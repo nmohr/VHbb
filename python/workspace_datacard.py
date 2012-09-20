@@ -122,6 +122,8 @@ Group = eval(config.get('LimitGeneral','Group'))
 Dict= eval(config.get('LimitGeneral','Dict'))
 
 weightF_sys = eval(config.get('LimitGeneral','weightF_sys'))
+binstat = eval(config.get('LimitGeneral','binstat'))
+
 
 if weightF_sys:
     #weightF_sys_function=config.get('Weights','weightF_sys')
@@ -211,64 +213,86 @@ for i in range(0,len(histos)):
     #histos[i].SetDirectory(outfile)
     outfile.cd()
     histos[i].Write()
-    statUps.append(histos[i].Clone())
-    statDowns.append(histos[i].Clone())
-    statUps[i].SetName('%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]))
-    statDowns[i].SetName('%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]))
+    errorsum=0
+    total=0
+    for j in range(histos[i].GetNbinsX()+1):
+        errorsum=errorsum+(histos[i].GetBinError(j))**2
+    errorsum=sqrt(errorsum)
+    total=histos[i].Integral()
+
+    
+    if binstat:
+    
+        for bin in range(0,nBins):
+            statUps.append(histos[i].Clone())
+            statDowns.append(histos[i].Clone())
+            statUps[i*nBins+bin].SetName('%sCMS_vhbb_stats_%s_%s_%sUp'%(newname,newname,bin,options[10]))
+            statDowns[i*nBins+bin].SetName('%sCMS_vhbb_stats_%s_%s_%sDown'%(newname,newname,bin,options[10]))
+        
+            #shift up and down with statistical error
+            #for j in range(histos[i].GetNbinsX()):
+            
+            if rescaleSqrtN:
+                statUps[i*nBins+bin].SetBinContent(bin,statUps[i*nBins+bin].GetBinContent(bin)+statUps[i*nBins+bin].GetBinError(bin)/total*errorsum)
+                statDowns[i*nBins+bin].SetBinContent(bin,statDowns[i*nBins+bin].GetBinContent(bin)-statDowns[i*nBins+bin].GetBinError(bin)/total*errorsum)
+            else:
+                statUps[i*nBins+bin].SetBinContent(bin,statUps[i*nBins+bin].GetBinContent(bin)+statUps[i*nBins+bin].GetBinError(bin))
+                statDowns[i*nBins+bin].SetBinContent(bin,statDowns[i*nBins+bin].GetBinContent(bin)-statDowns[i*nBins+bin].GetBinError(bin))
+
+            statUps[i*nBins+bin].Write()
+            statDowns[i*nBins+bin].Write()
+            histPdf = ROOT.RooDataHist(newname,newname,obs,histos[i])
+            #UP stats of MCs
+            RooStatsUp = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%s_%sUp'%(newname,newname,bin,options[10]),'%sCMS_vhbb_stats_%s_%s_%sUp'%(newname,newname,bin,options[10]),obs, statUps[i*nBins+bin])
+            #DOWN stats of MCs
+            RooStatsDown = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%s_%sDown'%(newname,newname,bin,options[10]),'%sCMS_vhbb_stats_%s_%s_%sDown'%(newname,newname,bin,options[10]),obs, statDowns[i*nBins+bin])
+            getattr(WS,'import')(histPdf)
+            getattr(WS,'import')(RooStatsUp)
+            getattr(WS,'import')(RooStatsDown)
+
+    
+    else:
+        statUps.append(histos[i].Clone())
+        statDowns.append(histos[i].Clone())
+        statUps[i].SetName('%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]))
+        statDowns[i].SetName('%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]))
+        
+        #shift up and down with statistical error
+        for j in range(histos[i].GetNbinsX()+1):
+            if rescaleSqrtN:
+                statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j)/total*errorsum)
+                statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j)/total*errorsum)
+            else:
+                statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
+                statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
+
+            #statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
+            #statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
+            
+        statUps[i].Write()
+        statDowns[i].Write()
+        histPdf = ROOT.RooDataHist(newname,newname,obs,histos[i])
+        #UP stats of MCs
+        RooStatsUp = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]),'%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]),obs, statUps[i])
+        #DOWN stats of MCs
+        RooStatsDown = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]),'%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]),obs, statDowns[i])
+        getattr(WS,'import')(histPdf)
+        getattr(WS,'import')(RooStatsUp)
+        getattr(WS,'import')(RooStatsDown)
+        
+        
+    #And now WeightF sys
     if weightF_sys:
         weightF_sys_Downs.append(weightF_sys_histos[i].Clone())
         weightF_sys_Ups.append(weightF_sys_histos[i].Clone())
         weightF_sys_Downs[i].SetName('%sCMS_vhbb_weightF_%sDown'%(newname,options[10]))
         weightF_sys_Ups[i].SetName('%sCMS_vhbb_weightF_%sUp'%(newname,options[10]))
-    
-    #statUps[i].Sumw2()
-    #statDowns[i].Sumw2()
-    errorsum=0
-    total=0
-    for j in range(histos[i].GetNbinsX()+1):
-        errorsum=errorsum+(histos[i].GetBinError(j))**2
-        
-    errorsum=sqrt(errorsum)
-    total=histos[i].Integral()
-    
-    #shift up and down with statistical error
-    for j in range(histos[i].GetNbinsX()+1):
-        if rescaleSqrtN:
-            statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j)/total*errorsum)
-        else:
-            statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
-        if rescaleSqrtN:
-            statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j)/total*errorsum)
-        else:
-            statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
-        #statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
-        #statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
-        
-        #And now WeightF sys
-        if weightF_sys:
+        for j in range(histos[i].GetNbinsX()+1):
             weightF_sys_Ups[i].SetBinContent(j,2*histos[i].GetBinContent(j)-weightF_sys_Downs[i].GetBinContent(j))
-
-    statUps[i].Write()
-    statDowns[i].Write()
-    
-    if weightF_sys:
         weightF_sys_Ups[i].Write()
-        weightF_sys_Downs[i].Write()
-    
-    histPdf = ROOT.RooDataHist(newname,newname,obs,histos[i])
-    #UP stats of MCs
-    RooStatsUp = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]),'%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]),obs, statUps[i])
-    #DOWN stats of MCs
-    RooStatsDown = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]),'%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]),obs, statDowns[i])
-    if weightF_sys:
+        weightF_sys_Downs[i].Write()    
         RooWeightFUp = ROOT.RooDataHist('%sCMS_vhbb_weightF_%sUp'%(newname,options[10]),'%sCMS_vhbb_weightF_%s_%sUp'%(newname,newname,options[10]),obs, weightF_sys_Ups[i])
         RooWeightFDown = ROOT.RooDataHist('%sCMS_vhbb_weightF_%sDown'%(newname,options[10]),'%sCMS_vhbb_weightF_%s_%sDown'%(newname,newname,options[10]),obs, weightF_sys_Downs[i])
-
-
-    getattr(WS,'import')(histPdf)
-    getattr(WS,'import')(RooStatsUp)
-    getattr(WS,'import')(RooStatsDown)
-    if weightF_sys:
         getattr(WS,'import')(RooWeightFUp)
         getattr(WS,'import')(RooWeightFDown)
 
@@ -332,7 +356,7 @@ for sys in systematics:
         if not new_cut == 'nominal':
             old_str,new_str=new_cut.split('>')
             new_options[7]=[options[7],old_str,new_str.replace('?',Q)]
-            print new_options
+            #print new_options
         ff=options[0].split('.')
         if bdt == True:
             ff[1]='%s_%s'%(sys,Q.lower())
@@ -462,14 +486,26 @@ for item in InUse:
     f.write('\n')
 
 #Write shape stats and sys
-for c in setup:
-    f.write('CMS_vhbb_stats_%s_%s\tshape'%(Dict[c], options[10]))
-    for it in range(0,columns):
-        if it == setup.index(c):
-            f.write('\t1.0')
-        else:
-            f.write('\t-')
-    f.write('\n')
+if binstat:
+    for c in setup:
+        for bin in range(0,nBins):
+            f.write('CMS_vhbb_stats_%s_%s_%s\tshape'%(Dict[c], bin, options[10]))
+            for it in range(0,columns):
+                if it == setup.index(c):
+                    f.write('\t1.0')
+                else:
+                    f.write('\t-')
+            f.write('\n')
+
+else:
+    for c in setup:
+        f.write('CMS_vhbb_stats_%s_%s\tshape'%(Dict[c], options[10]))
+        for it in range(0,columns):
+            if it == setup.index(c):
+                f.write('\t1.0')
+            else:
+                f.write('\t-')
+        f.write('\n')
     
 if weightF_sys:
     f.write('CMS_vhbb_weightF_%s\tshape'%(options[10]))
