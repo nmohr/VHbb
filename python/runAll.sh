@@ -17,11 +17,11 @@ unset TMPDIR
 
 #Path where the script write_regression_systematic.py and evaluateMVA.py are stored
 #execute=$PWD/UserCode/VHbb/python/
-#execute=/shome/bortigno/VHbbAnalysis/VHbbTest/python
-#cd $execute
+execute=/shome/bortigno/VHbbAnalysis/VHbbTest/python
+cd $execute
 
 #back to the working dir
-cd -
+#cd -
 
 #Parsing the path form the config
 pathAna=`python << EOF 
@@ -33,8 +33,6 @@ print config.get('Directories','samplepath')
 EOF`
 echo $pathAna
 configFile=config$energy
-
-
 
 #Create subdirs where processed samples will be stored
 if [ ! -d $pathAna/env/sys ]
