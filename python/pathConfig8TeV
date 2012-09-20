@@ -6,3 +6,4 @@ samplepath= <!Directories|Wdir!>/VHbbAnalysis/VHbbTest/Step2_8TeV
 SYSdir: /sys/
 MVAdir: /sys/MVAout/
 vhbbpath= /shome/nmohr/CMSSW_5_2_4_patch4/src/UserCode/VHbb/
+logpath= /shome/nmohr/VHbbAnalysis/LOG/

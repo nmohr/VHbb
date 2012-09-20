@@ -1,18 +1,34 @@
 #! /usr/bin/env python
-import os,time,subprocess
-#energy='8TeV'
-energy='7TeV'
+import os,sys,pickle,subprocess
+from optparse import OptionParser
+from BetterConfigParser import BetterConfigParser
+from samplesclass import sample
 
-def submit(job,en):
-	command = 'qsub -V -cwd -q all.q -N %s_%s -o /shome/bortigno/VHbbAnalysis/VHbbTest/LOG/%s.out -e /shome/bortigno/VHbbAnalysis/VHbbTest/LOG/%s.err runAll.sh %s %s' %(job,en,job,job,job,en)
+parser = OptionParser()
+parser.add_option("-T", "--tag", dest="tag", default="",
+                      help="Tag to run the analysis with, example '8TeV' uses config8TeV and pathConfig8TeV to run the analysis")
+
+(opts, args) = parser.parse_args(sys.argv)
+if opts.tag == "":
+	print "Please provide tag to run the analysis with, example '-T 8TeV' uses config8TeV and pathConfig8TeV to run the analysis."
+	sys.exit(123)
+en = opts.tag
+configs = ['config%s'%(en),'pathConfig%s'%(en)]
+print configs
+config = BetterConfigParser()
+config.read(configs)
+logPath = config.get("Directories","logpath")
+repDict = {'en':en,'logpath':logPath,'job':''}
+def submit(job,repDict):
+	repDict['job'] = job
+	command = 'qsub -V -cwd -q all.q -N %(job)s_%(en)s -o %(logpath)s/%(job)s_%(en)s.out -e %(logpath)s/%(job)s_%(en)s.err runAll.sh %(job)s %(en)s' %repDict
 	print command
 	subprocess.call([command], shell=True)
 
-#theJobs = ['ZH110','ZH125','ZH120','DY','ZH115','ZH130','ZH135','ZZ','DY120','Zmm','ST_s','ST_t','TT','Zee','STbar_s','STbar_t','WZ','WW','STbar_tW','ST_tW']
-#if energy=='8TeV':
-#	theJobs = ['ZH110','ZH125','ZH120','DY','DY5070','DY70100','DY100','ZH115','ZH130','ZH135','ZZ','DY120','Zmm','ST_s','ST_t','TT','Zee','STbar_s','STbar_t','WZ','WW','STbar_tW','ST_tW']
-theJobs = ["ZH120"]
+path = config.get("Directories","samplepath")
+infofile = open(path+'/env/samples.info','r')
+info = pickle.load(infofile)
+infofile.close()
 
-for job in theJobs:
-	submit(job,energy)
-	#time.sleep(10)
+for job in info:
+	submit(job.name,repDict)
