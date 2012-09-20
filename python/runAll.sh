@@ -6,6 +6,16 @@ sample=$1
 #sqrt(s) you want to run
 energy=$2
 
+if [ $# -lt 2 ]
+    then
+    echo "ERROR: You passed " $# "arguments while the script needs at least 2 arguments."
+    echo "Exiting..."
+    echo " ---------------------------------- "
+    echo " Usage : ./runAll.sh sample energy"
+    echo " ---------------------------------- "
+    exit
+fi
+
 #Set the environment for the batch job execution
 cd $CMSSW_BASE/src/
 source /swshare/psit3/etc/profile.d/cms_ui_env.sh
@@ -17,11 +27,11 @@ unset TMPDIR
 
 #Path where the script write_regression_systematic.py and evaluateMVA.py are stored
 #execute=$PWD/UserCode/VHbb/python/
-execute=/shome/bortigno/VHbbAnalysis/VHbbTest/python
-cd $execute
+#execute=/shome/bortigno/VHbbAnalysis/VHbbTest/python
+#cd $execute
 
 #back to the working dir
-#cd -
+cd -
 
 #Parsing the path form the config
 pathAna=`python << EOF 
@@ -39,7 +49,7 @@ if [ ! -d $pathAna/env/sys ]
     then
     mkdir $pathAna/env/sys
 fi
-if [ ! -d $pathAna/env/sys ]
+if [ ! -d $pathAna/env/sys/MVAout ]
     then
     mkdir $pathAna/env/sys/MVAout
 fi
@@ -57,4 +67,3 @@ fi
 #Run the scripts
 ./write_regression_systematics.py -P $pathAna/env/ -S $sample -C $configFile -C pathConfig$energy
 ./evaluateMVA.py -P $pathAna/env/sys/ -D RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may -S $sample -U 0 -C ${configFile} -C pathConfig$energy
-#./showinfo.py $pathAna/env/sys
