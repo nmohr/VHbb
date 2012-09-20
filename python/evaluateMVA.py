@@ -42,7 +42,7 @@ anaTag = config.get("Analysis","tag")
 
 #get locations:
 Wdir=config.get('Directories','Wdir')
-MVAdir=config.get('Directories','MVAdir')
+MVASubdir=config.get('Directories','MVAdir')
 
 #systematics
 systematics=config.get('systematics','systematics')
@@ -136,7 +136,7 @@ for job in Ainfo:
         if job.name in namelist:
             #get trees:
             input = TFile.Open(Apath+'/'+job.getpath(),'read')
-            outfile = TFile.Open(job.path+'/'+MVAdir+job.prefix+job.identifier+'.root','recreate')
+            outfile = TFile.Open(Apath+'/'+MVASubdir+job.prefix+job.identifier+'.root','recreate')
             input.cd()
             obj = ROOT.TObject
             for key in ROOT.gDirectory.GetListOfKeys():
