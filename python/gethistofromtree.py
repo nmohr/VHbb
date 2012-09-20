@@ -49,7 +49,13 @@ def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1,which_weight
     xMax=float(options[5])
 
     if job.type != 'DATA':
-        cutcut=config.get('Cuts',options[7])
+    
+        if type(options[7])==str:
+            cutcut=config.get('Cuts',options[7])
+        elif type(options[7])==list:
+            cutcut=config.get('Cuts',options[7][0])
+            cutcut=cutcut.replace(options[7][1],options[7][2])
+            print cutcut
         if subsample>-1:
             treeCut='%s & %s & EventForTraining == 0'%(cutcut,job.subcuts[subsample])        
         else:

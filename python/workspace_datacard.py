@@ -330,8 +330,9 @@ for sys in systematics:
         new_cut=sys_cut_suffix[sys]
         new_options = copy(options)
         if not new_cut == 'nominal':
-            new_options[7]=options[7]+new_cut+Q
-
+            old_str,new_str=new_cut.split('>')
+            new_options[7]=[options[7],old_str,new_str.replace('?',Q)]
+            print new_options
         ff=options[0].split('.')
         if bdt == True:
             ff[1]='%s_%s'%(sys,Q.lower())

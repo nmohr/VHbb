@@ -147,8 +147,8 @@ sys_BDT: ['JER','JES','beff','bmis']
 sys_Mjj: ['JER','JES']
 
 
-#Add a different Cut 
-sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'_csv','bmis':'nominal'}
+#Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
+sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?'}
 
 weightF_sys: True
 
@@ -435,13 +435,6 @@ CSVL = 0.244
 minBtag = min(hJet_csv[0],hJet_csv[1])
 maxBtag = max(hJet_csv[0],hJet_csv[1])
 
-#FOR DC writer
-minBtag_csvUp = min(hJet_csvUp[0],hJet_csvUp[1])
-minBtag_csvDown = min(hJet_csvDown[0],hJet_csvDown[1])
-maxBtag_csvUp = max(hJet_csvUp[0],hJet_csvUp[1])
-maxBtag_csvDown = max(hJet_csvDown[0],hJet_csvDown[1])
-
-
 tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
@@ -470,11 +463,7 @@ mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tlBtag!> & <!ZHbb|z
 
 #V.pt regions:
 RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!> &  RMed_ZH125_may_4.nominal >= -0.6
-RMed_csvUp = <!ZHbb|preselection!> & <!ZHbb|maxBtag_csvUp!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag_csvUp!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!> &  RMed_ZH125_may_4.nominal >= -0.6
-RMed_csvDown = <!ZHbb|preselection!> & <!ZHbb|maxBtag_csvDown!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag_csvDown!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!> &  RMed_ZH125_may_4.nominal >= -0.6
 RTight = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> 
-RTight_csvUp = <!ZHbb|preselection!> & <!ZHbb|maxBtag_csvUp!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag_csvUp!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> 
-RTight_csvDown = <!ZHbb|preselection!> & <!ZHbb|maxBtag_csvDown!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag_csvDown!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> 
 
 #control regions
 Light: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!>
@@ -483,17 +472,9 @@ bb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|z
 
 #lepton individual
 RTight_EE: <!ZHeebb|addCuts!> & <!Cuts|RTight!>
-RTight_EE_csvUp: <!ZHeebb|addCuts!> & <!Cuts|RTight_csvUp!>
-RTight_EE_csvDown: <!ZHeebb|addCuts!> & <!Cuts|RTight_csvDown!>
 RTight_MM: <!ZHmmbb|addCuts!>  & <!Cuts|RTight!>
-RTight_MM_csvUp: <!ZHmmbb|addCuts!>  & <!Cuts|RTight_csvUp!>
-RTight_MM_csvDown: <!ZHmmbb|addCuts!>  & <!Cuts|RTight_csvDown!>
 RMed_EE: <!ZHeebb|addCuts!> & <!Cuts|RMed!>
-RMed_EE_csvUp: <!ZHeebb|addCuts!> & <!Cuts|RMed_csvUp!>
-RMed_EE_csvDown: <!ZHeebb|addCuts!> & <!Cuts|RMed_csvDown!>
 RMed_MM: <!ZHmmbb|addCuts!> & <!Cuts|RMed!>
-RMed_MM_csvUp: <!ZHmmbb|addCuts!> & <!Cuts|RMed_csvUp!>
-RMed_MM_csvDown: <!ZHmmbb|addCuts!> & <!Cuts|RMed_csvDown!>
 
 #Mjj
 Mjj_lowPt_EE: <!ZHeebb|addCuts!> & <!Cuts|mjjLowPt!> 
