@@ -43,7 +43,7 @@ gui=opts.verbose
 global_rescale=2.
 
 #get locations:
-Wdir=config.get('Directories','Wdir')
+MVAdir=config.get('Directories','vhbbpath')+'/data/'
 
 #systematics
 systematics=config.get('systematics','systematics')
@@ -92,7 +92,7 @@ factorysettings=config.get('factory','factorysettings')
 MVAtype=config.get(run,'MVAtype')
 MVAname=run
 MVAsettings=config.get(run,'MVAsettings')
-fnameOutput = Wdir +'/weights/'+factoryname+'_'+MVAname+'.root'
+fnameOutput = MVAdir+factoryname+'_'+MVAname+'.root'
 #locations
 path=config.get(run,'path')
 
@@ -271,13 +271,13 @@ factory.EvaluateAllMethods()
 output.Write()
 
 #WRITE INFOFILE
-infofile = open(Wdir+'/weights/'+factoryname+'_'+MVAname+'.info','w')
+infofile = open(MVAdir+factoryname+'_'+MVAname+'.info','w')
 info=mvainfo(MVAname)
 info.factoryname=factoryname
 info.factorysettings=factorysettings
 info.MVAtype=MVAtype
 info.MVAsettings=MVAsettings
-info.weightfilepath=Wdir+'/weights'
+info.weightfilepath=MVAdir
 info.path=path
 info.varset=treeVarSet
 info.vars=MVA_Vars['Nominal']
