@@ -118,7 +118,7 @@ usePtRaw = True
 useRho25 = False
 
 [BTagReshaping]
-library=/shome/nmohr/CMSSW_5_2_4_patch4/src/UserCode/VHbb/interface/BTagReshaping_h.so
+library=<!Directories|vhbbpath!>/inteface/BTagReshaping_h.so
 
 ###########################################################################################
 # LIMIT
