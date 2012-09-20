@@ -18,7 +18,6 @@ from progbar import progbar
 from printcolor import printc
 from gethistofromtree import getHistoFromTree, orderandadd
 
-
 #CONFIGURE
 argv = sys.argv
 parser = OptionParser()
@@ -36,17 +35,14 @@ config = BetterConfigParser()
 config.read(opts.config)
 anaTag = config.get("Analysis","tag")
 
+
+
+# -------------------- parsing configuration and options: (an ugly spaghetti code section) ----------------------------------------------------------------------
 #get locations:
 Wdir=config.get('Directories','Wdir')
 #systematics
 systematics=config.get('systematics','systematics')
 systematics=systematics.split(' ')
-#TreeVar Array
-#Niklas: Not needed?
-#MVA_Vars={}
-#for systematic in systematics:
-#    MVA_Vars[systematic]=config.get('treeVars',systematic)
-#    MVA_Vars[systematic]=MVA_Vars[systematic].split(' ')
 weightF=config.get('Weights','weightF')
 path=opts.path
 var=opts.variable
@@ -71,33 +67,48 @@ setup=eval(config.get('LimitGeneral','setup'))
 ROOToutname = options[6]
 outpath=config.get('Directories','limits')
 outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
-
 systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming7TeV'))
 if anaTag =='8TeV':
     systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming8TeV'))
     MC_rescale_factor=1.0
-
 elif anaTag =='7TeV':
     MC_rescale_factor=2.0
     printc('red','', 'I  RESCALE by 2.0! (from training)')  
-
 else:
     print "What is your Analysis Tag in config? (anaTag)"
     sys.exit("What is your Analysis Tag in config? (anaTag)")
-
-
 scaling=eval(config.get('LimitGeneral','scaling'))
 rescaleSqrtN=eval(config.get('LimitGeneral','rescaleSqrtN'))
-
 if 'RTight' in RCut:
     Datacradbin=options[10]
 elif 'RMed' in RCut:
     Datacradbin=options[10]
 else:
     Datacradbin=options[10]
+blind=eval(config.get('LimitGeneral','blind'))
+BKGlist = eval(config.get('LimitGeneral','BKG'))
+#Groups for adding samples together
+Group = eval(config.get('LimitGeneral','Group'))
+#naming for DC
+Dict= eval(config.get('LimitGeneral','Dict'))
+weightF_sys = eval(config.get('LimitGeneral','weightF_sys'))
+binstat = eval(config.get('LimitGeneral','binstat'))
+bdt = False
+mjj = False
+#print str(anType)
+#print len(options)
+if str(anType) == 'BDT':
+    bdt = True
+    systematics = eval(config.get('LimitGeneral','sys_BDT'))
+elif str(anType) == 'Mjj':
+    mjj = True
+    systematics = eval(config.get('LimitGeneral','sys_Mjj'))
+sys_cut_suffix=eval(config.get('LimitGeneral','sys_cut_suffix'))
 
 
-#############################
+
+
+# -------------------- generate the Workspace with all Histograms: ----------------------------------------------------------------------
 
 WS = ROOT.RooWorkspace('%s'%Datacradbin,'%s'%Datacradbin) #Zee
 print 'WS initialized'
@@ -110,20 +121,9 @@ histos = []
 typs = []
 statUps=[]
 statDowns=[]
-blind=eval(config.get('LimitGeneral','blind'))
 if blind: 
     printc('red','', 'I AM BLINDED!')  
 counter=0
-
-BKGlist = eval(config.get('LimitGeneral','BKG'))
-#Groups for adding samples together
-Group = eval(config.get('LimitGeneral','Group'))
-#naming for DC
-Dict= eval(config.get('LimitGeneral','Dict'))
-
-weightF_sys = eval(config.get('LimitGeneral','weightF_sys'))
-binstat = eval(config.get('LimitGeneral','binstat'))
-
 
 if weightF_sys:
     #weightF_sys_function=config.get('Weights','weightF_sys')
@@ -131,21 +131,17 @@ if weightF_sys:
     weightF_sys_Ups = []
     weightF_sys_Downs = []
 
-
 for job in info:
     if eval(job.active):
         if job.subsamples:
             for subsample in range(0,len(job.subnames)):
-                
                 if job.subnames[subsample] in BKGlist:
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                     histos.append(hTemp)
                     typs.append(Group[job.subnames[subsample]])
-                    
                     if weightF_sys:
                         hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys')
                         weightF_sys_histos.append(hTempW)
-                        
                     if counter == 0:
                         hDummy = copy(hTemp)
                     else:
@@ -153,17 +149,12 @@ for job in info:
                     counter += 1
                     
                 elif job.subnames[subsample] == SIG:
-                
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                     histos.append(hTemp)
                     typs.append(Group[job.subnames[subsample]])
-                        
                     if weightF_sys:
                         hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys')
                         weightF_sys_histos.append(hTempW)
-
-
-
     
         else:
             if job.name in BKGlist:
@@ -174,7 +165,6 @@ for job in info:
                 if weightF_sys:
                     hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys')
                     weightF_sys_histos.append(hTempW)
-
 
                 if counter == 0:
                     hDummy = copy(hTemp)
@@ -190,7 +180,6 @@ for job in info:
                     hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys')
                     weightF_sys_histos.append(hTempW)
 
-
             elif job.name in data:
                 #print 'DATA'
                 hTemp, typ = getHistoFromTree(job,path,config,options)
@@ -201,7 +190,8 @@ MC_integral=0
 MC_entries=0
 for histo in histos:
     MC_integral+=histo.Integral()
-printc('green','', 'MC integral = %s'%MC_integral)  
+printc('green','', 'MC integral = %s'%MC_integral)
+
 #order and add together
 typs2=copy(typs)
 histos, typs = orderandadd(histos,typs,setup)
@@ -220,25 +210,19 @@ for i in range(0,len(histos)):
     errorsum=sqrt(errorsum)
     total=histos[i].Integral()
 
-    
-    if binstat:
-    
+    if binstat: #treating statistics in single bins
         for bin in range(0,nBins):
             statUps.append(histos[i].Clone())
             statDowns.append(histos[i].Clone())
             statUps[i*nBins+bin].SetName('%sCMS_vhbb_stats_%s_%s_%sUp'%(newname,newname,bin,options[10]))
             statDowns[i*nBins+bin].SetName('%sCMS_vhbb_stats_%s_%s_%sDown'%(newname,newname,bin,options[10]))
-        
             #shift up and down with statistical error
-            #for j in range(histos[i].GetNbinsX()):
-            
             if rescaleSqrtN:
                 statUps[i*nBins+bin].SetBinContent(bin,statUps[i*nBins+bin].GetBinContent(bin)+statUps[i*nBins+bin].GetBinError(bin)/total*errorsum)
                 statDowns[i*nBins+bin].SetBinContent(bin,statDowns[i*nBins+bin].GetBinContent(bin)-statDowns[i*nBins+bin].GetBinError(bin)/total*errorsum)
             else:
                 statUps[i*nBins+bin].SetBinContent(bin,statUps[i*nBins+bin].GetBinContent(bin)+statUps[i*nBins+bin].GetBinError(bin))
                 statDowns[i*nBins+bin].SetBinContent(bin,statDowns[i*nBins+bin].GetBinContent(bin)-statDowns[i*nBins+bin].GetBinError(bin))
-
             statUps[i*nBins+bin].Write()
             statDowns[i*nBins+bin].Write()
             histPdf = ROOT.RooDataHist(newname,newname,obs,histos[i])
@@ -250,13 +234,11 @@ for i in range(0,len(histos)):
             getattr(WS,'import')(RooStatsUp)
             getattr(WS,'import')(RooStatsDown)
 
-    
     else:
         statUps.append(histos[i].Clone())
         statDowns.append(histos[i].Clone())
         statUps[i].SetName('%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]))
         statDowns[i].SetName('%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]))
-        
         #shift up and down with statistical error
         for j in range(histos[i].GetNbinsX()+1):
             if rescaleSqrtN:
@@ -265,10 +247,6 @@ for i in range(0,len(histos)):
             else:
                 statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
                 statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
-
-            #statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
-            #statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
-            
         statUps[i].Write()
         statDowns[i].Write()
         histPdf = ROOT.RooDataHist(newname,newname,obs,histos[i])
@@ -279,7 +257,6 @@ for i in range(0,len(histos)):
         getattr(WS,'import')(histPdf)
         getattr(WS,'import')(RooStatsUp)
         getattr(WS,'import')(RooStatsDown)
-        
         
     #And now WeightF sys
     if weightF_sys:
@@ -308,6 +285,7 @@ if flow > 0:
 d1.SetName(Dict['Data'])
 outfile.cd()
 d1.Write()
+
 if blind:
     hDummy.SetName(Dict['Data'])
     histPdf = ROOT.RooDataHist(Dict['Data'],Dict['Data'],obs,hDummy)
@@ -318,45 +296,22 @@ if blind:
 else:
     histPdf = ROOT.RooDataHist(Dict['Data'],Dict['Data'],obs,d1)
 #ROOT.RooAbsData.plotOn(histPdf,frame)
-#frame.Draw()
-#IMPORT
 getattr(WS,'import')(histPdf)
 
 #SYSTEMATICS:
 UD = ['Up','Down']
 systhistosarray=[]
 Coco=0 #iterates over (all systematics) * (up,down)
-
-bdt = False
-mjj = False
-
-#print str(anType)
-#print len(options)
-if str(anType) == 'BDT':
-    bdt = True
-    systematics = eval(config.get('LimitGeneral','sys_BDT'))
-elif str(anType) == 'Mjj':
-    mjj = True
-    systematics = eval(config.get('LimitGeneral','sys_Mjj'))
-
 nominalShape = options[0]
     
-    
-sys_cut_suffix=eval(config.get('LimitGeneral','sys_cut_suffix'))
-    
 for sys in systematics:
-
-
-    for Q in UD:
-
+    for Q in UD: # Q = 'Up' and 'Down'
         #options[7] ist der CutString name
-        #ersetzen mit sys
         new_cut=sys_cut_suffix[sys]
         new_options = copy(options)
         if not new_cut == 'nominal':
             old_str,new_str=new_cut.split('>')
             new_options[7]=[options[7],old_str,new_str.replace('?',Q)]
-            #print new_options
         ff=options[0].split('.')
         if bdt == True:
             ff[1]='%s_%s'%(sys,Q.lower())
@@ -365,8 +320,6 @@ for sys in systematics:
             ff[0]='H_%s'%(sys)
             ff[1]='mass_%s'%(Q.lower())
             new_options[0]='.'.join(ff)
-        print new_options[0]
-
 
         print '\n'
         printc('blue','','\t--> doing systematic %s %s'%(sys,Q.lower())) 
@@ -397,18 +350,14 @@ for sys in systematics:
                         systhistosarray[Coco].append(hTemp)
                         typsX.append(Group[job.name])
 
-
         MC_integral=0
         for histoX in systhistosarray[Coco]:
             MC_integral+=histoX.Integral()
         printc('green','', 'MC integral = %s'%MC_integral)  
         systhistosarray[Coco], typsX = orderandadd(systhistosarray[Coco],typsX,setup)
 
-        if scaling:
-            #or now i try some rescaling by 4:
+        if scaling: #rescaling after the sys has been propagated through the BDT with a scaling
             for i in range(0,len(systhistosarray[Coco])):
-                #systhistosarray[Coco][i]
-                #histos[i]
                 for bin in range(0,histos[i].GetSize()):
                     A=systhistosarray[Coco][i].GetBinContent(bin)
                     B=histos[i].GetBinContent(bin)
@@ -421,14 +370,11 @@ for sys in systematics:
             histPdf = ROOT.RooDataHist('%s%s%s'%(Dict[typs[i]],systematicsnaming[sys],Q),'%s%s%s'%(Dict[typs[i]],systematicsnaming[sys],Q),obs,systhistosarray[Coco][i])
             getattr(WS,'import')(histPdf)
         Coco+=1
-        #print Coco
 WS.writeToFile(outpath+'vhbb_WS_'+ROOToutname+'.root')
-   #WS.writeToFile("testWS.root")
-   
-   
-   
 
-#write DATAcard:
+
+
+# -------------------- write DATAcard: ----------------------------------------------------------------------
 columns=len(setup)
 
 if '8TeV' in options[10]:
@@ -521,5 +467,4 @@ for sys in systematics:
     for c in range(0,columns): f.write('\t%s'%sys_factor)
     f.write('\n')
 f.close()
-#outfile.Write()
 outfile.Close()
