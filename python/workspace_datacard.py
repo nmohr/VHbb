@@ -266,17 +266,30 @@ elif str(anType) == 'Mjj':
 
 nominalShape = options[0]
     
+    
+sys_cut_suffix=eval(config.get('LimitGeneral','sys_cut_suffix'))
+    
 for sys in systematics:
+
+
     for Q in UD:
+
+        #options[7] ist der CutString name
+        #ersetzen mit sys
+        new_cut=sys_cut_suffix[sys]
+        new_options = copy(options)
+        if not new_cut == 'nominal':
+            new_options[7]=options[7]+new_cut+Q
+
         ff=options[0].split('.')
         if bdt == True:
             ff[1]='%s_%s'%(sys,Q.lower())
-            options[0]=nominalShape.replace('.nominal','.%s_%s'%(sys,Q.lower()))
+            new_options[0]=nominalShape.replace('.nominal','.%s_%s'%(sys,Q.lower()))
         elif mjj == True:
             ff[0]='H_%s'%(sys)
             ff[1]='mass_%s'%(Q.lower())
-            options[0]='.'.join(ff)
-        print options[0]
+            new_options[0]='.'.join(ff)
+        print new_options[0]
 
 
         print '\n'
@@ -290,21 +303,21 @@ for sys in systematics:
                 if job.subsamples:
                     for subsample in range(0,len(job.subnames)):
                         if job.subnames[subsample] in BKGlist:
-                            hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
+                            hTemp, typ = getHistoFromTree(job,path,config,new_options,MC_rescale_factor,subsample)
                             systhistosarray[Coco].append(hTemp)
                             typsX.append(Group[job.subnames[subsample]])
                         elif job.subnames[subsample] == SIG:
-                            hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
+                            hTemp, typ = getHistoFromTree(job,path,config,new_options,MC_rescale_factor,subsample)
                             systhistosarray[Coco].append(hTemp)
                             typsX.append(Group[job.subnames[subsample]])
                             
                 else:
                     if job.name in BKGlist:
-                        hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+                        hTemp, typ = getHistoFromTree(job,path,config,new_options,MC_rescale_factor)
                         systhistosarray[Coco].append(hTemp)
                         typsX.append(Group[job.name])
                     elif job.name == SIG:
-                        hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+                        hTemp, typ = getHistoFromTree(job,path,config,new_options,MC_rescale_factor)
                         systhistosarray[Coco].append(hTemp)
                         typsX.append(Group[job.name])
 

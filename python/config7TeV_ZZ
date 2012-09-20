@@ -199,7 +199,7 @@ lumi_8TeV: {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05}
 pdf_qqbar: {'type':'lnN', 'ZH':1.01,'VV':1.01}
 pdf_gg: {'type':'lnN', 'ST':1.01,'QCD':1.01}
 QCDscale_VH: {'type':'lnN', 'ZH':1.04}
-QCDscale_ttbar: {'type':'lnN', 'ST':1.06} #??
+QCDscale_ttbar: {'type':'lnN', 'ST':1.06}
 QCDscale_VV: {'type':'lnN', 'VV':1.04} 
 QCDscale_QCD: {'type':'lnN', 'QCD':1.30}
 CMS_vhbb_boost_EWK: {'type':'lnN', 'ZH':1.05}
@@ -219,7 +219,7 @@ CMS_trigger_m: {'type':'lnN', 'ZH':1.01, 'ST':1.01,'VV':1.01 }
 CMS_vhbb_trigger_MET: {'type':'lnN'}
 CMS_vhbb_ZjLF_SF_7TeV: {'type':'lnN', 'DYlight':1.198 ,'DYb':0.875 ,'TT':1.003}
 CMS_vhbb_ZjHF_SF_7TeV: {'type':'lnN', 'DYlight':0.873 ,'DYb':1.202 ,'TT':0.957}
-CMS_vhbb_TT_SF_7TeV: {'type':'lnN',  'DYlight':1.002 ,'DYb'0.974: ,'TT':1.123}
+CMS_vhbb_TT_SF_7TeV: {'type':'lnN',  'DYlight':1.002 ,'DYb':0.974 ,'TT':1.123}
 
 
 
@@ -309,8 +309,12 @@ SettingsTightZZ = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:
 SettingsMedZZ = !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 
 SettingsCommonZZ = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.06:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-SettingsInclZZ = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.06:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 SettingsBtagZZ = !H:!V:NTrees=400:nEventsMin=600:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+
+
+
+SettingsPt50ZZ = !H:!V:NTrees=400:nEventsMin=800:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.07:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+SettingsInclZZ = !H:!V:NTrees=400:nEventsMin=1000:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.08:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 
 
 backgrounds = DY DY120 WZ ZZ TT
@@ -351,6 +355,15 @@ signals: ZZ-bb
 backgrounds: <!MVAGeneral|backgroundsNoDiboson!>
 treeVarSet: treeVarsICHEP
 treeCut: RIncl
+
+[RPt50_ZZ_may]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsPt50ZZ!>
+path: <!Directories|samplepath!>
+signals: ZZ-bb
+backgrounds: <!MVAGeneral|backgroundsNoDiboson!>
+treeVarSet: treeVarsICHEP
+treeCut: RPt50
 
 [RBtag_ZZ_may]
 MVAtype: <!MVAGeneral|type!>
@@ -537,6 +550,9 @@ RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag
 RTight = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> 
 RIncl = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > 0. & <!ZHbb|pullAngle!> & <!ZHbb|zWindow!>
 RBtag = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!> & <!ZHbb|pullAngle!> & <!ZHbb|zWindow!>
+
+RPt50 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > 0. & <!ZHbb|pullAngle!> & <!ZHbb|zWindow!> & <!ZHbb|rCommon!>
+
 
 #control regions
 Light: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!>
