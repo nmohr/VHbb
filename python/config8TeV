@@ -118,7 +118,7 @@ usePtRaw = True
 useRho25 = False
 
 [BTagReshaping]
-library=<!Directories|vhbbpath!>/inteface/BTagReshaping_h.so
+library=<!Directories|vhbbpath!>/interface/BTagReshaping_h.so
 
 ###########################################################################################
 # LIMIT
