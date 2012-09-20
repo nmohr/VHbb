@@ -121,6 +121,14 @@ Group = eval(config.get('LimitGeneral','Group'))
 #naming for DC
 Dict= eval(config.get('LimitGeneral','Dict'))
 
+weightF_sys = eval(config.get('LimitGeneral','weightF_sys'))
+
+if weightF_sys:
+    #weightF_sys_function=config.get('Weights','weightF_sys')
+    weightF_sys_histos = []
+    weightF_sys_Ups = []
+    weightF_sys_Downs = []
+
 
 for job in info:
     if eval(job.active):
@@ -131,6 +139,11 @@ for job in info:
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                     histos.append(hTemp)
                     typs.append(Group[job.subnames[subsample]])
+                    
+                    if weightF_sys:
+                        hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys')
+                        weightF_sys_histos.append(hTempW)
+                        
                     if counter == 0:
                         hDummy = copy(hTemp)
                     else:
@@ -142,6 +155,11 @@ for job in info:
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                     histos.append(hTemp)
                     typs.append(Group[job.subnames[subsample]])
+                        
+                    if weightF_sys:
+                        hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys')
+                        weightF_sys_histos.append(hTempW)
+
 
 
     
@@ -150,7 +168,11 @@ for job in info:
                 #print job.getpath()
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 histos.append(hTemp)
-                typs.append(Group[job.name])
+                typs.append(Group[job.name])                        
+                if weightF_sys:
+                    hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys')
+                    weightF_sys_histos.append(hTempW)
+
 
                 if counter == 0:
                     hDummy = copy(hTemp)
@@ -161,7 +183,11 @@ for job in info:
             elif job.name == SIG:
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 histos.append(hTemp)
-                typs.append(Group[job.name])
+                typs.append(Group[job.name])                                        
+                if weightF_sys:
+                    hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys')
+                    weightF_sys_histos.append(hTempW)
+
 
             elif job.name in data:
                 #print 'DATA'
@@ -175,7 +201,9 @@ for histo in histos:
     MC_integral+=histo.Integral()
 printc('green','', 'MC integral = %s'%MC_integral)  
 #order and add together
+typs2=copy(typs)
 histos, typs = orderandadd(histos,typs,setup)
+weightF_sys_histos,_=orderandadd(weightF_sys_histos,typs2,setup)
 
 for i in range(0,len(histos)):
     newname=Dict[typs[i]]
@@ -187,6 +215,12 @@ for i in range(0,len(histos)):
     statDowns.append(histos[i].Clone())
     statUps[i].SetName('%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]))
     statDowns[i].SetName('%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]))
+    if weightF_sys:
+        weightF_sys_Downs.append(weightF_sys_histos[i].Clone())
+        weightF_sys_Ups.append(weightF_sys_histos[i].Clone())
+        weightF_sys_Downs[i].SetName('%sCMS_vhbb_weightF_%sDown'%(newname,options[10]))
+        weightF_sys_Ups[i].SetName('%sCMS_vhbb_weightF_%sUp'%(newname,options[10]))
+    
     #statUps[i].Sumw2()
     #statDowns[i].Sumw2()
     errorsum=0
@@ -199,7 +233,7 @@ for i in range(0,len(histos)):
     
     #shift up and down with statistical error
     for j in range(histos[i].GetNbinsX()+1):
-	if rescaleSqrtN:
+        if rescaleSqrtN:
             statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j)/total*errorsum)
         else:
             statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
@@ -209,17 +243,34 @@ for i in range(0,len(histos)):
             statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
         #statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
         #statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
+        
+        #And now WeightF sys
+        if weightF_sys:
+            weightF_sys_Ups[i].SetBinContent(j,2*histos[i].GetBinContent(j)-weightF_sys_Downs[i].GetBinContent(j))
 
     statUps[i].Write()
     statDowns[i].Write()
+    
+    if weightF_sys:
+        weightF_sys_Ups[i].Write()
+        weightF_sys_Downs[i].Write()
+    
     histPdf = ROOT.RooDataHist(newname,newname,obs,histos[i])
     #UP stats of MCs
     RooStatsUp = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]),'%sCMS_vhbb_stats_%s_%sUp'%(newname,newname,options[10]),obs, statUps[i])
     #DOWN stats of MCs
     RooStatsDown = ROOT.RooDataHist('%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]),'%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]),obs, statDowns[i])
+    if weightF_sys:
+        RooWeightFUp = ROOT.RooDataHist('%sCMS_vhbb_weightF_%sUp'%(newname,options[10]),'%sCMS_vhbb_weightF_%s_%sUp'%(newname,newname,options[10]),obs, weightF_sys_Ups[i])
+        RooWeightFDown = ROOT.RooDataHist('%sCMS_vhbb_weightF_%sDown'%(newname,options[10]),'%sCMS_vhbb_weightF_%s_%sDown'%(newname,newname,options[10]),obs, weightF_sys_Downs[i])
+
+
     getattr(WS,'import')(histPdf)
     getattr(WS,'import')(RooStatsUp)
     getattr(WS,'import')(RooStatsDown)
+    if weightF_sys:
+        getattr(WS,'import')(RooWeightFUp)
+        getattr(WS,'import')(RooWeightFDown)
 
 
 #HISTOGRAMM of DATA    
@@ -419,6 +470,13 @@ for c in setup:
             f.write('\t-')
     f.write('\n')
     
+if weightF_sys:
+    f.write('CMS_vhbb_weightF_%s\tshape'%(options[10]))
+    for it in range(0,columns): f.write('\t1.0')
+    f.write('\n')
+
+    
+    
 if scaling: sys_factor=0.25
 else: sys_factor=1.0
 for sys in systematics:
@@ -426,5 +484,5 @@ for sys in systematics:
     for c in range(0,columns): f.write('\t%s'%sys_factor)
     f.write('\n')
 f.close()
-outfile.Write()
+#outfile.Write()
 outfile.Close()

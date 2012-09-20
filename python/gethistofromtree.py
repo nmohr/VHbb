@@ -31,7 +31,7 @@ def getScale(job,path,config,rescale,subsample=-1):
     	theScale = float(job.lumi)*xsec*sf/(CountWithPU.GetBinContent(1))*rescale/float(job.split)
     return theScale 
 
-def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1):
+def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1,which_weightF='weightF'):
 
     #print job.getpath()
     #print options
@@ -67,7 +67,7 @@ def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1):
     #Tree.SetDirectory(0)
     
     #Tree=tmpTree.Clone()
-    weightF=config.get('Weights','weightF')
+    weightF=config.get('Weights',which_weightF)
     #hTree = ROOT.TH1F('%s'%name,'%s'%title,nBins,xMin,xMax)
     #hTree.SetDirectory(0)
     #hTree.Sumw2()

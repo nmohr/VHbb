@@ -150,6 +150,8 @@ sys_Mjj: ['JER','JES']
 #Add a different Cut 
 sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'_csv','bmis':'nominal'}
 
+weightF_sys: True
+
 blind: False
 #### rescaling by factor 4
 scaling: True
@@ -505,9 +507,8 @@ Mjj_highPt_MM: <!ZHmmbb|addCuts!> & <!Cuts|mjjHighPt!>
 
 [Weights]
 weightF: ((0.46502*PUweight+0.53498*PUweight2011B)*weightTrig)
-#for SYS
-weightF_Up: ((0.46502*PUweight+0.53498*PUweight2011B)*weightTrig)
-weightF_Down: ((0.46502*PUweight+0.53498*PUweight2011B)*weightTrig)
+#for SYS (just a non-sense example)
+weightF_sys: ((0.1*PUweight+0.9*PUweight2011B)*weightTrigV4)
 
 
 # LocalWords:  Mjj
