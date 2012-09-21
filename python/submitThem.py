@@ -1,8 +1,10 @@
 #! /usr/bin/env python
-import os,sys,pickle,subprocess
+import os,shutil,sys,pickle,subprocess,ROOT
 from optparse import OptionParser
 from BetterConfigParser import BetterConfigParser
 from samplesclass import sample
+import getpass
+
 
 parser = OptionParser()
 parser.add_option("-T", "--tag", dest="tag", default="",
@@ -17,6 +19,14 @@ configs = ['config%s'%(en),'pathConfig%s'%(en)]
 print configs
 config = BetterConfigParser()
 config.read(configs)
+btagLibrary = config.get('BTagReshaping','library')
+submitDir = os.getcwd()
+os.chdir(os.path.dirname(btagLibrary))
+if not os.path.exists(btagLibrary):
+    ROOT.gROOT.LoadMacro('%s+'%btagLibrary.replace('_h.so','.h')) 
+shutil.copyfile(os.path.basename(btagLibrary),'/scratch/%s/%s'%(getpass.getuser(),os.path.basename(btagLibrary)))
+shutil.copyfile('/scratch/%s/%s'%(getpass.getuser(),os.path.basename(btagLibrary)),btagLibrary)
+os.chdir(submitDir)
 logPath = config.get("Directories","logpath")
 repDict = {'en':en,'logpath':logPath,'job':''}
 def submit(job,repDict):
