@@ -14,10 +14,31 @@ from Ratio import getRatio
 
 #warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
 
+#CONFIGURE
+argv = sys.argv
+parser = OptionParser()
+parser.add_option("-P", "--path", dest="path", default="",
+                      help="path to samples")
+parser.add_option("-V", "--var", dest="variable", default="",
+                      help="variable to plot")
+parser.add_option("-C", "--config", dest="config", default=[], action="append",
+                      help="configuration file")
+(opts, args) = parser.parse_args(argv)
+if opts.config =="":
+        opts.config = "config"
+print opts.config
+config = BetterConfigParser()
+config.read(opts.config)
+anaTag = config.get("Analysis","tag")
+
+path = opts.path
+var = opts.variable
+
+
 
 #load config
-config = BetterConfigParser()
-config.read('./config7TeV_ZZ')
+#config = BetterConfigParser()
+#config.read('./config7TeV_ZZ')
 
 #get locations:
 Wdir=config.get('Directories','Wdir')
@@ -25,8 +46,8 @@ Wdir=config.get('Directories','Wdir')
 
 Normalize=False
 
-path = sys.argv[1]
-var = sys.argv[2]
+#path = sys.argv[1]
+#var = sys.argv[2]
 
 if 'bb' in var or 'Light' in var or 'Top' in var:
     Normalize=True
