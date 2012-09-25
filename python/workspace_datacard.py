@@ -93,6 +93,7 @@ Group = eval(config.get('LimitGeneral','Group'))
 Dict= eval(config.get('LimitGeneral','Dict'))
 weightF_sys = eval(config.get('LimitGeneral','weightF_sys'))
 binstat = eval(config.get('LimitGeneral','binstat'))
+addSample_sys = None if not config.has_option('LimitGeneral','addSample_sys') else eval(config.get('LimitGeneral','addSample_sys'))
 bdt = False
 mjj = False
 #print str(anType)
@@ -119,6 +120,7 @@ datas = []
 datatyps =[]
 histos = []
 typs = []
+hNames = []
 statUps=[]
 statDowns=[]
 if blind: 
@@ -130,6 +132,11 @@ if weightF_sys:
     weightF_sys_histos = []
     weightF_sys_Ups = []
     weightF_sys_Downs = []
+if addSample_sys:
+    sTyps = []
+    addSample_sys_histos = []
+    aSample_sys_Ups = []
+    aSample_sys_Downs = []
 
 for job in info:
     if eval(job.active):
@@ -139,6 +146,7 @@ for job in info:
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                     histos.append(hTemp)
                     typs.append(Group[job.subnames[subsample]])
+                    hNames.append(job.subnames[subsample])                        
                     if weightF_sys:
                         hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys')
                         weightF_sys_histos.append(hTempW)
@@ -147,8 +155,13 @@ for job in info:
                     else:
                         hDummy.Add(hTemp)
                     counter += 1
+                elif job.subnames[subsample] in addSample_sys.values():
+                    aNames.append(job.subnames[subsample])
+		    hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
+                    addSample_sys_histos.append(hTempS)
                     
                 elif job.subnames[subsample] == SIG:
+                    hNames.append(job.subnames[subsample])                        
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                     histos.append(hTemp)
                     typs.append(Group[job.subnames[subsample]])
@@ -162,6 +175,7 @@ for job in info:
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 histos.append(hTemp)
                 typs.append(Group[job.name])                        
+		hNames.append(job.name)
                 if weightF_sys:
                     hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys')
                     weightF_sys_histos.append(hTempW)
@@ -171,11 +185,16 @@ for job in info:
                 else:
                     hDummy.Add(hTemp)
                 counter += 1
+            elif job.name in addSample_sys.values():
+                aNames.append(job.name)                        
+		hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+                addSample_sys_histos.append(hTempS)
                 
             elif job.name == SIG:
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 histos.append(hTemp)
                 typs.append(Group[job.name])                                        
+                hNames.append(job.name)                        
                 if weightF_sys:
                     hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys')
                     weightF_sys_histos.append(hTempW)
@@ -192,10 +211,37 @@ for histo in histos:
     MC_integral+=histo.Integral()
 printc('green','', 'MC integral = %s'%MC_integral)
 
+def getAlternativeShapes(histos,altHistos,hNames,aNames,addSample_sys):
+    theHistosUp = copy(histos)
+    theHistosDown = copy(histos)
+    for name in addSample_sys.keys():
+        print name
+	hVar = altHistos[aNames.index(addSample_sys[name])].Clone()
+	hNom = histos[hNames.index(name)].Clone()
+	hAlt = hNom.Clone()
+	hNom.Add(hVar,-1.)
+	hAlt.Add(hNom)
+        for bin in range(0,nBins):
+	    if hAlt.GetBinContent(bin) < 0.: hAlt.SetBinContent(bin,0.)
+	theHistosUp[hNames.index(name)] = hVar.Clone()
+	theHistosDown[hNames.index(name)] = hAlt.Clone()
+    return theHistosUp, theHistosDown
+	
+	
+	
+
 #order and add together
 typs2=copy(typs)
+typs3=copy(typs)
+typs4=copy(typs)
+sampleSyst = copy(histos)
 histos, typs = orderandadd(histos,typs,setup)
-weightF_sys_histos,_=orderandadd(weightF_sys_histos,typs2,setup)
+if weightF_sys:
+	weightF_sys_histos,_=orderandadd(weightF_sys_histos,typs2,setup)
+if addSample_sys:
+    aSampleUp, aSampleDown = getAlternativeShapes(histos,addSample_sys_histos,hNames,aNames,addSample_sys)
+    aSampleUp,aNames=orderandadd(aSampleUp,typs3,setup)
+    aSampleDown,aNames=orderandadd(aSampleDown,typs4,setup)
 
 for i in range(0,len(histos)):
     newname=Dict[typs[i]]
@@ -272,6 +318,18 @@ for i in range(0,len(histos)):
         RooWeightFDown = ROOT.RooDataHist('%sCMS_vhbb_weightF_%sDown'%(newname,options[10]),'%sCMS_vhbb_weightF_%s_%sDown'%(newname,newname,options[10]),obs, weightF_sys_Downs[i])
         getattr(WS,'import')(RooWeightFUp)
         getattr(WS,'import')(RooWeightFDown)
+    #And now Additional sample sys
+    if addSample_sys:
+        aSample_sys_Downs.append(aSampleUp[i].Clone())
+        aSample_sys_Ups.append(aSampleDown[i].Clone())
+        aSample_sys_Downs[i].SetName('%sCMS_vhbb_model_%sDown'%(newname,newname))
+        aSample_sys_Ups[i].SetName('%sCMS_vhbb_model_%sUp'%(newname,newname))
+        aSample_sys_Ups[i].Write()
+        aSample_sys_Downs[i].Write()    
+        RooSampleUp = ROOT.RooDataHist('%sCMS_vhbb_model_%sUp'%(newname,newname),'%sCMS_vhbb_model_%sUp'%(newname,newname),obs, aSample_sys_Ups[i])
+        RooSampleDown = ROOT.RooDataHist('%sCMS_vhbb_model_%sDown'%(newname,newname),'%sCMS_vhbb_model_%sDown'%(newname,newname),obs, aSample_sys_Downs[i])
+        getattr(WS,'import')(RooSampleUp)
+        getattr(WS,'import')(RooSampleDown)
 
 
 #HISTOGRAMM of DATA    
@@ -458,7 +516,17 @@ if weightF_sys:
     for it in range(0,columns): f.write('\t1.0')
     f.write('\n')
 
-    
+if addSample_sys:
+    for newSample in addSample_sys.iterkeys():
+    	for c in setup:
+	    if not Dict[c] == Group[newSample]: continue
+            f.write('CMS_vhbb_model_%s\tshape'%(Dict[c]))
+            for it in range(0,columns):
+                if it == setup.index(c):
+                     f.write('\t1.0')
+                else:
+                     f.write('\t-')
+            f.write('\n')
     
 if scaling: sys_factor=0.25
 else: sys_factor=1.0
