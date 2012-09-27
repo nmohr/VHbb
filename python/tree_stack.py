@@ -11,6 +11,7 @@ import sys
 from mvainfos import mvainfo
 from gethistofromtree import getHistoFromTree, orderandadd
 from Ratio import getRatio
+from optparse import OptionParser
 
 #warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
 
@@ -76,8 +77,11 @@ blind=options[11]
 setup=config.get('Plot','setup')
 setup=setup.split(',')
 
-color=config.get('Plot','color')
-color=color.split(',')
+samples=config.get('Plot','samples')
+samples=samples.split(',')
+
+colorDict=eval(config.get('Plot','colorDict'))
+#color=color.split(',')
 
 
 weightF=config.get('Weights','weightF')
@@ -115,23 +119,23 @@ for job in info:
         if job.subsamples:
             for subsample in range(0,len(job.subnames)):
                 
-                if job.subnames[subsample] in setup:
-                    hTemp, typ = getHistoFromTree(job,options,1,subsample)
+                if job.subnames[subsample] in samples:
+                    hTemp, typ = getHistoFromTree(job,path,config,options,1,subsample)
                     histos.append(hTemp)
                     typs.append(Group[job.subnames[subsample]])
 
 
     
         else:
-            if job.name in setup:
+            if job.name in samples:
                 #print job.getpath()
-                hTemp, typ = getHistoFromTree(job,options,1)
+                hTemp, typ = getHistoFromTree(job,path,config,options,1)
                 histos.append(hTemp)
                 typs.append(Group[job.name])
 
             elif job.name in data:
                 #print 'DATA'
-                hTemp, typ = getHistoFromTree(job,options)
+                hTemp, typ = getHistoFromTree(job,path,config,options)
                 datas.append(hTemp)
                 datatyps.append(typ)
                 datanames.append(job.name)
@@ -182,15 +186,16 @@ print "\033[1;32m\n\tMC integral = %s\033[1;m"%MC_integral
 #    print "\033[1;31m\tU/O flow: %s\033[1;m"%flow    
 
 #ORDER AND ADD TOGETHER
-
-#histos, typs = orderandadd(histos,typs,setup)
+print typs
+print setup
+histos, typs = orderandadd(histos,typs,setup)
 
 
 k=len(histos)
 for j in range(0,k):
     #print histos[j].GetBinContent(1)
     i=k-j-1
-    histos[i].SetFillColor(int(color[i]))
+    histos[i].SetFillColor(int(colorDict[setup[i]]))
     histos[i].SetLineColor(1)
     allStack.Add(histos[i])
     l.AddEntry(histos[j],typs[j],'F')

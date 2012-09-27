@@ -1,5 +1,5 @@
 # Also edit ./prepare_environment.py !!!
-path=/data1/VHbbAnalysis/EDMNtuple_step2/V12/5May12/Dilepton/
+path=/shome/peller/DATA/HCP/
 mkdir $path/env
-./prepare_environment_with_config.py -I $path -O $path/env/ -C 7TeVsamples_ZZ.cfg
+./prepare_environment_with_config.py -I $path -O $path/env/ -C 8TeVsamples_nosplit.cfg
 ./showinfo.py $path/env

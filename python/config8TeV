@@ -66,9 +66,10 @@ bb_RMed_ZH135: RMed_ZH135_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M135_bb.png
 logy: 1
 #setup: DY jets udscg,DY jets b,TT-bar,WW/WZ/ZZ,Single top,Hbb 115
 #setup: DY jets b,DY jets udscg,TT-bar,Single top,Hbb 115,WW/WZ/ZZ
-setup: DYlight,DYc,DYb,TT,ST,VV,ZH
-color: 401,41,5,596,602,17,2
-
+samples: Zudsg,Zudsg5070,Zudsg70100,Zudsg100,Zcc,Zcc5070,Zcc70100,Zcc100,Zbb,Zbb5070,Zbb70100,Zbb100,ZZ,WW,WZ,TT,ST_s,ST_t,ST_tW,STbar_s,STbar_t,STbar_tW,ZH125 
+setup: DYlight,DYb,TT,ST,VV,ZH
+#color: 401,41,5,596,602,17,2
+colorDict: {'DYlight':401,'DYc':41,'DYb':5,'TT':596,'ST':602,'VV':17,'ZH':2}
 
 
 [Compare]

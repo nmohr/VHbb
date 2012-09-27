@@ -5,6 +5,7 @@ from BetterConfigParser import BetterConfigParser
 from samplesclass import sample
 import getpass
 
+Test=False
 
 parser = OptionParser()
 parser.add_option("-T", "--tag", dest="tag", default="",
@@ -35,10 +36,28 @@ def submit(job,repDict):
 	print command
 	subprocess.call([command], shell=True)
 
+#theJobs = ['STbar_tW','ST_tW']
+#theJobs = ['ZH110','ZH125','ZH120','Zudsg','Zbb','Zcc','ZH115','ZH130','ZZ','Zudsg70100','Zbb70100','Zcc70100','Zudsg5070','Zbb5070','Zcc5070','Zmm','Zudsg100','Zbb100','Zcc100','ST_s','TT','Zee','STbar_s','STbar_t','WZ','WW','STbar_tW','ST_tW']
+#theJobs = ['ZH110','ZH125']
+#theJobs = ['ST_t']
+#theJobs = ['ZH110','ZH115','ZH120','ZH125','ZH130','ZH135','DY','DY120','TT','ZZ','WZ','WW','ST_s','ST_t','STbar_s','STbar_t','STbar_tW','ST_tW','Zee','Zmm']
+
+#theJobs = ['ZH110','ZH125','ZH120','DY','ZH115','ZH130','ZH135','ZZ','DY120','Zmm','ST_s','TT','Zee','STbar_s','STbar_t','WZ','WW','STbar_tW','ST_tW']
+#if energy=='8TeV':
+#    theJobs = ['ZH110','ZH125','ZH120','DY','DY5070','DY70100','DY100','ZH115','ZH130','ZH135','ZZ','DY120','Zmm','ST_s','TT','Zee','STbar_s','STbar_t','WZ','WW','STbar_tW','ST_tW']
+#if Test:
+#	theJobs = ['WZ']
+
+
 path = config.get("Directories","samplepath")
 infofile = open(path+'/env/samples.info','r')
 info = pickle.load(infofile)
 infofile.close()
 
+#submit('prepare',repDict)
+
 for job in info:
-	submit(job.name,repDict)
+    if Test and job.name == 'WZ':    
+    	submit(job.name,repDict)
+    elif not Test:
+        submit(job.name,repDict)

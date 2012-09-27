@@ -17,6 +17,9 @@ if [ $# -lt 2 ]
 fi
 
 #Set the environment for the batch job execution
+
+#cd /shome/peller/CMSSW_5_2_4_patch4/src/
+# this doesnt work for me..?
 cd $CMSSW_BASE/src/
 source /swshare/psit3/etc/profile.d/cms_ui_env.sh
 export SCRAM_ARCH="slc5_amd64_gcc462"
@@ -27,7 +30,7 @@ unset TMPDIR
 
 #Path where the script write_regression_systematic.py and evaluateMVA.py are stored
 #execute=$PWD/UserCode/VHbb/python/
-#execute=/shome/bortigno/VHbbAnalysis/VHbbTest/python
+#execute=/shome/peller/UserCode/VHbb/python/
 #cd $execute
 
 #back to the working dir
@@ -65,5 +68,8 @@ if [ ! -f $pathAna/sys/MVAout/samples.info ]
 fi
 
 #Run the scripts
-./write_regression_systematics.py -P $pathAna/env/ -S $sample -C $configFile -C pathConfig$energy
-./evaluateMVA.py -P $pathAna/env/sys/ -D RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may -S $sample -U 0 -C ${configFile} -C pathConfig$energy
+#./step1_prepare_trees.sh 
+#./write_regression_systematics.py -P $pathAna/env/ -S $sample -C $configFile -C pathConfig$energy
+./evaluateMVA.py -P $pathAna/env/sys/ -D RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may,RPt50_ZZ_may,RIncl_ZZ_may -S $sample -U 0 -C ${configFile} -C pathConfig$energy
+#./showinfo.py $pathAna/env/sys
+#./evaluateMVA.py -P $pathAna/env/sys/ -D RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may -S $sample -U 0 -C ${configFile} -C pathConfig$energy

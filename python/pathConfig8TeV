@@ -1,9 +1,14 @@
 [Directories]
-Wdir: /shome/bortigno
-limits: <!Directories|Wdir!>/Limits/Test/
-plotpath: <!Directories|Wdir!>/Stacks/TopUp/
-samplepath= <!Directories|Wdir!>/VHbbAnalysis/VHbbTest/Step2_8TeV
+Wdir: /shome/peller/
+limits: <!Directories|Wdir!>/VHbb/Limits/Test/
+plotpath: <!Directories|Wdir!>/VHbb/Stacks/Test/
+samplepath= <!Directories|Wdir!>/DATA/HCP/
+#Wdir: /shome/bortigno
+#limits: <!Directories|Wdir!>/Limits/Test/
+#plotpath: <!Directories|Wdir!>/Stacks/TopUp/
+#samplepath= <!Directories|Wdir!>/VHbbAnalysis/VHbbTest/Step2_8TeV
 SYSdir: /sys/
-MVAdir: /sys/MVAout/
-vhbbpath= /shome/nmohr/CMSSW_5_2_4_patch4/src/UserCode/VHbb/
-logpath= /shome/nmohr/VHbbAnalysis/LOG/
+#MVAdir is relative to the samples with systematics.....i.e. /MVAout/ normally
+MVAdir: /MVAout/
+vhbbpath= /shome/peller/UserCode/VHbb/
+logpath= /shome/peller/VHbb/LOG/

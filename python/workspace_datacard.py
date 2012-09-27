@@ -36,7 +36,6 @@ config.read(opts.config)
 anaTag = config.get("Analysis","tag")
 
 
-
 # -------------------- parsing configuration and options: (an ugly spaghetti code section) ----------------------------------------------------------------------
 #get locations:
 Wdir=config.get('Directories','Wdir')

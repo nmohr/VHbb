@@ -37,6 +37,7 @@ parser.add_option("-C", "--config", dest="config", default=[], action="append",
 if opts.config =="":
         opts.config = "config"
 config = BetterConfigParser()
+#config.read('./config7TeV_ZZ')
 config.read(opts.config)
 anaTag = config.get("Analysis","tag")
 

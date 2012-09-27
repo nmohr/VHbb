@@ -140,6 +140,8 @@ def orderandadd(histos,typs,setup):
     histos=ordnung
     typs=ordnungtyp
 
+    print typs
+
     for k in range(0,len(num)):
         for m in range(0,num[k]):
             if m > 0:
