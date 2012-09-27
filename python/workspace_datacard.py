@@ -120,6 +120,7 @@ datatyps =[]
 histos = []
 typs = []
 hNames = []
+aNames = []
 statUps=[]
 statDowns=[]
 if blind: 
@@ -518,7 +519,7 @@ if weightF_sys:
 if addSample_sys:
     for newSample in addSample_sys.iterkeys():
     	for c in setup:
-	    if not Dict[c] == Group[newSample]: continue
+	    if not c == Group[newSample]: continue
             f.write('CMS_vhbb_model_%s\tshape'%(Dict[c]))
             for it in range(0,columns):
                 if it == setup.index(c):
