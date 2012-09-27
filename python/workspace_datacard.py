@@ -155,10 +155,6 @@ for job in info:
                     else:
                         hDummy.Add(hTemp)
                     counter += 1
-                elif job.subnames[subsample] in addSample_sys.values():
-                    aNames.append(job.subnames[subsample])
-		    hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
-                    addSample_sys_histos.append(hTempS)
                     
                 elif job.subnames[subsample] == SIG:
                     hNames.append(job.subnames[subsample])                        
@@ -168,6 +164,10 @@ for job in info:
                     if weightF_sys:
                         hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys')
                         weightF_sys_histos.append(hTempW)
+                if job.subnames[subsample] in addSample_sys.values():
+                    aNames.append(job.subnames[subsample])
+		    hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
+                    addSample_sys_histos.append(hTempS)
     
         else:
             if job.name in BKGlist:
@@ -185,10 +185,6 @@ for job in info:
                 else:
                     hDummy.Add(hTemp)
                 counter += 1
-            elif job.name in addSample_sys.values():
-                aNames.append(job.name)                        
-		hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
-                addSample_sys_histos.append(hTempS)
                 
             elif job.name == SIG:
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
@@ -204,6 +200,11 @@ for job in info:
                 hTemp, typ = getHistoFromTree(job,path,config,options)
                 datas.append(hTemp)
                 datatyps.append(typ)
+            
+	    if job.name in addSample_sys.values():
+                aNames.append(job.name)                        
+		hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+                addSample_sys_histos.append(hTempS)
 
 MC_integral=0
 MC_entries=0
@@ -235,11 +236,12 @@ typs2=copy(typs)
 typs3=copy(typs)
 typs4=copy(typs)
 sampleSyst = copy(histos)
+if addSample_sys:
+    aSampleUp, aSampleDown = getAlternativeShapes(histos,addSample_sys_histos,hNames,aNames,addSample_sys)
 histos, typs = orderandadd(histos,typs,setup)
 if weightF_sys:
 	weightF_sys_histos,_=orderandadd(weightF_sys_histos,typs2,setup)
 if addSample_sys:
-    aSampleUp, aSampleDown = getAlternativeShapes(histos,addSample_sys_histos,hNames,aNames,addSample_sys)
     aSampleUp,aNames=orderandadd(aSampleUp,typs3,setup)
     aSampleDown,aNames=orderandadd(aSampleDown,typs4,setup)
 
