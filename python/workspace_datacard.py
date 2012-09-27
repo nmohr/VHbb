@@ -164,7 +164,7 @@ for job in info:
                     if weightF_sys:
                         hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys')
                         weightF_sys_histos.append(hTempW)
-                if job.subnames[subsample] in addSample_sys.values():
+                if addSample_sys and job.subnames[subsample] in addSample_sys.values():
                     aNames.append(job.subnames[subsample])
 		    hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                     addSample_sys_histos.append(hTempS)
@@ -201,7 +201,7 @@ for job in info:
                 datas.append(hTemp)
                 datatyps.append(typ)
             
-	    if job.name in addSample_sys.values():
+	    if addSample_sys and job.name in addSample_sys.values():
                 aNames.append(job.name)                        
 		hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 addSample_sys_histos.append(hTempS)
@@ -235,7 +235,6 @@ def getAlternativeShapes(histos,altHistos,hNames,aNames,addSample_sys):
 typs2=copy(typs)
 typs3=copy(typs)
 typs4=copy(typs)
-sampleSyst = copy(histos)
 if addSample_sys:
     aSampleUp, aSampleDown = getAlternativeShapes(histos,addSample_sys_histos,hNames,aNames,addSample_sys)
 histos, typs = orderandadd(histos,typs,setup)
