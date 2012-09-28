@@ -186,10 +186,6 @@ for job in info:
                 else:
                     hDummy.Add(hTemp)
                 counter += 1
-            elif addSample_sys and job.name in addSample_sys.values():
-                aNames.append(job.name)                        
-                hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
-                addSample_sys_histos.append(hTempS)
                 
             elif job.name == SIG:
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
@@ -206,7 +202,7 @@ for job in info:
                 datas.append(hTemp)
                 datatyps.append(typ)
             
-	    if addSample_sys and job.name in addSample_sys.values():
+            if addSample_sys and job.name in addSample_sys.values():
                 aNames.append(job.name)
                 hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 addSample_sys_histos.append(hTempS)
