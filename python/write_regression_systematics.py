@@ -148,6 +148,7 @@ for job in info:
     regVars = eval(config.get("Regression","regVars"))
     useMET = eval(config.get("Regression","useMET"))
     usePtRaw = eval(config.get("Regression","usePtRaw"))
+    useMt = eval(config.get("Regression","useMt"))
     useRho25 = eval(config.get("Regression","useRho25"))
           
     #Regression branches
@@ -164,6 +165,7 @@ for job in info:
     fEvent = ROOT.TTreeFormula("Event",'EVENT.event',tree)
     fMETet = ROOT.TTreeFormula("METet",'METnoPU.et',tree)
     fMETphi = ROOT.TTreeFormula("METphi",'METnoPU.phi',tree)
+    hJet_MtArray = [array('f',[0]),array('f',[0])]
     hJet_MET_dPhi = array('f',[0]*2)
     hJet_regWeight = array('f',[0]*2)
     hJet_MET_dPhiArray = [array('f',[0]),array('f',[0])]
@@ -181,6 +183,7 @@ for job in info:
     if useMET:
     	readerJet0.AddVariable( "Jet_MET_dPhi", hJet_MET_dPhiArray[0] )
     	readerJet0.AddVariable( "METet", METet )
+    if useMt: readerJet0.AddVariable( "Jet_mt", hJet_MtArray[0] )
     if useRho25: readerJet0.AddVariable( "rho25", rho25 )
         
     theVars1 = {}
@@ -191,6 +194,7 @@ for job in info:
     if useMET:
     	readerJet1.AddVariable( "Jet_MET_dPhi", hJet_MET_dPhiArray[1] )
     	readerJet1.AddVariable( "METet", METet )
+    if useMt: readerJet1.AddVariable( "Jet_mt", hJet_MtArray[1] )
     if useRho25: readerJet1.AddVariable( "rho25", rho25 )
     readerJet0.BookMVA( "jet0Regression",  regWeight );
     readerJet1.BookMVA( "jet1Regression", regWeight );
@@ -298,6 +302,8 @@ for job in info:
                 HNoReg.dR = hJ0.DeltaR(hJ1)
                 HNoReg.dPhi = hJ0.DeltaPhi(hJ1)
                 HNoReg.dEta = abs(hJ0.Eta()-hJ1.Eta())
+                hJet_MtArray[0][0] = hJ0.Mt()
+                hJet_MtArray[1][0] = hJ1.Mt()
                 rPt0 = max(0.0001,readerJet0.EvaluateRegression( "jet0Regression" )[0])
                 rPt1 = max(0.0001,readerJet1.EvaluateRegression( "jet1Regression" )[0])
                 hJet_regWeight[0] = rPt0/hJet_pt0
