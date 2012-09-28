@@ -34,11 +34,15 @@ Light_RMed_ZH120: RMed_ZH120_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M120_Lig
 Top_RMed_ZH120: RMed_ZH120_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M120_Top.png,Top,Top,ZH120,Zee Zmm,noblind
 bb_RMed_ZH120: RMed_ZH120_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M120_bb.png,bb,bb,ZH120,Zee Zmm,noblind
 
-RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125.png,RTight,RTight,ZH125,Zee Zmm,blind
+RTight_ZH125_EE: RTight_ZH125_may.nominal,BDT,BDT output,10,-1,1,BDTRTight_M125_EE.png,RTight_EE,RTight_EE,ZH125,Zee,noblind
+RTight_ZH125_MM: RTight_ZH125_may.nominal,BDT,BDT output,10,-1,1,BDTRTight_M125_MM.png,RTight_MM,RTight_MM,ZH125,Zmm,noblind
+RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,10,-1,1,BDTRTight_M125.png,RTight,RTight,ZH125,Zee Zmm,noblind
 Light_RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125_Light.png,Light,Light,ZH125,Zee Zmm,noblind
 Top_RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125_Top.png,Top,Top,ZH125,Zee Zmm,noblind
 bb_RTight_ZH125: RTight_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRTight_M125_bb.png,bb,bb,ZH125,Zee Zmm,noblind
-RMed_ZH125: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125.png,RMed,RMed,ZH125,Zee Zmm,blind
+RMed_ZH125_EE: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125_EE.png,RMed_EE,RMed_EE,ZH125,Zee,noblind
+RMed_ZH125_MM: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125_MM.png,RMed_MM,RMed_MM,ZH125,Zmm,noblind
+RMed_ZH125: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125.png,RMed,RMed,ZH125,Zee Zmm,noblind
 Light_RMed_ZH125: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125_Light.png,Light,Light,ZH125,Zee Zmm,noblind
 Top_RMed_ZH125: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125_Top.png,Top,Top,ZH125,Zee Zmm,noblind
 bb_RMed_ZH125: RMed_ZH125_may.nominal,BDT,BDT output,20,-1,1,BDTRMed_M125_bb.png,bb,bb,ZH125,Zee Zmm,noblind
@@ -136,15 +140,17 @@ sys_Mjj: ['JER','JES']
 
 
 #Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
-sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?'}
 
-weightF_sys: True
+#sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?'}
+sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal'}
+
+weightF_sys: False
 
 #Example of sample systematic, in this case the ZZ sample is replaced by WZ
-addSample_sys: {'ZZ':'WZ'}
+#addSample_sys: {'ZZ':'WZ'}
 
 # bin-by-bin statistics
-binstat=True
+binstat: False
 
 
 blind: False
@@ -289,9 +295,10 @@ factoryname: MVA
 factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Transformations=I
 #:Transformations=I;D;P;G,D
 
-
 [MVALists]
-#list of all: RTight_ZH110,RTight_ZH115,RTight_ZH120,RTight_ZH125,RTight_ZH130,RTight_ZH135,RMed_ZH110,RMed_ZH115,RMed_ZH120,RMed_ZH125,RMed_ZH130,RMed_ZH135
+#List_for_submitscript: RTight_ZH110,RTight_ZH115,RTight_ZH120,RTight_ZH125,RTight_ZH130,RTight_ZH135,RMed_ZH110,RMed_ZH115,RMed_ZH120,RMed_ZH125,RMed_ZH130,RMed_ZH135
+List_for_submitscript: RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may,RPt50_ZZ_may,RIncl_ZZ_may
+#List_for_submitscript: Tight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may
 
 [RTight_ZZ_may]
 MVAtype: <!MVAGeneral|type!>

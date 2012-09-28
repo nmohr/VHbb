@@ -6,12 +6,14 @@ sample=$1
 #sqrt(s) you want to run
 energy=$2
 
-if [ $# -lt 2 ]
+task=$3
+
+if [ $# -lt 3 ]
     then
-    echo "ERROR: You passed " $# "arguments while the script needs at least 2 arguments."
+    echo "ERROR: You passed " $# "arguments while the script needs at least 3 arguments."
     echo "Exiting..."
     echo " ---------------------------------- "
-    echo " Usage : ./runAll.sh sample energy"
+    echo " Usage : ./runAll.sh sample energy task"
     echo " ---------------------------------- "
     exit
 fi
@@ -47,6 +49,16 @@ EOF`
 echo $pathAna
 configFile=config$energy
 
+MVAList=`python << EOF 
+import os
+from BetterConfigParser import BetterConfigParser
+config = BetterConfigParser()
+config.read('./config$energy')
+print config.get('MVALists','List_for_submitscript')
+EOF`
+configFile=config$energy
+
+
 #Create subdirs where processed samples will be stored
 if [ ! -d $pathAna/env/sys ]
     then
@@ -68,8 +80,19 @@ if [ ! -f $pathAna/sys/MVAout/samples.info ]
 fi
 
 #Run the scripts
-#./step1_prepare_trees.sh 
-#./write_regression_systematics.py -P $pathAna/env/ -S $sample -C $configFile -C pathConfig$energy
-./evaluateMVA.py -P $pathAna/env/sys/ -D RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may,RPt50_ZZ_may,RIncl_ZZ_may -S $sample -U 0 -C ${configFile} -C pathConfig$energy
-#./showinfo.py $pathAna/env/sys
-#./evaluateMVA.py -P $pathAna/env/sys/ -D RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may -S $sample -U 0 -C ${configFile} -C pathConfig$energy
+
+if [ $task = "prep" ]; then
+    ./step1_prepare_trees.sh 
+fi
+if [ $task = "sys" ]; then
+    ./write_regression_systematics.py -P $pathAna/env/ -S $sample -C $configFile -C pathConfig$energy
+fi
+if [ $task = "eval" ]; then
+    ./evaluateMVA.py -P $pathAna/env/sys/ -D $MVAList -S $sample -U 0 -C ${configFile} -C pathConfig$energy
+fi
+if [ $task = "plot" ]; then
+    ./tree_stack.py -P $pathAna/env/sys/MVAout/ -C ${configFile} -C pathConfig$energy -V $sample
+fi
+if [ $task = "dc" ]; then
+    ./workspace_datacard.py -P $pathAna/env/sys/MVAout/ -C ${configFile} -C pathConfig$energy -V $sample 
+fi

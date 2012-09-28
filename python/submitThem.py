@@ -5,16 +5,23 @@ from BetterConfigParser import BetterConfigParser
 from samplesclass import sample
 import getpass
 
-Test=False
-
 parser = OptionParser()
 parser.add_option("-T", "--tag", dest="tag", default="",
                       help="Tag to run the analysis with, example '8TeV' uses config8TeV and pathConfig8TeV to run the analysis")
+parser.add_option("-J", "--task", dest="task", default="",
+                      help="Task to be done, i.e. 'dc' for Datacards, 'prep' for preparation of Trees, 'plot' to produce plots or 'eval' to write the MVA output or 'sys' to write regression and systematics. ")
+parser.add_option("-M", "--mass", dest="mass", default="125",
+                      help="Mass for DC or Plots, 110...135")
 
 (opts, args) = parser.parse_args(sys.argv)
 if opts.tag == "":
 	print "Please provide tag to run the analysis with, example '-T 8TeV' uses config8TeV and pathConfig8TeV to run the analysis."
 	sys.exit(123)
+
+if opts.task == "":
+    print "Please provide a task.\n-J prep:\tpreparation of Trees\n-J sys:\t\twrite regression and systematics\n-J eval:\tcreate MVA output\n-J plot:\tproduce Plots\n-J dc:\t\twrite workspaces and datacards"
+    sys.exit(123)
+
 en = opts.tag
 configs = ['config%s'%(en),'pathConfig%s'%(en)]
 print configs
@@ -32,32 +39,37 @@ logPath = config.get("Directories","logpath")
 repDict = {'en':en,'logpath':logPath,'job':''}
 def submit(job,repDict):
 	repDict['job'] = job
-	command = 'qsub -V -cwd -q all.q -N %(job)s_%(en)s -o %(logpath)s/%(job)s_%(en)s.out -e %(logpath)s/%(job)s_%(en)s.err runAll.sh %(job)s %(en)s' %repDict
+	command = 'qsub -V -cwd -q all.q -N %(job)s_%(en)s -o %(logpath)s/%(job)s_%(en)s.out -e %(logpath)s/%(job)s_%(en)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task
 	print command
 	subprocess.call([command], shell=True)
 
-#theJobs = ['STbar_tW','ST_tW']
-#theJobs = ['ZH110','ZH125','ZH120','Zudsg','Zbb','Zcc','ZH115','ZH130','ZZ','Zudsg70100','Zbb70100','Zcc70100','Zudsg5070','Zbb5070','Zcc5070','Zmm','Zudsg100','Zbb100','Zcc100','ST_s','TT','Zee','STbar_s','STbar_t','WZ','WW','STbar_tW','ST_tW']
-#theJobs = ['ZH110','ZH125']
-#theJobs = ['ST_t']
-#theJobs = ['ZH110','ZH115','ZH120','ZH125','ZH130','ZH135','DY','DY120','TT','ZZ','WZ','WW','ST_s','ST_t','STbar_s','STbar_t','STbar_tW','ST_tW','Zee','Zmm']
-
-#theJobs = ['ZH110','ZH125','ZH120','DY','ZH115','ZH130','ZH135','ZZ','DY120','Zmm','ST_s','TT','Zee','STbar_s','STbar_t','WZ','WW','STbar_tW','ST_tW']
-#if energy=='8TeV':
-#    theJobs = ['ZH110','ZH125','ZH120','DY','DY5070','DY70100','DY100','ZH115','ZH130','ZH135','ZZ','DY120','Zmm','ST_s','TT','Zee','STbar_s','STbar_t','WZ','WW','STbar_tW','ST_tW']
-#if Test:
-#	theJobs = ['WZ']
-
+if opts.task == 'dc':
+    DC_vars = config.items('Limit')
+if opts.task == 'plot':
+    Plot_vars= config.items('Plot')
 
 path = config.get("Directories","samplepath")
 infofile = open(path+'/env/samples.info','r')
 info = pickle.load(infofile)
 infofile.close()
 
-#submit('prepare',repDict)
 
-for job in info:
-    if Test and job.name == 'WZ':    
-    	submit(job.name,repDict)
-    elif not Test:
+if opts.task == 'plot': 
+    for item in Plot_vars:
+        if 'ZH%s'%opts.mass in item[0]:
+            submit(item[0],repDict)
+        elif opts.mass == '' and 'ZH' in item[0]:
+            submit(item[0],repDict)
+
+elif opts.task == 'dc':
+    for item in DC_vars:
+        if 'ZH%s'%opts.mass in item[0] and opts.tag in item[0]:
+            submit(item[0],repDict) 
+        elif 'ZH' in item[0] and opts.tag in item[0] and opts.mass == '*':
+            submit(item[0],repDict)
+elif opts.task == 'prep':
+    submit('prepare',repDict)
+
+elif opts.task == 'eval' or opts.task == 'sys':
+    for job in info:
         submit(job.name,repDict)

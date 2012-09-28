@@ -39,6 +39,7 @@ anaTag = config.get("Analysis","tag")
 # -------------------- parsing configuration and options: (an ugly spaghetti code section) ----------------------------------------------------------------------
 #get locations:
 Wdir=config.get('Directories','Wdir')
+vhbbpath=config.get('Directories','vhbbpath')
 #systematics
 systematics=config.get('systematics','systematics')
 systematics=systematics.split(' ')
@@ -175,7 +176,7 @@ for job in info:
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 histos.append(hTemp)
                 typs.append(Group[job.name])                        
-		hNames.append(job.name)
+                hNames.append(job.name)
                 if weightF_sys:
                     hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys')
                     weightF_sys_histos.append(hTempW)
@@ -185,6 +186,10 @@ for job in info:
                 else:
                     hDummy.Add(hTemp)
                 counter += 1
+            elif addSample_sys and job.name in addSample_sys.values():
+                aNames.append(job.name)                        
+                hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+                addSample_sys_histos.append(hTempS)
                 
             elif job.name == SIG:
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
@@ -202,8 +207,8 @@ for job in info:
                 datatyps.append(typ)
             
 	    if addSample_sys and job.name in addSample_sys.values():
-                aNames.append(job.name)                        
-		hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+                aNames.append(job.name)
+                hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 addSample_sys_histos.append(hTempS)
 
 MC_integral=0
@@ -437,9 +442,9 @@ WS.writeToFile(outpath+'vhbb_WS_'+ROOToutname+'.root')
 columns=len(setup)
 
 if '8TeV' in options[10]:
-    pier = open(Wdir+'/pier8TeV.txt','r')
+    pier = open(vhbbpath+'/python/pier8TeV.txt','r')
 else:
-    pier = open(Wdir+'/pier.txt','r')
+    pier = open(vhbbpath+'/python/pier.txt','r')
 scalefactors=pier.readlines()
 pier.close()
 f = open(outpath+'vhbb_DC_'+ROOToutname+'.txt','w')

@@ -9,7 +9,7 @@ name=sys.argv[2]
 #type='BKG'
 attribute=sys.argv[3]
 #attribute='split'
-newvalue=sys.argv[4]
+newvalue=eval(sys.argv[4])
 #newvalue=0.5
 
 
