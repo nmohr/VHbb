@@ -11,7 +11,10 @@ parser.add_option("-T", "--tag", dest="tag", default="",
 parser.add_option("-J", "--task", dest="task", default="",
                       help="Task to be done, i.e. 'dc' for Datacards, 'prep' for preparation of Trees, 'plot' to produce plots or 'eval' to write the MVA output or 'sys' to write regression and systematics. ")
 parser.add_option("-M", "--mass", dest="mass", default="125",
-                      help="Mass for DC or Plots, 110...135")
+		      help="Mass for DC or Plots, 110...135")
+parser.add_option("-S","--samples",dest="samples",default="",
+		      help="samples you want to run on")
+
 
 (opts, args) = parser.parse_args(sys.argv)
 if opts.tag == "":
@@ -22,8 +25,12 @@ if opts.task == "":
     print "Please provide a task.\n-J prep:\tpreparation of Trees\n-J sys:\t\twrite regression and systematics\n-J eval:\tcreate MVA output\n-J plot:\tproduce Plots\n-J dc:\t\twrite workspaces and datacards"
     sys.exit(123)
 
+#create the dictionary with the samples to run over
+samplesDict=opts.samples.split(",")
+
 en = opts.tag
 configs = ['config%s'%(en),'pathConfig%s'%(en)]
+	
 print configs
 config = BetterConfigParser()
 config.read(configs)
@@ -71,5 +78,10 @@ elif opts.task == 'prep':
     submit('prepare',repDict)
 
 elif opts.task == 'eval' or opts.task == 'sys':
-    for job in info:
-        submit(job.name,repDict)
+    if ( opts.samples == ""):
+        for job in info:
+            submit(job.name,repDict)
+    else:
+        for sample in samplesDict:
+            submit(sample,repDict)
+            
