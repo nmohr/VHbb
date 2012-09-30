@@ -25,8 +25,8 @@ if opts.task == "":
     print "Please provide a task.\n-J prep:\tpreparation of Trees\n-J sys:\t\twrite regression and systematics\n-J eval:\tcreate MVA output\n-J plot:\tproduce Plots\n-J dc:\t\twrite workspaces and datacards"
     sys.exit(123)
 
-#create the dictionary with the samples to run over
-samplesDict=opts.samples.split(",")
+#create the list with the samples to run over
+samplesList=opts.samples.split(",")
 
 en = opts.tag
 configs = ['config%s'%(en),'pathConfig%s'%(en)]
@@ -82,6 +82,6 @@ elif opts.task == 'eval' or opts.task == 'sys':
         for job in info:
             submit(job.name,repDict)
     else:
-        for sample in samplesDict:
+        for sample in samplesList:
             submit(sample,repDict)
             
