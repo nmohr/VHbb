@@ -60,6 +60,10 @@ configFile=config$energy
 
 
 #Create subdirs where processed samples will be stored
+if [ ! -d $pathAna/env ]
+    then
+    mkdir $pathAna/env
+fi
 if [ ! -d $pathAna/env/sys ]
     then
     mkdir $pathAna/env/sys
@@ -82,7 +86,7 @@ fi
 #Run the scripts
 
 if [ $task = "prep" ]; then
-    ./step1_prepare_trees.sh 
+    ./prepare_environment_with_config.py -I $pathAna -O $pathAna/env/ -C ${energy}samples_nosplit.cfg
 fi
 if [ $task = "sys" ]; then
     ./write_regression_systematics.py -P $pathAna/env/ -S $sample -C $configFile -C pathConfig$energy
