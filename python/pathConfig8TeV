@@ -1,14 +1,19 @@
 [Directories]
-Wdir: /shome/peller/
-limits: <!Directories|Wdir!>/VHbb/Limits/Test/
-plotpath: <!Directories|Wdir!>/VHbb/Stacks/Test/
-samplepath= <!Directories|Wdir!>/DATA/HCP/
+#Peller's setup
+Wdir: /shome/peller
+
+limits: <!Directories|Wdir!>/VHbb/Limits/HCPV42/
+plotpath: <!Directories|Wdir!>/VHbb/Stacks/HCPV42/
+samplepath= <!Directories|Wdir!>/DATA/HCPV42
+vhbbpath= <!Directories|Wdir!>/UserCode/VHbb/
+logpath= <!Directories|Wdir!>/shome/peller/VHbb/LOG/HCPV42/
+
 #Wdir: /shome/bortigno
 #limits: <!Directories|Wdir!>/Limits/Test/
 #plotpath: <!Directories|Wdir!>/Stacks/TopUp/
 #samplepath= <!Directories|Wdir!>/VHbbAnalysis/VHbbTest/Step2_8TeV
+
 SYSdir: /sys/
 #MVAdir is relative to the samples with systematics.....i.e. /MVAout/ normally
 MVAdir: /MVAout/
-vhbbpath= /shome/peller/UserCode/VHbb/
-logpath= /shome/peller/VHbb/LOG/
+

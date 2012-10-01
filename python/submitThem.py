@@ -55,10 +55,11 @@ if opts.task == 'dc':
 if opts.task == 'plot':
     Plot_vars= config.items('Plot')
 
-path = config.get("Directories","samplepath")
-infofile = open(path+'/env/samples.info','r')
-info = pickle.load(infofile)
-infofile.close()
+if not opts.task == 'prep':
+    path = config.get("Directories","samplepath")
+    infofile = open(path+'/env/samples.info','r')
+    info = pickle.load(infofile)
+    infofile.close()
 
 
 if opts.task == 'plot': 
