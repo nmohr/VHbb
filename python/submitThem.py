@@ -43,10 +43,17 @@ shutil.copyfile(os.path.basename(btagLibrary),'/scratch/%s/%s'%(getpass.getuser(
 shutil.copyfile('/scratch/%s/%s'%(getpass.getuser(),os.path.basename(btagLibrary)),btagLibrary)
 os.chdir(submitDir)
 logPath = config.get("Directories","logpath")
+#check if the logPath exist. If not exit
+if( not os.path.isdir(logPath) ):
+	print 'ERROR: ' + logPath + ': dir not found.'
+	print 'ERROR: Create it before submitting '
+	print 'Exit'
+	sys.exit(-1)
+
 repDict = {'en':en,'logpath':logPath,'job':'','task':opts.task}
 def submit(job,repDict):
 	repDict['job'] = job
-	command = 'qsub -V -cwd -q all.q -N %(job)s_%(en)s -o %(logpath)s/%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task
+	command = 'qsub -V -cwd -q all.q -N %(job)s_%(en)s%(task)s -o %(logpath)s/%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task
 	print command
 	subprocess.call([command], shell=True)
 
