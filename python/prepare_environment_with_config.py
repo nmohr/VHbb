@@ -16,15 +16,20 @@ parser.add_option("-I", "--inPath", dest="pathIn", default="",
 parser.add_option("-O", "--outPath", dest="pathOut", default="",
                       help="path to the output files")
 parser.add_option("-C", "--config", dest="config", default="",
-                      help="configuration defining the plots to make")
+                      help="configuration of samples")
+parser.add_option("-U", "--update", dest="update", default=False, action='store_true',
+                      help="append sample to existing samples.info")
+parser.add_option("-D", "--dry", dest="dry", default=False, action='store_true',
+                      help="dry drun - just write samples. info withou copying and skimming trees")
+
+
 argv=sys.argv
+
 (opts, args) = parser.parse_args(argv)
 
 pathIN=opts.pathIn
 pathOUT=opts.pathOut
 
-if opts.config =="":
-        opts.config = "7TeVsamples_ZZ.cfg"
 print "Config is: %s" %(opts.config)
 config = BetterConfigParser()
 config.read(opts.config)
@@ -73,10 +78,18 @@ for Sample in config.sections():
         if sampleType != 'DATA':
             info[-1].sf = config.get(Sample, 'SF')
             info[-1].xsec = config.get(Sample,'xSec')
-        
-    copytree(pathIN,pathOUT,prefix,newprefix,infile,'',cut+Precut)
 
-#dump info   
+    if not opts.dry:    
+        copytree(pathIN,pathOUT,prefix,newprefix,infile,'',cut+Precut)
+
+#dump info
+if opts.update:
+    infofile = open(pathOUT+'/samples.info','r')
+    info_old = pickle.load(infofile)
+    infofile.close()
+    
+    info += info_old
+
 infofile = open(pathOUT+'/samples.info','w')
 pickle.dump(info,infofile)
 infofile.close()
