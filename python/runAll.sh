@@ -73,15 +73,10 @@ if [ ! -d $pathAna/env/sys/MVAout ]
     mkdir $pathAna/env/sys/MVAout
 fi
 
-#Create the link to th sample information in the new sudfolders
-if [ ! -f $pathAna/env/sys/samples.info ]
-    then
-    ln -s $pathAna/env/samples.info  $pathAna/env/sys/samples.info
-fi
-if [ ! -f $pathAna/sys/MVAout/samples.info ]
-    then
-    ln -s $pathAna/env/samples.info $pathAna/env/sys/MVAout/samples.info
-fi
+#Create the link to th sample information in the new sudfolders.
+#It always update the link.
+ln -s -f $pathAna/env/samples.info  $pathAna/env/sys/samples.info
+ln -s -f $pathAna/env/samples.info $pathAna/env/sys/MVAout/samples.info
 
 #Run the scripts
 
