@@ -1,0 +1,51 @@
+VHbb Analysis
+Philipp Eller, 01.10.2012
+
+
+EXPLANATION:
+___________
+
+The Analysis is split up in several steps. Having the step2 Ntupels the code does the following:
+
+- prepare the environement (skim trees, write sample.info): This uses the info about your MC samples and data stored in *samples*.cfg and creates a new subdirectory 'env/'
+- write systematics and the regression: This creates a new subdirectory 'sys/'
+(optional: - do a new training)
+- apply all MVAs to the trees. this creates the subdirectory 'MVAout/'
+- write the RooFit Workspaces and the DataCards
+
+
+EXAMPLE OF STEPS TO RUN:
+_______________________
+*** the analysis is designed to be run on the T3 cluster, you can run locally by not using the 'submitThem.py' script
+*** make sure you understand the config*TeV, where everything can be set for the Analysis. If something needs to be changed it should be done via this config, NOT by changing the code!
+
+- Edit pathConfig*TeV and make sure the directories for plots and Limits exist, point the right path to the code and your directory where you have the trees)
+- Edit *samples*.cfg according to your MC samples and Data
+(if you need to change something later there is an updater script updateinfo.py) 
+
+- run ./submitThem.py -T 8TeV -J prep
+
+check with ./showinfo.py PATH/env/ that everything is correct
+
+- run ./submitThem.py -T 8TeV -J sys
+- run ./submitThem.py -T 8TeV -J eval
+
+(if you want to test or run individual samples, add the option -S SAMPLE, e.g. '-S ZH125')
+
+make some plots (at the latest here) with
+- run ./submitThem.py -T 8TeV -J plot -M 125 (makes plot with ZH125 as Signal)
+
+make the datacards:
+-run ./submitThem.py -T 8TeV -J dc -M 125 (or -M all for all Masses)
+
+you should now have DC, TH and WS files for every Mass and Region in the Limit Directory.
+
+From there, using CMSSW:
+
+to combine channels
+- combineCards.py vhbb_DC_*1.txt vhbb_DC_2*.txt ... >> vhbb_combinedDC.txt
+
+then calculate the Limit, for example Asymptotic
+- combine -M Asymptotic vhbb_combinedDC.txt
+
+or with Toys the option -t # (# number of toys)
