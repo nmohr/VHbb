@@ -4,9 +4,9 @@ Wdir: /shome/peller
 
 limits: <!Directories|Wdir!>/VHbb/Limits/HCPV42/
 plotpath: <!Directories|Wdir!>/VHbb/Stacks/HCPV42/
-samplepath= <!Directories|Wdir!>/DATA/HCPV42
+samplepath= <!Directories|Wdir!>/DATA/HCPV42/
 vhbbpath= <!Directories|Wdir!>/UserCode/VHbb/
-logpath= <!Directories|Wdir!>/shome/peller/VHbb/LOG/HCPV42/
+logpath= <!Directories|Wdir!>/VHbb/LOG/HCPV42/
 
 #Wdir: /shome/bortigno
 #limits: <!Directories|Wdir!>/Limits/Test/
