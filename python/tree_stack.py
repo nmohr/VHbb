@@ -108,6 +108,13 @@ Ldatas = [[] for _ in range(0,len(vars))]
 Ldatatyps = [[] for _ in range(0,len(vars))]
 Ldatanames = [[] for _ in range(0,len(vars))]
 
+
+#Find out Lumi:
+for job in info:
+    if job.name in data: lumi_data=job.lumi
+
+Plotter.lumi=lumi_data
+
 for job in info:
     if eval(job.active):
         if job.subsamples:
@@ -134,7 +141,6 @@ for job in info:
                     Ldatas[v].append(hTemp[v])
                     Ldatatyps[v].append(typ[v])
                     Ldatanames[v].append(job.name)
-                xsec_data=job.xsec
 
 
 for v in range(0,len(vars)):
@@ -246,7 +252,7 @@ for v in range(0,len(vars)):
     t.SetTextSize(0.04)
     t.DrawLatex(0.13,0.85,"CMS Preliminary")
     t.SetTextSize(0.03)
-    t.DrawLatex(0.13,0.79,"#sqrt{s} =  %s, L = %s fb^{-1}"%(anaTag,xsec_data))
+    t.DrawLatex(0.13,0.79,"#sqrt{s} =  %s, L = %s fb^{-1}"%(anaTag,(lumi_data/1000.)))
 
     unten.cd()
     ROOT.gPad.SetTicks(1,1)

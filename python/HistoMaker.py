@@ -16,6 +16,7 @@ class HistoMaker:
         self.rescale = rescale
         self.which_weightF=which_weightF
         self.region = region
+        self.lumi=0.
 
     def getScale(self,job,subsample=-1):
         anaTag=self.config.get('Analysis','tag')
@@ -31,14 +32,15 @@ class HistoMaker:
             sf=float(job.sf)
         theScale = 1.
         if anaTag == '7TeV':
-            theScale = float(job.lumi)*xsec*sf/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*self.rescale/float(job.split)
+            theScale = float(self.lumi)*xsec*sf/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*self.rescale/float(job.split)
         elif anaTag == '8TeV':
-            theScale = float(job.lumi)*xsec*sf/(CountWithPU.GetBinContent(1))*self.rescale/float(job.split)
+            theScale = float(self.lumi)*xsec*sf/(CountWithPU.GetBinContent(1))*self.rescale/float(job.split)
         return theScale 
 
 
     def getHistoFromTree(self,job,subsample=-1):
-        
+        if self.lumi == 0: raise Exception("You're trying to plot with no lumi")
+         
         hTreeList=[]
         groupList=[]
 
