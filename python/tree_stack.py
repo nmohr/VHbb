@@ -7,7 +7,7 @@ from ROOT import TFile, TTree
 import ROOT
 from array import array
 from BetterConfigParser import BetterConfigParser
-import sys
+import sys, os
 from mvainfos import mvainfo
 #from gethistofromtree import getHistoFromTree, orderandadd
 from Ratio import getRatio
@@ -46,8 +46,6 @@ Normalize = eval(config.get(section,'Normalize'))
 log = eval(config.get(section,'log'))
 blind = eval(config.get(section,'blind'))
 
-#plot=config.get('Plot',var)
-
 infofile = open(path+'/samples.info','r')
 info = pickle.load(infofile)
 infofile.close()
@@ -85,13 +83,13 @@ for i in range(0,len(vars)):
     options.append([names[i],'',xAxis[i],nBins[i],xMin[i],xMax[i],'%s_%s.pdf'%(region,vars[i]),region,datacut,mass,data,blindopt])
 
 
-setup=config.get('Plot','setup')
+setup=config.get('Plot_general','setup')
 setup=setup.split(',')
 
-samples=config.get('Plot','samples')
+samples=config.get('Plot_general','samples')
 samples=samples.split(',')
 
-colorDict=eval(config.get('Plot','colorDict'))
+colorDict=eval(config.get('Plot_general','colorDict'))
 #color=color.split(',')
 
 
@@ -101,7 +99,7 @@ Group = eval(config.get('LimitGeneral','Group'))
 
 #GETALL AT ONCE
 
-Plotter=HistoMaker(path,config,options)
+Plotter=HistoMaker(path,config,region,options)
  
 #print '\nProducing Plot of %s\n'%vars[v]
 Lhistos = [[] for _ in range(0,len(vars))]
@@ -121,8 +119,6 @@ for job in info:
                         Lhistos[v].append(hTempList[v])
                         Ltyps[v].append(Group[job.subnames[subsample]])
 
-
-    
         else:
             if job.name in samples:
                 #print job.getpath()
@@ -184,8 +180,8 @@ for v in range(0,len(vars)):
     print "\033[1;32m\n\tMC integral = %s\033[1;m"%MC_integral
 
     #ORDER AND ADD TOGETHER
-    print typs
-    print setup
+    #print typs
+    #print setup
     histos, typs = orderandadd(histos,typs,setup)
 
 
@@ -197,7 +193,6 @@ for v in range(0,len(vars)):
         histos[i].SetLineColor(1)
         allStack.Add(histos[i])
         l.AddEntry(histos[j],typs[j],'F')
-        
 
     d1 = ROOT.TH1F('noData','noData',nBins[v],xMin[v],xMax[v])
     datatitle=''
@@ -281,5 +276,8 @@ for v in range(0,len(vars)):
 
     name = '%s/%s' %(config.get('Directories','plotpath'),options[v][6])
     c.Print(name)
+
+    os.system('rm %s/tmp_plotCache_%s*'%(config.get('Directories','plotpath'),region))
     print 'i am done!\n'
+
 sys.exit(0)

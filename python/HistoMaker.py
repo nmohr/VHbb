@@ -9,14 +9,13 @@ from BetterConfigParser import BetterConfigParser
 import sys
 
 class HistoMaker:
-    def __init__(self, path, config, optionsList,rescale=1,which_weightF='weightF'):
+    def __init__(self, path, config, region, optionsList,rescale=1,which_weightF='weightF'):
         self.path = path
         self.config = config
         self.optionsList = optionsList
         self.rescale = rescale
         self.which_weightF=which_weightF
-
-
+        self.region = region
 
     def getScale(self,job,subsample=-1):
         anaTag=self.config.get('Analysis','tag')
@@ -24,15 +23,12 @@ class HistoMaker:
         CountWithPU = input.Get("CountWithPU")
         CountWithPU2011B = input.Get("CountWithPU2011B")
         #print lumi*xsecs[i]/hist.GetBinContent(1)
-        
         if subsample>-1:
             xsec=float(job.xsec[subsample])
             sf=float(job.sf[subsample])
         else:
             xsec=float(job.xsec)
             sf=float(job.sf)
-        
-        
         theScale = 1.
         if anaTag == '7TeV':
             theScale = float(job.lumi)*xsec*sf/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*self.rescale/float(job.split)
@@ -46,45 +42,42 @@ class HistoMaker:
         hTreeList=[]
         groupList=[]
 
-        output=TFile.Open(self.path+'/tmp_%s.root'%job.name,'recreate')
+
+        plot_path = self.config.get('Directories','plotpath')
+
+        # define treeCut
         if job.type != 'DATA':
-        
-            if type(self.optionsList[0][7])==str:
-                cutcut=self.config.get('Cuts',self.optionsList[0][7])
-            elif type(self.optionsList[0][7])==list:
-                cutcut=self.config.get('Cuts',self.optionsList[0][7][0])
-                cutcut=cutcut.replace(self.optionsList[0][7][1],self.optionsList[0][7][2])
-                print cutcut
+            if type(self.region)==str:
+                cutcut=self.config.get('Cuts',self.region)
+            elif type(self.region)==list:
+                #replace vars with other vars in the cutstring (used in DC writer)
+                cutcut=self.config.get('Cuts',self.region[0])
+                cutcut=cutcut.replace(self.region[1],self.region[2])
+                #print cutcut
             if subsample>-1:
                 treeCut='%s & %s & EventForTraining == 0'%(cutcut,job.subcuts[subsample])        
             else:
                 treeCut='%s & EventForTraining == 0'%(cutcut)
-
         elif job.type == 'DATA':
-            cutcut=self.config.get('Cuts',self.optionsList[0][8])
+            cutcut=self.config.get('Cuts',self.region)
             treeCut='%s'%(cutcut)
+
+        # get and skim the Trees
+        output=TFile.Open(plot_path+'/tmp_plotCache_%s_%s.root'%(self.region,job.identifier),'recreate')
         input = TFile.Open(self.path+'/'+job.getpath(),'read')
         Tree = input.Get(job.tree)
+        output.cd()
+        CuttedTree=Tree.CopyTree(treeCut)
+    
+        # get all Histos at once
         weightF=self.config.get('Weights',self.which_weightF)
-        if job.type != 'DATA':
-            #if Tree.GetEntries():
-            output.cd()
-            CuttedTree=Tree.CopyTree(treeCut)
-        elif job.type == 'DATA':
-        
-            output.cd()
-            CuttedTree=Tree.CopyTree(treeCut)
-
         for options in self.optionsList:
-
             if subsample>-1:
                 name=job.subnames[subsample]
                 group=job.group[subsample]
             else:
                 name=job.name
                 group=job.group
-
-
             treeVar=options[0]
             name=options[1]
             nBins=int(options[3])
@@ -99,7 +92,6 @@ class HistoMaker:
                 else:
                     full=False
             elif job.type == 'DATA':
-            
                 if options[11] == 'blind':
                     output.cd()
                     CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<0', "goff,e")
@@ -113,12 +105,10 @@ class HistoMaker:
                 output.cd()
                 hTree = ROOT.TH1F('%s'%name,'%s'%name,nBins,xMin,xMax)
                 hTree.Sumw2()
-
             if job.type != 'DATA':
                 ScaleFactor = self.getScale(job,subsample)
                 if ScaleFactor != 0:
                     hTree.Scale(ScaleFactor)
-                    
             #print '\t-->import %s\t Integral: %s'%(job.name,hTree.Integral())
             hTree.SetDirectory(0)
             input.Close()
