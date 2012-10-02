@@ -60,7 +60,7 @@ def submit(job,repDict):
 if opts.task == 'dc':
     DC_vars = config.items('Limit')
 if opts.task == 'plot':
-    Plot_vars= config.items('Plot')
+    Plot_vars= (config.get('Plot_general','List')).split(',')
 
 if not opts.task == 'prep':
     path = config.get("Directories","samplepath")
@@ -71,10 +71,7 @@ if not opts.task == 'prep':
 
 if opts.task == 'plot': 
     for item in Plot_vars:
-        if 'ZH%s'%opts.mass in item[0]:
-            submit(item[0],repDict)
-        elif opts.mass == '' and 'ZH' in item[0]:
-            submit(item[0],repDict)
+        submit(item,repDict)
 
 elif opts.task == 'dc':
     for item in DC_vars:

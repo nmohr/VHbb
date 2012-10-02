@@ -2,6 +2,88 @@
 tag = 8TeV
 
 ###########################################################################################
+
+[Plot_general]
+
+List: Light_RTight 
+#Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
+# RTight,RMed #,Light
+BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,csv0,csv1,AK7,Sum
+BDTs: BDT_RTight,BDT_RMed
+
+[Plot:RTight]
+Datas: Zee Zmm
+Normalize: False
+vars: BDT_RTight
+Signal: ZH125
+log: True
+blind: True
+# optional Datacut: 
+
+[Plot:RMed]
+Datas: Zee Zmm
+Normalize: False
+vars: BDT_RMed
+Signal: ZH125
+log: True
+blind: True
+
+[Plot:Light_RTight]
+Datas: Zee Zmm
+Normalize: True
+vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
+#vars: BDT_RTight
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:Top_RTight]
+Datas: Zee Zmm
+Normalize: True
+#vars: <!Plot_general|BDT_vars!>
+vars: BDT_RTight
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:bb_RTight]
+Datas: Zee Zmm
+Normalize: True
+#vars: <!Plot_general|BDT_vars!>
+vars: BDT_RTight
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:Light_RMed]
+Datas: Zee Zmm
+Normalize: True
+#vars: <!Plot_general|BDT_vars!>
+vars: BDT_RTight
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:Top_RMed]
+Datas: Zee Zmm
+Normalize: True
+#vars: <!Plot_general|BDT_vars!>
+vars: BDT_RTight
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:bb_RMed]
+Datas: Zee Zmm
+Normalize: True
+#vars: <!Plot_general|BDT_vars!>
+vars: BDT_RTight
+Signal: ZH125
+log: False
+blind: False
+
+
+
 # Plotting etc...
 [Plot]
 
@@ -150,10 +232,10 @@ weightF_sys: False
 #addSample_sys: {'ZZ':'WZ'}
 
 # bin-by-bin statistics
-binstat: False
+binstat: True
 
 
-blind: False
+blind: True
 #### rescaling by factor 4
 scaling: True
 #rescale stats
@@ -448,7 +530,7 @@ maxBtag = max(hJet_csv[0],hJet_csv[1])
 tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
-preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & EVENT.json & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
+preselection = hJet_pt[0] > 30. & hJet_pt[1] > 30. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
 zWindow = V.mass > 75. & V.mass < 105
 zVeto =  (V.mass > 105 | V.mass < 75.)
 noAddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) == 0 
@@ -481,6 +563,15 @@ RTight = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBt
 Light: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!>
 Top = <!ZHbb|preselection!> & <!ZHbb|upperHMass!> & <!ZHbb|tlBtag!> & <!ZHbb|zVeto!> & H.pt > 100.
 bb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|zWindow!> & <!ZHbb|tlBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!>
+
+Light_RTight = <!Cuts|Light!> & <!ZHbb|rTight!>
+Top_RTight = <!Cuts|Top!> & <!ZHbb|rTight!>
+bb_RTight = <!Cuts|bb!> & <!ZHbb|rTight!>
+
+Light_RMed = <!Cuts|Light!> & <!ZHbb|rMed!>
+Top_RMed = <!Cuts|Top!> & <!ZHbb|rMed!>
+bb_RMed = <!Cuts|bb!> & <!ZHbb|rMed!>
+
 
 #lepton individual
 RTight_EE: Vtype==1 & (triggerFlags[5]>0 || triggerFlags[6]>0) & <!Cuts|RTight!>
