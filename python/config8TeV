@@ -466,10 +466,6 @@ Light: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntB
 Top = <!ZHbb|preselection!> & <!ZHbb|upperHMass!> & <!ZHbb|tlBtag!> & <!ZHbb|zVeto!> & H.pt > 100.
 bb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|zWindow!> & <!ZHbb|tlBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!>
 
-<<<<<<< config8TeV
-#FOR NEW MCs take out Trigger Flags!!
-
-=======
 Light_RTight = <!Cuts|Light!> & <!ZHbb|rTight!>
 Top_RTight = <!Cuts|Top!> & <!ZHbb|rTight!>
 bb_RTight = <!Cuts|bb!> & <!ZHbb|rTight!>
@@ -478,8 +474,6 @@ Light_RMed = <!Cuts|Light!> & <!ZHbb|rMed!>
 Top_RMed = <!Cuts|Top!> & <!ZHbb|rMed!>
 bb_RMed = <!Cuts|bb!> & <!ZHbb|rMed!>
 
-
->>>>>>> 1.13
 #lepton individual
 RTight_EE: Vtype==1 & (triggerFlags[5]>0 || triggerFlags[6]>0) & <!Cuts|RTight!>
 RTight_MM: Vtype==0 & (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) & <!Cuts|RTight!>
