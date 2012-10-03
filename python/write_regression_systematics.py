@@ -35,6 +35,7 @@ print opts.config
 config = BetterConfigParser()
 config.read(opts.config)
 anaTag = config.get("Analysis","tag")
+TrainFlag = eval(config.get('Analysis','TrainFlag')
 btagLibrary = config.get('BTagReshaping','library')
 path=opts.path
 namelist=opts.names.split(',')
@@ -256,7 +257,7 @@ for job in info:
     for entry in range(0,nEntries):
             tree.GetEntry(entry)
 
-            if job.type != 'DATA' and anaTag == '7TeV':
+            if job.type != 'DATA' and TrainFlag:
                 EventForTraining[0]=int(not TFlag.EvalInstance())
 
 

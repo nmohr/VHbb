@@ -21,11 +21,13 @@ parser.add_option("-U", "--update", dest="update", default=False, action='store_
                       help="append sample to existing samples.info")
 parser.add_option("-D", "--dry", dest="dry", default=False, action='store_true',
                       help="dry drun - just write samples. info withou copying and skimming trees")
+parser.add_option("-S", "--samples", dest="samples", default="",
+                      help="List of samples")
 
-
-argv=sys.argv
 
 (opts, args) = parser.parse_args(argv)
+
+SamplesList=opts.samples.split(',')
 
 pathIN=opts.pathIn
 pathOUT=opts.pathOut
@@ -44,6 +46,7 @@ info = []
 
 for Sample in config.sections():
     if not config.has_option(Sample,'infile'): continue
+    if not SamplesList == [''] and not config.get(Sample,'sampleName') in SamplesList: continue
     infile = config.get(Sample,'infile')
     if not ROOT.TFile.Open(pathIN+prefix+infile+'.root',"READ"):
         print 'WARNING: No file ' + pathIN+prefix+infile+ ' found! '

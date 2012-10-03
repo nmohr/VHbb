@@ -81,6 +81,7 @@ elif opts.task == 'dc':
             submit(item[0],repDict) 
         elif 'ZH' in item[0] and opts.tag in item[0] and opts.mass == '*':
             submit(item[0],repDict)
+            
 elif opts.task == 'prep':
     submit('prepare',repDict)
 

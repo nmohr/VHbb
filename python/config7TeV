@@ -1,19 +1,6 @@
 [Analysis]
 tag = 7TeV
-
-
-
-[Directories]
-
-
-Wdir: /Users/peller/UserCode/VHbb/python
-limits: /Users/peller/VHbb/Limits/Test/
-plotpath: /Users/peller/VHbb/Stacks/Test/
-#samplepath= /scratch/final7TeV/
-
-
-
-
+TrainFlag = True
 
 ###########################################################################################
 # Plotting etc...
