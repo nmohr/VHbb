@@ -35,7 +35,7 @@ print opts.config
 config = BetterConfigParser()
 config.read(opts.config)
 anaTag = config.get("Analysis","tag")
-TrainFlag = eval(config.get('Analysis','TrainFlag')
+TrainFlag = eval(config.get('Analysis','TrainFlag'))
 btagLibrary = config.get('BTagReshaping','library')
 path=opts.path
 namelist=opts.names.split(',')
