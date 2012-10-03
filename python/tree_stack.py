@@ -13,6 +13,7 @@ from mvainfos import mvainfo
 from Ratio import getRatio
 from optparse import OptionParser
 from HistoMaker import HistoMaker, orderandadd
+import TdrStyles
 
 #CONFIGURE
 argv = sys.argv
@@ -151,9 +152,9 @@ for v in range(0,len(vars)):
     datatyps = Ldatatyps[v]
     datanames= Ldatanames[v]
 
-    ROOT.gROOT.SetStyle("Plain")
+    TdrStyles.tdrStyle()
     
-    c = ROOT.TCanvas(vars[v],'', 700, 600)
+    c = ROOT.TCanvas(vars[v],'', 600, 600)
     c.SetFillStyle(4000)
     c.SetFrameFillStyle(1000)
     c.SetFrameFillColor(0)
@@ -192,6 +193,7 @@ for v in range(0,len(vars)):
 
 
     k=len(histos)
+    
     for j in range(0,k):
         #print histos[j].GetBinContent(1)
         i=k-j-1
@@ -215,17 +217,31 @@ for v in range(0,len(vars)):
     l.AddEntry(d1,datatitle,'PL')
 
     if Normalize:
-        stackscale=d1.Integral()/MC_integral
+        if MC_integral != 0:	stackscale=d1.Integral()/MC_integral
         stackhists=allStack.GetHists()
         for blabla in stackhists:
-            blabla.Scale(stackscale)
+        	if MC_integral != 0: blabla.Scale(stackscale)
+    
+    allMC=ROOT.TH1F('allMC','allMC',nBins[v],xMin[v],xMax[v])
+    allMC.Sumw2()
+    for bin in range(0,nBins[v]):
+        allMC.SetBinContent(bin,allStack.GetStack().Last().GetBinContent(bin))
+        allMC.SetBinError(bin,allStack.GetStack().Last().GetBinError(bin))
 
     allStack.SetTitle()
     allStack.Draw("hist")
     allStack.GetXaxis().SetTitle('')
-    allStack.GetYaxis().SetTitle('Counts')
+    yTitle = 'Entries'
+    if not '/' in yTitle:
+            yAppend = '%s' %(allStack.GetXaxis().GetBinWidth(1)) 
+            yTitle = '%s / %s' %(yTitle, yAppend)
+    allStack.GetYaxis().SetTitle(yTitle)
     allStack.GetXaxis().SetRangeUser(xMin[v],xMax[v])
     allStack.GetYaxis().SetRangeUser(0,20000)
+    theErrorGraph = ROOT.TGraphErrors(allMC)
+    theErrorGraph.SetFillColor(ROOT.kGray+3)
+    theErrorGraph.SetFillStyle(3013)
+    theErrorGraph.Draw('SAME2')
     Ymax = max(allStack.GetMaximum(),d1.GetMaximum())*1.3
     allStack.SetMaximum(Ymax)
     allStack.SetMinimum(0.1)
@@ -233,18 +249,13 @@ for v in range(0,len(vars)):
     if log:
         ROOT.gPad.SetLogy()
     ROOT.gPad.SetTicks(1,1)
-    allStack.Draw("hist")
-    d1.SetMarkerStyle(21)
-    d1.Draw("P,E1,X0,same")
+    #allStack.Draw("hist")
+    d1.Draw("E0same")
     l.SetFillColor(0)
     l.SetBorderSize(0)
     l.Draw()
 
 
-    allMC=ROOT.TH1F('allMC','allMC',nBins[v],xMin[v],xMax[v])
-    allMC.Sumw2()
-    for bin in range(0,nBins[v]):
-        allMC.SetBinContent(bin,allStack.GetStack().Last().GetBinContent(bin))
 
     t = ROOT.TLatex()
     t.SetNDC()
