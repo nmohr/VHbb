@@ -94,7 +94,7 @@ colorDict=eval(config.get('Plot_general','colorDict'))
 
 
 weightF=config.get('Weights','weightF')
-Group = eval(config.get('LimitGeneral','Group'))
+Group = eval(config.get('Plot_general','Group'))
 
 
 #GETALL AT ONCE
