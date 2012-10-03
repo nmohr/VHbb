@@ -455,6 +455,7 @@ rMed = V.pt > 50. & V.pt < 100.
 upperHMass = H.mass < 250.
 looseHMass = H.mass > 80. & H.mass < 150.
 dPhiVH = abs( HVdPhi ) > 2.9 
+looseBTag = !(hJet_csv[0] > <!ZHbb|CSVL!> & hJet_csv[1] > <!ZHbb|CSVL!>) & (hJet_csv[0] > <!ZHbb|CSVL!> | hJet_csv[1] > <!ZHbb|CSVL!>)
 
 [ZHeebb]
 addCuts = Vtype==1 & (triggerFlags[5]>0 || triggerFlags[6]>0)
@@ -468,9 +469,8 @@ mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tlBtag!> & <!ZHbb|z
 
 #V.pt regions:
 RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!> &  RMed_ZH125_may_4.nominal >= -0.6
-#RMed:   hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1])  > 0.5   & min(hJet_csv[0],hJet_csv[1]) > 0.244   & V.pt > 50.  & V.pt < 100.  & V.mass > 75. & V.mass < 105 & H.mass < 150. & H.mass > 80. & deltaPullAngle < 10. & deltaPullAngle2 < 10.
 RTight = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> 
-#hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1]) > 0.244 & min(hJet_csv[0],hJet_csv[1]) > 0.244 & V.pt > 100. & V.mass > 75. & V.mass < 105 & H.mass < 250. & deltaPullAngle < 10. & deltaPullAngle2 < 10.
+RTightLooseBTag = <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> & <!ZHbb|looseBTag!>
 
 #control regions
 Light: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!>
@@ -485,11 +485,15 @@ Light_RMed = <!Cuts|Light!> & <!ZHbb|rMed!>
 Top_RMed = <!Cuts|Top!> & <!ZHbb|rMed!>
 bb_RMed = <!Cuts|bb!> & <!ZHbb|rMed!>
 
+triggerEE = (triggerFlags[5]>0 || triggerFlags[6]>0)
+triggerMM = (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) 
 #lepton individual
-RTight_EE: Vtype==1 & (triggerFlags[5]>0 || triggerFlags[6]>0) & <!Cuts|RTight!>
-RTight_MM: Vtype==0 & (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) & <!Cuts|RTight!>
-RMed_EE: Vtype==1 & (triggerFlags[5]>0 || triggerFlags[6]>0) & <!Cuts|RMed!>
-RMed_MM: Vtype==0 & (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) & <!Cuts|RMed!>
+RTight_EE: Vtype==1  & <!Cuts|RTight!>
+RTight_MM: Vtype==0 & <!Cuts|RTight!>
+RMed_EE: Vtype==1 & <!Cuts|RMed!>
+RMed_MM: Vtype==0 & <!Cuts|RMed!>
+RTightLooseBTag_EE: Vtype==1 & <!Cuts|RTightLooseBTag!>
+RTightLooseBTag_MM: Vtype==0 & <!Cuts|RTightLooseBTag!>
 
 #Mjj
 Mjj_lowPt_EE: <!ZHeebb|addCuts!> & <!Cuts|mjjLowPt!> 
