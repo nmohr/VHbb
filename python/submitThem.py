@@ -50,10 +50,10 @@ if( not os.path.isdir(logPath) ):
 	print 'Exit'
 	sys.exit(-1)
 
-repDict = {'en':en,'logpath':logPath,'job':'','task':opts.task}
+repDict = {'en':en,'logpath':logPath,'job':'','task':opts.task,'queue': 'all.q'}
 def submit(job,repDict):
 	repDict['job'] = job
-	command = 'qsub -V -cwd -q all.q -N %(job)s_%(en)s%(task)s -o %(logpath)s/%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task
+	command = 'qsub -V -cwd -q %(queue)s -N %(job)s_%(en)s%(task)s -o %(logpath)s/%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task
 	print command
 	subprocess.call([command], shell=True)
 
@@ -70,10 +70,12 @@ if not opts.task == 'prep':
 
 
 if opts.task == 'plot': 
+    repDict['queue'] = 'short.q'
     for item in Plot_vars:
         submit(item,repDict)
 
 elif opts.task == 'dc':
+    repDict['queue'] = 'short.q'
     for item in DC_vars:
         if 'ZH%s'%opts.mass in item[0] and opts.tag in item[0]:
             submit(item[0],repDict) 
