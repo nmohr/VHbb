@@ -1,5 +1,7 @@
 [Analysis]
 tag = 8TeV
+
+# If this Flag is used 50% of MC samples will go in training and the rest will be scaled up by a factor of 2.
 TrainFlag = True
 ###########################################################################################
 
@@ -23,14 +25,15 @@ List: RTight,RMed,Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
 
 #var definition
 BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,csv0,csv1,AK7,Sum
-BDTs: BDT_RTight,BDT_RMed
+#BDTs: BDT_RTight,BDT_RMed
+BDTs: BDT8_RTight,BDT8_RMed
 
 [Plot:RTight]
 Datas: Zee Zmm
 Normalize: False
 vars: <!Plot_general|BDTs!>
 Signal: ZH125
-log: True
+log: False
 blind: True
 
 [Plot:RMed]
@@ -38,7 +41,7 @@ Datas: Zee Zmm
 Normalize: False
 vars: <!Plot_general|BDTs!>
 Signal: ZH125
-log: True
+log: False
 blind: True
 
 [Plot:Light_RTight]
@@ -137,7 +140,7 @@ weightF_sys: False
 binstat: True
 
 
-blind: True
+blind: False
 #### rescaling by factor 4
 scaling: True
 #rescale stats
@@ -153,6 +156,8 @@ Dict: {'ZH':'VH','DYlight':'ZjLF','DYb':'ZjHF','TT':'TT','ST':'s_Top','VV':'VV',
 #SETUP DATACARD (1st Signal, afterwards BKG)
 setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
 
+#to be processed
+List: RTight_ZH125_EE_8TeV_may,RMed_ZH125_EE_8TeV_may,RTight_ZH125_MM_8TeV_may,RMed_ZH125_MM_8TeV_may,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
 
 [Datacard]
 
@@ -260,9 +265,16 @@ RMed_ZH125_MM_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10
 RMed_ZH130_MM_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M130_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH130,ZmmLowPt_8TeV,BDT
 RMed_ZH135_MM_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M135_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLowPt_8TeV,BDT
 
+#8TeV Training
+RTight_ZH125_EE_8TeV_oct: RTight_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH125,ZeeHighPt_8TeV,BDT
+RMed_ZH125_EE_8TeV_oct: RMed_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLowPt_8TeV,BDT
+RTight_ZH125_MM_8TeV_oct: RTight_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH125,ZmmHighPt_8TeV,BDT
+RMed_ZH125_MM_8TeV_oct: RMed_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLowPt_8TeV,BDT
+
+
 #GENERAL SETUP LIMIT:
-setup: DYlight+DYc,DYb,TT,VV,ST,ZH
-blind: False
+#setup: DYlight+DYc,DYb,TT,VV,ST,ZH
+#blind: False
 
 
 ##############################################################################################
@@ -468,7 +480,8 @@ mjjLowPt = <!ZHbb|preselection!> & <!ZHbb|rMed!> & <!ZHbb|tlBtag!> & <!ZHbb|zWin
 mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
 
 #V.pt regions:
-RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!> &  RMed_ZH125_may_4.nominal >= -0.6
+RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!>
+# &  RMed_ZH125_may_4.nominal >= -0.6
 RTight = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> 
 RTightLooseBTag = <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> & <!ZHbb|looseBTag!>
 

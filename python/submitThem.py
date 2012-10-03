@@ -58,7 +58,10 @@ def submit(job,repDict):
 	subprocess.call([command], shell=True)
 
 if opts.task == 'dc':
-    DC_vars = config.items('Limit')
+    #DC_vars = config.items('Limit')
+    DC_vars= (config.get('LimitGeneral','List')).split(',')
+    print DC_vars
+
 if opts.task == 'plot':
     Plot_vars= (config.get('Plot_general','List')).split(',')
 
@@ -77,10 +80,10 @@ if opts.task == 'plot':
 elif opts.task == 'dc':
     repDict['queue'] = 'short.q'
     for item in DC_vars:
-        if 'ZH%s'%opts.mass in item[0] and opts.tag in item[0]:
-            submit(item[0],repDict) 
-        elif 'ZH' in item[0] and opts.tag in item[0] and opts.mass == '*':
-            submit(item[0],repDict)
+        if 'ZH%s'%opts.mass in item and opts.tag in item:
+            submit(item,repDict) 
+        elif 'ZH' in item and opts.tag in item and opts.mass == '*':
+            submit(item,repDict)
             
 elif opts.task == 'prep':
     submit('prepare',repDict)

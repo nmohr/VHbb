@@ -68,16 +68,22 @@ ROOToutname = options[6]
 outpath=config.get('Directories','limits')
 outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
 systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming7TeV'))
+
+TrainFlag = eval(config.get('Analysis','TrainFlag'))
+
+
 if anaTag =='8TeV':
     systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming8TeV'))
-    MC_rescale_factor=1.0
-elif anaTag =='7TeV':
-    MC_rescale_factor=2.0
-    printc('red','', 'I  RESCALE by 2.0! (from training)')  
-else:
+elif not anaTag =='7TeV':
     print "What is your Analysis Tag in config? (anaTag)"
     sys.exit("What is your Analysis Tag in config? (anaTag)")
 scaling=eval(config.get('LimitGeneral','scaling'))
+
+if TrainFlag:
+    MC_rescale_factor=2.
+    print 'I RESCALE BY 2.0'
+else: MC_rescale_factor = 1.
+
 rescaleSqrtN=eval(config.get('LimitGeneral','rescaleSqrtN'))
 if 'RTight' in RCut:
     Datacradbin=options[10]
