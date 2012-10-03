@@ -152,7 +152,7 @@ for job in info:
                     print '\t- %s as SIG'%job.group[subsample]
                     Tsignal = getTree(job,TrainCut,path,subsample)
                     ROOT.gDirectory.Cd(workdir)
-                    TsScale = getScale(job,path,global_rescale,subsample)
+                    TsScale = getScale(job,path,config,global_rescale,subsample)
                     Tsignals.append(Tsignal)
                     TsScales.append(TsScale)
                     print '\t\t\t%s events'%Tsignal.GetEntries()
@@ -160,7 +160,7 @@ for job in info:
                     print '\t- %s as BKG'%job.group[subsample]
                     Tbackground = getTree(job,TrainCut,path,subsample)
                     ROOT.gDirectory.Cd(workdir)
-                    TbScale = getScale(job,path,global_rescale,subsample)
+                    TbScale = getScale(job,path,config,global_rescale,subsample)
                     Tbackgrounds.append(Tbackground)
                     TbScales.append(TbScale)
                     print '\t\t\t%s events'%Tbackground.GetEntries()
@@ -170,7 +170,7 @@ for job in info:
                 print '\tREADING IN %s AS SIG'%job.name
                 Tsignal = getTree(job,TrainCut,path)
                 ROOT.gDirectory.Cd(workdir)
-                TsScale = getScale(job,path,global_rescale)
+                TsScale = getScale(job,path,config,global_rescale)
                 Tsignals.append(Tsignal)
                 TsScales.append(TsScale)
                 print '\t\t\t%s events'%Tsignal.GetEntries()
@@ -178,7 +178,7 @@ for job in info:
                 print '\tREADING IN %s AS BKG'%job.name
                 Tbackground = getTree(job,TrainCut,path)
                 ROOT.gDirectory.Cd(workdir)
-                TbScale = getScale(job,path,global_rescale)
+                TbScale = getScale(job,path,config,global_rescale)
                 Tbackgrounds.append(Tbackground)
                 TbScales.append(TbScale)
                 print '\t\t\t%s events'%Tbackground.GetEntries()
@@ -203,7 +203,7 @@ for job in info:
                     print '\t- %s as SIG'%job.group[subsample]
                     Esignal = getTree(job,EvalCut,path,subsample)
                     ROOT.gDirectory.Cd(workdir)
-                    EsScale = getScale(job,path,global_rescale,subsample)
+                    EsScale = getScale(job,path,config,global_rescale,subsample)
                     Esignals.append(Esignal)
                     EsScales.append(EsScale)
                     print '\t\t\t%s events'%Esignal.GetEntries()
@@ -211,7 +211,7 @@ for job in info:
                     print '\t- %s as BKG'%job.group[subsample]
                     Ebackground = getTree(job,EvalCut,path,subsample)
                     ROOT.gDirectory.Cd(workdir)
-                    EbScale = getScale(job,path,global_rescale,subsample)
+                    EbScale = getScale(job,path,config,global_rescale,subsample)
                     Ebackgrounds.append(Ebackground)
                     EbScales.append(EbScale)
                     print '\t\t\t%s events'%Ebackground.GetEntries()
@@ -221,7 +221,7 @@ for job in info:
                 print '\tREADING IN %s AS SIG'%job.name
                 Esignal = getTree(job,EvalCut,path)
                 ROOT.gDirectory.Cd(workdir)
-                EsScale = getScale(job,path,global_rescale)
+                EsScale = getScale(job,path,config,global_rescale)
                 Esignals.append(Esignal)
                 EsScales.append(EsScale)
                 print '\t\t\t%s events'%Esignal.GetEntries()
@@ -229,7 +229,7 @@ for job in info:
                 print '\tREADING IN %s AS BKG'%job.name
                 Ebackground = getTree(job,EvalCut,path)
                 ROOT.gDirectory.Cd(workdir)
-                EbScale = getScale(job,path,global_rescale)
+                EbScale = getScale(job,path,config,global_rescale)
                 Ebackgrounds.append(Ebackground)
                 EbScales.append(EbScale)
                 print '\t\t\t%s events'%Ebackground.GetEntries()

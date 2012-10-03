@@ -1,6 +1,6 @@
 [Analysis]
 tag = 8TeV
-TrainFlag = False
+TrainFlag = True
 ###########################################################################################
 
 [Plot_general]
@@ -274,6 +274,8 @@ SettingsMed = !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaB
 backgrounds = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 backgroundsNoDiboson = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 TT
 
+backgrounds8TeV: Zudsg Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc5070 Zcc70100 Zcc100 Zbb Zbb5070 Zbb70100 Zbb100 ZZ WW WZ TT 
+
 [factory]
 factoryname: MVA
 factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Transformations=I
@@ -326,6 +328,15 @@ MVAsettings: <!MVAGeneral|SettingsTight!>
 path: <!Directories|samplepath!>
 signals: ZH125
 backgrounds: <!MVAGeneral|backgrounds!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RTight_ZH125_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH125
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTight
 
