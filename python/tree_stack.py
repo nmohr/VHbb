@@ -109,6 +109,15 @@ Ldatas = [[] for _ in range(0,len(vars))]
 Ldatatyps = [[] for _ in range(0,len(vars))]
 Ldatanames = [[] for _ in range(0,len(vars))]
 
+def myText(txt="CMS Preliminary",ndcX=0,ndcY=0,size=0.8):
+    ROOT.gPad.Update()
+    text = ROOT.TLatex()
+    text.SetNDC()
+    text.SetTextColor(ROOT.kBlack)
+    text.SetTextSize(text.GetTextSize()*size)
+    text.DrawLatex(ndcX,ndcY,txt)
+    return text
+
 
 #Find out Lumi:
 for job in info:
@@ -257,13 +266,8 @@ for v in range(0,len(vars)):
 
 
 
-    t = ROOT.TLatex()
-    t.SetNDC()
-    t.SetTextAlign(12)
-    t.SetTextSize(0.04)
-    t.DrawLatex(0.13,0.85,"CMS Preliminary")
-    t.SetTextSize(0.03)
-    t.DrawLatex(0.13,0.79,"#sqrt{s} =  %s, L = %s fb^{-1}"%(anaTag,(float(lumi_data)/1000.)))
+    tPrel = myText("CMS Preliminary",0.17,0.88,1.04)
+    tLumi = myText("#sqrt{s} =  %s, L = %s fb^{-1}"%(anaTag,(float(lumi_data)/1000.)),0.17,0.83)
 
     unten.cd()
     ROOT.gPad.SetTicks(1,1)
@@ -284,12 +288,7 @@ for v in range(0,len(vars)):
     m_one_line.SetLineColor(4)
     m_one_line.Draw("Same")
 
-    t = ROOT.TLatex()
-    t.SetNDC()
-    t.SetTextAlign(12)
-    t.SetTextSize(0.07)
-    t.DrawLatex(0.12,0.9,"K_{s}: %.2f"%(ksScore))
-    t.DrawLatex(0.12,0.4,"#chi_{#nu}^{2}: %.2f"%(chiScore))
+    tKsChi = myText("#chi_{#nu}^{2} = %.3f K_{s} = %.3f"%(chiScore,ksScore),0.17,0.9,1.5)
 
     name = '%s/%s' %(config.get('Directories','plotpath'),options[v][6])
     c.Print(name)
