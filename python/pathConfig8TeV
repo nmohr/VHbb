@@ -2,7 +2,8 @@
 #Peller's setup
 Wdir: /shome/peller
 
-limits: <!Directories|Wdir!>/VHbb/Limits/HCPV42/
+limits: <!Directories|Wdir!>/VHbb/Limits/HCPV42_7Tev100p/
+
 plotpath: <!Directories|Wdir!>/VHbb/Stacks/HCPV42/
 samplepath= <!Directories|Wdir!>/DATA/HCPV42/
 vhbbpath= <!Directories|Wdir!>/UserCode/VHbb/

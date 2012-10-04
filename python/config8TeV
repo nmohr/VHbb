@@ -2,7 +2,7 @@
 tag = 8TeV
 
 # If this Flag is used 50% of MC samples will go in training and the rest will be scaled up by a factor of 2.
-TrainFlag = True
+TrainFlag = False
 ###########################################################################################
 
 [Plot_general]
@@ -21,19 +21,21 @@ colorDict: {'DYlight':401,'DYc':41,'DYb':5,'TT':596,'ST':602,'VV':17,'ZH':2}
 
 #To be processed
 List: RTight,RMed,Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
-# RTight,RMed #,Light
+#List: RTight,RMed
+#,Light
 
 #var definition
-BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,csv0,csv1,AK7,Sum
-#BDTs: BDT_RTight,BDT_RMed
-BDTs: BDT8_RTight,BDT8_RMed
+#BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,csv0,csv1,AK7,Sum
+BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,Sum
+#BDTs: BDT8_RTight,BDT8_RMed
+BDTs: BDT_RTight,BDT_RMed
 
 [Plot:RTight]
 Datas: Zee Zmm
 Normalize: False
 vars: <!Plot_general|BDTs!>
 Signal: ZH125
-log: False
+log: True
 blind: True
 
 [Plot:RMed]
@@ -41,7 +43,7 @@ Datas: Zee Zmm
 Normalize: False
 vars: <!Plot_general|BDTs!>
 Signal: ZH125
-log: False
+log: True
 blind: True
 
 [Plot:Light_RTight]
@@ -157,7 +159,9 @@ Dict: {'ZH':'VH','DYlight':'ZjLF','DYb':'ZjHF','TT':'TT','ST':'s_Top','VV':'VV',
 setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
 
 #to be processed
-List: RTight_ZH125_EE_8TeV_may,RMed_ZH125_EE_8TeV_may,RTight_ZH125_MM_8TeV_may,RMed_ZH125_MM_8TeV_may,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
+#List: RTight_ZH125_EE_8TeV_may,RMed_ZH125_EE_8TeV_may,RTight_ZH125_MM_8TeV_may,RMed_ZH125_MM_8TeV_may,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
+List: RTight_ZH125_EE_8TeV,RMed_ZH125_EE_8TeV,RTight_ZH125_MM_8TeV,RMed_ZH125_MM_8TeV
+#List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
 
 [Datacard]
 
@@ -234,42 +238,42 @@ Mjj_highPt_ZH130_MM: H.mass,Mjj,Mjj,25,0.,250.,Mjj_highPt_M130_Zmm,Mjj_highPt_MM
 Mjj_highPt_ZH135_MM: H.mass,Mjj,Mjj,25,0.,250.,Mjj_highPt_M135_Zmm,Mjj_highPt_MM,Mjj_highPt_MM,ZH135,Zmm,Mjj
 
 #Tight EE
-RTight_ZH110_EE_8TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M110_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH110,ZeeHighPt_8TeV,BDT
-RTight_ZH115_EE_8TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M115_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH115,ZeeHighPt_8TeV,BDT
-RTight_ZH120_EE_8TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M120_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH120,ZeeHighPt_8TeV,BDT
-RTight_ZH125_EE_8TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH125,ZeeHighPt_8TeV,BDT
-RTight_ZH130_EE_8TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M130_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH130,ZeeHighPt_8TeV,BDT
-RTight_ZH135_EE_8TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M135_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH135,ZeeHighPt_8TeV,BDT
+RTight_ZH110_EE_8TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M110_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH110,ZeeHighPt_8TeV,BDT
+RTight_ZH115_EE_8TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M115_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH115,ZeeHighPt_8TeV,BDT
+RTight_ZH120_EE_8TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M120_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH120,ZeeHighPt_8TeV,BDT
+RTight_ZH125_EE_8TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH125,ZeeHighPt_8TeV,BDT
+RTight_ZH130_EE_8TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M130_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH130,ZeeHighPt_8TeV,BDT
+RTight_ZH135_EE_8TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M135_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH135,ZeeHighPt_8TeV,BDT
 
 #Tight MM
-RTight_ZH110_MM_8TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M110_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH110,ZmmHighPt_8TeV,BDT
-RTight_ZH115_MM_8TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M115_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH115,ZmmHighPt_8TeV,BDT
-RTight_ZH120_MM_8TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M120_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH120,ZmmHighPt_8TeV,BDT
-RTight_ZH125_MM_8TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH125,ZmmHighPt_8TeV,BDT
-RTight_ZH130_MM_8TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M130_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH130,ZmmHighPt_8TeV,BDT
-RTight_ZH135_MM_8TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M135_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH135,ZmmHighPt_8TeV,BDT
+RTight_ZH110_MM_8TeV: RTight_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M110_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH110,ZmmHighPt_8TeV,BDT
+RTight_ZH115_MM_8TeV: RTight_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M115_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH115,ZmmHighPt_8TeV,BDT
+RTight_ZH120_MM_8TeV: RTight_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M120_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH120,ZmmHighPt_8TeV,BDT
+RTight_ZH125_MM_8TeV: RTight_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH125,ZmmHighPt_8TeV,BDT
+RTight_ZH130_MM_8TeV: RTight_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M130_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH130,ZmmHighPt_8TeV,BDT
+RTight_ZH135_MM_8TeV: RTight_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M135_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH135,ZmmHighPt_8TeV,BDT
 
 #Med EE
-RMed_ZH110_EE_8TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M110_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH110,ZeeLowPt_8TeV,BDT
-RMed_ZH115_EE_8TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M115_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH115,ZeeLowPt_8TeV,BDT
-RMed_ZH120_EE_8TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M120_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH120,ZeeLowPt_8TeV,BDT
-RMed_ZH125_EE_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLowPt_8TeV,BDT
-RMed_ZH130_EE_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M130_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH130,ZeeLowPt_8TeV,BDT
-RMed_ZH135_EE_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M135_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH135,ZeeLowPt_8TeV,BDT
+RMed_ZH110_EE_8TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M110_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH110,ZeeLowPt_8TeV,BDT
+RMed_ZH115_EE_8TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M115_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH115,ZeeLowPt_8TeV,BDT
+RMed_ZH120_EE_8TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M120_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH120,ZeeLowPt_8TeV,BDT
+RMed_ZH125_EE_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLowPt_8TeV,BDT
+RMed_ZH130_EE_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M130_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH130,ZeeLowPt_8TeV,BDT
+RMed_ZH135_EE_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M135_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH135,ZeeLowPt_8TeV,BDT
 
 #Med MM
-RMed_ZH110_MM_8TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M110_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH110,ZmmLowPt_8TeV,BDT
-RMed_ZH115_MM_8TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M115_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH115,ZmmLowPt_8TeV,BDT
-RMed_ZH120_MM_8TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M120_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH120,ZmmLowPt_8TeV,BDT
-RMed_ZH125_MM_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLowPt_8TeV,BDT
-RMed_ZH130_MM_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M130_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH130,ZmmLowPt_8TeV,BDT
-RMed_ZH135_MM_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M135_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLowPt_8TeV,BDT
+RMed_ZH110_MM_8TeV: RMed_ZH110_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M110_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH110,ZmmLowPt_8TeV,BDT
+RMed_ZH115_MM_8TeV: RMed_ZH115_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M115_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH115,ZmmLowPt_8TeV,BDT
+RMed_ZH120_MM_8TeV: RMed_ZH120_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M120_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH120,ZmmLowPt_8TeV,BDT
+RMed_ZH125_MM_8TeV: RMed_ZH125_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLowPt_8TeV,BDT
+RMed_ZH130_MM_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M130_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH130,ZmmLowPt_8TeV,BDT
+RMed_ZH135_MM_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M135_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLowPt_8TeV,BDT
 
 #8TeV Training
-RTight_ZH125_EE_8TeV_oct: RTight_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH125,ZeeHighPt_8TeV,BDT
-RMed_ZH125_EE_8TeV_oct: RMed_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLowPt_8TeV,BDT
-RTight_ZH125_MM_8TeV_oct: RTight_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH125,ZmmHighPt_8TeV,BDT
-RMed_ZH125_MM_8TeV_oct: RMed_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,BDT output,10,-1,1,BDT_M125_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLowPt_8TeV,BDT
+RTight_ZH125_EE_8TeV_oct: RTight_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH125,ZeeHighPt_8TeV,BDT
+RMed_ZH125_EE_8TeV_oct: RMed_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLowPt_8TeV,BDT
+RTight_ZH125_MM_8TeV_oct: RTight_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH125,ZmmHighPt_8TeV,BDT
+RMed_ZH125_MM_8TeV_oct: RMed_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,10,-1,1,BDT_M125_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLowPt_8TeV,BDT
 
 
 #GENERAL SETUP LIMIT:
@@ -296,7 +300,8 @@ factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Tr
 [MVALists]
 #List_for_submitscript: RTight_ZH110,RTight_ZH115,RTight_ZH120,RTight_ZH125,RTight_ZH130,RTight_ZH135,RMed_ZH110,RMed_ZH115,RMed_ZH120,RMed_ZH125,RMed_ZH130,RMed_ZH135
 #List_for_submitscript: RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may,RPt50_ZZ_may,RIncl_ZZ_may
-List_for_submitscript: RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may
+#List_for_submitscript: RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may
+List_for_submitscript: RTight_ZH125_may,RMed_ZH125_may,RTight_ZH125_oct,RMed_ZH125_oct
 
 [RTight_ZZ_may]
 MVAtype: <!MVAGeneral|type!>
@@ -405,6 +410,16 @@ signals: ZH125
 backgrounds: <!MVAGeneral|backgrounds!>
 treeVarSet: treeVarsICHEP
 treeCut: RMed
+
+[RMed_ZH125_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH125
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
 
 [RMed_ZH130_may]
 MVAtype: <!MVAGeneral|type!>
