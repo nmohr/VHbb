@@ -280,7 +280,7 @@ for v in range(0,len(vars)):
     c.Update()
     ROOT.gPad.SetTicks(1,1)
     #allStack.Draw("hist")
-    d1.Draw("E0same")
+    d1.Draw("E,same")
     l.SetFillColor(0)
     l.SetBorderSize(0)
     l.Draw()

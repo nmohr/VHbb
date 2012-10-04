@@ -123,7 +123,7 @@ library=<!Directories|vhbbpath!>/interface/BTagReshaping_h.so
 # LIMIT
 [LimitGeneral]
 varName = CMS_vhbb_BDT_Zll
-range = BDT output,20,-1,1
+range = BDT output,10,-1,1
 
 systematicsnaming7TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_7TeV'}
 systematicsnaming8TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_8TeV'}
