@@ -40,11 +40,10 @@ class BDTSideBandRegion_noBTag: public CutSample{
 	     //	     && p.Higgs(jec).M() > 50.
 	     && p.Higgs(jec).M() < 250.
 	     //	     && p.CountAddJets() < 2 
-	     && qualityCuts( p )
-	     && channel( p, ch) );
+	     && qualityCuts( p ) );
   }
   Bool_t pass(ntupleReader &p, Sample &sample){
-    return ( sCut( p , sample ) == true && pass( p ) );
+    return ( sCut( p , sample ) == true && pass( p ) == true && channel( p, ch, sample) );
   }
   double weight(ntupleReader &p, Sample &sample) { return w( p, sample); }
 
