@@ -15,7 +15,7 @@ void prepareAllZHistos(std::vector<CutsAndHistos *> & allHistosZ,TFile *fout  )
 {
   std::string Zee115("ZH115");
   std::cout << "Book Z" << std::endl;
-  int channel = -1;
+  int channel = 1;
   //Btag histos
   allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion_noBTag( channel, 0, 0 ),new BTagHistos));
   //Standard histos
@@ -60,7 +60,9 @@ int main(int argc, char **argv)
   std::cout << "Hello word" << std::endl;
 
   bool verbose_ = false;
-  bool stitching = false;
+  //switch on the sample-dependent cuts and weights
+  bool stitching = true; // let it always on!
+
   std::string file_appendix = "SideBand-Pt50To100";
   //std::string file_appendix = "";
 
@@ -192,7 +194,8 @@ int main(int argc, char **argv)
       if(data == false){
 	eventWeight = (event.PUweight)*event.weightTrig2012A;
 	if( event.Vtype == 1 )
-	  eventWeight *= 1.01763; // from luminosity difference
+	  //	  eventWeight *= 1.01763; // from luminosity difference
+	  eventWeight *= 1.0; // from luminosity difference
       }
       else
 	eventWeight = 1;
