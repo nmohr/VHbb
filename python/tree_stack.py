@@ -227,13 +227,16 @@ for v in range(0,len(vars)):
         allStack.Add(histos[i])
 
     d1 = ROOT.TH1F('noData','noData',nBins[v],xMin[v],xMax[v])
-    datatitle='Data '
+    datatitle='Data'
+    addFlag = ''
+    if 'Zee' in datanames and 'Zmm' in datanames:
+	addFlag = 'Z(l^{-}l^{+})H(b#bar{b})'
+    elif 'Zee' in datanames:
+	addFlag = 'Z(e^{-}e^{+})H(b#bar{b})'
+    elif 'Zmm' in datanames:
+	addFlag = 'Z(#mu^{-}#mu^{+})H(b#bar{b})'
     for i in range(0,len(datas)):
         d1.Add(datas[i],1)
-        if i ==0:
-            datatitle+=datanames[i]
-        else:
-            datatitle=datatitle+ ' + '+datanames[i]
     print "\033[1;32m\n\tDATA integral = %s\033[1;m"%d1.Integral()
     flow = d1.GetEntries()-d1.Integral()
     if flow > 0:
@@ -273,8 +276,7 @@ for v in range(0,len(vars)):
     Ymax = max(allStack.GetMaximum(),d1.GetMaximum())*1.7
     if log:
         allStack.SetMinimum(0.05)
- 	maxval = max( allStack.GetMaximum(),noStack.GetMaximum())
-        Ymax = maxval*ROOT.TMath.Power(10,1.6*(ROOT.TMath.Log(1.6*(maxval/0.1))/ROOT.TMath.Log(10)))*(0.6*0.1)
+        Ymax = Ymax*ROOT.TMath.Power(10,1.6*(ROOT.TMath.Log(1.6*(maxval/0.1))/ROOT.TMath.Log(10)))*(0.6*0.1)
         ROOT.gPad.SetLogy()
     allStack.SetMaximum(Ymax)
     c.Update()
@@ -289,6 +291,7 @@ for v in range(0,len(vars)):
 
     tPrel = myText("CMS Preliminary",0.17,0.88,1.04)
     tLumi = myText("#sqrt{s} =  %s, L = %s fb^{-1}"%(anaTag,(float(lumi_data)/1000.)),0.17,0.83)
+    tAddFlag = myText(addFlag,0.17,0.78)
 
     unten.cd()
     ROOT.gPad.SetTicks(1,1)
