@@ -31,10 +31,10 @@ Sample( float xs, std::string n, std::string f, int c, bool isdata, float datalu
     if(lumi()>0){
       if(name == DYL || name == DYC || name == DYNoB)
 	return SF[0]*l/lumi();
-      else if(name == TTbar) 
-	return SF[1]*l/lumi(); 
       else if(name == DYB)
-	return SF[2]*l/lumi();
+	return SF[1]*l/lumi();
+      else if(name == TTbar) 
+	return SF[2]*l/lumi(); 
       else
 	return scale(l);
     }
