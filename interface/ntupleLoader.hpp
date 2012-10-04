@@ -11,7 +11,7 @@
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
-#include "../data/Btag/BTagReshaping.h"
+#include "BTagReshaping.h"
 
 class ntupleLoader {
 public :
