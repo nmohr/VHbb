@@ -46,6 +46,7 @@ class HistoMaker:
 
 
         plot_path = self.config.get('Directories','plotpath')
+        addOverFlow=eval(self.config.get('Plot_general','addOverFlow'))
 
         # define treeCut
         if job.type != 'DATA':
@@ -112,6 +113,15 @@ class HistoMaker:
                 if ScaleFactor != 0:
                     hTree.Scale(ScaleFactor)
             #print '\t-->import %s\t Integral: %s'%(job.name,hTree.Integral())
+            if addOverFlow:
+            	uFlow = hTree.GetBinContent(0)+hTree.GetBinContent(1)
+            	oFlow = hTree.GetBinContent(hTree.GetNbinsX()+1)+hTree.GetBinContent(hTree.GetNbinsX())
+            	uFlowErr = ROOT.TMath.Sqrt(ROOT.TMath.Power(hTree.GetBinError(0),2)+ROOT.TMath.Power(hTree.GetBinError(1),2))
+            	oFlowErr = ROOT.TMath.Sqrt(ROOT.TMath.Power(hTree.GetBinError(hTree.GetNbinsX()),2)+ROOT.TMath.Power(hTree.GetBinError(hTree.GetNbinsX()+1),2))
+            	hTree.SetBinContent(1,uFlow)
+            	hTree.SetBinContent(hTree.GetNbinsX(),oFlow)
+            	hTree.SetBinError(1,uFlowErr)
+            	hTree.SetBinError(hTree.GetNbinsX(),oFlowErr)
             hTree.SetDirectory(0)
             input.Close()
             hTreeList.append(hTree)

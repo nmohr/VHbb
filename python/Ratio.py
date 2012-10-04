@@ -27,7 +27,7 @@ def renewHist(hist,reference,min,max):
 def getRatio(hist,reference,min,max,yTitle="",maxUncertainty = 0.2,restrict=True):
     from ROOT import gROOT
     theHist, theReference = renewHist(hist,reference,min,max)
-    gROOT.LoadMacro('./Ratio.C+') 
+    ROOT.gSystem.Load('./Ratio_C.so') 
     from ROOT import coolRatio
     thePlotter = coolRatio()
     theRatio = thePlotter.make_rebinned_ratios(theHist,theReference,maxUncertainty,False,0)
@@ -51,11 +51,6 @@ def getRatio(hist,reference,min,max,yTitle="",maxUncertainty = 0.2,restrict=True
     theRatio.GetYaxis().CenterTitle(ROOT.kTRUE)
     theRatio.GetYaxis().SetDrawOption("M")
     theRatio.SetXTitle(yTitle)
-    if yTitle == "":
-        theRatio.SetYTitle("Data/MC")
-    print 'Data mean = %.2f' %(theHist.GetMean())
-    print 'MC mean = %.2f' %(theReference.GetMean())
-    ksScore = theHist.KolmogorovTest( theReference )
-    chiScore = theHist.Chi2Test( theReference , "UW")
-    return theRatio, refError, ksScore, chiScore
+    theRatio.SetYTitle("Data/MC")
+    return theRatio, refError
     

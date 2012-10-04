@@ -92,12 +92,15 @@ for i in range(0,len(vars)):
 
 
 setup=config.get('Plot_general','setup')
+if log: 
+    setup=config.get('Plot_general','setupLog')
 setup=setup.split(',')
 
 samples=config.get('Plot_general','samples')
 samples=samples.split(',')
 
 colorDict=eval(config.get('Plot_general','colorDict'))
+typLegendDict=eval(config.get('Plot_general','typLegendDict'))
 #color=color.split(',')
 
 
@@ -193,7 +196,13 @@ for v in range(0,len(vars)):
     oben.cd()
 
     allStack = ROOT.THStack(vars[v],'')     
-    l = ROOT.TLegend(0.75, 0.63, 0.88, 0.88)
+    l = ROOT.TLegend(0.63, 0.62,0.92,0.92)
+    l.SetLineWidth(2)
+    l.SetBorderSize(0)
+    l.SetFillColor(0)
+    l.SetFillStyle(4000)
+    l.SetTextFont(62)
+    l.SetTextSize(0.035)
     MC_integral=0
     MC_entries=0
 
@@ -216,21 +225,23 @@ for v in range(0,len(vars)):
         histos[i].SetFillColor(int(colorDict[setup[i]]))
         histos[i].SetLineColor(1)
         allStack.Add(histos[i])
-        l.AddEntry(histos[j],typs[j],'F')
 
     d1 = ROOT.TH1F('noData','noData',nBins[v],xMin[v],xMax[v])
-    datatitle=''
+    datatitle='Data '
     for i in range(0,len(datas)):
         d1.Add(datas[i],1)
         if i ==0:
-            datatitle=datanames[i]
+            datatitle+=datanames[i]
         else:
             datatitle=datatitle+ ' + '+datanames[i]
     print "\033[1;32m\n\tDATA integral = %s\033[1;m"%d1.Integral()
     flow = d1.GetEntries()-d1.Integral()
     if flow > 0:
         print "\033[1;31m\tU/O flow: %s\033[1;m"%flow
-    l.AddEntry(d1,datatitle,'PL')
+
+    l.AddEntry(d1,datatitle,'P')
+    for j in range(0,k):
+        l.AddEntry(histos[j],typLegendDict[typs[j]],'F')
 
     if Normalize:
         if MC_integral != 0:	stackscale=d1.Integral()/MC_integral
@@ -258,12 +269,15 @@ for v in range(0,len(vars)):
     theErrorGraph.SetFillColor(ROOT.kGray+3)
     theErrorGraph.SetFillStyle(3013)
     theErrorGraph.Draw('SAME2')
-    Ymax = max(allStack.GetMaximum(),d1.GetMaximum())*1.3
-    allStack.SetMaximum(Ymax)
-    allStack.SetMinimum(0.1)
-    c.Update()
+    l.AddEntry(theErrorGraph,"MC uncert. (stat.)","fl")
+    Ymax = max(allStack.GetMaximum(),d1.GetMaximum())*1.7
     if log:
+        allStack.SetMinimum(0.05)
+ 	maxval = max( allStack.GetMaximum(),noStack.GetMaximum())
+        Ymax = maxval*ROOT.TMath.Power(10,1.6*(ROOT.TMath.Log(1.6*(maxval/0.1))/ROOT.TMath.Log(10)))*(0.6*0.1)
         ROOT.gPad.SetLogy()
+    allStack.SetMaximum(Ymax)
+    c.Update()
     ROOT.gPad.SetTicks(1,1)
     #allStack.Draw("hist")
     d1.Draw("E0same")
@@ -279,14 +293,12 @@ for v in range(0,len(vars)):
     unten.cd()
     ROOT.gPad.SetTicks(1,1)
 
-    ratio, error, ksScore, chiScore = getRatio(d1,allMC,xMin[v],xMax[v])
+    ratio, error = getRatio(d1,allMC,xMin[v],xMax[v])
     ksScore = allMC.KolmogorovTest( d1 )
     chiScore = allMC.Chi2Test( d1 , "UWCHI2/NDF")
     print ksScore
     print chiScore
     ratio.SetStats(0)
-    ratio.GetYaxis().SetRangeUser(0,2)
-    ratio.GetYaxis().SetNdivisions(502,0)
     ratio.GetXaxis().SetTitle(xAxis[v])
     ratioError = ROOT.TGraphErrors(error)
     ratioError.SetFillColor(ROOT.kGray+3)
@@ -296,11 +308,15 @@ for v in range(0,len(vars)):
     ratio.Draw("E1SAME")
     ratio.SetTitle("")
     m_one_line = ROOT.TLine(xMin[v],1,xMax[v],1)
-    m_one_line.SetLineStyle(7)
-    m_one_line.SetLineColor(4)
+    m_one_line.SetLineStyle(ROOT.kDashed)
     m_one_line.Draw("Same")
 
     tKsChi = myText("#chi_{#nu}^{2} = %.3f K_{s} = %.3f"%(chiScore,ksScore),0.17,0.9,1.5)
+    t0 = ROOT.TText()
+    t0.SetTextSize(ROOT.gStyle.GetLabelSize()*2.4)
+    t0.SetTextFont(ROOT.gStyle.GetLabelFont())
+    if not log:
+    	t0.DrawTextNDC(0.1059,0.96, "0")
 
     name = '%s/%s' %(config.get('Directories','plotpath'),options[v][6])
     c.Print(name)

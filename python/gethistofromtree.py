@@ -47,6 +47,7 @@ def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1,which_weight
     nBins=int(options[3])
     xMin=float(options[4])
     xMax=float(options[5])
+    addOverFlow=eval(config.get('Plot_general','addOverFlow'))
 
     if job.type != 'DATA':
     
@@ -106,13 +107,23 @@ def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1,which_weight
         ScaleFactor = getScale(job,path,config,rescale,subsample)
         if ScaleFactor != 0:
             hTree.Scale(ScaleFactor)
+    
+    if addOverFlow:
+            print 'Adding overflow'
+            uFlow = hTree.GetBinContent(0)+hTree.GetBinContent(1)
+            oFlow = hTree.GetBinContent(hTree.GetNbinsX()+1)+hTree.GetBinContent(hTree.GetNbinsX())
+            uFlowErr = ROOT.TMath.Sqrt(ROOT.TMath.Power(hTree.GetBinError(0),2)+ROOT.TMath.Power(hTree.GetBinError(1),2))
+            oFlowErr = ROOT.TMath.Sqrt(ROOT.TMath.Power(hTree.GetBinError(hTree.GetNbinsX()),2)+ROOT.TMath.Power(hTree.GetBinError(hTree.GetNbinsX()+1),2))
+            hTree.SetBinContent(1,uFlow)
+            hTree.SetBinContent(hTree.GetNbinsX(),oFlow)
+            hTree.SetBinError(1,uFlowErr)
+            hTree.SetBinError(hTree.GetNbinsX(),oFlowErr)
+              
             
     print '\t-->import %s\t Integral: %s'%(job.name,hTree.Integral())
             
     hTree.SetDirectory(0)
     input.Close()  
-    
-              
     
     return hTree, group
     

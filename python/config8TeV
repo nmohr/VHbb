@@ -14,10 +14,14 @@ Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135'
 
 
 #how and which groups in the plot
-setup: DYlight,DYc,DYb,TT,ST,VV,ZH
+setup: ZH,VV,DYb,DYc,DYlight,TT,ST
+setupLog: DYb,DYc,DYlight,TT,ST,VV,ZH
 
 #colors
 colorDict: {'DYlight':401,'DYc':41,'DYb':5,'TT':596,'ST':602,'VV':17,'ZH':2}
+typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYb':'Z + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','ZH':'ZH(125 GeV)'}
+
+addOverFlow = True
 
 #To be processed
 List: RTight,RMed,Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
