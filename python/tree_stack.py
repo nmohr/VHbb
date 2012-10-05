@@ -32,12 +32,6 @@ config = BetterConfigParser()
 config.read(opts.config)
 anaTag = config.get("Analysis","tag")
 
-TrainFlag = eval(config.get('Analysis','TrainFlag'))
-
-if TrainFlag:
-    MC_rescale_factor=2.
-    print 'I RESCALE BY 2.0'
-else: MC_rescale_factor = 1.
 
 path = opts.path
 region = opts.region
@@ -110,7 +104,7 @@ Group = eval(config.get('Plot_general','Group'))
 
 #GETALL AT ONCE
 
-Plotter=HistoMaker(path,config,region,options,MC_rescale_factor)
+Plotter=HistoMaker(path,config,region,options)
 
 #print '\nProducing Plot of %s\n'%vars[v]
 Lhistos = [[] for _ in range(0,len(vars))]
@@ -145,10 +139,11 @@ for job in info:
                     for v in range(0,len(vars)):
                         Lhistos[v].append(hTempList[v])
                         Ltyps[v].append(Group[job.subnames[subsample]])
+                        print job.subnames[subsample]
 
         else:
             if job.name in samples:
-                #print job.getpath()
+                print job.name
                 hTempList, typList = Plotter.getHistoFromTree(job)
                 for v in range(0,len(vars)):
                     Lhistos[v].append(hTempList[v])

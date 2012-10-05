@@ -7,11 +7,10 @@ TrainFlag = False
 
 [Plot_general]
 #In Use:
-samples: Zudsg,Zudsg5070,Zudsg70100,Zudsg100,Zcc,Zcc5070,Zcc70100,Zcc100,Zbb,Zbb5070,Zbb70100,Zbb100,ZZ,WW,WZ,TT,ST_s,ST_t,ST_tW,STbar_s,STbar_t,STbar_tW,ZH125 
+samples: Zudsg,Zudsg1J,Zudsg2J,Zudsg4J,Zudsg5070,Zudsg70100,Zudsg100,Zcc,Zcc1J,Zcc2J,Zcc4J,Zcc5070,Zcc70100,Zcc100,Zbb,Zbb1J,Zbb2J,Zbb4J,Zbb5070,Zbb70100,Zbb100,ZZ,WW,WZ,TT,ST_s,ST_t,ST_tW,STbar_s,STbar_t,STbar_tW,ZH125 
 
 #Groups for adding samples together
-Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYc','Zcc5070':'DYc','Zcc70100':'DYc','Zcc100':'DYc','Zbb':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
-
+Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg4J':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYc','Zcc1J':'DYc','Zcc2J':'DYc','Zcc4J':'DYc','Zcc5070':'DYc','Zcc70100':'DYc','Zcc100':'DYc','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb4J':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
 
 #how and which groups in the plot
 setup: ZH,VV,DYb,DYc,DYlight,TT,ST
@@ -24,22 +23,23 @@ typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYb':'Z + b#bar{b}','TT
 addOverFlow = True
 
 #To be processed
-List: RTight,RMed,Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
+List: Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
 #List: RTight,RMed
 #,Light
 
 #var definition
 #BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,csv0,csv1,AK7,Sum
-BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,Sum
+BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,rHVpt
 #BDTs: BDT8_RTight,BDT8_RMed
-BDTs: BDT_RTight,BDT_RMed
+BDTs: Sum 
+#BDT_RTight,BDT_RMed
 
 [Plot:RTight]
 Datas: Zee Zmm
 Normalize: False
 vars: <!Plot_general|BDTs!>
 Signal: ZH125
-log: True
+log: False
 blind: True
 
 [Plot:RMed]
@@ -47,7 +47,7 @@ Datas: Zee Zmm
 Normalize: False
 vars: <!Plot_general|BDTs!>
 Signal: ZH125
-log: True
+log: False
 blind: True
 
 [Plot:Light_RTight]
@@ -152,10 +152,14 @@ scaling: True
 #rescale stats
 rescaleSqrtN: False
 
-BKG = ['Zudsg','Zudsg5070','Zudsg70100','Zudsg100','Zcc','Zcc5070','Zcc70100','Zcc100','Zbb','Zbb5070','Zbb70100','Zbb100','ZZ','WW','WZ','TT','ST_s','ST_t','ST_tW','STbar_s','STbar_t','STbar_tW']
+BKG = ['Zudsg','Zudsg1J','Zudsg2J','Zudsg4J','Zudsg5070','Zudsg70100','Zudsg100','Zcc','Zcc1J','Zcc2J','Zcc4J','Zcc5070','Zcc70100','Zcc100','Zbb','Zbb1J','Zbb2J','Zbb4J','Zbb5070','Zbb70100','Zbb100','ZZ','WW','WZ','TT','ST_s','ST_t','ST_tW','STbar_s','STbar_t','STbar_tW']
 
 #Groups for adding samples together
-Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
+#Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
+
+Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg4J':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc4J':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb4J':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
+
+
 #naming for DC
 Dict: {'ZH':'VH','DYlight':'ZjLF','DYb':'ZjHF','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs'}
 
@@ -304,8 +308,8 @@ factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Tr
 [MVALists]
 #List_for_submitscript: RTight_ZH110,RTight_ZH115,RTight_ZH120,RTight_ZH125,RTight_ZH130,RTight_ZH135,RMed_ZH110,RMed_ZH115,RMed_ZH120,RMed_ZH125,RMed_ZH130,RMed_ZH135
 #List_for_submitscript: RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may,RPt50_ZZ_may,RIncl_ZZ_may
-#List_for_submitscript: RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may
-List_for_submitscript: RTight_ZH125_may,RMed_ZH125_may,RTight_ZH125_oct,RMed_ZH125_oct
+List_for_submitscript: RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may
+#List_for_submitscript: RTight_ZH125_may,RMed_ZH125_may,RTight_ZH125_oct,RMed_ZH125_oct
 
 [RTight_ZZ_may]
 MVAtype: <!MVAGeneral|type!>
@@ -482,7 +486,8 @@ max1AddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) < 2.
 vetoHMass = (H.mass < 90. | H.mass > 145.)
 pullAngle = deltaPullAngle < 10. & deltaPullAngle2 < 10.
 rTight = V.pt > 100.
-rMed = V.pt > 50. & V.pt < 100.
+rMed = V.pt > 10.
+#rMed = V.pt > 50. & V.pt < 100.
 upperHMass = H.mass < 250.
 looseHMass = H.mass > 80. & H.mass < 150.
 dPhiVH = abs( HVdPhi ) > 2.9 
@@ -538,6 +543,6 @@ Mjj_highPt_MM: <!ZHmmbb|addCuts!> & <!Cuts|mjjHighPt!>
 # other things:
 
 [Weights]
-weightF: (PUweight*weightTrig2012A)
+weightF: (PUweight*weightTrig2012A*lheWeight)
 
 # LocalWords:  Mjj

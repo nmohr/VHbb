@@ -44,6 +44,15 @@ class HistoMaker:
         hTreeList=[]
         groupList=[]
 
+        #get the conversion rate in case of BDT plots
+        TrainFlag = eval(self.config.get('Analysis','TrainFlag'))
+        if TrainFlag:
+            MC_rescale_factor=2.
+            print 'I RESCALE BY 2.0'
+        else: MC_rescale_factor = 1.
+
+        BDT_add_cut='EventForTraining == 0'
+
 
         plot_path = self.config.get('Directories','plotpath')
         addOverFlow=eval(self.config.get('Plot_general','addOverFlow'))
@@ -58,9 +67,9 @@ class HistoMaker:
                 cutcut=cutcut.replace(self.region[1],self.region[2])
                 #print cutcut
             if subsample>-1:
-                treeCut='%s & %s & EventForTraining == 0'%(cutcut,job.subcuts[subsample])        
+                treeCut='%s & %s'%(cutcut,job.subcuts[subsample])        
             else:
-                treeCut='%s & EventForTraining == 0'%(cutcut)
+                treeCut='%s'%(cutcut)
         elif job.type == 'DATA':
             cutcut=self.config.get('Cuts',self.region)
             treeCut='%s'%(cutcut)
@@ -87,10 +96,15 @@ class HistoMaker:
             xMin=float(options[4])
             xMax=float(options[5])
 
+            #options
+
             if job.type != 'DATA':
                 if CuttedTree.GetEntries():
+                    
+                    if 'BDT' in treeVar: drawoption = '(%s)*(%s)'%(weightF,BDT_add_cut)
+                    else: drawoption = '%s'%(weightF)
                     output.cd() 
-                    CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax), weightF, "goff,e")
+                    CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax), drawoption, "goff,e")
                     full=True
                 else:
                     full=False
@@ -109,7 +123,8 @@ class HistoMaker:
                 hTree = ROOT.TH1F('%s'%name,'%s'%name,nBins,xMin,xMax)
                 hTree.Sumw2()
             if job.type != 'DATA':
-                ScaleFactor = self.getScale(job,subsample)
+                if 'BDT' in treeVar: ScaleFactor = self.getScale(job,subsample,MC_rescale_factor)
+                else: ScaleFactor = self.getScale(job,subsample)
                 if ScaleFactor != 0:
                     hTree.Scale(ScaleFactor)
             #print '\t-->import %s\t Integral: %s'%(job.name,hTree.Integral())

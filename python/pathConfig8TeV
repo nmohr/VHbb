@@ -2,12 +2,12 @@
 #Peller's setup
 Wdir: /shome/peller
 
-limits: <!Directories|Wdir!>/VHbb/Limits/HCPV42_7Tev100p/
+limits: <!Directories|Wdir!>/VHbb/Limits/Oct1/
 
-plotpath: <!Directories|Wdir!>/VHbb/Stacks/HCPV42/
-samplepath= <!Directories|Wdir!>/DATA/HCPV42/
+plotpath: <!Directories|Wdir!>/VHbb/Stacks/Oct1/
+samplepath= <!Directories|Wdir!>/DATA/Oct1/
 vhbbpath= <!Directories|Wdir!>/UserCode/VHbb/
-logpath= <!Directories|Wdir!>/VHbb/LOG/HCPV42/
+logpath= <!Directories|Wdir!>/VHbb/LOG/Oct1/
 
 #Wdir: /shome/bortigno
 #limits: <!Directories|Wdir!>/Limits/Test/

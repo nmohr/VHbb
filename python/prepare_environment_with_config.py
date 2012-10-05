@@ -8,6 +8,7 @@ from optparse import OptionParser
 from BetterConfigParser import BetterConfigParser
 import ROOT
 
+argv = sys.argv
 
 #get files info from config
 parser = OptionParser()
