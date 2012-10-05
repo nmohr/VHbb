@@ -108,13 +108,13 @@ blind: False
 ###########################################################################################
 # REGRESSION
 [Regression]
-regWeight = ../data/MVA_BDT_REG_Sept28.weights.xml
-regDict = {"Jet_pt": "hJet_pt", "Jet_eta": "hJet_eta", "Jet_e": "hJet_e", "Jet_ptRaw": "hJet_ptRaw","Jet_cef": "hJet_cef", "Jet_chf": "hJet_chf","Jet_nconstituents": "hJet_nconstituents","Jet_ptLeadTrack": "hJet_ptLeadTrack", "Jet_vtxPt": "hJet_vtxPt", "Jet_vtxMass": "hJet_vtxMass", "Jet_vtx3dL": "hJet_vtx3dL", "Jet_vtx3deL": "hJet_vtx3deL","Jet_SoftLeptptRel":"hJet_SoftLeptptRel","Jet_SoftLeptPt":"hJet_SoftLeptPt","Jet_SoftLeptdR":"hJet_SoftLeptdR"}
-regVars = ["Jet_pt","Jet_eta","Jet_e","Jet_ptRaw","Jet_cef","Jet_chf","Jet_nconstituents","Jet_ptLeadTrack","Jet_vtxPt","Jet_vtxMass","Jet_vtx3dL", "Jet_vtx3deL","Jet_SoftLeptptRel","Jet_SoftLeptPt","Jet_SoftLeptdR"]
+regWeight = ../data/MVA_BDT_REG_Jun16.weights.xml
+regDict = {"Jet_pt": "hJet_pt", "Jet_eta": "hJet_eta", "Jet_e": "hJet_e", "Jet_ptRaw": "hJet_ptRaw", "Jet_chf": "hJet_chf","Jet_nconstituents": "hJet_nconstituents", "Jet_vtxPt": "hJet_vtxPt", "Jet_vtx3dL": "hJet_vtx3dL", "Jet_vtx3deL": "hJet_vtx3deL"}
+regVars = ["Jet_pt","Jet_eta","Jet_e","Jet_ptRaw", "Jet_chf","Jet_nconstituents", "Jet_vtxPt", "Jet_vtx3dL", "Jet_vtx3deL"]
 useMET = True
 usePtRaw = True
-useMt = True
-useRho25 = True
+useRho25 = False
+useMt = False
 
 [BTagReshaping]
 library=<!Directories|vhbbpath!>/interface/BTagReshaping_h.so
