@@ -55,7 +55,7 @@ weightF=config.get('Weights','weightF')
 
 
 def getTree(job,cut,path,subsample=-1):
-    print path+'/'+job.getpath()
+    #print path+'/'+job.getpath()
     newinput = TFile.Open(path+'/'+job.getpath(),'read')
     output.cd()
     Tree = newinput.Get(job.tree)
@@ -263,6 +263,7 @@ for var in MVA_Vars['Nominal']:
 
 #Execute TMVA
 factory.SetSignalWeightExpression(weightF)
+factory.SetBackgroundWeightExpression(weightF)
 factory.Verbose()
 factory.BookMethod(MVAtype,MVAname,MVAsettings)
 factory.TrainAllMethods()

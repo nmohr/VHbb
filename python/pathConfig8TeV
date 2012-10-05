@@ -1,13 +1,21 @@
 [Directories]
-#Peller's setup
-Wdir: /shome/peller
+##Peller's T3 setup
+#Wdir: /shome/peller
+#limits: <!Directories|Wdir!>/VHbb/Limits/HCPV42/
+#plotpath: <!Directories|Wdir!>/VHbb/Stacks/HCPV42/
+#samplepath= <!Directories|Wdir!>/DATA/HCPV42/
+#vhbbpath= <!Directories|Wdir!>/UserCode/VHbb/
+#logpath= <!Directories|Wdir!>/VHbb/LOG/HCPV42/
+#SYSdir: /sys/
+##MVAdir is relative to the samples with systematics.....i.e. /MVAout/ normally
+#MVAdir: /MVAout/
 
-limits: <!Directories|Wdir!>/VHbb/Limits/Oct1/
-
+#Peller's home setup
+Wdir: /Users/peller/
 plotpath: <!Directories|Wdir!>/VHbb/Stacks/Oct1/
-samplepath= <!Directories|Wdir!>/DATA/Oct1/
+samplepath= /scratch/Oct1/
+limits: <!Directories|Wdir!>/VHbb/Limits/Oct1/
 vhbbpath= <!Directories|Wdir!>/UserCode/VHbb/
-logpath= <!Directories|Wdir!>/VHbb/LOG/Oct1/
 
 #Wdir: /shome/bortigno
 #limits: <!Directories|Wdir!>/Limits/Test/
@@ -17,4 +25,5 @@ logpath= <!Directories|Wdir!>/VHbb/LOG/Oct1/
 SYSdir: /sys/
 #MVAdir is relative to the samples with systematics.....i.e. /MVAout/ normally
 MVAdir: /MVAout/
+
 
