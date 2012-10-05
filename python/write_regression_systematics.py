@@ -167,6 +167,8 @@ for job in info:
     fMETet = ROOT.TTreeFormula("METet",'METnoPU.et',tree)
     fMETphi = ROOT.TTreeFormula("METphi",'METnoPU.phi',tree)
     hJet_MtArray = [array('f',[0]),array('f',[0])]
+    hJet_EtArray = [array('f',[0]),array('f',[0])]
+    hJet_ptRawArray = [array('f',[0]),array('f',[0])]
     hJet_MET_dPhi = array('f',[0]*2)
     hJet_regWeight = array('f',[0]*2)
     hJet_MET_dPhiArray = [array('f',[0]),array('f',[0])]
@@ -177,28 +179,41 @@ for job in info:
         
     theForms = {}
     theVars0 = {}
-    for var in regVars:
-        theVars0[var] = array( 'f', [ 0 ] )
-        readerJet0.AddVariable(var,theVars0[var])
-        theForms['form_reg_%s_0'%(regDict[var])] = ROOT.TTreeFormula("form_reg_%s_0"%(regDict[var]),'%s[0]' %(regDict[var]),tree)
-    if useMET:
-    	readerJet0.AddVariable( "Jet_MET_dPhi", hJet_MET_dPhiArray[0] )
-    	readerJet0.AddVariable( "METet", METet )
-    if useMt: readerJet0.AddVariable( "Jet_mt", hJet_MtArray[0] )
-    if useRho25: readerJet0.AddVariable( "rho25", rho25 )
-        
     theVars1 = {}
-    for var in regVars:
-        theVars1[var] = array( 'f', [ 0 ] )
-        readerJet1.AddVariable(var,theVars1[var])
-        theForms['form_reg_%s_1'%(regDict[var])] = ROOT.TTreeFormula("form_reg_%s_1"%(regDict[var]),'%s[1]' %(regDict[var]),tree)
-    if useMET:
-    	readerJet1.AddVariable( "Jet_MET_dPhi", hJet_MET_dPhiArray[1] )
-    	readerJet1.AddVariable( "METet", METet )
-    if useMt: readerJet1.AddVariable( "Jet_mt", hJet_MtArray[1] )
-    if useRho25: readerJet1.AddVariable( "rho25", rho25 )
-    readerJet0.BookMVA( "jet0Regression",  regWeight );
-    readerJet1.BookMVA( "jet1Regression", regWeight );
+    def addVarsToReader(reader,theVars,theForms,i):
+        for key in regVars:
+            var = regDict[key]
+            theVars[key] = array( 'f', [ 0 ] )
+            if var == 'Jet_MET_dPhi':
+                print 'Adding var: %s with %s to readerJet%.0f' %(key,var,i)
+                reader.AddVariable( key, hJet_MET_dPhiArray[i] )
+            elif var == 'METet':
+                print 'Adding var: %s with %s to readerJet%.0f' %(key,var,i)
+    	        reader.AddVariable( key, METet )
+            elif var == 'rho25':
+                print 'Adding var: %s with %s to readerJet%.0f' %(key,var,i)
+    	        reader.AddVariable( key, rho25 )
+            elif var == 'Jet_mt':
+                print 'Adding var: %s with %s to readerJet%.0f' %(key,var,i)
+	        reader.AddVariable( key, hJet_MtArray[i] )
+            elif var == 'Jet_et':
+                print 'Adding var: %s with %s to readerJet%.0f' %(key,var,i)
+	        reader.AddVariable( key, hJet_EtArray[i] )
+            elif var == 'Jet_ptRaw':
+                print 'Adding var: %s with %s to readerJet%.0f' %(key,var,i)
+	        reader.AddVariable( key, hJet_ptRawArray[i] )
+            else:
+                reader.AddVariable(key,theVars[key])
+                formula = regDict[key].replace("[0]","[%.0f]" %i)
+                print 'Adding var: %s with %s to readerJet%.0f' %(key,formula,i)
+                theForms['form_reg_%s_%.0f'%(key,i)] = ROOT.TTreeFormula("form_reg_%s_%.0f"%(key,i),'%s' %(formula),tree)
+        return 
+    addVarsToReader(readerJet0,theVars0,theForms,0)    
+    addVarsToReader(readerJet1,theVars1,theForms,1)    
+    readerJet0.BookMVA( "jet0Regression", regWeight )
+    readerJet1.BookMVA( "jet1Regression", regWeight )
+    
+    
         
     #Add training Flag
     EventForTraining = array('i',[0])
@@ -282,15 +297,17 @@ for job in info:
             rho25[0]=fRho25.EvalInstance()
             METphi[0]=fMETphi.EvalInstance()
             for key, value in regDict.items():
-                theVars0[key][0] = theForms["form_reg_%s_0" %(value)].EvalInstance()
-                theVars1[key][0] = theForms["form_reg_%s_1" %(value)].EvalInstance()
+        	if not (value == 'Jet_MET_dPhi' or value == 'METet' or value == "rho25" or value == "Jet_et" or value == 'Jet_mt' or value == 'Jet_ptRaw'):
+                    theVars0[key][0] = theForms["form_reg_%s_0" %(key)].EvalInstance()
+                    theVars1[key][0] = theForms["form_reg_%s_1" %(key)].EvalInstance()
             for i in range(2):
                 hJet_MET_dPhi[i] = deltaPhi(METphi[0],tree.hJet_phi[i])
                 hJet_MET_dPhiArray[i][0] = deltaPhi(METphi[0],tree.hJet_phi[i])
+                corrRes = 1.
+		if not job.type == 'Data':
+                    corrRes = corrPt(tree.hJet_pt[i],tree.hJet_eta[i],tree.hJet_genPt[i])
+	    	hJet_ptRawArray[i][0] = tree.hJet_ptRaw[i]*corrRes
             
-            if not job.type == 'DATA' and usePtRaw:
-	    	theVars0['Jet_ptRaw'][0] = theForms["form_reg_hJet_ptRaw_0"].EvalInstance()*corrPt(tree.hJet_pt[0],tree.hJet_eta[0],tree.hJet_genPt[0])
-	    	theVars1['Jet_ptRaw'][0] = theForms["form_reg_hJet_ptRaw_1"].EvalInstance()*corrPt(tree.hJet_pt[1],tree.hJet_eta[1],tree.hJet_genPt[1])
             
             if applyRegression:
                 hJ0.SetPtEtaPhiE(hJet_pt0,hJet_eta0,hJet_phi0,hJet_e0)
@@ -305,6 +322,8 @@ for job in info:
                 HNoReg.dEta = abs(hJ0.Eta()-hJ1.Eta())
                 hJet_MtArray[0][0] = hJ0.Mt()
                 hJet_MtArray[1][0] = hJ1.Mt()
+                hJet_EtArray[0][0] = hJ0.Et()
+                hJet_EtArray[1][0] = hJ1.Et()
                 rPt0 = max(0.0001,readerJet0.EvaluateRegression( "jet0Regression" )[0])
                 rPt1 = max(0.0001,readerJet1.EvaluateRegression( "jet1Regression" )[0])
                 hJet_regWeight[0] = rPt0/hJet_pt0
@@ -326,16 +345,23 @@ for job in info:
                 H.dPhi = hJ0.DeltaPhi(hJ1)
                 H.dEta = abs(hJ0.Eta()-hJ1.Eta())
                 if hJet_regWeight[0] > 5. or hJet_regWeight[1] > 5.:
+                    print 'Event %.0f' %(Event[0])
                     print 'MET %.2f' %(METet[0])
                     print 'rho25 %.2f' %(rho25[0])
                     for key, value in regDict.items():
-                        print '%s 0: %.2f'%(key, theVars0[key][0])
-                        print '%s 0: %.2f'%(key, theVars1[key][0])
+        	        if not (value == 'Jet_MET_dPhi' or value == 'METet' or value == "rho25" or value == "Jet_et" or value == 'Jet_mt' or value == 'Jet_ptRaw'):
+                            print '%s 0: %.2f'%(key, theVars0[key][0])
+                       	    print '%s 1: %.2f'%(key, theVars1[key][0])
                     for i in range(2):
                         print 'dPhi %.0f %.2f' %(i,hJet_MET_dPhiArray[i][0])
+                    for i in range(2):
+                        print 'ptRaw %.0f %.2f' %(i,hJet_ptRawArray[i][0])
+                    for i in range(2):
+                        print 'Mt %.0f %.2f' %(i,hJet_MtArray[i][0])
+                    for i in range(2):
+                        print 'Et %.0f %.2f' %(i,hJet_EtArray[i][0])
                     print 'corr 0 %.2f' %(hJet_regWeight[0])
                     print 'corr 1 %.2f' %(hJet_regWeight[1])
-                    print 'Event %.0f' %(Event[0])
                     print 'rPt0 %.2f' %(rPt0)
                     print 'rPt1 %.2f' %(rPt1)
                     print 'rE0 %.2f' %(rE0)
@@ -382,15 +408,15 @@ for job in info:
                 rPt1 = hJet_pt1 + (hJet_pt1-hJet_genPt1)*res1
                 rE0 = hJet_e0*rPt0/hJet_pt0
                 rE1 = hJet_e1*rPt1/hJet_pt1
-                if applyRegression:
-                    theVars0['Jet_pt'][0] = rPt0
-                    theVars1['Jet_pt'][0] = rPt1
-                    theVars0['Jet_e'][0] = rE0
-                    theVars1['Jet_e'][0] = rE1
-                    rPt0 = max(0.0001,readerJet0.EvaluateRegression( "jet0Regression" )[0])
-                    rPt1 = max(0.0001,readerJet1.EvaluateRegression( "jet1Regression" )[0])
-                    rE0 = hJet_e0*rPt0/hJet_pt0
-                    rE1 = hJet_e1*rPt1/hJet_pt1
+                #if applyRegression:
+                #    theVars0['Jet_pt'][0] = rPt0
+                #    theVars1['Jet_pt'][0] = rPt1
+                #    theVars0['Jet_e'][0] = rE0
+                #    theVars1['Jet_e'][0] = rE1
+                #    rPt0 = max(0.0001,readerJet0.EvaluateRegression( "jet0Regression" )[0])
+                #    rPt1 = max(0.0001,readerJet1.EvaluateRegression( "jet1Regression" )[0])
+                #    rE0 = hJet_e0*rPt0/hJet_pt0
+                #    rE1 = hJet_e1*rPt1/hJet_pt1
                 hJ0.SetPtEtaPhiE(rPt0,hJet_eta0,hJet_phi0,rE0)
                 hJ1.SetPtEtaPhiE(rPt1,hJet_eta1,hJet_phi1,rE1)
                 #Set
@@ -419,15 +445,15 @@ for job in info:
                 rPt1 = hJet_pt1*(1+variation*hJet_JECUnc1)
                 rE0 = hJet_e0*(1+variation*hJet_JECUnc0)
                 rE1 = hJet_e1*(1+variation*hJet_JECUnc1)
-                if applyRegression:
-                    theVars0['Jet_pt'][0] = rPt0
-                    theVars1['Jet_pt'][0] = rPt1
-                    theVars0['Jet_e'][0] = rE0
-                    theVars1['Jet_e'][0] = rE1
-                    rPt0 = max(0.0001,readerJet0.EvaluateRegression( "jet0Regression" )[0])
-                    rPt1 = max(0.0001,readerJet1.EvaluateRegression( "jet1Regression" )[0])
-                    rE0 = hJet_e0*rPt0/hJet_pt0
-                    rE1 = hJet_e1*rPt1/hJet_pt1
+                #if applyRegression:
+                #    theVars0['Jet_pt'][0] = rPt0
+                #    theVars1['Jet_pt'][0] = rPt1
+                #    theVars0['Jet_e'][0] = rE0
+                #    theVars1['Jet_e'][0] = rE1
+                #    rPt0 = max(0.0001,readerJet0.EvaluateRegression( "jet0Regression" )[0])
+                #    rPt1 = max(0.0001,readerJet1.EvaluateRegression( "jet1Regression" )[0])
+                #    rE0 = hJet_e0*rPt0/hJet_pt0
+                #    rE1 = hJet_e1*rPt1/hJet_pt1
                 hJ0.SetPtEtaPhiE(rPt0,hJet_eta0,hJet_phi0,rE0)
                 hJ1.SetPtEtaPhiE(rPt1,hJet_eta1,hJet_phi1,rE1)
                 #Fill

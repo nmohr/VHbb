@@ -109,8 +109,8 @@ blind: False
 # REGRESSION
 [Regression]
 regWeight = ../data/MVA_BDT_REG_Jun16.weights.xml
-regDict = {"Jet_pt": "hJet_pt", "Jet_eta": "hJet_eta", "Jet_e": "hJet_e", "Jet_ptRaw": "hJet_ptRaw", "Jet_chf": "hJet_chf","Jet_nconstituents": "hJet_nconstituents", "Jet_vtxPt": "hJet_vtxPt", "Jet_vtx3dL": "hJet_vtx3dL", "Jet_vtx3deL": "hJet_vtx3deL"}
-regVars = ["Jet_pt","Jet_eta","Jet_e","Jet_ptRaw", "Jet_chf","Jet_nconstituents", "Jet_vtxPt", "Jet_vtx3dL", "Jet_vtx3deL"]
+regDict = {"Jet_pt": "hJet_pt[0]", "Jet_eta": "hJet_eta[0]", "Jet_e": "hJet_e[0]", "Jet_ptRaw": "Jet_ptRaw", "Jet_chf": "hJet_chf[0]","Jet_nconstituents": "hJet_nconstituents[0]", "Jet_vtxPt": "hJet_vtxPt[0]", "Jet_vtx3dL": "hJet_vtx3dL[0]", "Jet_vtx3deL": "hJet_vtx3deL[0]", "Jet_MET_dPhi": "Jet_MET_dPhi", 'METet': 'METet'}
+regVars = ["Jet_pt","Jet_eta","Jet_e","Jet_ptRaw", "Jet_chf","Jet_nconstituents", "Jet_vtxPt", "Jet_vtx3dL", "Jet_vtx3deL", "Jet_MET_dPhi", "METet"]
 useMET = True
 usePtRaw = True
 useRho25 = False
