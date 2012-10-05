@@ -180,7 +180,7 @@ for job in info:
     theForms = {}
     theVars0 = {}
     theVars1 = {}
-    def addVarsToReader(reader,theVars,theForms,i):
+    def addVarsToReader(reader,theVars,theForms,i,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray):
         for key in regVars:
             var = regDict[key]
             theVars[key] = array( 'f', [ 0 ] )
@@ -208,8 +208,8 @@ for job in info:
                 print 'Adding var: %s with %s to readerJet%.0f' %(key,formula,i)
                 theForms['form_reg_%s_%.0f'%(key,i)] = ROOT.TTreeFormula("form_reg_%s_%.0f"%(key,i),'%s' %(formula),tree)
         return 
-    addVarsToReader(readerJet0,theVars0,theForms,0)    
-    addVarsToReader(readerJet1,theVars1,theForms,1)    
+    addVarsToReader(readerJet0,theVars0,theForms,0,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray)    
+    addVarsToReader(readerJet1,theVars1,theForms,1,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray)    
     readerJet0.BookMVA( "jet0Regression", regWeight )
     readerJet1.BookMVA( "jet1Regression", regWeight )
     
