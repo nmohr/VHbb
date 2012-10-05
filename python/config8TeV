@@ -278,10 +278,49 @@ RMed_ZH130_MM_8TeV: RMed_ZH130_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGenera
 RMed_ZH135_MM_8TeV: RMed_ZH135_may_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M135_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLowPt_8TeV,BDT
 
 #8TeV Training
+RTight_ZH110_EE_8TeV_oct: RTight_ZH110_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M110_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH110,ZeeHighPt_8TeV,BDT
+RTight_ZH115_EE_8TeV_oct: RTight_ZH115_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M115_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH115,ZeeHighPt_8TeV,BDT
+RTight_ZH120_EE_8TeV_oct: RTight_ZH120_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M120_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH120,ZeeHighPt_8TeV,BDT
 RTight_ZH125_EE_8TeV_oct: RTight_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH125,ZeeHighPt_8TeV,BDT
+RTight_ZH130_EE_8TeV_oct: RTight_ZH130_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M130_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH130,ZeeHighPt_8TeV,BDT
+RTight_ZH135_EE_8TeV_oct: RTight_ZH135_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M135_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH135,ZeeHighPt_8TeV,BDT
+
+RTightLooseBTag_ZH110_EE_8TeV_oct: RTightLooseBTag_ZH110_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M110_ZeeHighPtLooseBTag_8TeV,RTightLooseBTag_EE,RTightLooseBTag_EE,ZH110,ZeeHighPtLooseBTag_8TeV,BDT
+RTightLooseBTag_ZH115_EE_8TeV_oct: RTightLooseBTag_ZH115_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M115_ZeeHighPtLooseBTag_8TeV,RTightLooseBTag_EE,RTightLooseBTag_EE,ZH115,ZeeHighPtLooseBTag_8TeV,BDT
+RTightLooseBTag_ZH120_EE_8TeV_oct: RTightLooseBTag_ZH120_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M120_ZeeHighPtLooseBTag_8TeV,RTightLooseBTag_EE,RTightLooseBTag_EE,ZH120,ZeeHighPtLooseBTag_8TeV,BDT
+RTightLooseBTag_ZH125_EE_8TeV_oct: RTightLooseBTag_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZeeHighPtLooseBTag_8TeV,RTightLooseBTag_EE,RTightLooseBTag_EE,ZH125,ZeeHighPtLooseBTag_8TeV,BDT
+RTightLooseBTag_ZH130_EE_8TeV_oct: RTightLooseBTag_ZH130_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M130_ZeeHighPtLooseBTag_8TeV,RTightLooseBTag_EE,RTightLooseBTag_EE,ZH130,ZeeHighPtLooseBTag_8TeV,BDT
+RTightLooseBTag_ZH135_EE_8TeV_oct: RTightLooseBTag_ZH135_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M135_ZeeHighPtLooseBTag_8TeV,RTightLooseBTag_EE,RTightLooseBTag_EE,ZH135,ZeeHighPtLooseBTag_8TeV,BDT
+
+RMed_ZH110_EE_8TeV_oct: RMed_ZH110_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M110_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH110,ZeeLowPt_8TeV,BDT
+RMed_ZH115_EE_8TeV_oct: RMed_ZH115_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M115_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH115,ZeeLowPt_8TeV,BDT
+RMed_ZH120_EE_8TeV_oct: RMed_ZH120_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M120_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH120,ZeeLowPt_8TeV,BDT
 RMed_ZH125_EE_8TeV_oct: RMed_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLowPt_8TeV,BDT
+RMed_ZH130_EE_8TeV_oct: RMed_ZH130_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M130_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH130,ZeeLowPt_8TeV,BDT
+RMed_ZH135_EE_8TeV_oct: RMed_ZH135_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M135_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH135,ZeeLowPt_8TeV,BDT
+
+RTight_ZH110_MM_8TeV_oct: RTight_ZH110_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M110_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH110,ZmmHighPt_8TeV,BDT
+RTight_ZH115_MM_8TeV_oct: RTight_ZH115_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M115_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH115,ZmmHighPt_8TeV,BDT
+RTight_ZH120_MM_8TeV_oct: RTight_ZH120_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M120_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH120,ZmmHighPt_8TeV,BDT
 RTight_ZH125_MM_8TeV_oct: RTight_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH125,ZmmHighPt_8TeV,BDT
-RMed_ZH125_MM_8TeV_oct: RMed_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,10,-1,1,BDT_M125_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLowPt_8TeV,BDT
+RTight_ZH130_MM_8TeV_oct: RTight_ZH130_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M130_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH130,ZmmHighPt_8TeV,BDT
+RTight_ZH135_MM_8TeV_oct: RTight_ZH135_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M135_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH135,ZmmHighPt_8TeV,BDT
+
+RTightLooseBTag_ZH110_MM_8TeV_oct: RTightLooseBTag_ZH110_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M110_ZmmHighPtLooseBTag_8TeV,RTightLooseBTag_MM,RTightLooseBTag_MM,ZH110,ZmmHighPtLooseBTag_8TeV,BDT
+RTightLooseBTag_ZH115_MM_8TeV_oct: RTightLooseBTag_ZH115_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M115_ZmmHighPtLooseBTag_8TeV,RTightLooseBTag_MM,RTightLooseBTag_MM,ZH115,ZmmHighPtLooseBTag_8TeV,BDT
+RTightLooseBTag_ZH120_MM_8TeV_oct: RTightLooseBTag_ZH120_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M120_ZmmHighPtLooseBTag_8TeV,RTightLooseBTag_MM,RTightLooseBTag_MM,ZH120,ZmmHighPtLooseBTag_8TeV,BDT
+RTightLooseBTag_ZH125_MM_8TeV_oct: RTightLooseBTag_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZmmHighPtLooseBTag_8TeV,RTightLooseBTag_MM,RTightLooseBTag_MM,ZH125,ZmmHighPtLooseBTag_8TeV,BDT
+RTightLooseBTag_ZH130_MM_8TeV_oct: RTightLooseBTag_ZH130_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M130_ZmmHighPtLooseBTag_8TeV,RTightLooseBTag_MM,RTightLooseBTag_MM,ZH130,ZmmHighPtLooseBTag_8TeV,BDT
+RTightLooseBTag_ZH135_MM_8TeV_oct: RTightLooseBTag_ZH135_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M135_ZmmHighPtLooseBTag_8TeV,RTightLooseBTag_MM,RTightLooseBTag_MM,ZH135,ZmmHighPtLooseBTag_8TeV,BDT
+
+RMed_ZH110_MM_8TeV_oct: RMed_ZH110_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M110_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH110,ZmmLowPt_8TeV,BDT
+RMed_ZH115_MM_8TeV_oct: RMed_ZH115_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M115_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH115,ZmmLowPt_8TeV,BDT
+RMed_ZH120_MM_8TeV_oct: RMed_ZH120_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M120_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH120,ZmmLowPt_8TeV,BDT
+RMed_ZH125_MM_8TeV_oct: RMed_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M125_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLowPt_8TeV,BDT
+RMed_ZH130_MM_8TeV_oct: RMed_ZH130_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M130_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH130,ZmmLowPt_8TeV,BDT
+RMed_ZH135_MM_8TeV_oct: RMed_ZH135_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGeneral|range!>,BDT_M135_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLowPt_8TeV,BDT
+
+
 
 
 #GENERAL SETUP LIMIT:
@@ -294,11 +333,14 @@ RMed_ZH125_MM_8TeV_oct: RMed_ZH125_oct_4.nominal,CMS_vhbb_BDT_Zll_8TeV,<!LimitGe
 [MVAGeneral]
 type = BDT
 SettingsTight = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+SettingsLooseBtag = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 SettingsMed = !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+
+
 backgrounds = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 backgroundsNoDiboson = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 TT
 
-backgrounds8TeV: Zudsg Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc5070 Zcc70100 Zcc100 Zbb Zbb5070 Zbb70100 Zbb100 ZZ WW WZ TT 
+backgrounds8TeV: Zudsg Zudsg1J Zudsg2J Zudsg4J Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc4J Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb4J Zbb5070 Zbb70100 Zbb100 ZZ WW WZ TT 
 
 [factory]
 factoryname: MVA
@@ -309,8 +351,14 @@ factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Tr
 #List_for_submitscript: RTight_ZH110,RTight_ZH115,RTight_ZH120,RTight_ZH125,RTight_ZH130,RTight_ZH135,RMed_ZH110,RMed_ZH115,RMed_ZH120,RMed_ZH125,RMed_ZH130,RMed_ZH135
 #List_for_submitscript: RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may,RPt50_ZZ_may,RIncl_ZZ_may
 List_for_submitscript: RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may
+
+#List_for_submitscript: RTight_ZH110_oct,RTight_ZH115_oct,RTight_ZH120_oct,RTight_ZH125_oct,RTight_ZH130_oct,RTight_ZH135_oct,RMed_ZH110_oct,RMed_ZH115_oct,RMed_ZH120_oct,RMed_ZH125_oct,RMed_ZH130_oct,RMed_ZH135_oct,RTightLooseBTag_ZH110_oct,RTightLooseBTag_ZH115_oct,RTightLooseBTag_ZH120_oct,RTightLooseBTag_ZH125_oct,RTightLooseBTag_ZH130_oct,RTightLooseBTag_ZH135_oct
+
+
 #List_for_submitscript: RTight_ZH125_may,RMed_ZH125_may,RTight_ZH125_oct,RMed_ZH125_oct
 
+
+##ZZ
 [RTight_ZZ_may]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsTight!>
@@ -320,6 +368,9 @@ backgrounds: <!MVAGeneral|backgroundsNoDiboson!>
 treeVarSet: treeVarsICHEP
 treeCut: RTight
 
+
+# old 7 TeV Training
+
 [RTight_ZH110_may]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsTight!>
@@ -327,7 +378,7 @@ path: <!Directories|samplepath!>
 signals: ZH110
 backgrounds: <!MVAGeneral|backgrounds!>
 treeVarSet: treeVarsICHEP
-treeCut: RTight
+treeCut: RTigh
 
 [RTight_ZH115_may]
 MVAtype: <!MVAGeneral|type!>
@@ -353,15 +404,6 @@ MVAsettings: <!MVAGeneral|SettingsTight!>
 path: <!Directories|samplepath!>
 signals: ZH125
 backgrounds: <!MVAGeneral|backgrounds!>
-treeVarSet: treeVarsICHEP
-treeCut: RTight
-
-[RTight_ZH125_oct]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH125
-backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTight
 
@@ -419,16 +461,6 @@ backgrounds: <!MVAGeneral|backgrounds!>
 treeVarSet: treeVarsICHEP
 treeCut: RMed
 
-[RMed_ZH125_oct]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH125
-backgrounds: <!MVAGeneral|backgrounds8TeV!>
-treeVarSet: treeVarsICHEP
-treeCut: RMed
-
-
 [RMed_ZH130_may]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsMed!>
@@ -446,6 +478,170 @@ signals: ZH135
 backgrounds: <!MVAGeneral|backgrounds!>
 treeVarSet: treeVarsICHEP
 treeCut: RMed
+
+#new 8TeV Training
+
+[RTight_ZH110_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH110
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RTight_ZH115_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH115
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RTight_ZH120_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH120
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RTight_ZH125_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH125
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RTight_ZH130_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH130
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RTight_ZH135_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH135
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RMed_ZH110_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH110
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RMed_ZH115_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH115
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RMed_ZH120_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH120
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RMed_ZH125_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH125
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RMed_ZH130_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH130
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RMed_ZH135_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH135
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RTightLooseBTag_ZH110_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH110
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTightLooseBTag
+
+[RTightLooseBTag_ZH115_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH115
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTightLooseBTag
+
+[RTightLooseBTag_ZH120_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH120
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTightLooseBTag
+
+[RTightLooseBTag_ZH125_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH125
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTightLooseBTag
+
+[RTightLooseBTag_ZH130_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH130
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTightLooseBTag
+
+[RTightLooseBTag_ZH135_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH135
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTightLooseBTag
 
 
 ##############################################################################################
@@ -486,8 +682,8 @@ max1AddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) < 2.
 vetoHMass = (H.mass < 90. | H.mass > 145.)
 pullAngle = deltaPullAngle < 10. & deltaPullAngle2 < 10.
 rTight = V.pt > 100.
-rMed = V.pt > 10.
-#rMed = V.pt > 50. & V.pt < 100.
+#rMed = V.pt > 10.
+rMed = V.pt > 50. & V.pt < 100.
 upperHMass = H.mass < 250.
 looseHMass = H.mass > 80. & H.mass < 150.
 dPhiVH = abs( HVdPhi ) > 2.9 
@@ -506,6 +702,7 @@ mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tlBtag!> & <!ZHbb|z
 #V.pt regions:
 RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!>
 # &  RMed_ZH125_may_4.nominal >= -0.6
+#RMed:   hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1])  > 0.5   & min(hJet_csv[0],hJet_csv[1]) > 0.244   & V.pt > 50.  & V.pt < 100.  & V.mass > 75. & V.mass < 105 & H.mass < 150. & H.mass > 80. & deltaPullAngle < 10. & deltaPullAngle2 < 10.
 RTight = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> 
 RTightLooseBTag = <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> & <!ZHbb|looseBTag!>
 
