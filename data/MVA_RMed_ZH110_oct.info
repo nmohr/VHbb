@@ -4,7 +4,7 @@ p0
 (dp1
 S'MVAname'
 p2
-S'RTight_ZH125_oct'
+S'RMed_ZH110_oct'
 p3
 sS'weightfilepath'
 p4
@@ -50,7 +50,7 @@ aS'deltaPullAngle2'
 p25
 asS'MVAsettings'
 p26
-S'!H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning'
+S'!H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning'
 p27
 sS'weightfiles'
 p28
