@@ -189,19 +189,19 @@ for job in info:
                 reader.AddVariable( key, hJet_MET_dPhiArray[i] )
             elif var == 'METet':
                 print 'Adding var: %s with %s to readerJet%.0f' %(key,var,i)
-    	        reader.AddVariable( key, METet )
+                reader.AddVariable( key, METet )
             elif var == 'rho25':
                 print 'Adding var: %s with %s to readerJet%.0f' %(key,var,i)
-    	        reader.AddVariable( key, rho25 )
+                reader.AddVariable( key, rho25 )
             elif var == 'Jet_mt':
                 print 'Adding var: %s with %s to readerJet%.0f' %(key,var,i)
-	        reader.AddVariable( key, hJet_MtArray[i] )
+                reader.AddVariable( key, hJet_MtArray[i] )
             elif var == 'Jet_et':
                 print 'Adding var: %s with %s to readerJet%.0f' %(key,var,i)
-	        reader.AddVariable( key, hJet_EtArray[i] )
+                reader.AddVariable( key, hJet_EtArray[i] )
             elif var == 'Jet_ptRaw':
                 print 'Adding var: %s with %s to readerJet%.0f' %(key,var,i)
-	        reader.AddVariable( key, hJet_ptRawArray[i] )
+                reader.AddVariable( key, hJet_ptRawArray[i] )
             else:
                 reader.AddVariable(key,theVars[key])
                 formula = regDict[key].replace("[0]","[%.0f]" %i)
@@ -262,8 +262,8 @@ for job in info:
         newtree.Branch('H_JES',H_JES,'mass_up:mass_down:pt_up:pt_down/F')
 	lheWeight = array('f',[0])
         if job.type != 'DY':
-    		newtree.Branch('lheWeight',lheWeight,'lheWeight/F')
-    	lheWeight[0] = 1.
+            newtree.Branch('lheWeight',lheWeight,'lheWeight/F')
+            lheWeight[0] = 1.
         
         
         #iter=0
@@ -297,16 +297,16 @@ for job in info:
             rho25[0]=fRho25.EvalInstance()
             METphi[0]=fMETphi.EvalInstance()
             for key, value in regDict.items():
-        	if not (value == 'Jet_MET_dPhi' or value == 'METet' or value == "rho25" or value == "Jet_et" or value == 'Jet_mt' or value == 'Jet_ptRaw'):
+                if not (value == 'Jet_MET_dPhi' or value == 'METet' or value == "rho25" or value == "Jet_et" or value == 'Jet_mt' or value == 'Jet_ptRaw'):
                     theVars0[key][0] = theForms["form_reg_%s_0" %(key)].EvalInstance()
                     theVars1[key][0] = theForms["form_reg_%s_1" %(key)].EvalInstance()
             for i in range(2):
                 hJet_MET_dPhi[i] = deltaPhi(METphi[0],tree.hJet_phi[i])
                 hJet_MET_dPhiArray[i][0] = deltaPhi(METphi[0],tree.hJet_phi[i])
                 corrRes = 1.
-		if not job.type == 'Data':
-                    corrRes = corrPt(tree.hJet_pt[i],tree.hJet_eta[i],tree.hJet_genPt[i])
-	    	hJet_ptRawArray[i][0] = tree.hJet_ptRaw[i]*corrRes
+                if not job.type == 'Data':
+                   corrRes = corrPt(tree.hJet_pt[i],tree.hJet_eta[i],tree.hJet_genPt[i])
+                hJet_ptRawArray[i][0] = tree.hJet_ptRaw[i]*corrRes
             
             
             if applyRegression:
@@ -349,9 +349,9 @@ for job in info:
                     print 'MET %.2f' %(METet[0])
                     print 'rho25 %.2f' %(rho25[0])
                     for key, value in regDict.items():
-        	        if not (value == 'Jet_MET_dPhi' or value == 'METet' or value == "rho25" or value == "Jet_et" or value == 'Jet_mt' or value == 'Jet_ptRaw'):
+                        if not (value == 'Jet_MET_dPhi' or value == 'METet' or value == "rho25" or value == "Jet_et" or value == 'Jet_mt' or value == 'Jet_ptRaw'):
                             print '%s 0: %.2f'%(key, theVars0[key][0])
-                       	    print '%s 1: %.2f'%(key, theVars1[key][0])
+                            print '%s 1: %.2f'%(key, theVars1[key][0])
                     for i in range(2):
                         print 'dPhi %.0f %.2f' %(i,hJet_MET_dPhiArray[i][0])
                     for i in range(2):
@@ -377,19 +377,19 @@ for job in info:
                 pt = float(tree.hJet_pt[i])
                 eta = float(tree.hJet_eta[i])
                 csv = float(tree.hJet_csv[i])
-		hJet_csvOld[i] = csv 
-    		if anaTag == '7TeV':
-			tree.hJet_csv[i] = corrCSV(btagNom,csv,flavour)
-                	hJet_csvDown[i] = corrCSV(btagDown,csv,flavour)
-                	hJet_csvUp[i] = corrCSV(btagUp,csv,flavour) 
-                	hJet_csvFDown[i] = corrCSV(btagFDown,csv,flavour)
-                	hJet_csvFUp[i] = corrCSV(btagFUp,csv,flavour)
-    		elif anaTag == '8TeV':
-                	tree.hJet_csv[i] = btagNom.reshape(eta,pt,csv,flavour)
-                	hJet_csvDown[i] = btagDown.reshape(eta,pt,csv,flavour)
-               		hJet_csvUp[i] = btagUp.reshape(eta,pt,csv,flavour) 
-                	hJet_csvFDown[i] = btagFDown.reshape(eta,pt,csv,flavour)
-                	hJet_csvFUp[i] = btagFUp.reshape(eta,pt,csv,flavour)
+                hJet_csvOld[i] = csv 
+                if anaTag == '7TeV':
+                    tree.hJet_csv[i] = corrCSV(btagNom,csv,flavour)
+                    hJet_csvDown[i] = corrCSV(btagDown,csv,flavour)
+                    hJet_csvUp[i] = corrCSV(btagUp,csv,flavour) 
+                    hJet_csvFDown[i] = corrCSV(btagFDown,csv,flavour)
+                    hJet_csvFUp[i] = corrCSV(btagFUp,csv,flavour)
+                elif anaTag == '8TeV':
+                    tree.hJet_csv[i] = btagNom.reshape(eta,pt,csv,flavour)
+                    hJet_csvDown[i] = btagDown.reshape(eta,pt,csv,flavour)
+                    hJet_csvUp[i] = btagUp.reshape(eta,pt,csv,flavour) 
+                    hJet_csvFDown[i] = btagFDown.reshape(eta,pt,csv,flavour)
+                    hJet_csvFUp[i] = btagFUp.reshape(eta,pt,csv,flavour)
 
             for updown in ['up','down']:
                 #JER
