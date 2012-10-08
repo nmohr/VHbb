@@ -9,7 +9,7 @@ parser = OptionParser()
 parser.add_option("-T", "--tag", dest="tag", default="",
                       help="Tag to run the analysis with, example '8TeV' uses config8TeV and pathConfig8TeV to run the analysis")
 parser.add_option("-J", "--task", dest="task", default="",
-                      help="Task to be done, i.e. 'dc' for Datacards, 'prep' for preparation of Trees, 'plot' to produce plots or 'eval' to write the MVA output or 'sys' to write regression and systematics. ")
+                      help="Task to be done, i.e. 'dc' for Datacards, 'prep' for preparation of Trees, 'plot' to produce plots or 'eval' to write the MVA output or 'sys' to write regression and systematics (or 'syseval' for both). ")
 parser.add_option("-M", "--mass", dest="mass", default="125",
 		      help="Mass for DC or Plots, 110...135")
 parser.add_option("-S","--samples",dest="samples",default="",
@@ -88,7 +88,7 @@ elif opts.task == 'dc':
 elif opts.task == 'prep':
     submit('prepare',repDict)
 
-elif opts.task == 'eval' or opts.task == 'sys':
+elif opts.task == 'eval' or opts.task == 'sys' or opts.task == 'syseval':
     if ( opts.samples == ""):
         for job in info:
             submit(job.name,repDict)

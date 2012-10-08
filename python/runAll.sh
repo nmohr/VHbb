@@ -89,8 +89,12 @@ fi
 if [ $task = "eval" ]; then
     ./evaluateMVA.py -P $pathAna/env/sys/ -D $MVAList -S $sample -U 0 -C ${configFile} -C pathConfig$energy
 fi
+if [ $task = "syseval" ]; then
+    ./write_regression_systematics.py -P $pathAna/env/ -S $sample -C $configFile -C pathConfig$energy
+    ./evaluateMVA.py -P $pathAna/env/sys/ -D $MVAList -S $sample -U 0 -C ${configFile} -C pathConfig$energy
+fi
 if [ $task = "plot" ]; then
-    ./tree_stack.py -P $pathAna/env/sys/ -C ${configFile} -C pathConfig$energy -R $sample
+    ./tree_stack.py -P $pathAna/env/sys/MVAout/ -C ${configFile} -C pathConfig$energy -R $sample
 fi
 if [ $task = "dc" ]; then
     ./workspace_datacard.py -P $pathAna/env/sys/MVAout/ -C ${configFile} -C pathConfig$energy -V $sample 
