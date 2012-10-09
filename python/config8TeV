@@ -23,7 +23,7 @@ typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYb':'Z + b#bar{b}','TT
 addOverFlow = True
 
 #To be processed
-List: Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
+List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm
 #List: RTight,RMed
 #,Light
 
@@ -34,24 +34,40 @@ BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,Pul
 BDTs: Sum 
 #BDT_RTight,BDT_RMed
 
-[Plot:RTight]
-Datas: Zee Zmm
+[Plot:HighPt_Zee]
+Datas: Zee
 Normalize: False
 vars: <!Plot_general|BDTs!>
 Signal: ZH125
 log: False
 blind: True
 
-[Plot:RMed]
-Datas: Zee Zmm
+[Plot:LowPt_Zee]
+Datas: Zee
 Normalize: False
 vars: <!Plot_general|BDTs!>
 Signal: ZH125
 log: False
 blind: True
 
-[Plot:Light_RTight]
-Datas: Zee Zmm
+[Plot:HighPt_Zmm]
+Datas: Zmm
+Normalize: False
+vars: <!Plot_general|BDTs!>
+Signal: ZH125
+log: False
+blind: True
+
+[Plot:LowPt_Zmm]
+Datas: Zmm
+Normalize: False
+vars: <!Plot_general|BDTs!>
+Signal: ZH125
+log: False
+blind: True
+
+[Plot:ZLight_HighPt_Zee]
+Datas: Zee
 Normalize: True
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
 #vars: BDT_RTight
@@ -59,17 +75,8 @@ Signal: ZH125
 log: False
 blind: False
 
-[Plot:Top_RTight]
-Datas: Zee Zmm
-Normalize: True
-vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
-#vars: <!Plot_general|BDT_vars!>
-Signal: ZH125
-log: False
-blind: False
-
-[Plot:bb_RTight]
-Datas: Zee Zmm
+[Plot:ZLight_LowPt_Zee]
+Datas: Zee
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
@@ -77,8 +84,17 @@ Signal: ZH125
 log: False
 blind: False
 
-[Plot:Light_RMed]
-Datas: Zee Zmm
+[Plot:TTbar_Zee]
+Datas: Zee
+Normalize: True
+vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
+#vars: <!Plot_general|BDT_vars!>
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:Zbb_Zee]
+Datas: Zee
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
@@ -86,8 +102,17 @@ Signal: ZH125
 log: False
 blind: False
 
-[Plot:Top_RMed]
-Datas: Zee Zmm
+[Plot:ZLight_HighPt_Zmm]
+Datas: Zmm
+Normalize: True
+vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
+#vars: BDT_RTight
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:ZLight_LowPt_Zmm]
+Datas: Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
@@ -95,14 +120,24 @@ Signal: ZH125
 log: False
 blind: False
 
-[Plot:bb_RMed]
-Datas: Zee Zmm
+[Plot:TTbar_Zmm]
+Datas: Zmm
+Normalize: True
+vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
+#vars: <!Plot_general|BDT_vars!>
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:Zbb_Zmm]
+Datas: Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
 Signal: ZH125
 log: False
 blind: False
+
 
 
 ###########################################################################################
@@ -674,7 +709,7 @@ maxBtag = max(hJet_csv[0],hJet_csv[1])
 tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
-preselection = hJet_pt[0] > 30. & hJet_pt[1] > 30. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
+preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
 zWindow = V.mass > 75. & V.mass < 105
 zVeto =  (V.mass > 105 | V.mass < 75.)
 noAddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) == 0 
@@ -690,10 +725,12 @@ dPhiVH = abs( HVdPhi ) > 2.9
 looseBTag = !(hJet_csv[0] > <!ZHbb|CSVL!> & hJet_csv[1] > <!ZHbb|CSVL!>) & (hJet_csv[0] > <!ZHbb|CSVL!> | hJet_csv[1] > <!ZHbb|CSVL!>)
 
 [ZHeebb]
-addCuts = Vtype==1 & (triggerFlags[5]>0 || triggerFlags[6]>0)
+addCuts = Vtype==1 
+#& (triggerFlags[5]>0 || triggerFlags[6]>0)
 
 [ZHmmbb]
-addCuts = Vtype==0 & (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0)
+addCuts = Vtype==0 
+#& (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0)
 
 [Cuts]
 mjjLowPt = <!ZHbb|preselection!> & <!ZHbb|rMed!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
@@ -701,23 +738,33 @@ mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tlBtag!> & <!ZHbb|z
 
 #V.pt regions:
 RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!>
-# &  RMed_ZH125_may_4.nominal >= -0.6
-#RMed:   hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & max(hJet_csv[0],hJet_csv[1])  > 0.5   & min(hJet_csv[0],hJet_csv[1]) > 0.244   & V.pt > 50.  & V.pt < 100.  & V.mass > 75. & V.mass < 105 & H.mass < 150. & H.mass > 80. & deltaPullAngle < 10. & deltaPullAngle2 < 10.
 RTight = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> 
 RTightLooseBTag = <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> & <!ZHbb|looseBTag!>
+HighPt = <!Cuts|RTight!>
+LowPt = <!Cuts|RMed!>
+HighPtLooseBTag = <!Cuts|RTightLooseBTag!>
 
 #control regions
-Light: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!>
-Top = <!ZHbb|preselection!> & <!ZHbb|upperHMass!> & <!ZHbb|tlBtag!> & <!ZHbb|zVeto!> & H.pt > 100.
-bb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|zWindow!> & <!ZHbb|tlBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!>
+ZLight: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!>
+TTbar = <!ZHbb|preselection!> & <!ZHbb|upperHMass!> & <!ZHbb|tlBtag!> & <!ZHbb|zVeto!> & H.pt > 100.
+Zbb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|zWindow!> & <!ZHbb|tlBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!>
 
-Light_RTight = <!Cuts|Light!> & <!ZHbb|rTight!>
-Top_RTight = <!Cuts|Top!> & <!ZHbb|rTight!>
-bb_RTight = <!Cuts|bb!> & <!ZHbb|rTight!>
+ZLight_HighPt = <!Cuts|ZLight!> & <!ZHbb|rTight!>
+TTbar_HighPt = <!Cuts|TTbar!> & <!ZHbb|rTight!>
+Zbb_HighPt = <!Cuts|Zbb!> & <!ZHbb|rTight!>
 
-Light_RMed = <!Cuts|Light!> & <!ZHbb|rMed!>
-Top_RMed = <!Cuts|Top!> & <!ZHbb|rMed!>
-bb_RMed = <!Cuts|bb!> & <!ZHbb|rMed!>
+ZLight_LowPt = <!Cuts|Light!> & <!ZHbb|rMed!>
+TTbar_LowPt = <!Cuts|Top!> & <!ZHbb|rMed!>
+Zbb_LowPt = <!Cuts|bb!> & <!ZHbb|rMed!>
+
+ZLight_HighPt_Zee = <!Cuts|ZLight_HighPt!> & <!ZHeebb|addCuts!>
+ZLight_HighPt_Zmm = <!Cuts|ZLight_HighPt!> & <!ZHmmbb|addCuts!>
+ZLight_LowPt_Zee = <!Cuts|ZLight_LowPt!> & <!ZHeebb|addCuts!>
+ZLight_LowPt_Zmm = <!Cuts|ZLight_LowPt!> & <!ZHmmbb|addCuts!>
+TTbar_Zee = <!Cuts|TTbar!> & <!ZHeebb|addCuts!>
+TTbar_Zmm = <!Cuts|TTbar!> & <!ZHmmbb|addCuts!>
+Zbb_Zee = <!Cuts|Zbb!> & <!ZHeebb|addCuts!>
+Zbb_Zmm = <!Cuts|Zbb!> & <!ZHmmbb|addCuts!>
 
 triggerEE = (triggerFlags[5]>0 || triggerFlags[6]>0)
 triggerMM = (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) 
@@ -728,6 +775,12 @@ RMed_EE: Vtype==1 & <!Cuts|RMed!>
 RMed_MM: Vtype==0 & <!Cuts|RMed!>
 RTightLooseBTag_EE: Vtype==1 & <!Cuts|RTightLooseBTag!>
 RTightLooseBTag_MM: Vtype==0 & <!Cuts|RTightLooseBTag!>
+HighPt_EE: Vtype==1  & <!Cuts|RTight!>
+HighPt_MM: Vtype==0 & <!Cuts|RTight!>
+LowPt_EE: Vtype==1 & <!Cuts|RMed!>
+LowPt_MM: Vtype==0 & <!Cuts|RMed!>
+HighPtLooseBTag_EE: Vtype==1 & <!Cuts|RTightLooseBTag!>
+HighPtLooseBTag_MM: Vtype==0 & <!Cuts|RTightLooseBTag!>
 
 #Mjj
 Mjj_lowPt_EE: <!ZHeebb|addCuts!> & <!Cuts|mjjLowPt!> 
