@@ -292,8 +292,8 @@ for v in range(0,len(vars)):
     ROOT.gPad.SetTicks(1,1)
 
     ratio, error = getRatio(d1,allMC,xMin[v],xMax[v])
-    ksScore = allMC.KolmogorovTest( d1 )
-    chiScore = allMC.Chi2Test( d1 , "UWCHI2/NDF")
+    ksScore = d1.KolmogorovTest( allMC )
+    chiScore = d1.Chi2Test( allMC , "UWCHI2/NDF")
     print ksScore
     print chiScore
     ratio.SetStats(0)
