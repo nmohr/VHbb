@@ -25,7 +25,23 @@ addOverFlow = True
 #To be processed
 #List: Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
 #List: Light_RTight,Light_RMed
-List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_MJJ_Zee,LowPt_MJJ_Zee
+#List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm
+
+#List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee
+#List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm
+
+#List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm
+
+#List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
+List: HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_MJJ_Zee,LowPt_MJJ_Zee
+
+#List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm
+#List: HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
+#List: RTight,RMed
+
+#,Light
+
+#List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_MJJ_Zee,LowPt_MJJ_Zee
 
 #var definition
 #BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,csv0,csv1,AK7,Sum
@@ -231,7 +247,7 @@ blind: True
 #### rescaling by factor 4
 scaling: True
 #rescale stats
-rescaleSqrtN: True
+rescaleSqrtN: False
 
 BKG = ['Zudsg','Zudsg1J','Zudsg2J','Zudsg4J','Zudsg5070','Zudsg70100','Zudsg100','Zcc','Zcc1J','Zcc2J','Zcc4J','Zcc5070','Zcc70100','Zcc100','Zbb','Zbb1J','Zbb2J','Zbb4J','Zbb5070','Zbb70100','Zbb100','ZZ','WW','WZ','TT','ST_s','ST_t','ST_tW','STbar_s','STbar_t','STbar_tW']
 
@@ -249,10 +265,16 @@ setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
 
 #to be processed
 #List: RTight_ZH125_EE_8TeV_may,RMed_ZH125_EE_8TeV_may,RTight_ZH125_MM_8TeV_may,RMed_ZH125_MM_8TeV_may,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
-List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
+#List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
 #List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct
 
 #List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTight_ZH110_MM_8TeV_oct,RMed_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_EE_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTight_ZH115_MM_8TeV_oct,RMed_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_EE_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTight_ZH120_MM_8TeV_oct,RMed_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_EE_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTight_ZH130_MM_8TeV_oct,RMed_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_EE_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTight_ZH135_MM_8TeV_oct,RMed_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_EE_8TeV_oct
+
+#MUONS
+#List: RTight_ZH110_MM_8TeV_oct,RMed_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_MM_8TeV_oct,RTight_ZH115_MM_8TeV_oct,RMed_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_MM_8TeV_oct,RTight_ZH120_MM_8TeV_oct,RMed_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_MM_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTight_ZH130_MM_8TeV_oct,RMed_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_MM_8TeV_oct,RTight_ZH135_MM_8TeV_oct,RMed_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_MM_8TeV_oct
+#ELECTRONS
+List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTightLooseBTag_ZH110_EE_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTightLooseBTag_ZH115_EE_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTightLooseBTag_ZH120_EE_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTightLooseBTag_ZH130_EE_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTightLooseBTag_ZH135_EE_8TeV_oct
+
 
 
 [Datacard]
@@ -289,9 +311,9 @@ CMS_vhbb_ZjLF_SF_7TeV: {'type':'lnN', 'DYlight':1.198 ,'DYb':0.875 ,'TT':1.003}
 CMS_vhbb_ZjHF_SF_7TeV: {'type':'lnN', 'DYlight':0.873 ,'DYb':1.202 ,'TT':0.957}
 CMS_vhbb_TT_SF_7TeV: {'type':'lnN',  'DYlight':1.002 ,'DYb':0.974 ,'TT':1.123}
 
-CMS_vhbb_ZjLF_SF_8TeV: {'type':'lnN', 'DYlight':1.040 ,'DYb':0.974 ,'TT':1.001}
-CMS_vhbb_ZjHF_SF_8TeV: {'type':'lnN', 'DYlight':0.897 ,'DYb':1.162 ,'TT':0.966}
-CMS_vhbb_TT_SF_8TeV: {'type':'lnN',  'DYlight':1.002 ,'DYb':0.983 ,'TT':1.079}
+CMS_vhbb_ZjLF_SF_8TeV: {'type':'lnN', 'DYlight':1.085 ,'DYb':0.940 ,'TT':0.998}
+CMS_vhbb_ZjHF_SF_8TeV: {'type':'lnN', 'DYlight':0.942 ,'DYb':1.082 ,'TT':0.986}
+CMS_vhbb_TT_SF_8TeV: {'type':'lnN',  'DYlight':0.998 ,'DYb':0.986 ,'TT':1.081}
 
 
 
