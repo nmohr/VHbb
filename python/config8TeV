@@ -30,7 +30,7 @@ List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLi
 #var definition
 #BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,csv0,csv1,AK7,Sum
 BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,rHVpt
-#BDTs: BDT8_RTight,BDT8_RMed
+#BDTs: BDT8_RTight,BDT8_RMed,BDT8_RTightLooseBTag
 BDTs: Sum 
 #BDT_RTight,BDT_RMed
 
@@ -753,9 +753,9 @@ ZLight_HighPt = <!Cuts|ZLight!> & <!ZHbb|rTight!>
 TTbar_HighPt = <!Cuts|TTbar!> & <!ZHbb|rTight!>
 Zbb_HighPt = <!Cuts|Zbb!> & <!ZHbb|rTight!>
 
-ZLight_LowPt = <!Cuts|Light!> & <!ZHbb|rMed!>
-TTbar_LowPt = <!Cuts|Top!> & <!ZHbb|rMed!>
-Zbb_LowPt = <!Cuts|bb!> & <!ZHbb|rMed!>
+ZLight_LowPt = <!Cuts|ZLight!> & <!ZHbb|rMed!>
+TTbar_LowPt = <!Cuts|TTbar!> & <!ZHbb|rMed!>
+Zbb_LowPt = <!Cuts|Zbb!> & <!ZHbb|rMed!>
 
 ZLight_HighPt_Zee = <!Cuts|ZLight_HighPt!> & <!ZHeebb|addCuts!>
 ZLight_HighPt_Zmm = <!Cuts|ZLight_HighPt!> & <!ZHmmbb|addCuts!>
