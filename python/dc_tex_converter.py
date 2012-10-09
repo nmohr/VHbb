@@ -1,10 +1,15 @@
 #!/afs/cern.ch/cms/slc5_amd64_gcc434/cms/cmssw/CMSSW_4_2_8/external/slc5_amd64_gcc434/bin/python2.6
 
-import os
+import os,sys
 import ROOT
+from optparse import OptionParser
 
-
-files = [ 'vhbb_TH_BDT_M125_ZeeHighPt_8TeV.root' ]
+argv = sys.argv
+parser = OptionParser()
+parser.add_option("-F", "--file", dest="file", default="",
+                      help="File with TH to create the .row from, must contain M125, eg vhbb_TH_BDT_M125_ZeeLowPt_8TeV.root")
+(opts, args) = parser.parse_args(argv)
+files = opts.file
 histos=[ 'TT','ZjLF','ZjHF', 'VV','s_Top' ]
 masses = [110,115,120,125,130,135]
 dictNr = {'QCD': '--','WjHF': '--','WjLF': '--','WH110':'--','WH115':'--','WH120':'--','WH125':'--','WH130':'--','WH135':'--'}
@@ -37,4 +42,4 @@ def dc_tex_converter(rootFile):
     f.close()
 
 if __name__ == "__main__":
-    dc_tex_converter(files[0])
+    dc_tex_converter(files)
