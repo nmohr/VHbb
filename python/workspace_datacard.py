@@ -150,7 +150,9 @@ for job in info:
         if job.subsamples:
             for subsample in range(0,len(job.subnames)):
                 if job.subnames[subsample] in BKGlist:
+                    print 'getting %s'%job.subnames[subsample]
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
+                    print hTemp.Integral()
                     histos.append(hTemp)
                     typs.append(Group[job.subnames[subsample]])
                     hNames.append(job.subnames[subsample])                        
@@ -164,8 +166,10 @@ for job in info:
                     counter += 1
                     
                 elif job.subnames[subsample] == SIG:
-                    hNames.append(job.subnames[subsample])                        
+                    hNames.append(job.subnames[subsample])
+                    print 'getting %s'%job.subnames[subsample]                        
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
+                    print hTemp.Integral()
                     histos.append(hTemp)
                     typs.append(Group[job.subnames[subsample]])
                     if weightF_sys:
@@ -179,8 +183,10 @@ for job in info:
         else:
             if job.name in BKGlist:
                 #print job.getpath()
+                print 'getting %s'%job.name
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 histos.append(hTemp)
+                print hTemp.Integral()
                 typs.append(Group[job.name])                        
                 hNames.append(job.name)
                 if weightF_sys:
@@ -194,8 +200,10 @@ for job in info:
                 counter += 1
                 
             elif job.name == SIG:
+                print 'getting %s'%job.name
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 histos.append(hTemp)
+                print hTemp.Integral()
                 typs.append(Group[job.name])                                        
                 hNames.append(job.name)                        
                 if weightF_sys:
@@ -204,8 +212,10 @@ for job in info:
 
             elif job.name in data:
                 #print 'DATA'
+                print 'getting %s'%job.name
                 hTemp, typ = getHistoFromTree(job,path,config,options)
                 datas.append(hTemp)
+                print hTemp.Integral()
                 datatyps.append(typ)
             
             if addSample_sys and job.name in addSample_sys.values():
@@ -217,6 +227,7 @@ MC_integral=0
 MC_entries=0
 for histo in histos:
     MC_integral+=histo.Integral()
+    print 'histo integral %s'%histo.Integral()
 printc('green','', 'MC integral = %s'%MC_integral)
 
 def getAlternativeShapes(histos,altHistos,hNames,aNames,addSample_sys):
@@ -536,7 +547,7 @@ if addSample_sys:
                      f.write('\t-')
             f.write('\n')
     
-if scaling: sys_factor=0.25
+if scaling: sys_factor=1.0
 else: sys_factor=1.0
 for sys in systematics:
     f.write('%s\tshape'%systematicsnaming[sys])
