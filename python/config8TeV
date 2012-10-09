@@ -2,7 +2,7 @@
 tag = 8TeV
 
 # If this Flag is used 50% of MC samples will go in training and the rest will be scaled up by a factor of 2.
-TrainFlag = False
+TrainFlag = True
 ###########################################################################################
 
 [Plot_general]
@@ -23,6 +23,8 @@ typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYb':'Z + b#bar{b}','TT
 addOverFlow = True
 
 #To be processed
+#List: Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
+#List: Light_RTight,Light_RMed
 List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm
 #List: RTight,RMed
 #,Light
@@ -31,7 +33,6 @@ List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLi
 #BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,csv0,csv1,AK7,Sum
 BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,rHVpt,Sum
 BDTs: BDT8_RTight,BDT8_RMed,BDT8_RTightLooseBTag
-#BDT_RTight,BDT_RMed
 
 [Plot:HighPt_Zee]
 Datas: Zee
@@ -184,8 +185,8 @@ sys_Mjj: ['JER','JES']
 
 #Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
 
-#sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?'}
-sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal'}
+sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?'}
+#sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal'}
 
 weightF_sys: False
 
@@ -193,14 +194,14 @@ weightF_sys: False
 #addSample_sys: {'ZZ':'WZ'}
 
 # bin-by-bin statistics
-binstat: True
+binstat: False
 
 
-blind: False
+blind: True
 #### rescaling by factor 4
 scaling: True
 #rescale stats
-rescaleSqrtN: False
+rescaleSqrtN: True
 
 BKG = ['Zudsg','Zudsg1J','Zudsg2J','Zudsg4J','Zudsg5070','Zudsg70100','Zudsg100','Zcc','Zcc1J','Zcc2J','Zcc4J','Zcc5070','Zcc70100','Zcc100','Zbb','Zbb1J','Zbb2J','Zbb4J','Zbb5070','Zbb70100','Zbb100','ZZ','WW','WZ','TT','ST_s','ST_t','ST_tW','STbar_s','STbar_t','STbar_tW']
 
@@ -218,8 +219,11 @@ setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
 
 #to be processed
 #List: RTight_ZH125_EE_8TeV_may,RMed_ZH125_EE_8TeV_may,RTight_ZH125_MM_8TeV_may,RMed_ZH125_MM_8TeV_may,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
-List: RTight_ZH125_EE_8TeV,RMed_ZH125_EE_8TeV,RTight_ZH125_MM_8TeV,RMed_ZH125_MM_8TeV
-#List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
+List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
+#List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct
+
+#List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTight_ZH110_MM_8TeV_oct,RMed_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_EE_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTight_ZH115_MM_8TeV_oct,RMed_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_EE_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTight_ZH120_MM_8TeV_oct,RMed_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_EE_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTight_ZH130_MM_8TeV_oct,RMed_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_EE_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTight_ZH135_MM_8TeV_oct,RMed_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_EE_8TeV_oct
+
 
 [Datacard]
 
@@ -400,10 +404,9 @@ factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Tr
 [MVALists]
 #List_for_submitscript: RTight_ZH110,RTight_ZH115,RTight_ZH120,RTight_ZH125,RTight_ZH130,RTight_ZH135,RMed_ZH110,RMed_ZH115,RMed_ZH120,RMed_ZH125,RMed_ZH130,RMed_ZH135
 #List_for_submitscript: RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may,RPt50_ZZ_may,RIncl_ZZ_may
-List_for_submitscript: RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may
+#List_for_submitscript: RTight_ZH110_may,RTight_ZH115_may,RTight_ZH120_may,RTight_ZH125_may,RTight_ZH130_may,RTight_ZH135_may,RMed_ZH110_may,RMed_ZH115_may,RMed_ZH120_may,RMed_ZH125_may,RMed_ZH130_may,RMed_ZH135_may
 
-#List_for_submitscript: RTight_ZH110_oct,RTight_ZH115_oct,RTight_ZH120_oct,RTight_ZH125_oct,RTight_ZH130_oct,RTight_ZH135_oct,RMed_ZH110_oct,RMed_ZH115_oct,RMed_ZH120_oct,RMed_ZH125_oct,RMed_ZH130_oct,RMed_ZH135_oct,RTightLooseBTag_ZH110_oct,RTightLooseBTag_ZH115_oct,RTightLooseBTag_ZH120_oct,RTightLooseBTag_ZH125_oct,RTightLooseBTag_ZH130_oct,RTightLooseBTag_ZH135_oct
-
+List_for_submitscript: RTight_ZH110_oct,RTight_ZH115_oct,RTight_ZH120_oct,RTight_ZH125_oct,RTight_ZH130_oct,RTight_ZH135_oct,RMed_ZH110_oct,RMed_ZH115_oct,RMed_ZH120_oct,RMed_ZH125_oct,RMed_ZH130_oct,RMed_ZH135_oct,RTightLooseBTag_ZH110_oct,RTightLooseBTag_ZH115_oct,RTightLooseBTag_ZH120_oct,RTightLooseBTag_ZH125_oct,RTightLooseBTag_ZH130_oct,RTightLooseBTag_ZH135_oct,RTight_ZH125_may,RMed_ZH125_may
 
 #List_for_submitscript: RTight_ZH125_may,RMed_ZH125_may,RTight_ZH125_oct,RMed_ZH125_oct
 
