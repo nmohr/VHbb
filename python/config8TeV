@@ -29,15 +29,22 @@ List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLi
 
 #var definition
 #BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,csv0,csv1,AK7,Sum
-BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,rHVpt
-#BDTs: BDT8_RTight,BDT8_RMed,BDT8_RTightLooseBTag
-BDTs: Sum 
+BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,rHVpt,Sum
+BDTs: BDT8_RTight,BDT8_RMed,BDT8_RTightLooseBTag
 #BDT_RTight,BDT_RMed
 
 [Plot:HighPt_Zee]
 Datas: Zee
 Normalize: False
-vars: <!Plot_general|BDTs!>
+vars: BDT8_RTight
+Signal: ZH125
+log: False
+blind: True
+
+[Plot:HighPtLooseBTag_Zee]
+Datas: Zee
+Normalize: False
+vars: BDT8_RTightLooseBTag
 Signal: ZH125
 log: False
 blind: True
@@ -45,7 +52,7 @@ blind: True
 [Plot:LowPt_Zee]
 Datas: Zee
 Normalize: False
-vars: <!Plot_general|BDTs!>
+vars: BDT8_RMed
 Signal: ZH125
 log: False
 blind: True
@@ -53,7 +60,15 @@ blind: True
 [Plot:HighPt_Zmm]
 Datas: Zmm
 Normalize: False
-vars: <!Plot_general|BDTs!>
+vars: BDT8_RMed
+Signal: ZH125
+log: False
+blind: True
+
+[Plot:HighPtLooseBTag_Zmm]
+Datas: Zmm
+Normalize: False
+vars: BDT8_RTightLooseBTag
 Signal: ZH125
 log: False
 blind: True
@@ -771,10 +786,16 @@ triggerMM = (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || t
 #lepton individual
 RTight_EE: Vtype==1  & <!Cuts|RTight!>
 RTight_MM: Vtype==0 & <!Cuts|RTight!>
+HighPt_Zee = <!Cuts|RTight_EE!>
+HighPt_Zmm = <!Cuts|RTight_MM!>
 RMed_EE: Vtype==1 & <!Cuts|RMed!>
 RMed_MM: Vtype==0 & <!Cuts|RMed!>
+LowPt_Zee = <!Cuts|RMed_EE!>
+LowPt_Zmm = <!Cuts|RMed_MM!>
 RTightLooseBTag_EE: Vtype==1 & <!Cuts|RTightLooseBTag!>
 RTightLooseBTag_MM: Vtype==0 & <!Cuts|RTightLooseBTag!>
+HighPtLooseBTag_EE: <!Cuts|RTightLooseBTag_EE!>
+HighPtLooseBTag_MM: <!Cuts|RTightLooseBTag_MM!>
 HighPt_EE: Vtype==1  & <!Cuts|RTight!>
 HighPt_MM: Vtype==0 & <!Cuts|RTight!>
 LowPt_EE: Vtype==1 & <!Cuts|RMed!>
