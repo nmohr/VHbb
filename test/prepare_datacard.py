@@ -102,9 +102,9 @@ print corr
 # dyb_string = 'CMS_vhbb_ZjHF_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[2][0])*dyb_err) + ' ' + '%.3f' %(1.+(float(corr[2][1])*dyb_err)) + ' ' + '%.3f' %(1.+float(corr[2][2])*dyb_err) + ' ' + '%.3f' %(1.+float(corr[2][3])*dyb_err) + '   -   -   -   -  \n'
 # ttbar_string = 'CMS_vhbb_TT_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[3][0])*ttbar_err) + ' ' + '%.3f' %(1.+(float(corr[3][1])*ttbar_err)) + ' ' + '%.3f' %(1.+float(corr[3][2])*ttbar_err) + ' ' + '%.3f' %(1.+float(corr[3][3])*ttbar_err) + '   -   -   -   -  \n'
 
-dyl_string = 'CMS_vhbb_ZjLF_SF    lnN    -    -     -    ' + '%.3f' % (1.+float(corr[0][0])*dyl_err) + ' ' + '%.3f' %(1.+(float(corr[0][1])*dyl_err)) + ' ' + '%.3f' %(1.+float(corr[0][2])*dyl_err) + '   -   -   -   -  \n'
-dyb_string = 'CMS_vhbb_ZjHF_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[1][0])*dyb_err) + ' ' + '%.3f' %(1.+(float(corr[1][1])*dyb_err)) + ' ' + '%.3f' %(1.+float(corr[1][2])*dyb_err) + '   -   -   -   -  \n'
-ttbar_string = 'CMS_vhbb_TT_SF    lnN    -    -     -    ' + '%.3f' %(1.+float(corr[2][0])*ttbar_err) + ' ' + '%.3f' %(1.+(float(corr[2][1])*ttbar_err)) + ' ' + '%.3f' %(1.+float(corr[2][2])*ttbar_err) + '   -   -   -   -  \n'
+dyl_string = 'CMS_vhbb_ZjLF_SF_8TeV: {\'type\':\'lnN\', \'DYlight\':' + '%.3f' % (1.+float(corr[0][0])*dyl_err) + ',\'DYb\':' + '%.3f' %(1.+(float(corr[0][1])*dyl_err)) + ',\'TT\':' + '%.3f' %(1.+float(corr[0][2])*dyl_err) + '} \n'
+dyb_string = 'CMS_vhbb_ZjHF_SF_8TeV: {\'type\':\'lnN\', \'DYlight\':' + '%.3f' %(1.+float(corr[1][0])*dyb_err) + ',\'DYb\':' + '%.3f' %(1.+(float(corr[1][1])*dyb_err)) + ',\'TT\':' + '%.3f' %(1.+float(corr[1][2])*dyb_err) + '} \n'
+ttbar_string = 'CMS_vhbb_TT_SF_8TeV: {\'type\':\'lnN\', \'DYlight\':' + '%.3f' %(1.+float(corr[2][0])*ttbar_err) + ',\'DYb\':' + '%.3f' %(1.+(float(corr[2][1])*ttbar_err)) + ',\'TT\':' + '%.3f' %(1.+float(corr[2][2])*ttbar_err) + '} \n'
 
 
 print dyl_string
