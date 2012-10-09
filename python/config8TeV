@@ -25,11 +25,7 @@ addOverFlow = True
 #To be processed
 #List: Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
 #List: Light_RTight,Light_RMed
-List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm
-#List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm
-#List: HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
-#List: RTight,RMed
-#,Light
+List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_MJJ_Zee,LowPt_MJJ_Zee
 
 #var definition
 #BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,csv0,csv1,AK7,Sum
@@ -105,7 +101,7 @@ Datas: Zmm
 Normalize: False
 vars: BDT8_RTightLooseBTag
 Signal: ZH125
-log: False
+log: True
 blind: True
 
 [Plot:LowPt_Zmm]
@@ -113,7 +109,7 @@ Datas: Zmm
 Normalize: False
 vars: <!Plot_general|BDTs!>
 Signal: ZH125
-log: False
+log: True
 blind: True
 
 [Plot:ZLight_HighPt_Zee]
