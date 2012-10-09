@@ -26,6 +26,8 @@ addOverFlow = True
 #List: Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
 #List: Light_RTight,Light_RMed
 List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm
+#List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm
+#List: HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
 #List: RTight,RMed
 #,Light
 
@@ -34,12 +36,44 @@ List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLi
 BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,rHVpt,Sum
 BDTs: BDT8_RTight,BDT8_RMed,BDT8_RTightLooseBTag
 
+[Plot:HighPt_MJJ_Zee]
+Datas: Zee
+Normalize: False
+vars: Hmass
+Signal: ZH125
+log: False
+blind: True
+
+[Plot:HighPt_MJJ_Zmm]
+Datas: Zmm
+Normalize: False
+vars: Hmass
+Signal: ZH125
+log: False
+blind: True
+
+[Plot:LowPt_MJJ_Zee]
+Datas: Zee
+Normalize: False
+vars: Hmass
+Signal: ZH125
+log: False
+blind: True
+
+[Plot:LowPt_MJJ_Zmm]
+Datas: Zmm
+Normalize: False
+vars: Hmass
+Signal: ZH125
+log: False
+blind: True
+
 [Plot:HighPt_Zee]
 Datas: Zee
 Normalize: False
 vars: BDT8_RTight
 Signal: ZH125
-log: False
+log: True
 blind: True
 
 [Plot:HighPtLooseBTag_Zee]
@@ -47,7 +81,7 @@ Datas: Zee
 Normalize: False
 vars: BDT8_RTightLooseBTag
 Signal: ZH125
-log: False
+log: True
 blind: True
 
 [Plot:LowPt_Zee]
@@ -55,15 +89,15 @@ Datas: Zee
 Normalize: False
 vars: BDT8_RMed
 Signal: ZH125
-log: False
+log: True
 blind: True
 
 [Plot:HighPt_Zmm]
 Datas: Zmm
 Normalize: False
-vars: BDT8_RMed
+vars: BDT8_RTight
 Signal: ZH125
-log: False
+log: True
 blind: True
 
 [Plot:HighPtLooseBTag_Zmm]
@@ -807,11 +841,11 @@ HighPtLooseBTag_EE: Vtype==1 & <!Cuts|RTightLooseBTag!>
 HighPtLooseBTag_MM: Vtype==0 & <!Cuts|RTightLooseBTag!>
 
 #Mjj
-Mjj_lowPt_EE: <!ZHeebb|addCuts!> & <!Cuts|mjjLowPt!> 
-Mjj_lowPt_MM: <!ZHmmbb|addCuts!> & <!Cuts|mjjLowPt!> 
+LowPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjLowPt!> 
+LowPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjLowPt!> 
 
-Mjj_highPt_EE: <!ZHeebb|addCuts!> & <!Cuts|mjjHighPt!>
-Mjj_highPt_MM: <!ZHmmbb|addCuts!> & <!Cuts|mjjHighPt!> 
+HighPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjHighPt!>
+HighPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjHighPt!> 
 
 ###########################################################################################
 # other things:
