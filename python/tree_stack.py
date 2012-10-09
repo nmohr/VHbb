@@ -271,7 +271,7 @@ for v in range(0,len(vars)):
     Ymax = max(allStack.GetMaximum(),d1.GetMaximum())*1.7
     if log:
         allStack.SetMinimum(0.05)
-        Ymax = Ymax*ROOT.TMath.Power(10,1.6*(ROOT.TMath.Log(1.6*(maxval/0.1))/ROOT.TMath.Log(10)))*(0.6*0.1)
+        Ymax = Ymax*ROOT.TMath.Power(10,1.6*(ROOT.TMath.Log(1.6*(Ymax/0.1))/ROOT.TMath.Log(10)))*(0.6*0.1)
         ROOT.gPad.SetLogy()
     allStack.SetMaximum(Ymax)
     c.Update()
