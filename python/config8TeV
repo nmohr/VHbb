@@ -25,7 +25,7 @@ addOverFlow = True
 #To be processed
 #List: Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
 #List: Light_RTight,Light_RMed
-List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm
+List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm
 #List: RTight,RMed
 #,Light
 
@@ -763,7 +763,7 @@ LowPt = <!Cuts|RMed!>
 HighPtLooseBTag = <!Cuts|RTightLooseBTag!>
 
 #control regions
-ZLight: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!>
+ZLight: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!>
 TTbar = <!ZHbb|preselection!> & <!ZHbb|upperHMass!> & <!ZHbb|tlBtag!> & <!ZHbb|zVeto!> & H.pt > 100.
 Zbb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|zWindow!> & <!ZHbb|tlBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!>
 
@@ -797,8 +797,8 @@ LowPt_Zee = <!Cuts|RMed_EE!>
 LowPt_Zmm = <!Cuts|RMed_MM!>
 RTightLooseBTag_EE: Vtype==1 & <!Cuts|RTightLooseBTag!>
 RTightLooseBTag_MM: Vtype==0 & <!Cuts|RTightLooseBTag!>
-HighPtLooseBTag_EE: <!Cuts|RTightLooseBTag_EE!>
-HighPtLooseBTag_MM: <!Cuts|RTightLooseBTag_MM!>
+HighPtLooseBTag_Zee: <!Cuts|RTightLooseBTag_EE!>
+HighPtLooseBTag_Zmm: <!Cuts|RTightLooseBTag_MM!>
 HighPt_EE: Vtype==1  & <!Cuts|RTight!>
 HighPt_MM: Vtype==0 & <!Cuts|RTight!>
 LowPt_EE: Vtype==1 & <!Cuts|RMed!>
