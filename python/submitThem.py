@@ -82,7 +82,7 @@ elif opts.task == 'dc':
     for item in DC_vars:
         if 'ZH%s'%opts.mass in item and opts.tag in item:
             submit(item,repDict) 
-        elif 'ZH' in item and opts.tag in item and opts.mass == '*':
+        elif 'ZH' in item and opts.tag in item and opts.mass == 'all':
             submit(item,repDict)
             
 elif opts.task == 'prep':
@@ -95,4 +95,5 @@ elif opts.task == 'eval' or opts.task == 'sys' or opts.task == 'syseval':
     else:
         for sample in samplesList:
             submit(sample,repDict)
-            
+
+os.system('qstat') 
