@@ -47,7 +47,8 @@ def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1,which_weight
     nBins=int(options[3])
     xMin=float(options[4])
     xMax=float(options[5])
-    addOverFlow=eval(config.get('Plot_general','addOverFlow'))
+    #addOverFlow=eval(config.get('Plot_general','addOverFlow'))
+    addOverFlow = False
 
     if job.type != 'DATA':
     
