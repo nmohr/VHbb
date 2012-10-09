@@ -4,7 +4,7 @@ import os
 import ROOT
 
 
-files = [ 'vhbb_TH_BDT_M125_ZmmHighPt_8TeV.root' ]
+files = [ 'vhbb_TH_BDT_M125_ZeeHighPt_8TeV.root' ]
 histos=[ 'TT','ZjLF','ZjHF', 'VV','s_Top' ]
 masses = [110,115,120,125,130,135]
 dictNr = {'QCD': '--','WjHF': '--','WjLF': '--','WH110':'--','WH115':'--','WH120':'--','WH125':'--','WH130':'--','WH135':'--'}
@@ -29,7 +29,7 @@ def dc_tex_converter(rootFile):
         integral,error = getNr(th1)
         dictNr[histo] = '  ' + '$%.2f' %(integral) + ' \pm ' + '%.2f$' %(error)
 
-    theString = '$\%(mode)s$ & %(ZjLF)s & %(ZjHF)s & %(WjLF)s & %(WjLF)s & %(TT)s & %(s_Top)s & %(VV)s & %(ZH110)s & %(WH110)s & %(ZH115)s & %(WH115)s & %(ZH120)s & %(WH120)s & %(ZH125)s & %(WH125)s & %(ZH130)s & %(WH130)s & %(ZH135)s & %(WH135)s \\\\'%dictNr
+    theString = '$\\%(mode)s$ & %(ZjLF)s & %(ZjHF)s & %(WjLF)s & %(WjLF)s & %(TT)s & %(s_Top)s & %(VV)s & %(ZH110)s & %(WH110)s & %(ZH115)s & %(WH115)s & %(ZH120)s & %(WH120)s & %(ZH125)s & %(WH125)s & %(ZH130)s & %(WH130)s & %(ZH135)s & %(WH135)s \\\\'%dictNr
     outname = rootFile.replace('.root','.row')
     f = open(outname,'w')
     f.write(theString)
