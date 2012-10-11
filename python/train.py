@@ -44,6 +44,7 @@ global_rescale=2.
 
 #get locations:
 MVAdir=config.get('Directories','vhbbpath')+'/data/'
+samplesinfo=config.get('Directories','samplesinfo')
 
 #systematics
 systematics=config.get('systematics','systematics')
@@ -119,7 +120,7 @@ MVA_Vars['Nominal']=MVA_Vars['Nominal'].split(' ')
 #spectators=spectators.split(' ')
 
 #TRAINING samples
-infofile = open(path+'/samples.info','r')
+infofile = open(samplesinfo,'r')
 info = pickle.load(infofile)
 infofile.close()
 

@@ -27,6 +27,7 @@ source /swshare/psit3/etc/profile.d/cms_ui_env.sh
 export SCRAM_ARCH="slc5_amd64_gcc462"
 source $VO_CMS_SW_DIR/cmsset_default.sh
 eval `scramv1 runtime -sh`
+export LD_LIBRARY_PATH=/swshare/glite/d-cache/dcap/lib/:$LD_LIBRARY_PATH
 #unset TMP
 #unset TMPDIR
 
@@ -74,11 +75,6 @@ if [ ! -d $pathAna/env/sys/MVAout ]
     then
     mkdir $pathAna/env/sys/MVAout
 fi
-
-#Create the link to th sample information in the new sudfolders.
-#It always update the link.
-ln -s -f $pathAna/env/samples.info  $pathAna/env/sys/samples.info
-ln -s -f $pathAna/env/samples.info $pathAna/env/sys/MVAout/samples.info
 
 #Run the scripts
 

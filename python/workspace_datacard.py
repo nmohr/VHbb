@@ -40,6 +40,7 @@ anaTag = config.get("Analysis","tag")
 #get locations:
 Wdir=config.get('Directories','Wdir')
 vhbbpath=config.get('Directories','vhbbpath')
+samplesinfo=config.get('Directories','samplesinfo')
 #systematics
 systematics=config.get('systematics','systematics')
 systematics=systematics.split(' ')
@@ -47,7 +48,7 @@ weightF=config.get('Weights','weightF')
 path=opts.path
 var=opts.variable
 plot=config.get('Limit',var)
-infofile = open(path+'/samples.info','r')
+infofile = open(samplesinfo,'r')
 info = pickle.load(infofile)
 infofile.close()
 options = plot.split(',')

@@ -67,7 +67,8 @@ if opts.task == 'plot':
 
 if not opts.task == 'prep':
     path = config.get("Directories","samplepath")
-    infofile = open(path+'/env/samples.info','r')
+    samplesinfo = config.get("Directories","samplesinfo")
+    infofile = open(samplesinfo,'r')
     info = pickle.load(infofile)
     infofile.close()
 

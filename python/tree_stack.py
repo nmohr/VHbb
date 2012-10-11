@@ -42,6 +42,7 @@ plotConfig.read('vhbbPlotDef.ini')
 
 #get locations:
 Wdir=config.get('Directories','Wdir')
+samplesinfo=config.get('Directories','samplesinfo')
 
 section='Plot:%s'%region
 
@@ -49,7 +50,7 @@ Normalize = eval(config.get(section,'Normalize'))
 log = eval(config.get(section,'log'))
 blind = eval(config.get(section,'blind'))
 
-infofile = open(path+'/samples.info','r')
+infofile = open(samplesinfo,'r')
 info = pickle.load(infofile)
 infofile.close()
 

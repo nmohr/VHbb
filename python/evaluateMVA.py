@@ -44,6 +44,7 @@ anaTag = config.get("Analysis","tag")
 #get locations:
 Wdir=config.get('Directories','Wdir')
 MVASubdir=config.get('Directories','MVAdir')
+samplesinfo=config.get('Directories','samplesinfo')
 
 #systematics
 systematics=config.get('systematics','systematics')
@@ -59,7 +60,7 @@ systematics=systematics.split(' ')
 #Evaluate multi: Must Have same treeVars!!!
 
 Apath=opts.path
-infofile = open(Apath+'/samples.info','r')
+infofile = open(samplesinfo,'r')
 info = pickle.load(infofile)
 infofile.close()
 arglist=opts.discr #RTight_blavla,bsbsb
@@ -127,7 +128,7 @@ for i in range(0,len(readers)):
 #--> Now the MVA is booked
 
 #Apply samples
-infofile = open(Apath+'/samples.info','r')
+infofile = open(samplesinfo,'r')
 Ainfo = pickle.load(infofile)
 infofile.close()
 
@@ -253,7 +254,7 @@ if doinfo:
         for MVAinfo in MVAinfos:
             job.addcomment('Added MVA %s'%MVAinfo.MVAname)
         job.addpath(MVAdir)
-    infofile = open(Apath+MVAdir+'/samples.info','w')
+    infofile = open(samplesinfo,'w')
     pickle.dump(Ainfo,infofile)
     infofile.close()
 

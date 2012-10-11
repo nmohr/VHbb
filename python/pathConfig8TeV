@@ -17,6 +17,8 @@ samplepath= /scratch/Oct1/
 limits: <!Directories|Wdir!>/VHbb/Limits/Oct1/
 vhbbpath= <!Directories|Wdir!>/UserCode/VHbb/
 
+#Only one place for samples info
+samplesinfo= <!Directories|plotpath!>/samples.info
 #Wdir: /shome/bortigno
 #limits: <!Directories|Wdir!>/Limits/Test/
 #plotpath: <!Directories|Wdir!>/Stacks/TopUp/

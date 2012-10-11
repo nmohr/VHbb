@@ -37,10 +37,11 @@ config.read(opts.config)
 anaTag = config.get("Analysis","tag")
 TrainFlag = eval(config.get('Analysis','TrainFlag'))
 btagLibrary = config.get('BTagReshaping','library')
+samplesinfo=config.get('Directories','samplesinfo')
 path=opts.path
 namelist=opts.names.split(',')
 #load info
-infofile = open(path+'/samples.info','r')
+infofile = open(samplesinfo,'r')
 info = pickle.load(infofile)
 infofile.close()
 
@@ -515,6 +516,6 @@ for job in info:
     output.Close()
         
 #dump info
-#infofile = open(path+'/sys'+'/samples.info','w')
+#infofile = open(samplesinfo,'w')
 #pickle.dump(info,infofile)
 #infofile.close()
