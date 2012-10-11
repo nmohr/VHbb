@@ -14,38 +14,26 @@ Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135'
 
 #how and which groups in the plot
 setup: ZH,VV,DYb,DYc,DYlight,TT,ST
-setupLog: DYb,DYc,DYlight,TT,ST,VV,ZH
+setupLog: ZH,DYb,DYc,DYlight,TT,ST,VV
+#setupLog: DYb,DYc,DYlight,TT,ST,VV,ZH
 
 #colors
 colorDict: {'DYlight':401,'DYc':41,'DYb':5,'TT':596,'ST':602,'VV':17,'ZH':2}
-typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYb':'Z + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','ZH':'ZH(125 GeV)'}
+typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYb':'Z + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','ZH':'ZH','Overlay':'ZH (125 GeV)'}
 
 addOverFlow = True
 
 #To be processed
-#List: Light_RTight,bb_RTight,Top_RTight,Light_RMed,bb_RMed,Top_RMed
-#List: Light_RTight,Light_RMed
 #List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm
-
 #List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee
-#List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm
-
-#List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm
-
 #List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
 #List: HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_MJJ_Zee,LowPt_MJJ_Zee
-List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_MJJ_Zee,LowPt_MJJ_Zee
-
-#List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm
-#List: HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
-#List: RTight,RMed
-
-#,Light
-
 #List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_MJJ_Zee,LowPt_MJJ_Zee
+#List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
+#ALL PLOTS
+List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee,ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm
 
 #var definition
-#BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,csv0,csv1,AK7,Sum
 BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,rHVpt,Sum
 BDTs: BDT8_RTight,BDT8_RMed,BDT8_RTightLooseBTag
 
@@ -221,7 +209,7 @@ library=<!Directories|vhbbpath!>/interface/BTagReshaping_h.so
 # LIMIT
 [LimitGeneral]
 varName = CMS_vhbb_BDT_Zll
-range = BDT output,10,-1,1
+range = BDT output,20,-1,1
 
 systematicsnaming7TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_7TeV'}
 systematicsnaming8TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_8TeV'}

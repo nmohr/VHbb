@@ -14,6 +14,7 @@ from Ratio import getRatio
 from optparse import OptionParser
 from HistoMaker import HistoMaker, orderandadd
 import TdrStyles
+from copy import deepcopy
 
 #CONFIGURE
 argv = sys.argv
@@ -70,6 +71,11 @@ for p in range(0,len(names)):
         names[p]=newp
     print names[p]
 
+if 'ZLight' in region or 'TTbar' in region or 'Zbb' in region: SignalRegion = False
+else:
+    SignalRegion = True
+    print 'You are in the Signal Region!'
+
 data = config.get(section,'Datas')
 if config.has_option(section, 'Datacut'):
     datacut=config.get(section, 'Datacut')
@@ -124,10 +130,17 @@ def myText(txt="CMS Preliminary",ndcX=0,ndcY=0,size=0.8):
 
 
 #Find out Lumi:
+lumicounter=0.
+lumi=0.
 for job in info:
-    if job.name in data: lumi_data=float(job.lumi)
+    if job.name in data:
+        lumi+=float(job.lumi)
+        lumicounter+=1.
 
-Plotter.lumi=lumi_data
+if lumicounter > 0:
+    lumi=lumi/lumicounter
+
+Plotter.lumi=lumi
 
 for job in info:
     if eval(job.active):
@@ -143,11 +156,21 @@ for job in info:
 
         else:
             if job.name in samples:
-                print job.name
-                hTempList, typList = Plotter.getHistoFromTree(job)
-                for v in range(0,len(vars)):
-                    Lhistos[v].append(hTempList[v])
-                    Ltyps[v].append(Group[job.name])
+                if job.name == mass:
+                    print job.name
+                    hTempList, typList = Plotter.getHistoFromTree(job)
+                    for v in range(0,len(vars)):
+                        if SignalRegion:
+                            Lhistos[v].append(hTempList[v])
+                            Ltyps[v].append(Group[job.name])
+                        Overlaylist= deepcopy(hTempList)
+                                                                                                                             
+                else:
+                    print job.name
+                    hTempList, typList = Plotter.getHistoFromTree(job)
+                    for v in range(0,len(vars)):
+                        Lhistos[v].append(hTempList[v])
+                        Ltyps[v].append(Group[job.name])
 
             elif job.name in data:
                 #print 'DATA'
@@ -157,6 +180,9 @@ for job in info:
                     Ldatatyps[v].append(typ[v])
                     Ldatanames[v].append(job.name)
 
+if not SignalRegion: setup.remove('ZH')
+
+print setup
 
 for v in range(0,len(vars)):
 
@@ -165,6 +191,8 @@ for v in range(0,len(vars)):
     datas = Ldatas[v]
     datatyps = Ldatatyps[v]
     datanames= Ldatanames[v]
+
+    Overlay = Overlaylist[v]
 
     TdrStyles.tdrStyle()
     
@@ -190,8 +218,10 @@ for v in range(0,len(vars)):
 
     oben.cd()
 
+
+    
     allStack = ROOT.THStack(vars[v],'')     
-    l = ROOT.TLegend(0.63, 0.62,0.92,0.92)
+    l = ROOT.TLegend(0.63, 0.60,0.92,0.92)
     l.SetLineWidth(2)
     l.SetBorderSize(0)
     l.SetFillColor(0)
@@ -237,12 +267,20 @@ for v in range(0,len(vars)):
     if flow > 0:
         print "\033[1;31m\tU/O flow: %s\033[1;m"%flow
 
+    Overlay.SetLineColor(2)
+    Overlay.SetLineWidth(2)
+    Overlay.SetFillColor(0)
+    Overlay.SetFillStyle(4000)
+    Overlay.SetNameTitle('Overlay','Overlay')
+
     l.AddEntry(d1,datatitle,'P')
     for j in range(0,k):
         l.AddEntry(histos[j],typLegendDict[typs[j]],'F')
-
+    l.AddEntry(Overlay,typLegendDict['Overlay'],'L')
+    
     if Normalize:
         if MC_integral != 0:	stackscale=d1.Integral()/MC_integral
+        Overlay.Scale(stackscale)
         stackhists=allStack.GetHists()
         for blabla in stackhists:
         	if MC_integral != 0: blabla.Scale(stackscale)
@@ -282,10 +320,10 @@ for v in range(0,len(vars)):
     l.SetBorderSize(0)
     l.Draw()
 
-
+    Overlay.Draw('hist,same')
 
     tPrel = myText("CMS Preliminary",0.17,0.88,1.04)
-    tLumi = myText("#sqrt{s} =  %s, L = %s fb^{-1}"%(anaTag,(float(lumi_data)/1000.)),0.17,0.83)
+    tLumi = myText("#sqrt{s} =  %s, L = %s fb^{-1}"%(anaTag,(float(lumi)/1000.)),0.17,0.83)
     tAddFlag = myText(addFlag,0.17,0.78)
 
     unten.cd()

@@ -111,7 +111,11 @@ class HistoMaker:
             elif job.type == 'DATA':
                 if options[11] == 'blind':
                     output.cd()
-                    CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<0', "goff,e")
+                    if treeVar == 'H.mass':
+                        CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<80. || '+treeVar + '>150.' , "goff,e")
+                    else:
+                        CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<0', "goff,e")
+
                 else:
                     output.cd()
                     CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),'1', "goff,e")
