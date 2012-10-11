@@ -285,11 +285,7 @@ for v in range(0,len(vars)):
         for blabla in stackhists:
         	if MC_integral != 0: blabla.Scale(stackscale)
     
-    allMC=ROOT.TH1F('allMC','allMC',nBins[v],xMin[v],xMax[v])
-    allMC.Sumw2()
-    for bin in range(0,nBins[v]):
-        allMC.SetBinContent(bin,allStack.GetStack().Last().GetBinContent(bin))
-        allMC.SetBinError(bin,allStack.GetStack().Last().GetBinError(bin))
+    allMC=allStack.GetStack().Last().Clone()
 
     allStack.SetTitle()
     allStack.Draw("hist")
@@ -347,7 +343,8 @@ for v in range(0,len(vars)):
     m_one_line.SetLineStyle(ROOT.kDashed)
     m_one_line.Draw("Same")
 
-    tKsChi = myText("#chi_{#nu}^{2} = %.3f K_{s} = %.3f"%(chiScore,ksScore),0.17,0.9,1.5)
+    if not blind:
+        tKsChi = myText("#chi_{#nu}^{2} = %.3f K_{s} = %.3f"%(chiScore,ksScore),0.17,0.9,1.5)
     t0 = ROOT.TText()
     t0.SetTextSize(ROOT.gStyle.GetLabelSize()*2.4)
     t0.SetTextFont(ROOT.gStyle.GetLabelFont())
