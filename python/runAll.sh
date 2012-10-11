@@ -27,8 +27,10 @@ source /swshare/psit3/etc/profile.d/cms_ui_env.sh
 export SCRAM_ARCH="slc5_amd64_gcc462"
 source $VO_CMS_SW_DIR/cmsset_default.sh
 eval `scramv1 runtime -sh`
-unset TMP
-unset TMPDIR
+#unset TMP
+#unset TMPDIR
+
+mkdir $TMPDIR
 
 #Path where the script write_regression_systematic.py and evaluateMVA.py are stored
 #execute=$PWD/UserCode/VHbb/python/
@@ -99,3 +101,5 @@ fi
 if [ $task = "dc" ]; then
     ./workspace_datacard.py -P $pathAna/env/sys/MVAout/ -C ${configFile} -C pathConfig$energy -V $sample 
 fi
+
+rm -rf $TMPDIR

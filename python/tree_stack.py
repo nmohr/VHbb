@@ -354,7 +354,6 @@ for v in range(0,len(vars)):
     name = '%s/%s' %(config.get('Directories','plotpath'),options[v][6])
     c.Print(name)
 
-    os.system('rm %s/tmp_plotCache_%s*'%(config.get('Directories','plotpath'),region))
     print 'i am done!\n'
 
 sys.exit(0)

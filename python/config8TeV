@@ -30,8 +30,16 @@ addOverFlow = True
 #List: HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_MJJ_Zee,LowPt_MJJ_Zee
 #List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_MJJ_Zee,LowPt_MJJ_Zee
 #List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
+
 #ALL PLOTS
-List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee,ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm
+#List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee,ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt
+
+#List: HighPt_Zmm
+List: HighPtLooseBTag_Zmm
+# Regression
+#List: ZLight,ZLight_beforeReg,Zbb,Zbb_beforeReg,TTbar,TTbar_beforeReg
+
+#List: ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt
 
 #var definition
 BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,rHVpt,Sum
@@ -188,6 +196,72 @@ vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
 Signal: ZH125
 log: False
 blind: False
+
+[Plot:ZLight_LowPt]
+Datas: Zmm Zee
+Normalize: True
+vars: Hmass
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:ZLight_LowPt_beforeReg]
+Datas: Zmm Zee
+Normalize: True
+vars: Hmass_NoReg
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:ZLight_HighPt]
+Datas: Zmm Zee
+Normalize: True
+vars: Hmass
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:ZLight_HighPt_beforeReg]
+Datas: Zmm Zee
+Normalize: True
+vars: Hmass_NoReg
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:Zbb_beforeReg]
+Datas: Zmm Zee
+Normalize: True
+vars: Hmass_NoReg
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:Zbb]
+Datas: Zmm Zee
+Normalize: True
+vars: Hmass
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:TTbar_beforeReg]
+Datas: Zmm Zee
+Normalize: True
+vars: Hmass_NoReg
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:TTbar]
+Datas: Zmm Zee
+Normalize: True
+vars: Hmass
+Signal: ZH125
+log: False
+blind: False
+
+
 
 
 
@@ -769,10 +843,12 @@ tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
 preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
+preselection_beforeReg = (hJet_pt[0]/hJet_regWeight[0]) > 20. & (hJet_pt[1]*hJet_regWeight[1]) > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
 zWindow = V.mass > 75. & V.mass < 105
 zVeto =  (V.mass > 105 | V.mass < 75.)
 noAddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) == 0 
 max1AddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) < 2.
+vetoHMass_beforeReg = (HNoReg.mass < 90. | HNoReg.mass > 145.)
 vetoHMass = (H.mass < 90. | H.mass > 145.)
 pullAngle = deltaPullAngle < 10. & deltaPullAngle2 < 10.
 rTight = V.pt > 100.
@@ -780,6 +856,8 @@ rTight = V.pt > 100.
 rMed = V.pt > 50. & V.pt < 100.
 upperHMass = H.mass < 250.
 looseHMass = H.mass > 80. & H.mass < 150.
+upperHMass_beforeReg = HNoReg.mass < 250.
+looseHMass_beforeReg = HNoReg.mass > 80. & HNoReg.mass < 150.
 dPhiVH = abs( HVdPhi ) > 2.9 
 looseBTag = !(hJet_csv[0] > <!ZHbb|CSVL!> & hJet_csv[1] > <!ZHbb|CSVL!>) & (hJet_csv[0] > <!ZHbb|CSVL!> | hJet_csv[1] > <!ZHbb|CSVL!>)
 
@@ -808,11 +886,17 @@ ZLight: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|nt
 TTbar = <!ZHbb|preselection!> & <!ZHbb|upperHMass!> & <!ZHbb|tlBtag!> & <!ZHbb|zVeto!> & H.pt > 100.
 Zbb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|zWindow!> & <!ZHbb|tlBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!>
 
+ZLight_beforeReg: <!ZHbb|preselection_beforeReg!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!>
+TTbar_beforeReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|tlBtag!> & <!ZHbb|zVeto!> & HNoReg.pt > 100.
+Zbb_beforeReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|vetoHMass_beforeReg!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|zWindow!> & <!ZHbb|tlBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!>
+
 ZLight_HighPt = <!Cuts|ZLight!> & <!ZHbb|rTight!>
+ZLight_HighPt_beforeReg = <!Cuts|ZLight_beforeReg!> & <!ZHbb|rTight!>
 TTbar_HighPt = <!Cuts|TTbar!> & <!ZHbb|rTight!>
 Zbb_HighPt = <!Cuts|Zbb!> & <!ZHbb|rTight!>
 
 ZLight_LowPt = <!Cuts|ZLight!> & <!ZHbb|rMed!>
+ZLight_LowPt_beforeReg = <!Cuts|ZLight_beforeReg!> & <!ZHbb|rMed!>
 TTbar_LowPt = <!Cuts|TTbar!> & <!ZHbb|rMed!>
 Zbb_LowPt = <!Cuts|Zbb!> & <!ZHbb|rMed!>
 

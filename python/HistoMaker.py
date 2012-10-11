@@ -6,7 +6,7 @@ from ROOT import TFile, TTree
 import ROOT
 from array import array
 from BetterConfigParser import BetterConfigParser
-import sys
+import sys,os
 
 class HistoMaker:
     def __init__(self, path, config, region, optionsList,rescale=1,which_weightF='weightF'):
@@ -57,6 +57,8 @@ class HistoMaker:
         plot_path = self.config.get('Directories','plotpath')
         addOverFlow=eval(self.config.get('Plot_general','addOverFlow'))
 
+        scratchDir = os.environ["TMPDIR"]
+        #scratchDir = '/shome/peller/'
         # define treeCut
         if job.type != 'DATA':
             if type(self.region)==str:
@@ -75,7 +77,7 @@ class HistoMaker:
             treeCut='%s'%(cutcut)
 
         # get and skim the Trees
-        output=TFile.Open(plot_path+'/tmp_plotCache_%s_%s.root'%(self.region,job.identifier),'recreate')
+        output=TFile.Open(scratchDir+'/tmp_plotCache_%s_%s.root'%(self.region,job.identifier),'recreate')
         input = TFile.Open(self.path+'/'+job.getpath(),'read')
         Tree = input.Get(job.tree)
         output.cd()
