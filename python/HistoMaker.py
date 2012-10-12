@@ -18,7 +18,7 @@ class HistoMaker:
         self.region = region
         self.lumi=0.
 
-    def getScale(self,job,subsample=-1):
+    def getScale(self,job,subsample=-1,MC_rescale_factor=1):
         anaTag=self.config.get('Analysis','tag')
         input = TFile.Open(self.path+'/'+job.getpath())
         CountWithPU = input.Get("CountWithPU")
@@ -32,9 +32,9 @@ class HistoMaker:
             sf=float(job.sf)
         theScale = 1.
         if anaTag == '7TeV':
-            theScale = float(self.lumi)*xsec*sf/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*self.rescale/float(job.split)
+            theScale = float(self.lumi)*xsec*sf/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*MC_rescale_factor/float(job.split)
         elif anaTag == '8TeV':
-            theScale = float(self.lumi)*xsec*sf/(CountWithPU.GetBinContent(1))*self.rescale/float(job.split)
+            theScale = float(self.lumi)*xsec*sf/(CountWithPU.GetBinContent(1))*MC_rescale_factor/float(job.split)
         return theScale 
 
 
@@ -46,11 +46,6 @@ class HistoMaker:
 
         #get the conversion rate in case of BDT plots
         TrainFlag = eval(self.config.get('Analysis','TrainFlag'))
-        if TrainFlag:
-            MC_rescale_factor=2.
-            print 'I RESCALE BY 2.0'
-        else: MC_rescale_factor = 1.
-
         BDT_add_cut='EventForTraining == 0'
 
 
@@ -103,7 +98,7 @@ class HistoMaker:
             if job.type != 'DATA':
                 if CuttedTree.GetEntries():
                     
-                    if 'BDT' in treeVar: drawoption = '(%s)*(%s)'%(weightF,BDT_add_cut)
+                    if 'RTight' in treeVar or 'RMed' in treeVar: drawoption = '(%s)*(%s)'%(weightF,BDT_add_cut)
                     else: drawoption = '%s'%(weightF)
                     output.cd() 
                     CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax), drawoption, "goff,e")
@@ -129,7 +124,12 @@ class HistoMaker:
                 hTree = ROOT.TH1F('%s'%name,'%s'%name,nBins,xMin,xMax)
                 hTree.Sumw2()
             if job.type != 'DATA':
-                if 'BDT' in treeVar: ScaleFactor = self.getScale(job,subsample,MC_rescale_factor)
+                if 'RTight' in treeVar or 'RMed' in treeVar:
+                    if TrainFlag:
+                        MC_rescale_factor=2.
+                        print 'I RESCALE BY 2.0'
+                    else: MC_rescale_factor = 1.
+                    ScaleFactor = self.getScale(job,subsample,MC_rescale_factor)
                 else: ScaleFactor = self.getScale(job,subsample)
                 if ScaleFactor != 0:
                     hTree.Scale(ScaleFactor)
