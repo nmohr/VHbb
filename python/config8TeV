@@ -34,7 +34,7 @@ addOverFlow = True
 #ALL PLOTS
 #List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee,ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt
 
-#List: HighPt_Zmm
+#List: Zbb,TTbar,Zbb_vtx,TTbar_vtx,TTbar_soft,Zbb_soft
 List: HighPtLooseBTag_Zmm
 # Regression
 #List: ZLight,ZLight_beforeReg,Zbb,Zbb_beforeReg,TTbar,TTbar_beforeReg
@@ -44,6 +44,9 @@ List: HighPtLooseBTag_Zmm
 #var definition
 BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,rHVpt,Sum
 BDTs: BDT8_RTight,BDT8_RMed,BDT8_RTightLooseBTag
+REG_vars: METnoPU,rho25,dPhiJetMet,regWeight,JECUnc,jPtRaw,jE,jCef,jChf,jNCh,jNum,jPtLeadTrack
+REG_vtx: vtxPt,vtxMass,vtx3dL,vtx3deL
+REG_soft: jSoftLeptPtRel,jSoftLeptPt,jSoftLeptdR
 
 [Plot:HighPt_MJJ_Zee]
 Datas: Zee
@@ -157,6 +160,60 @@ Datas: Zee
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:Zbb]
+Datas: Zee Zmm
+Normalize: True
+#vars: <!Plot_general|BDT_vars!>
+vars: Hmass,Hmass_NoReg,<!Plot_general|REG_vars!>
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:TTbar]
+Datas: Zee Zmm
+Normalize: True
+#vars: <!Plot_general|BDT_vars!>
+vars: Hmass,Hmass_NoReg,<!Plot_general|REG_vars!>
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:Zbb_vtx]
+Datas: Zee Zmm
+Normalize: True
+#vars: <!Plot_general|BDT_vars!>
+vars: <!Plot_general|REG_vtx!>
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:TTbar_vtx]
+Datas: Zee Zmm
+Normalize: True
+#vars: <!Plot_general|BDT_vars!>
+vars: <!Plot_general|REG_vtx!>
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:Zbb_soft]
+Datas: Zee Zmm
+Normalize: True
+#vars: <!Plot_general|BDT_vars!>
+vars: <!Plot_general|REG_soft!>
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:TTbar_soft]
+Datas: Zee Zmm
+Normalize: True
+#vars: <!Plot_general|BDT_vars!>
+vars: <!Plot_general|REG_vtx!>
 Signal: ZH125
 log: False
 blind: False
@@ -911,6 +968,11 @@ TTbar_Zee = <!Cuts|TTbar!> & <!ZHeebb|addCuts!>
 TTbar_Zmm = <!Cuts|TTbar!> & <!ZHmmbb|addCuts!>
 Zbb_Zee = <!Cuts|Zbb!> & <!ZHeebb|addCuts!>
 Zbb_Zmm = <!Cuts|Zbb!> & <!ZHmmbb|addCuts!>
+
+TTbar_vtx = <!Cuts|TTbar!> & <!ZHbb|vtx!>
+TTbar_soft = <!Cuts|TTbar!> & <!ZHbb|soft!>
+Zbb_vtx = <!Cuts|Zbb!> & <!ZHbb|vtx!>
+Zbb_soft = <!Cuts|Zbb!> & <!ZHmmbb|soft!>
 
 triggerEE = (triggerFlags[5]>0 || triggerFlags[6]>0)
 triggerMM = (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) 
