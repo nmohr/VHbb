@@ -268,9 +268,12 @@ blind: False
 ###########################################################################################
 # REGRESSION
 [Regression]
-regWeight = ../data/MVA_BDT_REG_Jun16.weights.xml
-regDict = {"Jet_pt": "hJet_pt[0]", "Jet_eta": "hJet_eta[0]", "Jet_e": "hJet_e[0]", "Jet_ptRaw": "Jet_ptRaw", "Jet_chf": "hJet_chf[0]","Jet_nconstituents": "hJet_nconstituents[0]", "Jet_vtxPt": "hJet_vtxPt[0]", "Jet_vtx3dL": "hJet_vtx3dL[0]", "Jet_vtx3deL": "hJet_vtx3deL[0]", "Jet_MET_dPhi": "Jet_MET_dPhi", 'METet': 'METet'}
-regVars = ["Jet_pt","Jet_eta","Jet_e","Jet_ptRaw", "Jet_chf","Jet_nconstituents", "Jet_vtxPt", "Jet_vtx3dL", "Jet_vtx3deL", "Jet_MET_dPhi", "METet"]
+#regWeight = ../data/MVA_BDT_REG_Jun16.weights.xml
+#regDict = {"Jet_pt": "hJet_pt[0]", "Jet_eta": "hJet_eta[0]", "Jet_e": "hJet_e[0]", "Jet_ptRaw": "Jet_ptRaw", "Jet_chf": "hJet_chf[0]","Jet_nconstituents": "hJet_nconstituents[0]", "Jet_vtxPt": "hJet_vtxPt[0]", "Jet_vtx3dL": "hJet_vtx3dL[0]", "Jet_vtx3deL": "hJet_vtx3deL[0]", "Jet_MET_dPhi": "Jet_MET_dPhi", 'METet': 'METet'}
+#regVars = ["Jet_pt","Jet_eta","Jet_e","Jet_ptRaw", "Jet_chf","Jet_nconstituents", "Jet_vtxPt", "Jet_vtx3dL", "Jet_vtx3deL", "Jet_MET_dPhi", "METet"]
+regWeight = ../data/MVA_BDT_REG_Matt.weights.xml
+regDict = {"hJet_pt":"hJet_pt[0]","evalJERBias(hJet_ptRaw,hJet_genPt,hJet_eta)":"Jet_ptRaw","rho25":"rho25","hJet_JECUnc":"hJet_JECUnc[0]","evalEt(hJet_pt,hJet_eta,hJet_phi,hJet_e)":"Jet_et","evalMt(hJet_pt,hJet_eta,hJet_phi,hJet_e)":"Jet_mt","hJet_ptLeadTrack":"hJet_ptLeadTrack[0]","max(0,(hJet_SoftLeptptRel*(hJet_SoftLeptIdlooseMu==1||hJet_SoftLeptId95==1)))":"max(0,(hJet_SoftLeptptRel[0]*(hJet_SoftLeptIdlooseMu[0]==1||hJet_SoftLeptId95[0]==1)))","max(0,(hJet_SoftLeptdR*(hJet_SoftLeptIdlooseMu==1||hJet_SoftLeptId95==1)))":"max(0,(hJet_SoftLeptdR[0]*(hJet_SoftLeptIdlooseMu[0]==1||hJet_SoftLeptId95[0]==1)))","max(0,(hJet_SoftLeptPt*(hJet_SoftLeptIdlooseMu==1||hJet_SoftLeptId95==1)))":"max(0,(hJet_SoftLeptPt[0]*(hJet_SoftLeptIdlooseMu[0]==1||hJet_SoftLeptId95[0]==1)))","hJet_cef":"hJet_cef[0]","hJet_nconstituents":"hJet_nconstituents[0]","max(0,hJet_vtxPt)":"max(0,hJet_vtxPt[0])","max(0,hJet_vtxMass)":"max(0,hJet_vtxMass[0])","max(0,hJet_vtx3dL)":"max(0,hJet_vtx3dL[0])","max(0,hJet_vtx3deL)":"max(0,hJet_vtx3deL[0])","METnoPU.et":"METet","deltaPhi(METnoPU.phi,hJet_phi)":"Jet_MET_dPhi"}
+regVars = ["hJet_pt","evalJERBias(hJet_ptRaw,hJet_genPt,hJet_eta)","rho25","hJet_JECUnc","evalEt(hJet_pt,hJet_eta,hJet_phi,hJet_e)","evalMt(hJet_pt,hJet_eta,hJet_phi,hJet_e)","hJet_ptLeadTrack","max(0,(hJet_SoftLeptptRel*(hJet_SoftLeptIdlooseMu==1||hJet_SoftLeptId95==1)))","max(0,(hJet_SoftLeptdR*(hJet_SoftLeptIdlooseMu==1||hJet_SoftLeptId95==1)))","max(0,(hJet_SoftLeptPt*(hJet_SoftLeptIdlooseMu==1||hJet_SoftLeptId95==1)))","hJet_cef","hJet_nconstituents","max(0,hJet_vtxPt)","max(0,hJet_vtxMass)","max(0,hJet_vtx3dL)","max(0,hJet_vtx3deL)","METnoPU.et","deltaPhi(METnoPU.phi,hJet_phi)"]
 useMET = True
 usePtRaw = True
 useRho25 = False
@@ -942,6 +945,6 @@ HighPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjHighPt!>
 # other things:
 
 [Weights]
-weightF: (PUweight*weightTrig2012A*lheWeight)
+weightF: (PUweight*weightTrig2012*lheWeight)
 
 # LocalWords:  Mjj
