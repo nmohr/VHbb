@@ -979,6 +979,8 @@ ZLight_LowPt_beforeReg = <!Cuts|ZLight_beforeReg!> & <!ZHbb|rMed!> & HNoReg.mass
 TTbar_LowPt = <!Cuts|TTbar!> & <!ZHbb|rMed!>
 Zbb_LowPt = <!Cuts|Zbb!> & <!ZHbb|rMed!>
 
+ZLight_HighPt_Zee = <!Cuts|ZLight_HighPt!> & <!ZHeebb|addCuts!>
+ZLight_HighPt_Zmm = <!Cuts|ZLight_HighPt!> & <!ZHmmbb|addCuts!>
 ZLight_LowPt_Zee = <!Cuts|ZLight_LowPt!> & <!ZHeebb|addCuts!>
 ZLight_LowPt_Zmm = <!Cuts|ZLight_LowPt!> & <!ZHmmbb|addCuts!>
 TTbar_Zee = <!Cuts|TTbar!> & <!ZHeebb|addCuts!>
