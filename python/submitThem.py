@@ -81,9 +81,9 @@ if opts.task == 'plot':
 elif opts.task == 'dc':
     repDict['queue'] = 'short.q'
     for item in DC_vars:
-        if 'ZH%s'%opts.mass in item and opts.tag in item:
+        if 'ZH%s'%opts.mass in item:
             submit(item,repDict) 
-        elif 'ZH' in item and opts.tag in item and opts.mass == 'all':
+        elif 'ZH' in item and opts.mass == 'all':
             submit(item,repDict)
             
 elif opts.task == 'prep':

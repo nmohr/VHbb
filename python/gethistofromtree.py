@@ -50,6 +50,10 @@ def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1,which_weight
     #addOverFlow=eval(config.get('Plot_general','addOverFlow'))
     addOverFlow = False
 
+    TrainFlag = eval(config.get('Analysis','TrainFlag'))
+    if TrainFlag: traincut = " & EventForTraining == 0"
+    if not TrainFlag: traincut=""
+
     if job.type != 'DATA':
     
         if type(options[7])==str:
@@ -59,9 +63,9 @@ def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1,which_weight
             cutcut=cutcut.replace(options[7][1],options[7][2])
             #print cutcut
         if subsample>-1:
-            treeCut='%s & %s & EventForTraining == 0'%(cutcut,job.subcuts[subsample])        
+            treeCut='%s & %s%s'%(cutcut,job.subcuts[subsample],traincut)        
         else:
-            treeCut='%s & EventForTraining == 0'%(cutcut)
+            treeCut='%s%s'%(cutcut,traincut)
 
     elif job.type == 'DATA':
         cutcut=config.get('Cuts',options[8])

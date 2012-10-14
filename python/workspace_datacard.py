@@ -313,6 +313,7 @@ for i in range(0,len(histos)):
             else:
                 statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j))
                 statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j))
+            #if statDowns[i].GetBinError(j)<0.: statDowns[i].SetBinContent(j,0.)
         statUps[i].Write()
         statDowns[i].Write()
         histPdf = ROOT.RooDataHist(newname,newname,obs,histos[i])
@@ -362,17 +363,21 @@ if flow > 0:
     printc('red','','U/O flow: %s'%flow)
 d1.SetName(Dict['Data'])
 outfile.cd()
-d1.Write()
+#d1.Write()
+
 
 if blind:
+    print 'toy data integral: %s'%hDummy.Integral() 
     hDummy.SetName(Dict['Data'])
     histPdf = ROOT.RooDataHist(Dict['Data'],Dict['Data'],obs,hDummy)
     #rooDummy = ROOT.RooDataHist('data_obs','data_obs',obs,hDummy)
     #toy = ROOT.RooHistPdf('data_obs','data_obs',ROOT.RooArgSet(obs),rooDummy)
     #rooDataSet = toy.generate(ROOT.RooArgSet(obs),int(d1.Integral()))
     #histPdf = ROOT.RooDataHist('data_obs','data_obs',ROOT.RooArgSet(obs),rooDataSet.reduce(ROOT.RooArgSet(obs)))
+    hDummy.Write()
 else:
     histPdf = ROOT.RooDataHist(Dict['Data'],Dict['Data'],obs,d1)
+    d1.Write()
 #ROOT.RooAbsData.plotOn(histPdf,frame)
 getattr(WS,'import')(histPdf)
 
