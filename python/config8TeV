@@ -6,7 +6,7 @@ tag = 8TeV
 # be sure to have this right !!!
 # >>>>>>>>>>>>>>>>>>>
 # >>>>>>>>>>>>>>>>>>>
-TrainFlag = True
+TrainFlag = False
 # <<<<<<<<<<<<<<<<<<<
 # <<<<<<<<<<<<<<<<<<<
 
@@ -409,9 +409,9 @@ setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
 #List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTightLooseBTag_ZH110_EE_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTightLooseBTag_ZH115_EE_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTightLooseBTag_ZH120_EE_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTightLooseBTag_ZH130_EE_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTightLooseBTag_ZH135_EE_8TeV_oct
 
 #Mjj
-#List: Mjj_lowPt_ZH125_EE,Mjj_lowPt_ZH125_MM,Mjj_highPt_ZH125_EE,Mjj_highPt_ZH125_MM
+List: Mjj_lowPt_ZH125_EE,Mjj_lowPt_ZH125_MM,Mjj_highPt_ZH125_EE,Mjj_highPt_ZH125_MM
 
-List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct 
+#List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct 
 
 [Datacard]
 
@@ -944,10 +944,10 @@ addCuts = Vtype==0
 #& (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0)
 
 [Cuts]
-#mjjLowPt = <!ZHbb|preselection!> & <!ZHbb|rMed!> & <!ZHbb|tcBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
-#mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tcBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
-mjjLowPt = <!ZHbb|preselection!> & <!ZHbb|rMed!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
-mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
+mjjLowPt = <!ZHbb|preselection!> & <!ZHbb|rMed!> & <!ZHbb|tcBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
+mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tcBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
+#mjjLowPt = <!ZHbb|preselection!> & <!ZHbb|rMed!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
+#mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
 
 
 #V.pt regions:
@@ -979,8 +979,6 @@ ZLight_LowPt_beforeReg = <!Cuts|ZLight_beforeReg!> & <!ZHbb|rMed!> & HNoReg.mass
 TTbar_LowPt = <!Cuts|TTbar!> & <!ZHbb|rMed!>
 Zbb_LowPt = <!Cuts|Zbb!> & <!ZHbb|rMed!>
 
-ZLight_HighPt_Zee = <!Cuts|ZLight_HighPt!> & <!ZHeebb|addCuts!>
-ZLight_HighPt_Zmm = <!Cuts|ZLight_HighPt!> & <!ZHmmbb|addCuts!>
 ZLight_LowPt_Zee = <!Cuts|ZLight_LowPt!> & <!ZHeebb|addCuts!>
 ZLight_LowPt_Zmm = <!Cuts|ZLight_LowPt!> & <!ZHmmbb|addCuts!>
 TTbar_Zee = <!Cuts|TTbar!> & <!ZHeebb|addCuts!>
