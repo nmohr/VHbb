@@ -310,7 +310,21 @@ Signal: ZH125
 log: False
 blind: False
 
+[Plot:Zbb_Balance]
+Datas: Zmm Zee
+Normalize: True
+vars: Hmass,rHVpt
+Signal: ZH125
+log: False
+blind: False
 
+[Plot:Zbb_BalanceNoReg]
+Datas: Zmm Zee
+Normalize: True
+vars: Hmass_NoReg,rHVpt_NoReg
+Signal: ZH125
+log: False
+blind: False
 
 
 
@@ -897,6 +911,7 @@ CSVL = 0.244
 minBtag = min(hJet_csv[0],hJet_csv[1])
 maxBtag = max(hJet_csv[0],hJet_csv[1])
 tcBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
+ccBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
@@ -918,8 +933,8 @@ upperHMass_beforeReg = HNoReg.mass < 250.
 looseHMass_beforeReg = HNoReg.mass > 80. & HNoReg.mass < 150.
 dPhiVH = abs( HVdPhi ) > 2.9 
 looseBTag = !(hJet_csv[0] > <!ZHbb|CSVL!> & hJet_csv[1] > <!ZHbb|CSVL!>) & (hJet_csv[0] > <!ZHbb|CSVL!> | hJet_csv[1] > <!ZHbb|CSVL!>)
-vtx = hJet_vtx3dL > 0.
-soft = (hJet_SoftLeptIdlooseMu==1 || hJet_SoftLeptId95 == 1)
+vtx = hJet_vtx3dL[0] > 0. & hJet_vtxPt[0] > 0.
+soft = (hJet_SoftLeptIdlooseMu==1 || hJet_SoftLeptId95 == 1) & hJet_SoftLeptonPt[0] > 0.
 
 [ZHeebb]
 addCuts = Vtype==1 
@@ -952,6 +967,9 @@ Zbb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|
 ZLight_beforeReg: <!ZHbb|preselection_beforeReg!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!>
 TTbar_beforeReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|tcBtag!> & <!ZHbb|zVeto!> & HNoReg.pt > 100.
 Zbb_beforeReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|vetoHMass_beforeReg!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|zWindow!> & <!ZHbb|tcBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!> 
+
+Zbb_Balance = <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|ccBtag!> & <!ZHbb|noAddJet!> & V.pt > 50. & H.pt/V.pt > 0.5 & H.pt/V.pt < 2.
+Zbb_BalanceNoReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|zWindow!> & <!ZHbb|ccBtag!> & <!ZHbb|noAddJet!> & V.pt > 50. & HNoReg.pt/V.pt > 0.5 & HNoReg.pt/V.pt < 2. 
 
 ZLight_HighPt = <!Cuts|ZLight!> & <!ZHbb|rTight!>
 ZLight_HighPt_beforeReg = <!Cuts|ZLight_beforeReg!> & <!ZHbb|rTight!>
