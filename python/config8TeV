@@ -6,7 +6,7 @@ tag = 8TeV
 # be sure to have this right !!!
 # >>>>>>>>>>>>>>>>>>>
 # >>>>>>>>>>>>>>>>>>>
-TrainFlag = False
+TrainFlag = True
 # <<<<<<<<<<<<<<<<<<<
 # <<<<<<<<<<<<<<<<<<<
 
@@ -176,7 +176,7 @@ blind: False
 Datas: Zee Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
-vars: Hmass,Hmass_NoReg,<!Plot_general|REG_vars!>
+vars: Hmass,rHVpt,<!Plot_general|REG_vars!>
 Signal: ZH125
 log: False
 blind: False
@@ -185,7 +185,7 @@ blind: False
 Datas: Zee Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
-vars: Hmass,Hmass_NoReg,<!Plot_general|REG_vars!>
+vars: Hmass,rHVpt,<!Plot_general|REG_vars!>
 Signal: ZH125
 log: False
 blind: False
@@ -221,7 +221,7 @@ blind: False
 Datas: Zee Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
-vars: <!Plot_general|REG_vtx!>
+vars: <!Plot_general|REG_soft!>
 Signal: ZH125
 log: False
 blind: False
@@ -273,7 +273,7 @@ blind: False
 [Plot:ZLight_LowPt_beforeReg]
 Datas: Zmm Zee
 Normalize: True
-vars: Hmass_NoReg
+vars: Hmass_NoReg,rHVpt_NoReg
 Signal: ZH125
 log: False
 blind: False
@@ -289,7 +289,7 @@ blind: False
 [Plot:ZLight_HighPt_beforeReg]
 Datas: Zmm Zee
 Normalize: True
-vars: Hmass_NoReg
+vars: Hmass_NoReg,rHVpt_NoReg
 Signal: ZH125
 log: False
 blind: False
@@ -297,15 +297,7 @@ blind: False
 [Plot:Zbb_beforeReg]
 Datas: Zmm Zee
 Normalize: True
-vars: Hmass_NoReg
-Signal: ZH125
-log: False
-blind: False
-
-[Plot:Zbb]
-Datas: Zmm Zee
-Normalize: True
-vars: Hmass
+vars: Hmass_NoReg,rHVpt_NoReg
 Signal: ZH125
 log: False
 blind: False
@@ -313,15 +305,7 @@ blind: False
 [Plot:TTbar_beforeReg]
 Datas: Zmm Zee
 Normalize: True
-vars: Hmass_NoReg
-Signal: ZH125
-log: False
-blind: False
-
-[Plot:TTbar]
-Datas: Zmm Zee
-Normalize: True
-vars: Hmass
+vars: Hmass_NoReg,rHVpt_NoReg
 Signal: ZH125
 log: False
 blind: False
@@ -934,6 +918,8 @@ upperHMass_beforeReg = HNoReg.mass < 250.
 looseHMass_beforeReg = HNoReg.mass > 80. & HNoReg.mass < 150.
 dPhiVH = abs( HVdPhi ) > 2.9 
 looseBTag = !(hJet_csv[0] > <!ZHbb|CSVL!> & hJet_csv[1] > <!ZHbb|CSVL!>) & (hJet_csv[0] > <!ZHbb|CSVL!> | hJet_csv[1] > <!ZHbb|CSVL!>)
+vtx = hJet_vtx3dL > 0.
+soft = (hJet_SoftLeptIdlooseMu==1 || hJet_SoftLeptId95 == 1)
 
 [ZHeebb]
 addCuts = Vtype==1 
@@ -959,13 +945,13 @@ LowPt = <!Cuts|RMed!>
 HighPtLooseBTag = <!Cuts|RTightLooseBTag!>
 
 #control regions
-ZLight: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!>
-TTbar = <!ZHbb|preselection!> & <!ZHbb|upperHMass!> & <!ZHbb|tcBtag!> & <!ZHbb|zVeto!> & H.pt > 100.
-Zbb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|zWindow!> & <!ZHbb|tcBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!>
+ZLight: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & V.pt > 50.
+TTbar = <!ZHbb|preselection!> & <!ZHbb|upperHMass!> & <!ZHbb|tcBtag!> & <!ZHbb|zVeto!> & V.pt > 50.
+Zbb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|zWindow!> & <!ZHbb|tcBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!> 
 
 ZLight_beforeReg: <!ZHbb|preselection_beforeReg!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!>
-TTbar_beforeReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|tcBtag!> & <!ZHbb|zVeto!> & HNoReg.pt > 100.
-Zbb_beforeReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|vetoHMass_beforeReg!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|zWindow!> & <!ZHbb|tcBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!>
+TTbar_beforeReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|tcBtag!> & <!ZHbb|zVeto!> & V.pt > 50.
+Zbb_beforeReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|vetoHMass_beforeReg!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|zWindow!> & <!ZHbb|tcBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!> 
 
 ZLight_HighPt = <!Cuts|ZLight!> & <!ZHbb|rTight!>
 ZLight_HighPt_beforeReg = <!Cuts|ZLight_beforeReg!> & <!ZHbb|rTight!>
@@ -991,7 +977,7 @@ Zbb_Zmm = <!Cuts|Zbb!> & <!ZHmmbb|addCuts!>
 TTbar_vtx = <!Cuts|TTbar!> & <!ZHbb|vtx!>
 TTbar_soft = <!Cuts|TTbar!> & <!ZHbb|soft!>
 Zbb_vtx = <!Cuts|Zbb!> & <!ZHbb|vtx!>
-Zbb_soft = <!Cuts|Zbb!> & <!ZHmmbb|soft!>
+Zbb_soft = <!Cuts|Zbb!> & <!ZHbb|soft!>
 
 triggerEE = (triggerFlags[5]>0 || triggerFlags[6]>0)
 triggerMM = (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) 
