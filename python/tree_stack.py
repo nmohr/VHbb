@@ -47,7 +47,7 @@ samplesinfo=config.get('Directories','samplesinfo')
 section='Plot:%s'%region
 
 Normalize = eval(config.get(section,'Normalize'))
-log = eval(config.get(section,'log'))
+logPlot = eval(config.get(section,'log'))
 blind = eval(config.get(section,'blind'))
 
 infofile = open(samplesinfo,'r')
@@ -65,6 +65,14 @@ nBins = [eval(plotConfig.get('plotDef:%s'%x,'nBins')) for x in vars]
 xMin = [eval(plotConfig.get('plotDef:%s'%x,'min')) for x in vars]
 xMax = [eval(plotConfig.get('plotDef:%s'%x,'max')) for x in vars]
 xAxis = [plotConfig.get('plotDef:%s'%x,'xAxis') for x in vars]
+log = []
+for x in vars:
+    if logPlot:
+        log.append(True)
+    elif plotConfig.has_option('plotDef:%s'%x,'log'):
+        log.append(eval(plotConfig.get('plotDef:%s'%x,'log')))
+    else:
+        log.append(False)
 
 for p in range(0,len(names)):
     if '<mass>' in names[p]:
@@ -93,7 +101,7 @@ for i in range(0,len(vars)):
 
 
 setup=config.get('Plot_general','setup')
-if log: 
+if logPlot: 
     setup=config.get('Plot_general','setupLog')
 setup=setup.split(',')
 
@@ -304,7 +312,7 @@ for v in range(0,len(vars)):
     theErrorGraph.Draw('SAME2')
     l.AddEntry(theErrorGraph,"MC uncert. (stat.)","fl")
     Ymax = max(allStack.GetMaximum(),d1.GetMaximum())*1.7
-    if log:
+    if log[v]:
         allStack.SetMinimum(0.05)
         Ymax = Ymax*ROOT.TMath.Power(10,1.6*(ROOT.TMath.Log(1.6*(Ymax/0.1))/ROOT.TMath.Log(10)))*(0.6*0.1)
         ROOT.gPad.SetLogy()
@@ -349,7 +357,7 @@ for v in range(0,len(vars)):
     t0 = ROOT.TText()
     t0.SetTextSize(ROOT.gStyle.GetLabelSize()*2.4)
     t0.SetTextFont(ROOT.gStyle.GetLabelFont())
-    if not log:
+    if not log[v]:
     	t0.DrawTextNDC(0.1059,0.96, "0")
 
     name = '%s/%s' %(config.get('Directories','plotpath'),options[v][6])
