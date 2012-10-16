@@ -49,6 +49,18 @@ section='Plot:%s'%region
 Normalize = eval(config.get(section,'Normalize'))
 logPlot = eval(config.get(section,'log'))
 blind = eval(config.get(section,'blind'))
+rebin = 1
+nBinsCfg = False
+minCfg = False
+maxCfg = False
+if config.has_option(section,'rebin'):
+    rebin = eval(config.get(section,'rebin'))
+if config.has_option(section,'nBins'):
+    nBinsCfg = eval(config.get(section,'nBins'))
+if config.has_option(section,'min'):
+    minCfg = eval(config.get(section,'min'))
+if config.has_option(section,'max'):
+    maxCfg = eval(config.get(section,'max'))
 
 infofile = open(samplesinfo,'r')
 info = pickle.load(infofile)
@@ -61,10 +73,10 @@ mass = config.get(section,'Signal')
 vars = (config.get(section, 'vars')).split(',')
 
 names = [plotConfig.get('plotDef:%s'%x,'relPath') for x in vars]
-nBins = [eval(plotConfig.get('plotDef:%s'%x,'nBins')) for x in vars]
-xMin = [eval(plotConfig.get('plotDef:%s'%x,'min')) for x in vars]
-xMax = [eval(plotConfig.get('plotDef:%s'%x,'max')) for x in vars]
 xAxis = [plotConfig.get('plotDef:%s'%x,'xAxis') for x in vars]
+nBins = []
+xMin = []
+xMax = []
 log = []
 for x in vars:
     if logPlot:
@@ -73,6 +85,18 @@ for x in vars:
         log.append(eval(plotConfig.get('plotDef:%s'%x,'log')))
     else:
         log.append(False)
+    if nBinsCfg:
+        nBins.append(nBinsCfg)
+    else:
+        nBins.append(int(eval(plotConfig.get('plotDef:%s'%x,'nBins'))/rebin))
+    if minCfg:
+        xMin.append(minCfg)
+    else:
+        xMin.append(eval(plotConfig.get('plotDef:%s'%x,'min')))
+    if maxCfg:
+        xMax.append(maxCfg)
+    else:
+        xMax.append(eval(plotConfig.get('plotDef:%s'%x,'max')))
 
 for p in range(0,len(names)):
     if '<mass>' in names[p]:
