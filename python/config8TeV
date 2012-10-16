@@ -37,13 +37,13 @@ addOverFlow = True
 #List: Zbb_Zee,Zbb_Zmm
 
 #All signal region plots:
-List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
+#List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
 
 #ALL PLOTS
 #List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee,ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt,Zbb,TTbar,Zbb_vtx,TTbar_vtx,TTbar_soft,Zbb_soft,ZPeak_Zee,ZPeak_Zmm
 
-#List: Zbb,TTbar,Zbb_vtx,TTbar_vtx,TTbar_soft,Zbb_soft
-#List: HighPtLooseBTag_Zmm
+#List: Zbb,TTbar,TTbar_soft,Zbb_soft
+List: Zbb_vtx,TTbar_vtx
 # Regression
 #List: Zbb,Zbb_beforeReg,TTbar,TTbar_beforeReg,ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt
 
@@ -958,7 +958,7 @@ looseHMass_beforeReg = HNoReg.mass > 80. & HNoReg.mass < 150.
 dPhiVH = abs( HVdPhi ) > 2.9 
 looseBTag = !(hJet_csv[0] > <!ZHbb|CSVL!> & hJet_csv[1] > <!ZHbb|CSVL!>) & (hJet_csv[0] > <!ZHbb|CSVL!> | hJet_csv[1] > <!ZHbb|CSVL!>)
 vtx = hJet_vtx3dL[0] > 0. & hJet_vtxPt[0] > 0.
-soft = (hJet_SoftLeptIdlooseMu==1 || hJet_SoftLeptId95 == 1) & hJet_SoftLeptonPt[0] > 0.
+soft = (hJet_SoftLeptIdlooseMu[0]==1 || hJet_SoftLeptId95[0] == 1) & hJet_SoftLeptdR[0] > 0.
 
 [ZHeebb]
 addCuts = Vtype==1 
