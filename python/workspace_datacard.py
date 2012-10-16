@@ -339,12 +339,12 @@ for i in range(0,len(histos)):
         
     #And now WeightF sys
     if weightF_sys:
-        weightF_sys_Downs[i].SetName('%sCMS_vhbb_weightF_%sDown'%(newname,options[10]))
-        weightF_sys_Ups[i].SetName('%sCMS_vhbb_weightF_%sUp'%(newname,options[10]))
+        weightF_sys_Downs[i].SetName('%sUEPSDown'%(newname))
+        weightF_sys_Ups[i].SetName('%sUEPSUp'%(newname))
         weightF_sys_Ups[i].Write()
         weightF_sys_Downs[i].Write()    
-        RooWeightFUp = ROOT.RooDataHist('%sCMS_vhbb_weightF_%sUp'%(newname,options[10]),'%sCMS_vhbb_weightF_%s_%sUp'%(newname,newname,options[10]),obs, weightF_sys_Ups[i])
-        RooWeightFDown = ROOT.RooDataHist('%sCMS_vhbb_weightF_%sDown'%(newname,options[10]),'%sCMS_vhbb_weightF_%s_%sDown'%(newname,newname,options[10]),obs, weightF_sys_Downs[i])
+        RooWeightFUp = ROOT.RooDataHist('%sUEPSUp'%(newname),'%sUEPSUp'%(newname),obs, weightF_sys_Ups[i])
+        RooWeightFDown = ROOT.RooDataHist('%sUEPSDown'%(newname),'%sUEPSDown'%(newname),obs, weightF_sys_Downs[i])
         getattr(WS,'import')(RooWeightFUp)
         getattr(WS,'import')(RooWeightFDown)
     #And now Additional sample sys
@@ -545,7 +545,7 @@ else:
         f.write('\n')
     
 if weightF_sys:
-    f.write('CMS_vhbb_weightF_%s\tshape'%(options[10]))
+    f.write('UEPS\tshape'%(options[10]))
     for it in range(0,columns): f.write('\t1.0')
     f.write('\n')
 
