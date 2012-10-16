@@ -136,8 +136,8 @@ if blind:
 counter=0
 
 if weightF_sys:
-    #weightF_sys_function=config.get('Weights','weightF_sys')
-    weightF_sys_histos = []
+    weightF_sys_UP=config.get('Weights','weightF_sys_UP')
+    weightF_sys_DOWN=config.get('Weights','weightF_sys_DOWN')
     weightF_sys_Ups = []
     weightF_sys_Downs = []
 if addSample_sys:
@@ -158,8 +158,11 @@ for job in info:
                     typs.append(Group[job.subnames[subsample]])
                     hNames.append(job.subnames[subsample])                        
                     if weightF_sys:
-                        hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys')
-                        weightF_sys_histos.append(hTempW)
+                        hTempWU, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys_UP')
+                        weightF_sys_Ups.append(hTempWU)
+                        hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys_DOWN')
+                        weightF_sys_Downs.append(hTempWD)
+
                     if counter == 0:
                         hDummy = copy(hTemp)
                     else:
@@ -174,8 +177,10 @@ for job in info:
                     histos.append(hTemp)
                     typs.append(Group[job.subnames[subsample]])
                     if weightF_sys:
-                        hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys')
-                        weightF_sys_histos.append(hTempW)
+                        hTempWU, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys_UP')
+                        weightF_sys_Ups.append(hTempWU)
+                        hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys_DOWN')
+                        weightF_sys_Downs.append(hTempWD)
                 if addSample_sys and job.subnames[subsample] in addSample_sys.values():
                     aNames.append(job.subnames[subsample])
 		    hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
@@ -191,8 +196,10 @@ for job in info:
                 typs.append(Group[job.name])                        
                 hNames.append(job.name)
                 if weightF_sys:
-                    hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys')
-                    weightF_sys_histos.append(hTempW)
+                    hTempWU, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_UP')
+                    weightF_sys_Ups.append(hTempWU)
+                    hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_DOWN')
+                    weightF_sys_Downs.append(hTempWD)
 
                 if counter == 0:
                     hDummy = copy(hTemp)
@@ -208,8 +215,10 @@ for job in info:
                 typs.append(Group[job.name])                                        
                 hNames.append(job.name)                        
                 if weightF_sys:
-                    hTempW, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys')
-                    weightF_sys_histos.append(hTempW)
+                    hTempWU, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_UP')
+                    weightF_sys_Ups.append(hTempWU) 
+                    hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_DOWN')
+                    weightF_sys_Downs.append(hTempWD)
 
             elif job.name in data:
                 #print 'DATA'
@@ -254,14 +263,17 @@ def getAlternativeShapes(histos,altHistos,hNames,aNames,addSample_sys):
 typs2=copy(typs)
 typs3=copy(typs)
 typs4=copy(typs)
+typs5=copy(typs)
 if addSample_sys:
     aSampleUp, aSampleDown = getAlternativeShapes(histos,addSample_sys_histos,hNames,aNames,addSample_sys)
 histos, typs = orderandadd(histos,typs,setup)
 if weightF_sys:
-	weightF_sys_histos,_=orderandadd(weightF_sys_histos,typs2,setup)
+    weightF_sys_Ups,_=orderandadd(weightF_sys_Ups,typs2,setup)
+    weightF_sys_Downs,_=orderandadd(weightF_sys_Downs,typs3,setup)
+
 if addSample_sys:
-    aSampleUp,aNames=orderandadd(aSampleUp,typs3,setup)
-    aSampleDown,aNames=orderandadd(aSampleDown,typs4,setup)
+    aSampleUp,aNames=orderandadd(aSampleUp,typs4,setup)
+    aSampleDown,aNames=orderandadd(aSampleDown,typs5,setup)
 
 for i in range(0,len(histos)):
     newname=Dict[typs[i]]
@@ -327,12 +339,8 @@ for i in range(0,len(histos)):
         
     #And now WeightF sys
     if weightF_sys:
-        weightF_sys_Downs.append(weightF_sys_histos[i].Clone())
-        weightF_sys_Ups.append(weightF_sys_histos[i].Clone())
         weightF_sys_Downs[i].SetName('%sCMS_vhbb_weightF_%sDown'%(newname,options[10]))
         weightF_sys_Ups[i].SetName('%sCMS_vhbb_weightF_%sUp'%(newname,options[10]))
-        for j in range(histos[i].GetNbinsX()+1):
-            weightF_sys_Ups[i].SetBinContent(j,2*histos[i].GetBinContent(j)-weightF_sys_Downs[i].GetBinContent(j))
         weightF_sys_Ups[i].Write()
         weightF_sys_Downs[i].Write()    
         RooWeightFUp = ROOT.RooDataHist('%sCMS_vhbb_weightF_%sUp'%(newname,options[10]),'%sCMS_vhbb_weightF_%s_%sUp'%(newname,newname,options[10]),obs, weightF_sys_Ups[i])

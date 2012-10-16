@@ -37,15 +37,19 @@ addOverFlow = True
 #List: Zbb_Zee,Zbb_Zmm
 
 #All signal region plots:
-#List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
+List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
 
 #ALL PLOTS
-List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee,ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt
+#List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee,ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt,Zbb,TTbar,Zbb_vtx,TTbar_vtx,TTbar_soft,Zbb_soft,ZPeak_Zee,ZPeak_Zmm
 
 #List: Zbb,TTbar,Zbb_vtx,TTbar_vtx,TTbar_soft,Zbb_soft
 #List: HighPtLooseBTag_Zmm
 # Regression
 #List: Zbb,Zbb_beforeReg,TTbar,TTbar_beforeReg,ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt
+
+#List: ZLight_HighPt_Zmm,ZLight_HighPt_Zee
+
+#List: ZPeak_Zee,ZPeak_Zmm
 
 #List: ZLight_LowPt_Zmm,ZLight_LowPt_Zee,ZLight_LowPt_beforeReg,ZLight_LowPt 
 #List: ZLight_LowPt_beforeReg
@@ -55,6 +59,22 @@ BDTs: BDT8_RTight,BDT8_RMed,BDT8_RTightLooseBTag,BDT_RTight,BDT_RMed
 REG_vars: METnoPU,rho25,dPhiJetMet,regWeight,JECUnc,jPtRaw,jE,jCef,jChf,jNCh,jNum,jPtLeadTrack
 REG_vtx: vtxPt,vtxMass,vtx3dL,vtx3deL
 REG_soft: jSoftLeptPtRel,jSoftLeptPt,jSoftLeptdR
+
+[Plot:ZPeak_Zee]
+Datas: Zee
+Normalize: False
+vars: Vmass,vLepton0pt,vLepton1pt
+Signal: ZH125
+log: False
+blind: False
+
+[Plot:ZPeak_Zmm]
+Datas: Zmm
+Normalize: False
+vars: Vmass,vLepton0pt,vLepton1pt
+Signal: ZH125
+log: False
+blind: False
 
 [Plot:HighPt_MJJ_Zee]
 Datas: Zee
@@ -365,7 +385,7 @@ sys_Mjj: ['JER','JES']
 sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?'}
 #sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal'}
 
-weightF_sys: False
+weightF_sys: True
 
 #Example of sample systematic, in this case the ZZ sample is replaced by WZ
 #addSample_sys: {'ZZ':'WZ'}
@@ -385,21 +405,25 @@ BKG = ['Zudsg','Zudsg1J','Zudsg2J','Zudsg4J','Zudsg5070','Zudsg70100','Zudsg100'
 #Groups for adding samples together
 #Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
 
-Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg4J':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc4J':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb4J':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
+#Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg4J':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc4J':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb4J':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
+
+#No ST for Mjj (added to TT)
+Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg4J':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc4J':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb4J':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'TT','ST_t':'TT','ST_tW':'TT','STbar_s':'TT','STbar_t':'TT','STbar_tW':'TT','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
 
 
 #naming for DC
 Dict: {'ZH':'VH','DYlight':'ZjLF','DYb':'ZjHF','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs'}
 
 #SETUP DATACARD (1st Signal, afterwards BKG)
-setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
+#setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
+setup: ['ZH', 'DYlight','DYb','VV','TT']
 
 #to be processed
 #List: RTight_ZH125_EE_8TeV_may,RMed_ZH125_EE_8TeV_may,RTight_ZH125_MM_8TeV_may,RMed_ZH125_MM_8TeV_may,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
 #List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
 #List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct
 
-#List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTight_ZH110_MM_8TeV_oct,RMed_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_EE_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTight_ZH115_MM_8TeV_oct,RMed_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_EE_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTight_ZH120_MM_8TeV_oct,RMed_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_EE_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTight_ZH130_MM_8TeV_oct,RMed_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_EE_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTight_ZH135_MM_8TeV_oct,RMed_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_EE_8TeV_oct
+List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTight_ZH110_MM_8TeV_oct,RMed_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_EE_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTight_ZH115_MM_8TeV_oct,RMed_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_EE_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTight_ZH120_MM_8TeV_oct,RMed_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_EE_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTight_ZH130_MM_8TeV_oct,RMed_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_EE_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTight_ZH135_MM_8TeV_oct,RMed_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_EE_8TeV_oct
 
 #MUONS
 #List: RTight_ZH110_MM_8TeV_oct,RMed_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_MM_8TeV_oct,RTight_ZH115_MM_8TeV_oct,RMed_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_MM_8TeV_oct,RTight_ZH120_MM_8TeV_oct,RMed_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_MM_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTight_ZH130_MM_8TeV_oct,RMed_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_MM_8TeV_oct,RTight_ZH135_MM_8TeV_oct,RMed_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_MM_8TeV_oct
@@ -407,7 +431,7 @@ setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
 #List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTightLooseBTag_ZH110_EE_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTightLooseBTag_ZH115_EE_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTightLooseBTag_ZH120_EE_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTightLooseBTag_ZH130_EE_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTightLooseBTag_ZH135_EE_8TeV_oct
 
 #Mjj
-List: Mjj_lowPt_ZH125_EE,Mjj_lowPt_ZH125_MM,Mjj_highPt_ZH125_EE,Mjj_highPt_ZH125_MM
+#List: Mjj_lowPt_ZH110_EE,Mjj_lowPt_ZH110_MM,Mjj_highPt_ZH110_EE,Mjj_highPt_ZH110_MM,Mjj_lowPt_ZH115_EE,Mjj_lowPt_ZH115_MM,Mjj_highPt_ZH115_EE,Mjj_highPt_ZH115_MM,Mjj_lowPt_ZH120_EE,Mjj_lowPt_ZH120_MM,Mjj_highPt_ZH120_EE,Mjj_highPt_ZH120_MM,Mjj_lowPt_ZH125_EE,Mjj_lowPt_ZH125_MM,Mjj_highPt_ZH125_EE,Mjj_highPt_ZH125_MM,Mjj_lowPt_ZH130_EE,Mjj_lowPt_ZH130_MM,Mjj_highPt_ZH130_EE,Mjj_highPt_ZH130_MM,Mjj_lowPt_ZH135_EE,Mjj_lowPt_ZH135_MM,Mjj_highPt_ZH135_EE,Mjj_highPt_ZH135_MM
 
 #List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct 
 
@@ -976,6 +1000,11 @@ ZLight_HighPt_beforeReg = <!Cuts|ZLight_beforeReg!> & <!ZHbb|rTight!>
 TTbar_HighPt = <!Cuts|TTbar!> & <!ZHbb|rTight!>
 Zbb_HighPt = <!Cuts|Zbb!> & <!ZHbb|rTight!>
 
+ZPeak_Zee: <!ZHbb|zWindow!> & <!ZHeebb|addCuts!> & hJet_pt[0] > 20. & hJet_pt[1] > 20.
+ZPeak_Zmm: <!ZHbb|zWindow!> & <!ZHmmbb|addCuts!> & hJet_pt[0] > 20. & hJet_pt[1] > 20.
+
+#ZPeak_Zee: <!ZHbb|zWindow!> & <!Cuts|triggerEE!> & hJet_pt[0] > 20. & hJet_pt[1] > 20.
+#ZPeak_Zmm: <!ZHbb|zWindow!> & <!Cuts|triggerMM!> & hJet_pt[0] > 20. & hJet_pt[1] > 20.
 
 ZLight_LowPt = <!Cuts|ZLight!> & <!ZHbb|rMed!> & H.mass > 50.
 ZLight_LowPt_beforeReg = <!Cuts|ZLight_beforeReg!> & <!ZHbb|rMed!> & HNoReg.mass > 50.
@@ -987,6 +1016,8 @@ ZLight_HighPt_Zee = <!Cuts|ZLight_HighPt!> & <!ZHeebb|addCuts!>
 ZLight_HighPt_Zmm = <!Cuts|ZLight_HighPt!> & <!ZHmmbb|addCuts!>
 ZLight_LowPt_Zee = <!Cuts|ZLight_LowPt!> & <!ZHeebb|addCuts!>
 ZLight_LowPt_Zmm = <!Cuts|ZLight_LowPt!> & <!ZHmmbb|addCuts!>
+ZLight_HighPt_Zee = <!Cuts|ZLight_HighPt!> & <!ZHeebb|addCuts!>
+ZLight_HighPt_Zmm = <!Cuts|ZLight_HighPt!> & <!ZHmmbb|addCuts!>
 TTbar_Zee = <!Cuts|TTbar!> & <!ZHeebb|addCuts!>
 TTbar_Zmm = <!Cuts|TTbar!> & <!ZHmmbb|addCuts!>
 Zbb_Zee = <!Cuts|Zbb!> & <!ZHeebb|addCuts!>
@@ -1030,5 +1061,10 @@ HighPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjHighPt!>
 
 [Weights]
 weightF: (PUweight*weightTrig2012*lheWeight)
+weightF_sys_UP: (PUweightP*weightTrig2012*lheWeight)
+weightF_sys_DOWN: (PUweightM*weightTrig2012*lheWeight)
+
+#weightF: (PUweight*lheWeight)
+
 
 # LocalWords:  Mjj
