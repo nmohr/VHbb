@@ -405,12 +405,15 @@ for sys in systematics:
             new_options[7]=[options[7],old_str,new_str.replace('?',Q)]
         ff=options[0].split('.')
         if bdt == True:
+            #options[0] ist die treeVar
             ff[1]='%s_%s'%(sys,Q.lower())
             new_options[0]=nominalShape.replace('.nominal','.%s_%s'%(sys,Q.lower()))
         elif mjj == True:
-            ff[0]='H_%s'%(sys)
-            ff[1]='mass_%s'%(Q.lower())
-            new_options[0]='.'.join(ff)
+            if sys == 'JER' or sys == 'JES':
+                ff[0]='H_%s'%(sys)
+                ff[1]='mass_%s'%(Q.lower())
+                new_options[0]='.'.join(ff)
+            else: pass
 
         print '\n'
         printc('blue','','\t--> doing systematic %s %s'%(sys,Q.lower())) 
