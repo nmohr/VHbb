@@ -545,7 +545,7 @@ else:
         f.write('\n')
     
 if weightF_sys:
-    f.write('UEPS\tshape'%(options[10]))
+    f.write('UEPS\tshape')
     for it in range(0,columns): f.write('\t1.0')
     f.write('\n')
 
