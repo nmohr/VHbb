@@ -183,7 +183,7 @@ for job in info:
                         weightF_sys_Downs.append(hTempWD)
                 if addSample_sys and job.subnames[subsample] in addSample_sys.values():
                     aNames.append(job.subnames[subsample])
-		    hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
+                    hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                     addSample_sys_histos.append(hTempS)
     
         else:
@@ -241,23 +241,23 @@ for histo in histos:
 printc('green','', 'MC integral = %s'%MC_integral)
 
 def getAlternativeShapes(histos,altHistos,hNames,aNames,addSample_sys):
-    theHistosUp = copy(histos)
-    theHistosDown = copy(histos)
+    theHistosUp = []
+    theHistosDown = []
+    for histo in histos:
+        theHistosUp.append(histo.Clone())
+        theHistosDown.append(histo.Clone())
     for name in addSample_sys.keys():
         print name
-	hVar = altHistos[aNames.index(addSample_sys[name])].Clone()
-	hNom = histos[hNames.index(name)].Clone()
-	hAlt = hNom.Clone()
-	hNom.Add(hVar,-1.)
-	hAlt.Add(hNom)
-        for bin in range(0,nBins):
-	    if hAlt.GetBinContent(bin) < 0.: hAlt.SetBinContent(bin,0.)
-	theHistosUp[hNames.index(name)] = hVar.Clone()
-	theHistosDown[hNames.index(name)] = hAlt.Clone()
+    hVar = altHistos[aNames.index(addSample_sys[name])].Clone()
+    hNom = histos[hNames.index(name)].Clone()
+    hAlt = hNom.Clone()
+    hNom.Add(hVar,-1.)
+    hAlt.Add(hNom)
+    for bin in range(0,nBins):
+        if hAlt.GetBinContent(bin) < 0.: hAlt.SetBinContent(bin,0.)
+    theHistosUp[hNames.index(name)] = hVar.Clone()
+    theHistosDown[hNames.index(name)] = hAlt.Clone()
     return theHistosUp, theHistosDown
-	
-	
-	
 
 #order and add together
 typs2=copy(typs)
@@ -550,9 +550,11 @@ if weightF_sys:
     f.write('\n')
 
 if addSample_sys:
+    alreadyAdded = []
     for newSample in addSample_sys.iterkeys():
-    	for c in setup:
-	    if not c == Group[newSample]: continue
+        for c in setup:
+            if not c == Group[newSample]: continue
+            if Dict[c] in alreadyAdded: continue
             f.write('CMS_vhbb_model_%s\tshape'%(Dict[c]))
             for it in range(0,columns):
                 if it == setup.index(c):
@@ -560,6 +562,7 @@ if addSample_sys:
                 else:
                      f.write('\t-')
             f.write('\n')
+            alreadyAdded.append(Dict[c])
     
 if scaling: sys_factor=1.0
 else: sys_factor=1.0
