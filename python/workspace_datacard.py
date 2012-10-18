@@ -53,7 +53,8 @@ if len(options) < 12:
     sys.exit("You have to choose option[11]: either Mjj or BDT")
 name=options[1]
 title = options[2]
-nBins=int(options[3])
+nBinsRB=int(options[3])
+nBins= int(config.get('LimitGeneral','BDTbinning'))
 xMin=float(options[4])
 xMax=float(options[5])
 SIG=options[9]
@@ -67,6 +68,7 @@ outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
 systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming7TeV'))
 
 TrainFlag = eval(config.get('Analysis','TrainFlag'))
+
 
 
 if anaTag =='8TeV':
@@ -147,8 +149,6 @@ if blind:
     printc('red','', 'I AM BLINDED!')  
 
 
-BDTbinning= config.get('LimitGeneral','BDTbinning')
-
 
 #---- get the BKG for the rebinning calculation----
 counterRB=0
@@ -177,7 +177,7 @@ ErrorR=0
 ErrorL=0
 TotR=0
 TotL=0
-binR=nBins
+binR=nBinsRB
 binL=1
 rel=1.0
 #---- from right
@@ -202,37 +202,25 @@ while rel > 0.2:
 print 'lower bin is %s'%binL
 
 inbetween=binR-binL
-stepsize=int(inbetween)/(int(BDTbinning)-2)
-modulo = int(inbetween)%(int(BDTbinning)-2)
+stepsize=int(inbetween)/(int(nBins)-2)
+modulo = int(inbetween)%(int(nBins)-2)
 
 print'stepsize %s'% stepsize
 print 'modulo %s'%modulo
 
 binlist=[0,binL]
-for i in range(0,int(BDTbinning)-3):
+for i in range(0,int(nBins)-3):
     binlist.append(binlist[-1]+stepsize)
 binlist[-1]+=modulo
 binlist.append(binR)
-binlist.append(nBins+1)
+binlist.append(nBinsRB+1)
 
 print binlist
-myBinning=Rebinner(int(BDTbinning),array('d',[hDummyRB.GetBinLowEdge(i) for i in binlist]))
-#hDummyRB.Rebin(int(BDTbinning),'hnew',lowedgearray)
-#hDummyRB.Rebin(100)
-#c = ROOT.TCanvas('c','c', 600, 600)
-#hDummyRB.Draw()
-
-#hnew = ROOT.gDirectory.Get('hnew')
-#hnew.Draw()
-#hDummyRB.Draw('same')
-#c.Print('test.png')
-
-#sys.exit(0)
+myBinning=Rebinner(int(nBins),array('d',[hDummyRB.GetBinLowEdge(i) for i in binlist]))
 #--------------------------------------------------
 
+hDummy=myBinning.rebin(hDummyRB)
 
-
-counter=0
 
 if weightF_sys:
     weightF_sys_UP=config.get('Weights','weightF_sys_UP')
@@ -262,12 +250,6 @@ for job in info:
                         hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys_DOWN')
                         weightF_sys_Downs.append(myBinning.rebin(hTempWD))
 
-                    if counter == 0:
-                        hDummy = copy(myBinning.rebin(hTemp))
-                    else:
-                        hDummy.Add(myBinning.rebin(hTemp))
-                    counter += 1
-                    
                 elif job.subnames[subsample] == SIG:
                     hNames.append(job.subnames[subsample])
                     print 'getting %s'%job.subnames[subsample]                        
@@ -300,12 +282,6 @@ for job in info:
                     hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_DOWN')
                     weightF_sys_Downs.append((hTempWD))
 
-                if counter == 0:
-                    hDummy = copy(myBinning.rebin(hTemp))
-                else:
-                    hDummy.Add(myBinning.rebin(hTemp))
-                counter += 1
-                
             elif job.name == SIG:
                 print 'getting %s'%job.name
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
@@ -461,9 +437,10 @@ for i in range(0,len(histos)):
 
 
 #HISTOGRAMM of DATA    
-d1 = ROOT.TH1F('d1','d1',nBins,xMin,xMax)
-for i in range(0,len(datas)):
-    d1.Add(datas[i],1)
+d1 = datas[0]
+if len(datas)>1:
+    for i in range(1,len(datas)):
+        d1.Add(datas[i],1)
 printc('green','','\nDATA integral = %s\n'%d1.Integral())
 flow = d1.GetEntries()-d1.Integral()
 if flow > 0:
