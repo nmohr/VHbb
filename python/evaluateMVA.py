@@ -172,10 +172,10 @@ for job in Ainfo:
                 MVAbranches=[]
                 MVAbranches4=[]
                 for i in range(0,len(readers)):
-                    MVAbranches.append(array('f',[0]*9))
-                    MVAbranches4.append(array('f',[0]*9))
-                    newtree.Branch(MVAinfos[i].MVAname,MVAbranches[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down/F')
-                    newtree.Branch(MVAinfos[i].MVAname+'_4',MVAbranches4[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down/F')
+                    MVAbranches.append(array('f',[0]*11))
+                    MVAbranches4.append(array('f',[0]*11))
+                    newtree.Branch(MVAinfos[i].MVAname,MVAbranches[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down:beff1_up:beff1_down/F')
+                    newtree.Branch(MVAinfos[i].MVAname+'_4',MVAbranches4[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down:beff1_up:beff1_down/F')
                 print '\n--> ' + job.name +':'
                 #progbar setup
                 if nEntries >= longe:
