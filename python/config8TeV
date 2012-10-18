@@ -42,8 +42,8 @@ addOverFlow = True
 #ALL PLOTS
 #List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee,ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt,Zbb,TTbar,Zbb_vtx,TTbar_vtx,TTbar_soft,Zbb_soft,ZPeak_Zee,ZPeak_Zmm
 
-#List: Zbb,TTbar,TTbar_soft,Zbb_soft
-List: ZLight_HighPt_Zee,ZLight_HighPt_Zmm
+List: Zbb,TTbar,TTbar_soft,Zbb_soft
+#List: Zbb_Balance,Zbb_BalanceNoReg
 # Regression
 #List: Zbb,Zbb_beforeReg,TTbar,TTbar_beforeReg,ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt
 
@@ -930,7 +930,7 @@ treeCut: RTightLooseBTag
 # SYSTEMATICS:
 
 [systematics]
-systematics: Nominal JER_up JER_down JES_up JES_down beff_up beff_down bmis_up bmis_down
+systematics: Nominal JER_up JER_down JES_up JES_down beff_up beff_down bmis_up bmis_down beff1_up beff1_down
 
 
 [treeVarsICHEP]
@@ -943,6 +943,8 @@ beff_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvUp[0],hJet_csvUp[1]) 
 beff_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvDown[0],hJet_csvDown[1]) min(hJet_csvDown[0],hJet_csvDown[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2
 bmis_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFUp[0],hJet_csvFUp[1]) min(hJet_csvFUp[0],hJet_csvFUp[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2
 bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFDown[0],hJet_csvFDown[1]) min(hJet_csvFDown[0],hJet_csvFDown[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2
+beff1_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv_upBC4p[0],hJet_csv_upBC4p[1]) min(hJet_csv_upBC4p[0],hJet_csv_upBC4p[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2
+beff1_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv_downBC4p[0],hJet_csv_downBC4p[1]) min(hJet_csv_downBC4p[0],hJet_csv_downBC4p[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2
 
 
 #############################################################################################
@@ -1011,8 +1013,8 @@ ZLight_beforeReg: <!ZHbb|preselection_beforeReg!> & <!ZHbb|noAddJet!> & <!ZHbb|z
 TTbar_beforeReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|tcBtag!> & <!ZHbb|zVeto!> & HNoReg.pt > 100.
 Zbb_beforeReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|vetoHMass_beforeReg!> & <!ZHbb|upperHMass_beforeReg!> & <!ZHbb|zWindow!> & <!ZHbb|tcBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!> 
 
-Zbb_Balance = <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|ccBtag!> & <!ZHbb|noAddJet!> & V.pt > 50. & H.pt/V.pt > 0.5 & H.pt/V.pt < 2.
-Zbb_BalanceNoReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|zWindow!> & <!ZHbb|ccBtag!> & <!ZHbb|noAddJet!> & V.pt > 50. & HNoReg.pt/V.pt > 0.5 & HNoReg.pt/V.pt < 2. 
+Zbb_Balance = <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|ccBtag!> & <!ZHbb|noAddJet!> & V.pt > 50. & H.pt/V.pt < 2.
+Zbb_BalanceNoReg = <!ZHbb|preselection_beforeReg!> & <!ZHbb|zWindow!> & <!ZHbb|ccBtag!> & <!ZHbb|noAddJet!> & V.pt > 50. & HNoReg.pt/V.pt < 2. 
 
 ZLight_HighPt = <!Cuts|ZLight!> & <!ZHbb|rTight!>
 ZLight_HighPt_beforeReg = <!Cuts|ZLight_beforeReg!> & <!ZHbb|rTight!>
