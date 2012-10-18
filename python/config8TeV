@@ -386,10 +386,11 @@ library=<!Directories|vhbbpath!>/interface/BTagReshaping_h.so
 ###########################################################################################
 # LIMIT
 [LimitGeneral]
-BDTrange = BDT output,10,-1,1
+BDTrange = BDT output,1000,-1,1
 BDToutname = CMS_vhbb_BDT_Zll_8TeV
 Mjjrange = 17,0.,255.
 
+BDTbinning = 20
 
 systematicsnaming7TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_7TeV'}
 systematicsnaming8TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_8TeV'}

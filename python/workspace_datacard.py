@@ -1,19 +1,15 @@
 #!/usr/bin/env python
-import os
-import sys
-import ROOT 
+import os, sys, ROOT, warnings, pickle
 from ROOT import TFile
 from array import array
 from math import sqrt
 from copy import copy
 #suppres the EvalInstace conversion warning bug
-import warnings
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
 from optparse import OptionParser
 from BetterConfigParser import BetterConfigParser
 from samplesclass import sample
 from mvainfos import mvainfo
-import pickle
 from progbar import progbar
 from printcolor import printc
 from gethistofromtree import getHistoFromTree, orderandadd
@@ -115,6 +111,22 @@ sys_cut_suffix=eval(config.get('LimitGeneral','sys_cut_suffix'))
 
 
 
+class Rebinner:
+    def __init__(self,nBins,lowedgearray):
+        self.lowedgearray=lowedgearray
+        self.nBins=nBins
+    def rebin(self, histo):
+        histo.Rebin(self.nBins,'hnew',self.lowedgearray)
+        binhisto=ROOT.gDirectory.Get('hnew')
+        newhisto=ROOT.TH1F('new','new',self.nBins,self.lowedgearray[0],self.lowedgearray[-1])
+        for bin in range(0,self.nBins+1):
+            newhisto.SetBinContent(bin,binhisto.GetBinContent(bin))
+            newhisto.SetBinError(bin,binhisto.GetBinError(bin))
+            newhisto.SetName(binhisto.GetName())
+            newhisto.SetTitle(binhisto.GetTitle())
+        return newhisto
+
+
 
 # -------------------- generate the Workspace with all Histograms: ----------------------------------------------------------------------
 
@@ -133,6 +145,93 @@ statUps=[]
 statDowns=[]
 if blind: 
     printc('red','', 'I AM BLINDED!')  
+
+
+BDTbinning= config.get('LimitGeneral','BDTbinning')
+
+
+#---- get the BKG for the rebinning calculation----
+counterRB=0
+
+for job in info:
+    if eval(job.active):
+        if job.subsamples:
+            for subsample in range(0,len(job.subnames)):
+                if job.subnames[subsample] in BKGlist:
+                    hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
+                    if counterRB == 0:
+                        hDummyRB = copy(hTemp)
+                    else:
+                        hDummyRB.Add(hTemp)
+                    counterRB += 1
+                    
+        else:
+            if job.name in BKGlist:
+                hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+                if counterRB == 0:
+                    hDummyRB = copy(hTemp)
+                else:
+                    hDummyRB.Add(hTemp)
+                counterRB += 1
+ErrorR=0
+ErrorL=0
+TotR=0
+TotL=0
+binR=nBins
+binL=1
+rel=1.0
+#---- from right
+while rel > 0.2:
+    TotR+=hDummyRB.GetBinContent(binR)
+    ErrorR=sqrt(ErrorR**2+hDummyRB.GetBinError(binR)**2)
+    binR-=1
+    if not TotR == 0 and not ErrorR == 0:
+        rel=ErrorR/TotR
+        #print rel
+print 'upper bin is %s'%binR
+
+#---- from left
+rel=1.0
+while rel > 0.2:
+    TotL+=hDummyRB.GetBinContent(binL)
+    ErrorL=sqrt(ErrorL**2+hDummyRB.GetBinError(binL)**2)
+    binL+=1
+    if not TotL == 0 and not ErrorL == 0:
+        rel=ErrorL/TotL
+        #print rel
+print 'lower bin is %s'%binL
+
+inbetween=binR-binL
+stepsize=int(inbetween)/(int(BDTbinning)-2)
+modulo = int(inbetween)%(int(BDTbinning)-2)
+
+print'stepsize %s'% stepsize
+print 'modulo %s'%modulo
+
+binlist=[0,binL]
+for i in range(0,int(BDTbinning)-3):
+    binlist.append(binlist[-1]+stepsize)
+binlist[-1]+=modulo
+binlist.append(binR)
+binlist.append(nBins+1)
+
+print binlist
+myBinning=Rebinner(int(BDTbinning),array('d',[hDummyRB.GetBinLowEdge(i) for i in binlist]))
+#hDummyRB.Rebin(int(BDTbinning),'hnew',lowedgearray)
+#hDummyRB.Rebin(100)
+#c = ROOT.TCanvas('c','c', 600, 600)
+#hDummyRB.Draw()
+
+#hnew = ROOT.gDirectory.Get('hnew')
+#hnew.Draw()
+#hDummyRB.Draw('same')
+#c.Print('test.png')
+
+#sys.exit(0)
+#--------------------------------------------------
+
+
+
 counter=0
 
 if weightF_sys:
@@ -154,19 +253,19 @@ for job in info:
                     print 'getting %s'%job.subnames[subsample]
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                     print hTemp.Integral()
-                    histos.append(hTemp)
+                    histos.append(myBinning.rebin(hTemp))
                     typs.append(Group[job.subnames[subsample]])
                     hNames.append(job.subnames[subsample])                        
                     if weightF_sys:
                         hTempWU, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys_UP')
-                        weightF_sys_Ups.append(hTempWU)
+                        weightF_sys_Ups.append(myBinning.rebin(hTempWU))
                         hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys_DOWN')
-                        weightF_sys_Downs.append(hTempWD)
+                        weightF_sys_Downs.append(myBinning.rebin(hTempWD))
 
                     if counter == 0:
-                        hDummy = copy(hTemp)
+                        hDummy = copy(myBinning.rebin(hTemp))
                     else:
-                        hDummy.Add(hTemp)
+                        hDummy.Add(myBinning.rebin(hTemp))
                     counter += 1
                     
                 elif job.subnames[subsample] == SIG:
@@ -174,64 +273,64 @@ for job in info:
                     print 'getting %s'%job.subnames[subsample]                        
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
                     print hTemp.Integral()
-                    histos.append(hTemp)
+                    histos.append(myBinning.rebin(hTemp))
                     typs.append(Group[job.subnames[subsample]])
                     if weightF_sys:
                         hTempWU, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys_UP')
-                        weightF_sys_Ups.append(hTempWU)
+                        weightF_sys_Ups.append(myBinning.rebin(hTempWU))
                         hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample,'weightF_sys_DOWN')
-                        weightF_sys_Downs.append(hTempWD)
+                        weightF_sys_Downs.append(myBinning.rebin(hTempWD))
                 if addSample_sys and job.subnames[subsample] in addSample_sys.values():
                     aNames.append(job.subnames[subsample])
                     hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
-                    addSample_sys_histos.append(hTempS)
+                    addSample_sys_histos.append(myBinning.rebin(hTempS))
     
         else:
             if job.name in BKGlist:
                 #print job.getpath()
                 print 'getting %s'%job.name
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
-                histos.append(hTemp)
+                histos.append(myBinning.rebin(hTemp))
                 print hTemp.Integral()
                 typs.append(Group[job.name])                        
                 hNames.append(job.name)
                 if weightF_sys:
                     hTempWU, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_UP')
-                    weightF_sys_Ups.append(hTempWU)
+                    weightF_sys_Ups.append(myBinning.rebin(hTempWU))
                     hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_DOWN')
-                    weightF_sys_Downs.append(hTempWD)
+                    weightF_sys_Downs.append((hTempWD))
 
                 if counter == 0:
-                    hDummy = copy(hTemp)
+                    hDummy = copy(myBinning.rebin(hTemp))
                 else:
-                    hDummy.Add(hTemp)
+                    hDummy.Add(myBinning.rebin(hTemp))
                 counter += 1
                 
             elif job.name == SIG:
                 print 'getting %s'%job.name
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
-                histos.append(hTemp)
+                histos.append(myBinning.rebin(hTemp))
                 print hTemp.Integral()
                 typs.append(Group[job.name])                                        
                 hNames.append(job.name)                        
                 if weightF_sys:
                     hTempWU, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_UP')
-                    weightF_sys_Ups.append(hTempWU) 
+                    weightF_sys_Ups.append(myBinning.rebin(hTempWU))
                     hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_DOWN')
-                    weightF_sys_Downs.append(hTempWD)
+                    weightF_sys_Downs.append(myBinning.rebin(hTempWD))
 
             elif job.name in data:
                 #print 'DATA'
                 print 'getting %s'%job.name
                 hTemp, typ = getHistoFromTree(job,path,config,options)
-                datas.append(hTemp)
+                datas.append(myBinning.rebin(hTemp))
                 print hTemp.Integral()
                 datatyps.append(typ)
             
             if addSample_sys and job.name in addSample_sys.values():
                 aNames.append(job.name)
                 hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
-                addSample_sys_histos.append(hTempS)
+                addSample_sys_histos.append(myBinning.rebin(hTempS))
 
 MC_integral=0
 MC_entries=0
@@ -427,21 +526,21 @@ for sys in systematics:
                     for subsample in range(0,len(job.subnames)):
                         if job.subnames[subsample] in BKGlist:
                             hTemp, typ = getHistoFromTree(job,path,config,new_options,MC_rescale_factor,subsample)
-                            systhistosarray[Coco].append(hTemp)
+                            systhistosarray[Coco].append(myBinning.rebin(hTemp))
                             typsX.append(Group[job.subnames[subsample]])
                         elif job.subnames[subsample] == SIG:
                             hTemp, typ = getHistoFromTree(job,path,config,new_options,MC_rescale_factor,subsample)
-                            systhistosarray[Coco].append(hTemp)
+                            systhistosarray[Coco].append(myBinning.rebin(hTemp))
                             typsX.append(Group[job.subnames[subsample]])
                             
                 else:
                     if job.name in BKGlist:
                         hTemp, typ = getHistoFromTree(job,path,config,new_options,MC_rescale_factor)
-                        systhistosarray[Coco].append(hTemp)
+                        systhistosarray[Coco].append(myBinning.rebin(hTemp))
                         typsX.append(Group[job.name])
                     elif job.name == SIG:
                         hTemp, typ = getHistoFromTree(job,path,config,new_options,MC_rescale_factor)
-                        systhistosarray[Coco].append(hTemp)
+                        systhistosarray[Coco].append(myBinning.rebin(hTemp))
                         typsX.append(Group[job.name])
 
         MC_integral=0
