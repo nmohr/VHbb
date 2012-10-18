@@ -406,7 +406,7 @@ sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>c
 weightF_sys: True
 
 #Example of sample systematic, in this case the ZZ sample is replaced by WZ
-#addSample_sys: {'ZZ':'WZ'}
+addSample_sys: {'ZZ':'AltZZ','WZ': 'AltWZ'}
 
 # bin-by-bin statistics
 binstat: False
@@ -416,7 +416,7 @@ blind: True
 #### rescaling by factor 4
 scaling: False
 #rescale stats
-rescaleSqrtN: False
+rescaleSqrtN: True
 
 BKG = ['Zudsg','Zudsg1J','Zudsg2J','Zudsg4J','Zudsg5070','Zudsg70100','Zudsg100','Zcc','Zcc1J','Zcc2J','Zcc4J','Zcc5070','Zcc70100','Zcc100','Zbb','Zbb1J','Zbb2J','Zbb4J','Zbb5070','Zbb70100','Zbb100','ZZ','WW','WZ','TT','ST_s','ST_t','ST_tW','STbar_s','STbar_t','STbar_tW']
 
