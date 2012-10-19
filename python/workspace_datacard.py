@@ -208,7 +208,7 @@ modulo = int(inbetween)%(int(nBins)-2)
 print'stepsize %s'% stepsize
 print 'modulo %s'%modulo
 
-binlist=[0,binL]
+binlist=[binL]
 for i in range(0,int(nBins)-3):
     binlist.append(binlist[-1]+stepsize)
 binlist[-1]+=modulo
@@ -216,7 +216,7 @@ binlist.append(binR)
 binlist.append(nBinsRB+1)
 
 print binlist
-myBinning=Rebinner(int(nBins),array('d',[hDummyRB.GetBinLowEdge(i) for i in binlist]))
+myBinning=Rebinner(int(nBins),array('d',[-1.0]+[hDummyRB.GetBinLowEdge(i) for i in binlist]))
 #--------------------------------------------------
 
 hDummy=myBinning.rebin(hDummyRB)
@@ -280,7 +280,7 @@ for job in info:
                     hTempWU, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_UP')
                     weightF_sys_Ups.append(myBinning.rebin(hTempWU))
                     hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_DOWN')
-                    weightF_sys_Downs.append((hTempWD))
+                    weightF_sys_Downs.append(myBinning.rebin(hTempWD))
 
             elif job.name == SIG:
                 print 'getting %s'%job.name

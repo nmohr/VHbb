@@ -17,10 +17,12 @@ def getScale(job,path,config,rescale,subsample=-1):
     #print lumi*xsecs[i]/hist.GetBinContent(1)
     
     if subsample>-1:
-        xsec=float(job.xsec[subsample])
+        if type(job.xsec[subsample]) == str: xsec=float(eval(job.xsec[subsample]))
+        else: xsec=float(job.xsec[subsample])
         sf=float(job.sf[subsample])
     else:
-        xsec=float(job.xsec)
+        if type(job.xsec) == str: xsec=float(eval(job.xsec))
+        else: xsec=float(job.xsec)
         sf=float(job.sf)
     
     
@@ -61,7 +63,7 @@ def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1,which_weight
         elif type(options[7])==list:
             cutcut=config.get('Cuts',options[7][0])
             cutcut=cutcut.replace(options[7][1],options[7][2])
-            #print cutcut
+            print cutcut
         if subsample>-1:
             treeCut='%s & %s%s'%(cutcut,job.subcuts[subsample],traincut)        
         else:

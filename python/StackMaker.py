@@ -61,6 +61,7 @@ class StackMaker:
         self.lumi = None
         self.histos = None
         self.typs = None
+        self.AddErrors = None
         print self.setup
 
     def myText(self,txt="CMS Preliminary",ndcX=0,ndcY=0,size=0.8):
@@ -118,12 +119,15 @@ class StackMaker:
         #print setup
 
 
+        if not 'DYc' in self.typs: self.typLegendDict.update({'DYlight':self.typLegendDict['DYlc']})
+        print self.typLegendDict
+
         k=len(self.histos)
     
         for j in range(0,k):
             #print histos[j].GetBinContent(1)
             i=k-j-1
-            self.histos[i].SetFillColor(int(self.colorDict[self.setup[i]]))
+            self.histos[i].SetFillColor(int(self.colorDict[self.typs[i]]))
             self.histos[i].SetLineColor(1)
             allStack.Add(self.histos[i])
 
@@ -201,6 +205,15 @@ class StackMaker:
         unten.cd()
         ROOT.gPad.SetTicks(1,1)
 
+        l2 = ROOT.TLegend(0.5, 0.75,0.92,0.95)
+        l2.SetLineWidth(2)
+        l2.SetBorderSize(0)
+        l2.SetFillColor(0)
+        l2.SetFillStyle(4000)
+        l2.SetTextFont(62)
+        #l2.SetTextSize(0.035)
+        l2.SetNColumns(2)
+
         ratio, error = getRatio(d1,allMC,self.xMin,self.xMax)
         ksScore = d1.KolmogorovTest( allMC )
         chiScore = d1.Chi2Test( allMC , "UWCHI2/NDF")
@@ -212,6 +225,20 @@ class StackMaker:
         ratioError.SetFillColor(ROOT.kGray+3)
         ratioError.SetFillStyle(3013)
         ratio.Draw("E1")
+
+
+
+        if not self.AddErrors == None:
+            self.AddErrors.SetFillColor(5)
+            self.AddErrors.SetFillStyle(1001)
+            self.AddErrors.Draw('SAME2')
+
+            l2.AddEntry(self.AddErrors,"MC uncert. (stat. + syst.)","f")
+
+        l2.AddEntry(ratioError,"MC uncert. (stat.)","f")
+
+        l2.Draw()
+
         ratioError.Draw('SAME2')
         ratio.Draw("E1SAME")
         ratio.SetTitle("")
