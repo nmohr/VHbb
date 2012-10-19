@@ -205,7 +205,7 @@ class StackMaker:
         unten.cd()
         ROOT.gPad.SetTicks(1,1)
 
-        l2 = ROOT.TLegend(0.5, 0.75,0.92,0.95)
+        l2 = ROOT.TLegend(0.5, 0.82,0.92,0.95)
         l2.SetLineWidth(2)
         l2.SetBorderSize(0)
         l2.SetFillColor(0)
