@@ -113,6 +113,8 @@ sys_cut_suffix=eval(config.get('LimitGeneral','sys_cut_suffix'))
 
 rebin_active=eval(config.get('LimitGeneral','rebin_active'))
 
+signal_inject=config.get('LimitGeneral','signal_inject')
+
 
 class Rebinner:
     def __init__(self,nBins,lowedgearray,active=True):
@@ -156,6 +158,7 @@ if blind:
 
 #---- get the BKG for the rebinning calculation----
 counterRB=0
+injection = False
 
 for job in info:
     if eval(job.active):
@@ -177,6 +180,12 @@ for job in info:
                 else:
                     hDummyRB.Add(hTemp)
                 counterRB += 1
+
+
+            elif job.name == signal_inject:
+                inject_SIG, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+                injection = True
+
 ErrorR=0
 ErrorL=0
 TotR=0
@@ -223,6 +232,8 @@ print binlist
 myBinning=Rebinner(int(nBins),array('d',[-1.0]+[hDummyRB.GetBinLowEdge(i) for i in binlist]),rebin_active)
 #--------------------------------------------------
 
+
+if injection: hDummyRB.Add(inject_SIG)
 hDummy=myBinning.rebin(hDummyRB)
 
 

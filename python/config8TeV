@@ -408,6 +408,7 @@ addSample_sys: {'ZZ':'AltZZ','WZ': 'AltWZ'}
 # bin-by-bin statistics
 binstat: False
 
+signal_inject: ZH125
 
 blind: True
 #### rescaling by factor 4
