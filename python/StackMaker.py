@@ -11,6 +11,7 @@ class StackMaker:
         plotConfig.read('vhbbPlotDef.ini')
         section='Plot:%s'%region
         self.var = var
+        self.SignalRegion=SignalRegion
         self.normalize = eval(config.get(section,'Normalize'))
         self.log = eval(config.get(section,'log'))
         if plotConfig.has_option('plotDef:%s'%var,'log') and not self.log:
@@ -164,8 +165,11 @@ class StackMaker:
             stackhists=allStack.GetHists()
             for blabla in stackhists:
         	    if MC_integral != 0: blabla.Scale(stackscale)
-    
-        allMC=allStack.GetStack().Last().Clone()
+   
+        if self.SignalRegion:
+            allMC=allStack.GetStack().At(allStack.GetStack().GetLast()-1).Clone()
+        else:
+            allMC=allStack.GetStack().Last().Clone()
 
         allStack.SetTitle()
         allStack.Draw("hist")

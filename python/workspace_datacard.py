@@ -111,16 +111,20 @@ elif str(anType) == 'Mjj':
     systematics = eval(config.get('LimitGeneral','sys_Mjj'))
 sys_cut_suffix=eval(config.get('LimitGeneral','sys_cut_suffix'))
 
+rebin_active=eval(config.get('LimitGeneral','rebin_active'))
 
 
 class Rebinner:
-    def __init__(self,nBins,lowedgearray):
+    def __init__(self,nBins,lowedgearray,active=True):
         self.lowedgearray=lowedgearray
         self.nBins=nBins
+        self.active=active
     def rebin(self, histo):
+        if not self.active: return histo
         histo.Rebin(self.nBins,'hnew',self.lowedgearray)
         binhisto=ROOT.gDirectory.Get('hnew')
         newhisto=ROOT.TH1F('new','new',self.nBins,self.lowedgearray[0],self.lowedgearray[-1])
+        newhisto.Sumw2()
         for bin in range(0,self.nBins+1):
             newhisto.SetBinContent(bin,binhisto.GetBinContent(bin))
             newhisto.SetBinError(bin,binhisto.GetBinError(bin))
@@ -181,7 +185,7 @@ binR=nBinsRB
 binL=1
 rel=1.0
 #---- from right
-while rel > 0.2:
+while rel > 0.35:
     TotR+=hDummyRB.GetBinContent(binR)
     ErrorR=sqrt(ErrorR**2+hDummyRB.GetBinError(binR)**2)
     binR-=1
@@ -192,7 +196,7 @@ print 'upper bin is %s'%binR
 
 #---- from left
 rel=1.0
-while rel > 0.2:
+while rel > 0.35:
     TotL+=hDummyRB.GetBinContent(binL)
     ErrorL=sqrt(ErrorL**2+hDummyRB.GetBinError(binL)**2)
     binL+=1
@@ -216,7 +220,7 @@ binlist.append(binR)
 binlist.append(nBinsRB+1)
 
 print binlist
-myBinning=Rebinner(int(nBins),array('d',[-1.0]+[hDummyRB.GetBinLowEdge(i) for i in binlist]))
+myBinning=Rebinner(int(nBins),array('d',[-1.0]+[hDummyRB.GetBinLowEdge(i) for i in binlist]),rebin_active)
 #--------------------------------------------------
 
 hDummy=myBinning.rebin(hDummyRB)

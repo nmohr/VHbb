@@ -52,12 +52,12 @@ if 'vhbb_TH_BDT' in region:
     if 'LowPt' in region:
         var='BDT8_RMed'
         newregion='LowPt_%s'%d
-    elif 'HighPt' in region:
-        var='BDT8_RTight'
-        newregion='HighPt_%s'%d
     elif 'HighPtLooseBTag' in region:
         var='BDT8_RTightLooseBTag'
         newregion='HighPtLooseBTag_%s'%d
+    elif 'HighPt' in region:
+        var='BDT8_RTight'
+        newregion='HighPt_%s'%d
     Stack=StackMaker(config,var,newregion,True)
 
     log = eval(config.get('Plot:%s'%newregion,'log'))
@@ -88,16 +88,21 @@ if 'vhbb_TH_BDT' in region:
 
     #systs=[] 
 
-    shapesUp = [[] for _ in range(0,len(setup))]
-    shapesDown = [[] for _ in range(0,len(setup))]
+    setup2=copy(setup)
+    setup2.remove('ZH')
+
+    shapesUp = [[] for _ in range(0,len(setup2))]
+    shapesDown = [[] for _ in range(0,len(setup2))]
     for s in setup:
-        if 'ZH' in s:
+        if 'ZH' == s:
             Overlay=copy(input.Get(Dict[s]))
-        histos.append(input.Get(Dict[s]))
-        typs.append(s)
-        for syst in systs:
-            shapesUp[setup.index(s)].append(input.Get(Dict[s]+syst+'Up'))
-            shapesDown[setup.index(s)].append(input.Get(Dict[s]+syst+'Down'))
+        else:
+            histos.append(input.Get(Dict[s]))
+            typs.append(s)
+            print s
+            for syst in systs:
+                shapesUp[setup2.index(s)].append(input.Get(Dict[s]+syst+'Up'))
+                shapesDown[setup2.index(s)].append(input.Get(Dict[s]+syst+'Down'))
 
     #print shapesUp
 
@@ -144,6 +149,9 @@ if 'vhbb_TH_BDT' in region:
     datatyps = [None]
     datanames=[d] 
 
+
+    histos.append(copy(Overlay))
+    typs.append('ZH')
     #histos.append(copy(Overlay))
     #typs.append('ZH')
 

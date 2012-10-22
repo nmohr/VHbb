@@ -135,7 +135,6 @@ vars: BDT8_RTightLooseBTag
 Signal: ZH125
 log: True
 blind: True
-rebin: 2
 
 [Plot:LowPt_Zee]
 Datas: Zee
@@ -144,7 +143,6 @@ vars: BDT8_RMed
 Signal: ZH125
 log: True
 blind: True
-rebin: 2
 
 [Plot:HighPt_Zmm]
 Datas: Zmm
@@ -153,7 +151,6 @@ vars: BDT8_RTight
 Signal: ZH125
 log: True
 blind: True
-rebin: 2
 
 [Plot:HighPtLooseBTag_Zmm]
 Datas: Zmm
@@ -162,7 +159,6 @@ vars: BDT8_RTightLooseBTag
 Signal: ZH125
 log: True
 blind: True
-rebin: 2
 
 [Plot:LowPt_Zmm]
 Datas: Zmm
@@ -171,7 +167,6 @@ vars: BDT8_RMed
 Signal: ZH125
 log: True
 blind: True
-rebin: 2
 
 [Plot:ZLight_HighPt_Zee]
 Datas: Zee
@@ -389,6 +384,8 @@ BDTrange = BDT output,1000,-1,1
 BDToutname = CMS_vhbb_BDT_Zll_8TeV
 Mjjrange = 17,0.,255.
 
+#wanna rebin? (bin transform)
+rebin_active = True
 BDTbinning = 10
 
 systematicsnaming7TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_7TeV'}
