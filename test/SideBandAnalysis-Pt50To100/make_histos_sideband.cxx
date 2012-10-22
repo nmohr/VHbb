@@ -2,6 +2,7 @@
 #include <TApplication.h>
 #include <TH1.h>
 #include <iostream>
+#include <regex>
 #include "../../interface/CutsAndHistos.h"
 #include "../../plugins/Histos.h"
 #include "../../plugins/Cuts/CutsSideBand-Pt50To100.h"
@@ -15,37 +16,43 @@ void prepareAllZHistos(std::vector<CutsAndHistos *> & allHistosZ,TFile *fout  )
 {
   std::string Zee115("ZH115");
   std::cout << "Book Z" << std::endl;
-  int channel = 1;
-  //Btag histos
-  allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion_noBTag( channel, 0, 0 ),new BTagHistos));
-  //Standard histos
-  allHistosZ.push_back(new CutsAndHistos(new BDTTTbarControlRegion( channel, 0, 0 ),new StandardHistos));
-  //  allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegion( channel, 0 , 0 ),new StandardHistos));
-  allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion( channel, 0, 0 ),new StandardHistos));
-  allHistosZ.push_back(new CutsAndHistos(new BDTTrainingRegion( channel, 0, 0 ),new StandardHistos));
-  //  allHistosZ.push_back(new CutsAndHistos(new BDTZbbControlRegion( channel, 0, 0 ),new StandardHistos));
-  //Systematics histos
-  allHistosZ.push_back(new CutsAndHistos(new BDTTTbarControlRegion( channel, 0, 0 ),new SystematicsHistos));
-  //  allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegion( channel, 0 , 0 ),new SystematicsHistos));
-  allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion( channel, 0, 0 ),new SystematicsHistos));
-  allHistosZ.push_back(new CutsAndHistos(new BDTTrainingRegion( channel, 0, 0 ),new SystematicsHistos));
-  //  allHistosZ.push_back(new CutsAndHistos(new BDTZbbControlRegion( channel, 0, 0 ),new SystematicsHistos));
-  
+
+  //  int channel = 1;
   int jec [] = { -2, -1, 1, 2 };
   int btag [] = { -2, -1, 0, 1, 2 };
 
-  for(int j=0; j<4; ++j){ // jec systematics
+  //run over all the channels
+  for(int channel = -1; channel < 2; ++channel){
+    //Btag histos
+    allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion_noBTag( channel, 0, 0 ),new BTagHistos));
     //Standard histos
-    allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegion( channel, jec[j], 0 ),new StandardHistos));
+    allHistosZ.push_back(new CutsAndHistos(new BDTTTbarControlRegion( channel, 0, 0 ),new StandardHistos));
+    //    allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegion( channel, 0 , 0 ),new StandardHistos));
+    allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion( channel, 0, 0 ),new StandardHistos));
+    allHistosZ.push_back(new CutsAndHistos(new BDTTrainingRegion( channel, 0, 0 ),new StandardHistos));
+    //    allHistosZ.push_back(new CutsAndHistos(new BDTZbbControlRegion( channel, 0, 0 ),new StandardHistos));
+
     //Systematics histos
-    allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegion( channel, jec[j], 0 ),new SystematicsHistos));
-    allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion( channel, jec[j], 0 ),new SystematicsHistos));
-  }
-  for( int b=0; b<5; ++b){ //btag systematics + no systematics ( [0,0] bin )  
-    //Standard histos
-    allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegion( channel, 0, btag[b] ),new StandardHistos));
-    //Systematics histos
-    allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegion( channel, 0, btag[b] ),new SystematicsHistos));
+    allHistosZ.push_back(new CutsAndHistos(new BDTTTbarControlRegion( channel, 0, 0 ),new SystematicsHistos));
+    //  allHistosZ.push_back(new CutsAndHistos(new BDTZlightControlRegion( channel, 0 , 0 ),new SystematicsHistos));
+    allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion( channel, 0, 0 ),new SystematicsHistos));
+    allHistosZ.push_back(new CutsAndHistos(new BDTTrainingRegion( channel, 0, 0 ),new SystematicsHistos));
+    //  allHistosZ.push_back(new CutsAndHistos(new BDTZbbControlRegion( channel, 0, 0 ),new SystematicsHistos));        
+
+    for(int j=0; j<4; ++j){ // jec systematics
+      //Standard histos
+      allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegion( channel, jec[j], 0 ),new StandardHistos));
+      //Systematics histos
+      allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegion( channel, jec[j], 0 ),new SystematicsHistos));
+      allHistosZ.push_back(new CutsAndHistos(new BDTSideBandRegion( channel, jec[j], 0 ),new SystematicsHistos));
+    }
+    for( int b=0; b<5; ++b){ //btag systematics + no systematics ( [0,0] bin )  
+      //Standard histos
+      allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegion( channel, 0, btag[b] ),new StandardHistos));
+      //Systematics histos
+      allHistosZ.push_back(new CutsAndHistos(new BDTSignalRegion( channel, 0, btag[b] ),new SystematicsHistos));
+    }
+    
   }
 
   for(size_t a=0;a < allHistosZ.size(); a++)
@@ -64,6 +71,9 @@ int main(int argc, char **argv)
   bool stitching = true; // let it always on!
 
   std::string file_appendix = "SideBand-Pt50To100";
+  //  std::string file_appendix = "SideBand-Pt50To100_noTriggerWeights";
+  //  std::string file_appendix = "SideBand-Pt50To100_pt30GeV";
+  //  std::string file_appendix = "SideBand-Pt50To100_lowBtag";
   //std::string file_appendix = "";
 
   Double_t eventWeight=0;
@@ -95,7 +105,21 @@ int main(int argc, char **argv)
 
     if(verbose_)
       std::cout << "opening the output file" << std::endl;
-    TFile *fout = new TFile((name+".histos.root").c_str(),"RECREATE");
+
+    //output file name. Check if come fin from storage. If so change the path to local
+    std::string fout_name = name;
+    //    if(name.find("dcap")){
+    //    std::regex ex("ZllH");
+      //      fout_name = regex_replace(name, ex, std::string("./histos/ZllH$2"), std::regex_constants::match_default);
+    //    fout_name = regex_replace(name, ex, std::string("./histos/ZllH"));
+      //  }      
+
+    if(fout_name.find(std::string("pnfs")))    
+      fout_name.replace(0, std::string("dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/HBB_EDMNtuple/V42/Oct5/env/sys/MVAout/").length(),"./SideBandAnalysis-Pt50To100/histos/");
+    
+    std::cout << "Output file name : " << fout_name << std::endl;
+    //create putput file
+    TFile *fout = new TFile((fout_name+".histos.root").c_str(),"RECREATE");
     if(verbose_)
       std::cout << "Creating the histograms" << std::endl;
     TH1F * countAll = new TH1F("Count","Count",1,0,2);
@@ -120,19 +144,19 @@ int main(int argc, char **argv)
     if(splitBCLIGHT)
       {
 	std::cout << "Enabling split" << std::endl;
-	foutB = new TFile((name+"_histosB.root").c_str(),"RECREATE");
+	foutB = new TFile((fout_name+"_histosB.root").c_str(),"RECREATE");
 	countB = new TH1F("Count","Count",1,0,2);
 	countBWithPU =  new TH1F("CountWithPU","CountWithPU",1,0,2);
 	countBWithPU2011B =  new TH1F("CountWithPU2011B","CountWithPU2011B",1,0,2);
-	foutNoB = new TFile((name+"_histosNoB.root").c_str(),"RECREATE");
+	foutNoB = new TFile((fout_name+"_histosNoB.root").c_str(),"RECREATE");
 	countNoB = new TH1F("Count","Count",1,0,2);
 	countNoBWithPU =  new TH1F("CountWithPU","CountWithPU",1,0,2);
 	countNoBWithPU2011B =  new TH1F("CountWithPU2011B","CountWithPU2011B",1,0,2);
-	foutC = new TFile((name+"_histosC.root").c_str(),"RECREATE");
+	foutC = new TFile((fout_name+"_histosC.root").c_str(),"RECREATE");
 	countC = new TH1F("Count","Count",1,0,2);
 	countCWithPU =  new TH1F("CountWithPU","CountWithPU",1,0,2);
 	countCWithPU2011B =  new TH1F("CountWithPU2011B","CountWithPU2011B",1,0,2);
-	foutL = new TFile((name+"_histosL.root").c_str(),"RECREATE");
+	foutL = new TFile((fout_name+"_histosL.root").c_str(),"RECREATE");
 	countL = new TH1F("Count","Count",1,0,2);
 	countLWithPU =  new TH1F("CountWithPU","CountWithPU",1,0,2);
 	countLWithPU2011B =  new TH1F("CountWithPU2011B","CountWithPU2011B",1,0,2);
@@ -192,7 +216,7 @@ int main(int argc, char **argv)
       event.GetEntry(iEvent);
       event_all++;
       if(data == false){
-	eventWeight = (event.PUweight)*event.weightTrig2012A;
+	eventWeight = (event.PUweight)*event.weightTrig2012;
 	if( event.Vtype == 1 )
 	  //	  eventWeight *= 1.01763; // from luminosity difference
 	  eventWeight *= 1.0; // from luminosity difference
