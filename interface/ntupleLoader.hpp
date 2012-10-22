@@ -299,6 +299,7 @@ public :
    Float_t         weightTrigMET802CJet;
    Float_t         weightTrigMET1002CJet;
    Float_t         weightTrigMETLP;
+   Float_t         weightTrig2012;
    Float_t         weightTrig2012A;
    Float_t         weightTrig2012ADiMuon;
    Float_t         weightTrig2012ADiEle;
@@ -692,6 +693,7 @@ public :
    TBranch        *b_weightTrigMET802CJet;   //!
    TBranch        *b_weightTrigMET1002CJet;   //!
    TBranch        *b_weightTrigMETLP;   //!
+   TBranch        *b_weightTrig2012;   //!
    TBranch        *b_weightTrig2012A;   //!
    TBranch        *b_weightTrig2012ADiMuon;   //!
    TBranch        *b_weightTrig2012ADiEle;   //!
@@ -1118,6 +1120,7 @@ void ntupleLoader::Init(TTree *tree)
    fChain->SetBranchAddress("weightTrigMET802CJet", &weightTrigMET802CJet, &b_weightTrigMET802CJet);
    fChain->SetBranchAddress("weightTrigMET1002CJet", &weightTrigMET1002CJet, &b_weightTrigMET1002CJet);
    fChain->SetBranchAddress("weightTrigMETLP", &weightTrigMETLP, &b_weightTrigMETLP);
+   fChain->SetBranchAddress("weightTrig2012", &weightTrig2012, &b_weightTrig2012);
    fChain->SetBranchAddress("weightTrig2012A", &weightTrig2012A, &b_weightTrig2012A);
    fChain->SetBranchAddress("weightTrig2012ADiMuon", &weightTrig2012ADiMuon, &b_weightTrig2012ADiMuon);
    fChain->SetBranchAddress("weightTrig2012ADiEle", &weightTrig2012ADiEle, &b_weightTrig2012ADiEle);
