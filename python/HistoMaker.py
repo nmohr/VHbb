@@ -77,7 +77,8 @@ class HistoMaker:
         Tree = input.Get(job.tree)
         output.cd()
         CuttedTree=Tree.CopyTree(treeCut)
-    
+        input.Close()
+        del input
         # get all Histos at once
         weightF=self.config.get('Weights',self.which_weightF)
         for options in self.optionsList:
@@ -144,10 +145,11 @@ class HistoMaker:
             	hTree.SetBinError(1,uFlowErr)
             	hTree.SetBinError(hTree.GetNbinsX(),oFlowErr)
             hTree.SetDirectory(0)
-            input.Close()
             hTreeList.append(hTree)
             groupList.append(group)
-            
+         
+        output.Close()
+        del output
         return hTreeList, groupList
         
 
