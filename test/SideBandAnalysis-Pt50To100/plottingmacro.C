@@ -20,9 +20,9 @@ void plottingmacro()
 {
 
   bool debug_ = false;
-  bool getSFfromFile = true;
+  bool getSFfromFile = false;
 
-  std::string path("PlotsJune18_newReshaping/");
+  std::string path("Plots_lowBtag/");
 
   if(debug_)
     std::cout << "Init the style form setTDRStyle" << std::endl;
@@ -84,9 +84,14 @@ void plottingmacro()
       std::map<std::string,TH1F *> grouped;
       TString n=names[i];
 
+      // do not plot the systematics
+      //      if( n.Contains(TRegexp("Syst")) || !n.Contains(TRegexp("HZee")) ) continue;
+      //      if( n.Contains(TRegexp("Syst")) || !n.Contains(TRegexp("HZmm")) ) continue;
+      if( n.Contains(TRegexp("Syst")) || !n.Contains(TRegexp("HZcomb")) ) continue;
+
       //      if(!n.Contains(TRegexp("^BDTZlightControlRegionHZee"))) continue;
       //      if(!n.Contains(TRegexp("^BDTZbbControlRegionHZee"))) continue;
-      if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcomb"))) continue;
+      //      if(!n.Contains(TRegexp("^BDTTTbarControlRegionHZcomb"))) continue;
       //      if(!n.Contains(TRegexp("^BDTSideBandRegionHZcomb"))) continue;
       //      if(!n.Contains(TRegexp("^BDTSideBandRegion_noBTagHZcomb"))) continue;
       //      if(!n.Contains(TRegexp("BDTSideBandRegionHZcombSystFUP"))) continue;
@@ -188,7 +193,7 @@ void plottingmacro()
 		std::cout << "Scaling with SF : " << s[j].scale(data.lumi()) << std::endl;  
 		std::cout << "Histo integral before scaling = " << h->Integral() << std::endl;
 	      }
-	      h->Scale(s[j].scale(data.lumi()));
+	      h->Scale(s[j].scale(data.lumi(),SF ));
 	      if(debug_){
 		std::cout << "Histo integral after scaling = " << h->Integral() << std::endl;
 		std::cout << "Managing style... " << std::endl;  
@@ -201,7 +206,7 @@ void plottingmacro()
 		std::cout << "Cloning and update legend " << std::endl;  
 	      if(grouped.find(s[j].name) == grouped.end()){
 		l->AddEntry(h,s[j].name.c_str(),"F");
-		h->SetLineColor(kBlack);
+		//		h->SetLineColor(kBlack);
 	      }
 	      std::cout << "Sample : " << s[j].name << " - Integral for plot " << names[i] << " = " << h->Integral(-10000,10000) << std::endl;
 	      mcIntegral += h->Integral();
@@ -365,7 +370,7 @@ void plottingmacro()
       latex.SetTextSize(0.052);
       latex.DrawLatex(0.17,0.89,"CMS Preliminary");
       latex.SetTextSize(0.04);
-      latex.DrawLatex(0.17,0.84,"#sqrt{s} = 8 TeV, L = 4.0 fb^{-1}");
+      latex.DrawLatex(0.17,0.84,"#sqrt{s} = 8 TeV, L = 12.1 fb^{-1}");
       latex.DrawLatex(0.17,0.79,process.c_str());
 
       c->Update();
