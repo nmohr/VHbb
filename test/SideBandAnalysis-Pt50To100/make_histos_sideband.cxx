@@ -70,6 +70,11 @@ int main(int argc, char **argv)
   //switch on the sample-dependent cuts and weights
   bool stitching = true; // let it always on!
 
+  //run range where to apply the json
+  float run_min = 196532;
+  //  float run_min = 0;
+  float run_max = 1e10;
+
   std::string file_appendix = "SideBand-Pt50To100";
   //  std::string file_appendix = "SideBand-Pt50To100_noTriggerWeights";
   //  std::string file_appendix = "SideBand-Pt50To100_pt30GeV";
@@ -114,8 +119,8 @@ int main(int argc, char **argv)
     //    fout_name = regex_replace(name, ex, std::string("./histos/ZllH"));
       //  }      
 
-    if(fout_name.find(std::string("pnfs")))    
-      fout_name.replace(0, std::string("dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/HBB_EDMNtuple/V42/Oct5/env/sys/MVAout/").length(),"./SideBandAnalysis-Pt50To100/histos/");
+//     if(fout_name.find(std::string("pnfs")))    
+//       fout_name.replace(0, std::string("dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/HBB_EDMNtuple/V42/Oct5/env/sys/MVAout/").length(),"./SideBandAnalysis-Pt50To100/histos/");
     
     std::cout << "Output file name : " << fout_name << std::endl;
     //create putput file
@@ -217,12 +222,17 @@ int main(int argc, char **argv)
       event_all++;
       if(data == false){
 	eventWeight = (event.PUweight)*event.weightTrig2012;
-	if( event.Vtype == 1 )
+	//	if( event.Vtype == 1 )
 	  //	  eventWeight *= 1.01763; // from luminosity difference
-	  eventWeight *= 1.0; // from luminosity difference
+	//	  eventWeight *= 1.; // from luminosity difference
       }
-      else
+      else{
 	eventWeight = 1;
+	if( ( event.EVENT_run > run_min
+	      && event.EVENT_run < run_max )
+	    && event.EVENT_json == false )
+	  continue;
+      }
 
 
       if(splitBCLIGHT){
