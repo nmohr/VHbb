@@ -103,15 +103,49 @@ if 'vhbb_TH_BDT' in region:
             typs.append(s)
             print s
             for syst in systs:
+                print 'syst %s'%syst
                 shapesUp[setup2.index(s)].append(input.Get(Dict[s]+syst+'Up'))
                 shapesDown[setup2.index(s)].append(input.Get(Dict[s]+syst+'Down'))
 
     #print shapesUp
 
-    #calculate the Errors
+    ##calculate the Errors
+    #counter = 0
+    #total=[]
+    #errUp=[]
+    #errDown=[]
+    #print 'total bins %s'%histos[0].GetNbinsX()
+    #for h in range(0,len(histos)):
+    #    if counter == 0:
+    #        Error = ROOT.TGraphAsymmErrors(histos[h])
+    #    for bin in range(1,histos[h].GetNbinsX()+1):
+    #        if counter == 0 and h == 0:
+    #            total.append(0)
+    #            errUp.append(0)
+    #            errDown.append(0)
+    #        point=histos[h].GetXaxis().GetBinCenter(bin)
+    #        total[bin-1]+=histos[h].GetBinContent(bin)
+    #        for i in range(0,len(shapesUp[h])):
+    #            errUp[bin-1]+=(shapesUp[h][i].GetBinContent(bin)-histos[h].GetBinContent(bin))**2
+    #            #print 'down = %s'%((shapesUp[h][i].GetBinContent(bin)-histos[h].GetBinContent(bin))/histos[h].GetBinContent(bin))
+    #            errDown[bin-1]+=(shapesDown[h][i].GetBinContent(bin)-histos[h].GetBinContent(bin))**2
+    #        #errUp[bin-1]+=(histos[h].GetBinError(bin))**2
+    #        #errDown[bin-1]+=(histos[h].GetBinError(bin))**2
+    #        
+    #        Error.SetPoint(bin-1,point,1)
+    #    counter += 1
+    #    
+    #for bin in range(0,len(total)):
+    #    if not total[bin] == 0: 
+    #        Error.SetPointEYlow(bin,sqrt(errDown[bin])/total[bin])
+    #        print 'down %s'%(sqrt(errDown[bin])/total[bin])
+    #        Error.SetPointEYhigh(bin,sqrt(errUp[bin])/total[bin])
+    #        print 'up   %s'%(sqrt(errUp[bin])/total[bin])
+
+    #-------------
     counter = 0
-    total=[]
     errUp=[]
+    total=[]
     errDown=[]
     print 'total bins %s'%histos[0].GetNbinsX()
     for h in range(0,len(histos)):
@@ -120,31 +154,49 @@ if 'vhbb_TH_BDT' in region:
         for bin in range(1,histos[h].GetNbinsX()+1):
             if counter == 0 and h == 0:
                 total.append(0)
-                errUp.append(0)
-                errDown.append(0)
+                errUp.append([])
+                errDown.append([])
             point=histos[h].GetXaxis().GetBinCenter(bin)
             total[bin-1]+=histos[h].GetBinContent(bin)
-            for i in range(0,len(shapesUp[h])):
-                errUp[bin-1]+=(shapesUp[h][i].GetBinContent(bin)-histos[h].GetBinContent(bin))**2
-                errDown[bin-1]+=(shapesDown[h][i].GetBinContent(bin)-histos[h].GetBinContent(bin))**2
-            errUp[bin-1]+=(histos[h].GetBinError(bin))**2
-            errDown[bin-1]+=(histos[h].GetBinError(bin))**2
-            
             Error.SetPoint(bin-1,point,1)
         counter += 1
-        
-    for bin in range(0,len(total)):
+
+
+
+    for bin in range(1,histos[0].GetNbinsX()+1):
+        for i in range(0,len(shapesUp[h])):
+            totUp=0
+            totDown=0
+            for h in range(0,len(histos)):
+                if histos[h].GetBinContent(bin)>0:
+                    totUp+=(shapesUp[h][i].GetBinContent(bin)-histos[h].GetBinContent(bin))#/histos[h].GetBinContent(bin)
+                    totDown+=(shapesDown[h][i].GetBinContent(bin)-histos[h].GetBinContent(bin))#/histos[h].GetBinContent(bin)
+            errUp[bin-1].append(totUp)
+            errDown[bin-1].append(totDown)
+        for h in range(0,len(histos)):
+            if histos[h].GetBinContent(bin)>0:
+                errUp[bin-1].append(histos[h].GetBinError(bin))#/histos[h].GetBinContent(bin))
+                errDown[bin-1].append(histos[h].GetBinError(bin))#/histos[h].GetBinContent(bin))
+            else:
+                errUp[bin-1].append(0)
+                errDown[bin-1].append(0)
+
+    totErrUp=[sqrt(sum([x**2 for x in bin])) for bin in errUp]
+    totErrDown=[sqrt(sum([x**2 for x in bin])) for bin in errDown]
+
+    
+
+    for bin in range(0,histos[0].GetNbinsX()):
         if not total[bin] == 0: 
-            Error.SetPointEYlow(bin,sqrt(errDown[bin])/total[bin])
-            Error.SetPointEYhigh(bin,sqrt(errUp[bin])/total[bin])
-
-        #if counter == 0: Errors=Error
-        #else: Errors.Add(Error)
-    #set the errors
-
-    #get the Ratios
+            Error.SetPointEYlow(bin,totErrDown[bin]/total[bin])
+            print 'down %s'%(totErrDown[bin]/total[bin])
+            Error.SetPointEYhigh(bin,totErrUp[bin]/total[bin])
+            print 'up   %s'%(totErrUp[bin]/total[bin])
 
 
+
+
+    #-----------------------
 
 
     datas=[input.Get('data_obs')]

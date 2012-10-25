@@ -39,10 +39,15 @@ addOverFlow = True
 #All signal region plots:
 #List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
 
+
+#All BDT plots:
+List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee
+#List: HighPt_Zee
+
 #ALL PLOTS
 #List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee,ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt,Zbb,TTbar,Zbb_vtx,TTbar_vtx,TTbar_soft,Zbb_soft,ZPeak_Zee,ZPeak_Zmm
 
-List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm
+#List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm
 #List: Zbb_Balance,Zbb_BalanceNoReg
 # Regression
 #List: Zbb,Zbb_beforeReg,TTbar,TTbar_beforeReg,ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt
@@ -59,6 +64,9 @@ BDTs: BDT8_RTight,BDT8_RMed,BDT8_RTightLooseBTag,BDT_RTight,BDT_RMed
 REG_vars: METnoPU,rho25,dPhiJetMet,regWeight,JECUnc,jPtRaw,jE,jCef,jChf,jNCh,jNum,jPtLeadTrack
 REG_vtx: vtxPt,vtxMass,vtx3dL,vtx3deL
 REG_soft: jSoftLeptPtRel,jSoftLeptPt,jSoftLeptdR
+
+BDT_plot_blind: False
+BDT_plot_log: False
 
 [Plot:ZPeak_Zee]
 Datas: Zee
@@ -120,53 +128,63 @@ nBins: 17
 min: 0
 max: 255.
 
+
+
 [Plot:HighPt_Zee]
 Datas: Zee
 Normalize: False
-vars: BDT8_RTight
+#vars: BDT8_RTight
+vars: <!Plot_general|BDT_vars!>
 Signal: ZH125
-log: True
-blind: False
+log: <!Plot_general|BDT_plot_log!>
+blind: <!Plot_general|BDT_plot_blind!>
 
 [Plot:HighPtLooseBTag_Zee]
 Datas: Zee
 Normalize: False
-vars: BDT8_RTightLooseBTag
+#vars: BDT8_RTightLooseBTag
+vars: <!Plot_general|BDT_vars!>
 Signal: ZH125
-log: True
-blind: False
+log: <!Plot_general|BDT_plot_log!>
+blind: <!Plot_general|BDT_plot_blind!>
 
 [Plot:LowPt_Zee]
 Datas: Zee
 Normalize: False
-vars: BDT8_RMed
+#vars: BDT8_RMed
+vars: <!Plot_general|BDT_vars!>
 Signal: ZH125
-log: True
-blind: False
+log: <!Plot_general|BDT_plot_log!>
+blind: <!Plot_general|BDT_plot_blind!>
 
 [Plot:HighPt_Zmm]
 Datas: Zmm
 Normalize: False
-vars: BDT8_RTight
+#vars: BDT8_RTight
+vars: <!Plot_general|BDT_vars!>
 Signal: ZH125
-log: True
-blind: False
+log: <!Plot_general|BDT_plot_log!>
+blind: <!Plot_general|BDT_plot_blind!>
 
 [Plot:HighPtLooseBTag_Zmm]
 Datas: Zmm
 Normalize: False
-vars: BDT8_RTightLooseBTag
+#vars: BDT8_RTightLooseBTag
+vars: <!Plot_general|BDT_vars!>
 Signal: ZH125
-log: True
-blind: False
+log: <!Plot_general|BDT_plot_log!>
+blind: <!Plot_general|BDT_plot_blind!>
 
 [Plot:LowPt_Zmm]
 Datas: Zmm
 Normalize: False
-vars: BDT8_RMed
+#vars: BDT8_RMed
+vars: <!Plot_general|BDT_vars!>
 Signal: ZH125
-log: True
-blind: False
+log: <!Plot_general|BDT_plot_log!>
+blind: <!Plot_general|BDT_plot_blind!>
+
+
 
 [Plot:ZLight_HighPt_Zee]
 Datas: Zee
@@ -447,7 +465,7 @@ setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
 #List: TT_RTight_ZH125_EE_8TeV_oct,TT_RMed_ZH125_EE_8TeV_oct,TT_RTight_ZH125_MM_8TeV_oct,TT_RMed_ZH125_MM_8TeV_oct,TT_RTightLooseBTag_ZH125_MM_8TeV_oct,TT_RTightLooseBTag_ZH125_EE_8TeV_oct 
 #List: Zbb_RTight_ZH125_EE_8TeV_oct,Zbb_RMed_ZH125_EE_8TeV_oct,Zbb_RTight_ZH125_MM_8TeV_oct,Zbb_RMed_ZH125_MM_8TeV_oct,Zbb_RTightLooseBTag_ZH125_MM_8TeV_oct,Zbb_RTightLooseBTag_ZH125_EE_8TeV_oct 
 #List: ZLight_HighPt_RTight_ZH125_EE_8TeV_oct,ZLight_HighPt_RMed_ZH125_EE_8TeV_oct,ZLight_HighPt_RTight_ZH125_MM_8TeV_oct,ZLight_HighPt_RMed_ZH125_MM_8TeV_oct,ZLight_HighPt_RTightLooseBTag_ZH125_MM_8TeV_oct,ZLight_HighPt_RTightLooseBTag_ZH125_EE_8TeV_oct 
-List: ZLight_LowPt_RTight_ZH125_EE_8TeV_oct,ZLight_LowPt_RMed_ZH125_EE_8TeV_oct,ZLight_LowPt_RTight_ZH125_MM_8TeV_oct,ZLight_LowPt_RMed_ZH125_MM_8TeV_oct,ZLight_LowPt_RTightLooseBTag_ZH125_MM_8TeV_oct,ZLight_LowPt_RTightLooseBTag_ZH125_EE_8TeV_oct 
+#List: ZLight_LowPt_RTight_ZH125_EE_8TeV_oct,ZLight_LowPt_RMed_ZH125_EE_8TeV_oct,ZLight_LowPt_RTight_ZH125_MM_8TeV_oct,ZLight_LowPt_RMed_ZH125_MM_8TeV_oct,ZLight_LowPt_RTightLooseBTag_ZH125_MM_8TeV_oct,ZLight_LowPt_RTightLooseBTag_ZH125_EE_8TeV_oct 
 
 
 #MUONS
@@ -458,7 +476,7 @@ List: ZLight_LowPt_RTight_ZH125_EE_8TeV_oct,ZLight_LowPt_RMed_ZH125_EE_8TeV_oct,
 #Mjj
 #List: Mjj_lowPt_ZH110_EE,Mjj_lowPt_ZH110_MM,Mjj_highPt_ZH110_EE,Mjj_highPt_ZH110_MM,Mjj_lowPt_ZH115_EE,Mjj_lowPt_ZH115_MM,Mjj_highPt_ZH115_EE,Mjj_highPt_ZH115_MM,Mjj_lowPt_ZH120_EE,Mjj_lowPt_ZH120_MM,Mjj_highPt_ZH120_EE,Mjj_highPt_ZH120_MM,Mjj_lowPt_ZH125_EE,Mjj_lowPt_ZH125_MM,Mjj_highPt_ZH125_EE,Mjj_highPt_ZH125_MM,Mjj_lowPt_ZH130_EE,Mjj_lowPt_ZH130_MM,Mjj_highPt_ZH130_EE,Mjj_highPt_ZH130_MM,Mjj_lowPt_ZH135_EE,Mjj_lowPt_ZH135_MM,Mjj_highPt_ZH135_EE,Mjj_highPt_ZH135_MM
 
-#List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct 
+List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct 
 
 [Datacard]
 
@@ -1000,6 +1018,7 @@ tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
 preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
+# & <!ZHbb|MassVeto!>
 preselection_beforeReg = (hJet_pt[0]/hJet_regWeight[0]) > 20. & (hJet_pt[1]*hJet_regWeight[1]) > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
 zWindow = V.mass > 75. & V.mass < 105
 zVeto =  (V.mass > 105 | V.mass < 75.)
@@ -1007,6 +1026,7 @@ noAddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) == 0
 max1AddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) < 2.
 vetoHMass_beforeReg = (HNoReg.mass < 90. | HNoReg.mass > 145.)
 vetoHMass = (H.mass < 90. | H.mass > 145.)
+MassVeto= (H.mass < 90. | H.mass > 150.)
 pullAngle = deltaPullAngle < 10. & deltaPullAngle2 < 10.
 rTight = V.pt > 100.
 #rMed = V.pt > 10.
