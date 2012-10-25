@@ -58,6 +58,8 @@ if 'vhbb_TH_BDT' in region:
     elif 'HighPt' in region:
         var='BDT8_RTight'
         newregion='HighPt_%s'%d
+
+    blind = eval(config.get('Plot:%s'%newregion,'blind'))
     Stack=StackMaker(config,var,newregion,True)
 
     log = eval(config.get('Plot:%s'%newregion,'log'))
@@ -148,6 +150,14 @@ if 'vhbb_TH_BDT' in region:
     datas=[input.Get('data_obs')]
     datatyps = [None]
     datanames=[d] 
+
+
+    if blind:
+        #for 15 Bin DCs: 
+        for bin in range(10,datas[0].GetNbinsX()+1):
+            datas[0].SetBinContent(bin,0)
+        #for bin in range(1+datas[0].GetNbinsX()/2,datas[0].GetNbinsX()+1):
+        #    datas[0].SetBinContent(bin,0)
 
 
     histos.append(copy(Overlay))

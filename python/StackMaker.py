@@ -176,7 +176,7 @@ class StackMaker:
         allStack.GetXaxis().SetTitle('')
         yTitle = 'Entries'
         if not '/' in yTitle:
-            yAppend = '%s' %(allStack.GetXaxis().GetBinWidth(1)) 
+            yAppend = '%.2f' %(allStack.GetXaxis().GetBinWidth(1)) 
             yTitle = '%s / %s' %(yTitle, yAppend)
         allStack.GetYaxis().SetTitle(yTitle)
         allStack.GetXaxis().SetRangeUser(self.xMin,self.xMax)
