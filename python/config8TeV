@@ -65,8 +65,8 @@ REG_vars: METnoPU,rho25,dPhiJetMet,regWeight,JECUnc,jPtRaw,jE,jCef,jChf,jNCh,jNu
 REG_vtx: vtxPt,vtxMass,vtx3dL,vtx3deL
 REG_soft: jSoftLeptPtRel,jSoftLeptPt,jSoftLeptdR
 
-BDT_plot_blind: False
-BDT_plot_log: False
+BDT_plot_blind: True
+BDT_plot_log: True
 
 [Plot:ZPeak_Zee]
 Datas: Zee
@@ -398,12 +398,12 @@ library=<!Directories|vhbbpath!>/interface/BTagReshaping_h.so
 ###########################################################################################
 # LIMIT
 [LimitGeneral]
-BDTrange = BDT output,1000,-1,1
+BDTrange = BDT output,15,-1,1
 BDToutname = CMS_vhbb_BDT_Zll_8TeV
 Mjjrange = 17,0.,255.
 
 #wanna rebin? (bin transform)
-rebin_active = True
+rebin_active = False
 BDTbinning = 15
 
 systematicsnaming7TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_7TeV'}
@@ -512,10 +512,13 @@ CMS_vhbb_ZjLF_SF_7TeV: {'type':'lnN', 'DYlight':1.198 ,'DYb':0.875 ,'TT':1.003}
 CMS_vhbb_ZjHF_SF_7TeV: {'type':'lnN', 'DYlight':0.873 ,'DYb':1.202 ,'TT':0.957}
 CMS_vhbb_TT_SF_7TeV: {'type':'lnN',  'DYlight':1.002 ,'DYb':0.974 ,'TT':1.123}
 
-CMS_vhbb_ZjLF_SF_8TeV: {'type':'lnN', 'DYlight':1.085 ,'DYb':0.940 ,'TT':0.998}
-CMS_vhbb_ZjHF_SF_8TeV: {'type':'lnN', 'DYlight':0.942 ,'DYb':1.082 ,'TT':0.986}
-CMS_vhbb_TT_SF_8TeV: {'type':'lnN',  'DYlight':0.998 ,'DYb':0.986 ,'TT':1.081}
+#CMS_vhbb_ZjLF_SF_8TeV: {'type':'lnN', 'DYlight':1.085 ,'DYb':0.940 ,'TT':0.998}
+#CMS_vhbb_ZjHF_SF_8TeV: {'type':'lnN', 'DYlight':0.942 ,'DYb':1.082 ,'TT':0.986}
+#CMS_vhbb_TT_SF_8TeV: {'type':'lnN',  'DYlight':0.998 ,'DYb':0.986 ,'TT':1.081}
 
+CMS_vhbb_ZjLF_SF_8TeV: {'type':'lnN', 'DYlight':1.036,'DYb':0.976,'TT':1.001}
+CMS_vhbb_ZjHF_SF_8TeV: {'type':'lnN', 'DYlight':0.953,'DYb':1.070,'TT':0.985}
+CMS_vhbb_TT_SF_8TeV: {'type':'lnN', 'DYlight':1.001,'DYb':0.992,'TT':1.038} 
 
 
 [Limit]
