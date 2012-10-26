@@ -20,7 +20,7 @@ config.read(opts.config)
 xMin=-1
 xMax=1
 masses = ['125']
-Abins = ['HighPt','LowPt']
+Abins = ['HighPt','LowPt','HighPtLooseBTag']
 channels= ['Zee','Zmm']
 #------------------------------------------------------
 
@@ -146,8 +146,9 @@ for mass in masses:
 
 
                     ratioU.SetStats(0)
-                    ratioU.GetYaxis().SetRangeUser(0.5,1.5)
-                    ratioU.GetYaxis().SetNdivisions(502,0)
+                    ratioU.SetMinimum(0.01)
+                    ratioU.SetMaximum(2.49)
+                    ratioU.GetYaxis().SetNdivisions(505)
                     #ratioU.GetYaxis().SetLabelSize(0.2)
                     #ratioU.GetYaxis().SetTitleSize(0.2)
                     #ratioU.GetYaxis().SetTitleOffset(0.2)
