@@ -609,7 +609,7 @@ f.write('rate')
 for c in range(0,columns): f.write('\t%s'%histos[c].Integral())
 f.write('\n')
 
-InUse=eval(config.get('Datacard','InUse_%s'pt_region))
+InUse=eval(config.get('Datacard','InUse_%s'%pt_region))
 #Parse from config
 for item in InUse:
     f.write(item)
