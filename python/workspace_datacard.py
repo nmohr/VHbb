@@ -66,9 +66,9 @@ ROOToutname = options[6]
 
 if 'HighPtLooseBTag' in ROOToutname:
     pt_region = 'HighPtLooseBTag'
-elif 'HighPt' in ROOToutname:
+elif 'HighPt' in ROOToutname or 'highPt' in ROOToutname:
     pt_region = 'HighPt'
-elif 'LowPt' in ROOToutname:
+elif 'LowPt' in ROOToutname or 'lowPt' in ROOToutname:
     pt_region = 'LowPt'
 else: 
     print "Unknown Pt region"

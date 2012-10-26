@@ -45,7 +45,7 @@ infofile = open(samplesinfo,'r')
 info = pickle.load(infofile)
 infofile.close()
 
-if 'vhbb_TH_BDT' in region:
+if 'vhbb_TH_BDT' in region or 'vhbb_TH_Mjj' in region:
 #-----------Histo from TH File------------------------------------
     if 'Zee' in region: d='Zee'
     elif 'Zmm' in region: d='Zmm'
@@ -58,6 +58,13 @@ if 'vhbb_TH_BDT' in region:
     elif 'HighPt' in region:
         var='BDT8_RTight'
         newregion='HighPt_%s'%d
+    elif 'Mjj_highPt' in region:
+        var='Hmass'
+        newregion='HighPt_MJJ_%s'%d
+    elif 'Mjj_lowPt' in region:
+        var='Hmass'
+        newregion='LowPt_MJJ_%s'%d
+
 
     blind = eval(config.get('Plot:%s'%newregion,'blind'))
     Stack=StackMaker(config,var,newregion,True)
