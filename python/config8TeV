@@ -480,10 +480,13 @@ List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,R
 
 [Datacard]
 
-InUse: ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_vhbb_ZjLF_ex','CMS_vhbb_ZjHF_ex','CMS_vhbb_TT_ex','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_ZjLF_SF_8TeV','CMS_vhbb_ZjHF_SF_8TeV','CMS_vhbb_TT_SF_8TeV']
+InUse: ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_ZjLF_SF_8TeV','CMS_vhbb_ZjHF_SF_8TeV','CMS_vhbb_TT_SF_8TeV']
+
+InUse_HighPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_exHighPt_8TeV','CMS_vhbb_ZjHF_exHighPt_8TeV','CMS_vhbb_TT_exHighPt_8TeV']
+InUse_LowPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_exLowPt_8TeV','CMS_vhbb_ZjHF_exLowPt_8TeV','CMS_vhbb_TT_exLowPt_8TeV']
+InUse_HighPtLooseBTag: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_exHighPtLooseBTag_8TeV','CMS_vhbb_ZjHF_exHighPtLooseBTag_8TeV','CMS_vhbb_TT_exHighPtLoooseBTag_8TeV']
 
 lumi_7TeV: {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022}
-
 lumi_8TeV: {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05}
 
 pdf_qqbar: {'type':'lnN', 'ZH':1.01,'VV':1.01}
@@ -499,14 +502,24 @@ CMS_vhbb_VV: {'type':'lnN', 'VV':1.30}
 CMS_vhbb_ZjLF_ex: {'type':'lnN', 'DYlight':1.05}
 CMS_vhbb_ZjHF_ex: {'type':'lnN', 'DYb':1.05}
 CMS_vhbb_TT_ex: {'type':'lnN', 'TT':1.05}
-CMS_vhbb_ZjLF_ex_8TeV: {'type':'lnN', 'DYlight':1.05}
-CMS_vhbb_ZjHF_ex_8TeV: {'type':'lnN', 'DYb':1.05}
-CMS_vhbb_TT_ex_8TeV: {'type':'lnN', 'TT':1.05}
+#CMS_vhbb_ZjLF_ex_8TeV: {'type':'lnN', 'DYlight':1.05}
+#CMS_vhbb_ZjHF_ex_8TeV: {'type':'lnN', 'DYb':1.05}
+#CMS_vhbb_TT_ex_8TeV: {'type':'lnN', 'TT':1.05}
 CMS_eff_e: {'type':'lnN', 'ZH':1.04, 'ST':1.04,'VV':1.04,'QCD':1.04}
 CMS_trigger_e: {'type':'lnN','ZH':1.02, 'ST':1.02,'VV':1.02 }
 CMS_eff_m: {'type':'lnN',  'ZH':1.04, 'ST':1.04,'VV':1.04,'QCD':1.04}
 CMS_trigger_m: {'type':'lnN', 'ZH':1.01, 'ST':1.01,'VV':1.01 }
 CMS_vhbb_trigger_MET: {'type':'lnN'}
+
+CMS_vhbb_ZjLF_exHighPtLooseBTag_8TeV: {'type':'lnN', 'DYlight':1.20}
+CMS_vhbb_ZjHF_exHighPtLooseBTag_8TeV: {'type':'lnN', 'DYb':1.20}
+CMS_vhbb_TT_exHighPtLoooseBTag_8TeV: {'type':'lnN', 'TT':1.20}
+CMS_vhbb_ZjLF_exHighPt_8TeV: {'type':'lnN', 'DYlight':1.05}
+CMS_vhbb_ZjHF_exHighPt_8TeV: {'type':'lnN', 'DYb':1.05}
+CMS_vhbb_TT_exHighPt_8TeV: {'type':'lnN', 'TT':1.05}
+CMS_vhbb_ZjLF_exLowPt_8TeV: {'type':'lnN', 'DYlight':1.05}
+CMS_vhbb_ZjHF_exLowPt_8TeV: {'type':'lnN', 'DYb':1.05}
+CMS_vhbb_TT_exLowPt_8TeV: {'type':'lnN', 'TT':1.05}
 
 CMS_vhbb_ZjLF_SF_7TeV: {'type':'lnN', 'DYlight':1.198 ,'DYb':0.875 ,'TT':1.003}
 CMS_vhbb_ZjHF_SF_7TeV: {'type':'lnN', 'DYlight':0.873 ,'DYb':1.202 ,'TT':0.957}

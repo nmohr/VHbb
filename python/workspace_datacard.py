@@ -63,6 +63,17 @@ anType=options[11]
 RCut=options[7]
 setup=eval(config.get('LimitGeneral','setup'))
 ROOToutname = options[6]
+
+if 'HighPtLooseBTag' in ROOToutname:
+    pt_region = 'HighPtLooseBTag'
+elif 'HighPt' in ROOToutname:
+    pt_region = 'HighPt'
+elif 'LowPt' in ROOToutname:
+    pt_region = 'LowPt'
+else: 
+    print "Unknown Pt region"
+    sys.exit("Unknown Pt region")
+
 outpath=config.get('Directories','limits')
 outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
 systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming7TeV'))
@@ -598,7 +609,7 @@ f.write('rate')
 for c in range(0,columns): f.write('\t%s'%histos[c].Integral())
 f.write('\n')
 
-InUse=eval(config.get('Datacard','InUse'))
+InUse=eval(config.get('Datacard','InUse_%s'pt_region))
 #Parse from config
 for item in InUse:
     f.write(item)
