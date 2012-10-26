@@ -84,6 +84,67 @@ if 'vhbb_TH_BDT' in region:
             lumi=job.lumi
             break
         else: pass
+    options = copy(opts)
+    options.dataname = "data_obs"
+    options.mass = 0
+    options.format = "%8.3f +/- %6.3f"
+    options.channel = None
+    options.excludeSyst = []
+    options.norm = False
+    options.stat = False
+    options.bin = True # fake that is a binary output, so that we parse shape lines
+    options.out = "tmp.root"
+    options.fileName = args[0]
+    options.cexpr = False
+    options.fixpars = False
+    options.libs = []
+    options.verbose = 0
+    options.poisson = 0
+    options.nuisancesToExclude = []
+    options.noJMax = None
+
+    ROOT.gROOT.SetBatch(True)
+    ROOT.gSystem.Load("libHiggsAnalysisCombinedLimit.so")
+
+    from HiggsAnalysis.CombinedLimit.DatacardParser import *
+    from HiggsAnalysis.CombinedLimit.ShapeTools     import *
+    file = open(limitpath+'/'+region.replace('vhbb_TH_','vhbb_DC_')+'.txt', "r")
+    DC = parseCard(file, options)
+    if not DC.hasShapes: DC.hasShapes = True
+    MB = ShapeBuilder(DC, options)
+    for b in DC.bins:
+        if options.channel != None and (options.channel != b): continue
+        exps = {}
+        for (p,e) in DC.exp[b].items(): # so that we get only self.DC.processes contributing to this bin
+            exps[p] = [ e, [] ]
+        for (lsyst,nofloat,pdf,pdfargs,errline) in DC.systs:
+            if pdf in ('param', 'flatParam'): continue
+            print pdf
+            # begin skip systematics
+            skipme = False
+            for xs in options.excludeSyst:
+                if re.search(xs, lsyst): 
+                    skipme = True
+            if skipme: continue
+            # end skip systematics
+            for p in DC.exp[b].keys(): # so that we get only self.DC.processes contributing to this bin
+                if errline[b][p] == 0: continue
+                if pdf == 'gmN':
+                    exps[p][1].append(1/sqrt(pdfargs[0]+1));
+                elif pdf == 'gmM':
+                    exps[p][1].append(errline[b][p]);
+                elif type(errline[b][p]) == list: 
+                    kmax = max(errline[b][p][0], errline[b][p][1], 1.0/errline[b][p][0], 1.0/errline[b][p][1]);
+                    exps[p][1].append(kmax-1.);
+                elif pdf == 'lnN':
+                     exps[p][1].append(max(errline[b][p], 1.0/errline[b][p])-1.);
+    procs = DC.exp[b].keys(); procs.sort()
+    fmt = ("%%-%ds " % max([len(p) for p in procs]))+"  "+options.format;
+    theNormUncert = {}
+    for p in procs:
+        relunc = sqrt(sum([x*x for x in exps[p][1]]))
+        print fmt % (p, exps[p][0], exps[p][0]*relunc)
+        theNormUncert[p] = relunc
 
     histos = []
     typs = []
@@ -162,7 +223,6 @@ if 'vhbb_TH_BDT' in region:
         counter += 1
 
 
-
     for bin in range(1,histos[0].GetNbinsX()+1):
         for i in range(0,len(shapesUp[h])):
             totUp=0
@@ -175,8 +235,14 @@ if 'vhbb_TH_BDT' in region:
             errDown[bin-1].append(totDown)
         for h in range(0,len(histos)):
             if histos[h].GetBinContent(bin)>0:
+                #print bin,histos[h].GetName()
+                #print histos[h].GetBinContent(bin)
+                #print theNormUncert[histos[h].GetName()]
+                #print histos[h].GetBinContent(bin)*theNormUncert[histos[h].GetName()]
                 errUp[bin-1].append(histos[h].GetBinError(bin))#/histos[h].GetBinContent(bin))
                 errDown[bin-1].append(histos[h].GetBinError(bin))#/histos[h].GetBinContent(bin))
+                errUp[bin-1].append(histos[h].GetBinContent(bin)*theNormUncert[histos[h].GetName()])
+                errDown[bin-1].append(histos[h].GetBinContent(bin)*theNormUncert[histos[h].GetName()])
             else:
                 errUp[bin-1].append(0)
                 errDown[bin-1].append(0)
