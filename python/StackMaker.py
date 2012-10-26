@@ -55,6 +55,9 @@ class StackMaker:
         self.anaTag = config.get("Analysis","tag")
         self.xAxis = plotConfig.get('plotDef:%s'%var,'xAxis')
         self.options = [self.name,'',self.xAxis,self.nBins,self.xMin,self.xMax,'%s_%s.pdf'%(region,var),region,datacut,self.mass,data,blindopt]
+        self.maxRatioUncert = 0.5
+        if self.SignalRegion:
+            self.maxRatioUncert = 1000.
         self.config = config
         self.datas = None
         self.datatyps = None
@@ -218,7 +221,8 @@ class StackMaker:
         #l2.SetTextSize(0.035)
         l2.SetNColumns(2)
 
-        ratio, error = getRatio(d1,allMC,self.xMin,self.xMax)
+
+        ratio, error = getRatio(d1,allMC,self.xMin,self.xMax,"",self.maxRatioUncert)
         ksScore = d1.KolmogorovTest( allMC )
         chiScore = d1.Chi2Test( allMC , "UWCHI2/NDF")
         print ksScore
