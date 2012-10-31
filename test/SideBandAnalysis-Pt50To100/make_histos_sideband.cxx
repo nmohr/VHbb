@@ -2,7 +2,6 @@
 #include <TApplication.h>
 #include <TH1.h>
 #include <iostream>
-#include <regex>
 #include "../../interface/CutsAndHistos.h"
 #include "../../plugins/Histos.h"
 #include "../../plugins/Cuts/CutsSideBand-Pt50To100.h"
