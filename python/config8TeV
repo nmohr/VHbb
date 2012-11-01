@@ -7,6 +7,7 @@ tag = 8TeV
 # >>>>>>>>>>>>>>>>>>>
 # >>>>>>>>>>>>>>>>>>>
 TrainFlag = True
+#Mjj-> False
 # <<<<<<<<<<<<<<<<<<<
 # <<<<<<<<<<<<<<<<<<<
 
@@ -23,8 +24,8 @@ setupLog: ZH,DYb,DYc,DYlight,TT,ST,VV
 #setupLog: DYb,DYc,DYlight,TT,ST,VV,ZH
 
 #Mjj
-#setup: ZH,VV,DYb,DYc,DYlight,TT
-#setupLog: ZH,DYb,DYc,DYlight,TT,VV
+setup: ZH,VV,DYb,DYc,DYlight,TT
+setupLog: ZH,DYb,DYc,DYlight,TT,VV
 
 
 #colors
@@ -39,15 +40,16 @@ addOverFlow = True
 #List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
 #List: HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_MJJ_Zee,LowPt_MJJ_Zee
 #List: ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_MJJ_Zee,LowPt_MJJ_Zee
-#List: HighPt_MJJ_Zee,LowPt_MJJ_Zee,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm
+List: HighPt_MJJ_Zee,LowPt_MJJ_Zee,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm
 
 #All signal region plots:
 #List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee
 
 
+
 #All BDT plots:
-List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee
-#List: HighPt_Zee
+#List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee
+#List: HighPt_Zee,HighPt_Zmm
 
 #ALL PLOTS
 #List: HighPt_Zmm,LowPt_Zmm,HighPtLooseBTag_Zmm,HighPt_MJJ_Zmm,LowPt_MJJ_Zmm,HighPt_Zee,LowPt_Zee,HighPtLooseBTag_Zee,HighPt_MJJ_Zee,LowPt_MJJ_Zee,ZLight_HighPt_Zee,ZLight_LowPt_Zee,Zbb_Zee,TTbar_Zee,ZLight_HighPt_Zmm,ZLight_LowPt_Zmm,Zbb_Zmm,TTbar_Zmm,HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,HighPtLooseBTag_Zee,HighPtLooseBTag_Zmm,ZLight_HighPt_beforeReg,ZLight_HighPt,ZLight_LowPt_beforeReg,ZLight_LowPt,Zbb,TTbar,Zbb_vtx,TTbar_vtx,TTbar_soft,Zbb_soft,ZPeak_Zee,ZPeak_Zmm
@@ -72,12 +74,13 @@ REG_soft: jSoftLeptPtRel,jSoftLeptPt,jSoftLeptdR
 
 BDT_plot_blind: False
 BDT_plot_log: True
+plot_mass = ZH135
 
 [Plot:ZPeak_Zee]
 Datas: Zee
 Normalize: False
 vars: Vmass,vLepton0pt,vLepton1pt
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -85,7 +88,7 @@ blind: False
 Datas: Zmm
 Normalize: False
 vars: Vmass,vLepton0pt,vLepton1pt
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -93,7 +96,7 @@ blind: False
 Datas: Zee
 Normalize: False
 vars: Hmass
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 nBins: 17
@@ -104,7 +107,7 @@ max: 255.
 Datas: Zmm
 Normalize: False
 vars: Hmass
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 nBins: 17
@@ -115,7 +118,7 @@ max: 255.
 Datas: Zee
 Normalize: False
 vars: Hmass
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 nBins: 17
@@ -126,21 +129,41 @@ max: 255.
 Datas: Zmm
 Normalize: False
 vars: Hmass
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 nBins: 17
 min: 0
 max: 255.
 
+[Plot:MedPt_MJJ_Zee]
+Datas: Zee
+Normalize: False
+vars: Hmass
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: False
+nBins: 17
+min: 0
+max: 255.
 
+[Plot:MedPt_MJJ_Zmm]
+Datas: Zmm
+Normalize: False
+vars: Hmass
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: False
+nBins: 17
+min: 0
+max: 255.
 
 [Plot:HighPt_Zee]
 Datas: Zee
 Normalize: False
 #vars: BDT8_RTight
 vars: <!Plot_general|BDT_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
 
@@ -149,7 +172,7 @@ Datas: Zee
 Normalize: False
 #vars: BDT8_RTightLooseBTag
 vars: <!Plot_general|BDT_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
 
@@ -158,7 +181,7 @@ Datas: Zee
 Normalize: False
 #vars: BDT8_RMed
 vars: <!Plot_general|BDT_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
 
@@ -167,7 +190,7 @@ Datas: Zmm
 Normalize: False
 #vars: BDT8_RTight
 vars: <!Plot_general|BDT_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
 
@@ -176,7 +199,7 @@ Datas: Zmm
 Normalize: False
 #vars: BDT8_RTightLooseBTag
 vars: <!Plot_general|BDT_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
 
@@ -185,7 +208,7 @@ Datas: Zmm
 Normalize: False
 #vars: BDT8_RMed
 vars: <!Plot_general|BDT_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
 
@@ -196,7 +219,7 @@ Datas: Zee
 Normalize: True
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
 #vars: BDT_RTight
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -205,7 +228,7 @@ Datas: Zee
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -214,7 +237,7 @@ Datas: Zee
 Normalize: True
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
 #vars: <!Plot_general|BDT_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -223,7 +246,7 @@ Datas: Zee
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -232,7 +255,7 @@ Datas: Zee Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: Hmass,rHVpt,<!Plot_general|REG_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -241,7 +264,7 @@ Datas: Zee Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: Hmass,rHVpt,<!Plot_general|REG_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -250,7 +273,7 @@ Datas: Zee Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|REG_vtx!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -259,7 +282,7 @@ Datas: Zee Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|REG_vtx!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -268,7 +291,7 @@ Datas: Zee Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|REG_soft!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -277,7 +300,7 @@ Datas: Zee Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|REG_soft!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -286,7 +309,7 @@ Datas: Zmm
 Normalize: True
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
 #vars: BDT_RTight
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -295,7 +318,7 @@ Datas: Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -304,7 +327,7 @@ Datas: Zmm
 Normalize: True
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
 #vars: <!Plot_general|BDT_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -313,7 +336,7 @@ Datas: Zmm
 Normalize: True
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -321,7 +344,7 @@ blind: False
 Datas: Zmm Zee
 Normalize: True
 vars: Hmass
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -329,7 +352,7 @@ blind: False
 Datas: Zmm Zee
 Normalize: True
 vars: Hmass_NoReg,rHVpt_NoReg
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -337,7 +360,7 @@ blind: False
 Datas: Zmm Zee
 Normalize: True
 vars: Hmass
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -345,7 +368,7 @@ blind: False
 Datas: Zmm Zee
 Normalize: True
 vars: Hmass_NoReg,rHVpt_NoReg
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -353,7 +376,7 @@ blind: False
 Datas: Zmm Zee
 Normalize: True
 vars: Hmass_NoReg,rHVpt_NoReg
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -361,7 +384,7 @@ blind: False
 Datas: Zmm Zee
 Normalize: True
 vars: Hmass_NoReg,rHVpt_NoReg
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -369,7 +392,7 @@ blind: False
 Datas: Zmm Zee
 Normalize: True
 vars: Hmass,rHVpt
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -377,7 +400,7 @@ blind: False
 Datas: Zmm Zee
 Normalize: True
 vars: Hmass_NoReg,rHVpt_NoReg
-Signal: ZH125
+Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
@@ -409,6 +432,7 @@ Mjjrange = 17,0.,255.
 
 #wanna rebin? (bin transform)
 rebin_active = True
+#Mjj-> False
 BDTbinning = 15
 
 systematicsnaming7TeV={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_7TeV','beff1':'CMS_vhbb_eff1_b'}
@@ -417,6 +441,7 @@ systematicsnaming8TeV={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'C
 sys_BDT: ['JER','JES','beff','bmis','beff1']
 sys_Mjj: ['JER','JES','beff','bmis','beff1']
 
+sys_factor = {'JER':1.0,'JES':1.0,'beff':0.33,'bmis':0.33,'beff1':0.33}
 
 #Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
 
@@ -448,6 +473,7 @@ BKG = ['Zudsg','Zudsg1J','Zudsg2J','Zudsg3J','Zudsg4J','ZudsgHT200400','ZudsgHT4
 
 Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight','ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc3J':'DYlight','Zcc4J':'DYlight','ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb','ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
 
+#Mjj-> this Group
 #No ST for Mjj (added to TT)
 #Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight','ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc3J':'DYlight','Zcc4J':'DYlight','ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb','ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'TT','ST_t':'TT','ST_tW':'TT','STbar_s':'TT','STbar_t':'TT','STbar_tW':'TT','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
 
@@ -457,6 +483,7 @@ Dict: {'ZH':'ZH','DYlight':'ZjLF','DYb':'ZjHF','TT':'TT','ST':'s_Top','VV':'VV',
 
 #SETUP DATACARD (1st Signal, afterwards BKG)
 setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
+#Mjj-> this setup
 #setup: ['ZH', 'DYlight','DYb','VV','TT']
 
 #to be processed
@@ -482,8 +509,12 @@ List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTight_ZH110_MM_8TeV_oct,R
 #ELECTRONS
 #List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTightLooseBTag_ZH110_EE_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTightLooseBTag_ZH115_EE_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTightLooseBTag_ZH120_EE_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTightLooseBTag_ZH130_EE_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTightLooseBTag_ZH135_EE_8TeV_oct
 
+#Mjj->
 #Mjj
 #List: Mjj_lowPt_ZH110_EE,Mjj_lowPt_ZH110_MM,Mjj_highPt_ZH110_EE,Mjj_highPt_ZH110_MM,Mjj_lowPt_ZH115_EE,Mjj_lowPt_ZH115_MM,Mjj_highPt_ZH115_EE,Mjj_highPt_ZH115_MM,Mjj_lowPt_ZH120_EE,Mjj_lowPt_ZH120_MM,Mjj_highPt_ZH120_EE,Mjj_highPt_ZH120_MM,Mjj_lowPt_ZH125_EE,Mjj_lowPt_ZH125_MM,Mjj_highPt_ZH125_EE,Mjj_highPt_ZH125_MM,Mjj_lowPt_ZH130_EE,Mjj_lowPt_ZH130_MM,Mjj_highPt_ZH130_EE,Mjj_highPt_ZH130_MM,Mjj_lowPt_ZH135_EE,Mjj_lowPt_ZH135_MM,Mjj_highPt_ZH135_EE,Mjj_highPt_ZH135_MM
+
+#new Mjj
+#List: Mjj_lowPt_ZH125_EE,Mjj_lowPt_ZH125_MM,Mjj_highPt_ZH125_EE,Mjj_highPt_ZH125_MM,Mjj_medPt_ZH125_EE,Mjj_medPt_ZH125_MM
 
 #List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct 
 
@@ -560,6 +591,10 @@ Mjj_lowPt_ZH120_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M120_Zmm,
 Mjj_lowPt_ZH125_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M125_Zmm,LowPt_MJJ_Zmm,LowPt_MJJ_Zmm,ZH125,Zmm,Mjj
 Mjj_lowPt_ZH130_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M130_Zmm,LowPt_MJJ_Zmm,LowPt_MJJ_Zmm,ZH130,Zmm,Mjj
 Mjj_lowPt_ZH135_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M135_Zmm,LowPt_MJJ_Zmm,LowPt_MJJ_Zmm,ZH135,Zmm,Mjj
+
+#Mjj med
+Mjj_medPt_ZH125_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_medPt_M125_Zee,MedPt_MJJ_Zee,MedPt_MJJ_Zee,ZH125,Zee,Mjj
+Mjj_medPt_ZH125_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_medPt_M125_Zmm,MedPt_MJJ_Zmm,MedPt_MJJ_Zmm,ZH125,Zmm,Mjj
 
 #Mjj high EE
 Mjj_highPt_ZH110_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M110_Zee,HighPt_MJJ_Zee,HighPt_MJJ_Zee,ZH110,Zee,Mjj
@@ -1042,12 +1077,14 @@ ccBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
-preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0. 
-#& <!ZHbb|MassVeto!>
-#& EVENT.run < 196532
+preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
+# & EVENT.run < 196532
+#5fb:
+# & <!ZHbb|MassVeto!>
 30jets = hJet_pt[0] > 30. & hJet_pt[1] > 30.
 preselection_beforeReg = (hJet_pt[0]/hJet_regWeight[0]) > 20. & (hJet_pt[1]*hJet_regWeight[1]) > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
 zWindow = V.mass > 75. & V.mass < 105
+zWindow2 = V.mass > 80. & V.mass < 100.
 zVeto =  (V.mass > 105 | V.mass < 75.)
 noAddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) == 0 
 max1AddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) < 2.
@@ -1056,8 +1093,11 @@ vetoHMass = (H.mass < 90. | H.mass > 145.)
 MassVeto= (H.mass < 90. | H.mass > 150.)
 pullAngle = deltaPullAngle < 10. & deltaPullAngle2 < 10.
 rTight = V.pt > 100.
+rTight2 = V.pt > 150.
 #rMed = V.pt > 10.
 rMed = V.pt > 50. & V.pt < 100.
+rMed2 = V.pt > 100. & V.pt < 150.
+rLow2 = V.pt > 50.& V.pt < 100.
 upperHMass = H.mass < 250.
 looseHMass = H.mass > 80. & H.mass < 150.
 upperHMass_beforeReg = HNoReg.mass < 250.
@@ -1081,6 +1121,11 @@ mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tcBtag!> & <!ZHbb|z
 #mjjLowPt = <!ZHbb|preselection!> & <!ZHbb|rMed!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
 #mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
 
+mjjHighPt_opt = <!ZHbb|preselection!> & <!ZHbb|rTight2!> & <!ZHbb|ccBtag!> & <!ZHbb|zWindow2!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
+mjjLowPt_opt = <!ZHbb|preselection!> & <!ZHbb|rLow2!> & <!ZHbb|tcBtag!> & <!ZHbb|zWindow2!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
+mjjMedPt_opt = <!ZHbb|preselection!> & <!ZHbb|rMed2!> & <!ZHbb|ccBtag!> & <!ZHbb|zWindow2!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
+
+#mjjHighPt_opt = <!ZHbb|preselection!> & V.pt > 100. & V.mass > 82. & V.mass < 102. & Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) < 3. & HVdPhi > 2.7 & <!ZHbb|maxBtag!> > 0.8 & <!ZHbb|minBtag!> > 0.244 & H.dEta < 1.5 & H.dEta > 0. & H.dR > 0.5 & H.dR < 2.
 
 #V.pt regions:
 RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!>
@@ -1138,8 +1183,11 @@ triggerMM = (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || t
 #lepton individual
 RTight_EE: Vtype==1  & <!Cuts|RTight!>
 RTight_MM: Vtype==0 & <!Cuts|RTight!>
+# changed for BDTselect plots
 HighPt_Zee = <!Cuts|RTight_EE!>
+# & RTight_ZH125_oct.nominal > 0.6
 HighPt_Zmm = <!Cuts|RTight_MM!>
+# & RTight_ZH125_oct.nominal > 0.6
 RMed_EE: Vtype==1 & <!Cuts|RMed!>
 RMed_MM: Vtype==0 & <!Cuts|RMed!>
 LowPt_Zee = <!Cuts|RMed_EE!>
@@ -1156,15 +1204,20 @@ HighPtLooseBTag_EE: Vtype==1 & <!Cuts|RTightLooseBTag!>
 HighPtLooseBTag_MM: Vtype==0 & <!Cuts|RTightLooseBTag!>
 
 #Mjj
-LowPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjLowPt!> 
-LowPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjLowPt!> 
+LowPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjLowPt_opt!> 
+LowPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjLowPt_opt!> 
 
-HighPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjHighPt!>
-HighPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjHighPt!> 
+HighPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjHighPt_opt!>
+HighPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjHighPt_opt!> 
+
+MedPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjMedPt_opt!>
+MedPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjMedPt_opt!> 
+
 ###########################################################################################
 # other things:
 
 [Weights]
+#5fb:
 #weightF: (PUweightAB*weightTrig2012AB*lheWeight)
 #weightF_sys_UP: (PUweightP*weightTrig2012AB*lheWeight)
 #weightF_sys_DOWN: (PUweightM*weightTrig2012AB*lheWeight)

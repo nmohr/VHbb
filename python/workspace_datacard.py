@@ -66,7 +66,7 @@ ROOToutname = options[6]
 
 if 'HighPtLooseBTag' in ROOToutname:
     pt_region = 'HighPtLooseBTag'
-elif 'HighPt' in ROOToutname or 'highPt' in ROOToutname:
+elif 'HighPt' in ROOToutname or 'highPt' in ROOToutname or 'medPt' in ROOToutname:
     pt_region = 'HighPt'
 elif 'LowPt' in ROOToutname or 'lowPt' in ROOToutname:
     pt_region = 'LowPt'
@@ -88,6 +88,7 @@ elif not anaTag =='7TeV':
     print "What is your Analysis Tag in config? (anaTag)"
     sys.exit("What is your Analysis Tag in config? (anaTag)")
 scaling=eval(config.get('LimitGeneral','scaling'))
+sys_factor_dict = eval(config.get('LimitGeneral','sys_factor'))
 
 if TrainFlag:
     MC_rescale_factor=2.
@@ -669,9 +670,8 @@ if addSample_sys:
             f.write('\n')
             alreadyAdded.append(Dict[c])
     
-if scaling: sys_factor=1.0
-else: sys_factor=1.0
 for sys in systematics:
+    sys_factor=sys_factor_dict[sys]
     f.write('%s\tshape'%systematicsnaming[sys])
     for c in range(0,columns): f.write('\t%s'%sys_factor)
     f.write('\n')
