@@ -411,17 +411,18 @@ Mjjrange = 17,0.,255.
 rebin_active = True
 BDTbinning = 15
 
-systematicsnaming7TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_7TeV'}
-systematicsnaming8TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_8TeV'}
+systematicsnaming7TeV={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_7TeV','beff1':'CMS_vhbb_eff1_b'}
+systematicsnaming8TeV={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff1_b'}
 
-sys_BDT: ['JER','JES','beff','bmis']
-sys_Mjj: ['JER','JES','beff','bmis']
+sys_BDT: ['JER','JES','beff','bmis','beff1']
+sys_Mjj: ['JER','JES','beff','bmis','beff1']
 
 
 #Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
 
-sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?'}
-#sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal'}
+sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?','beff1':'csv>csv?'}
+#sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal','beff1':'nominal'}
+sys_cut_include: ['ZH','VV','ST']
 
 weightF_sys: True
 
@@ -445,10 +446,10 @@ BKG = ['Zudsg','Zudsg1J','Zudsg2J','Zudsg3J','Zudsg4J','ZudsgHT200400','ZudsgHT4
 #Groups for adding samples together
 #Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
 
-#Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight','ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc3J':'DYlight','Zcc4J':'DYlight','ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb','ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
+Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight','ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc3J':'DYlight','Zcc4J':'DYlight','ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb','ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
 
 #No ST for Mjj (added to TT)
-Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight','ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc3J':'DYlight','Zcc4J':'DYlight','ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb','ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'TT','ST_t':'TT','ST_tW':'TT','STbar_s':'TT','STbar_t':'TT','STbar_tW':'TT','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
+#Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight','ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc3J':'DYlight','Zcc4J':'DYlight','ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb','ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'TT','ST_t':'TT','ST_tW':'TT','STbar_s':'TT','STbar_t':'TT','STbar_tW':'TT','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
 
 
 #naming for DC
@@ -461,13 +462,13 @@ setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
 #to be processed
 #List: RTight_ZH125_EE_8TeV_may,RMed_ZH125_EE_8TeV_may,RTight_ZH125_MM_8TeV_may,RMed_ZH125_MM_8TeV_may,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
 #List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
-#List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct
+#List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
 
 #ALl BDTs
 List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTight_ZH110_MM_8TeV_oct,RMed_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_EE_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTight_ZH115_MM_8TeV_oct,RMed_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_EE_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTight_ZH120_MM_8TeV_oct,RMed_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_EE_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTight_ZH130_MM_8TeV_oct,RMed_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_EE_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTight_ZH135_MM_8TeV_oct,RMed_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_EE_8TeV_oct
 
 # only LBT
-#List: RTightLooseBTag_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_EE_8TeV_oct,RTightLooseBTag_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_EE_8TeV_oct,RTightLooseBTag_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_EE_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct,RTightLooseBTag_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_EE_8TeV_oct,RTightLooseBTag_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_EE_8TeV_oct,
+#List: RTightLooseBTag_ZH110_MM_8TeV_oct,RTightLooseBTag_ZH110_EE_8TeV_oct,RTightLooseBTag_ZH115_MM_8TeV_oct,RTightLooseBTag_ZH115_EE_8TeV_oct,RTightLooseBTag_ZH120_MM_8TeV_oct,RTightLooseBTag_ZH120_EE_8TeV_oct,RTightLooseBTag_ZH125_MM_8TeV_oct,RTightLooseBTag_ZH125_EE_8TeV_oct,RTightLooseBTag_ZH130_MM_8TeV_oct,RTightLooseBTag_ZH130_EE_8TeV_oct,RTightLooseBTag_ZH135_MM_8TeV_oct,RTightLooseBTag_ZH135_EE_8TeV_oct
 
 #TTbar
 #List: TT_RTight_ZH125_EE_8TeV_oct,TT_RMed_ZH125_EE_8TeV_oct,TT_RTight_ZH125_MM_8TeV_oct,TT_RMed_ZH125_MM_8TeV_oct,TT_RTightLooseBTag_ZH125_MM_8TeV_oct,TT_RTightLooseBTag_ZH125_EE_8TeV_oct 
@@ -488,11 +489,11 @@ List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTight_ZH110_MM_8TeV_oct,R
 
 [Datacard]
 
-InUse: ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_ZjLF_SF_8TeV','CMS_vhbb_ZjHF_SF_8TeV','CMS_vhbb_TT_SF_8TeV']
+InUse: ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_ZjLF_SF_Zll_8TeV','CMS_vhbb_ZjHF_SF_Zll_8TeV','CMS_vhbb_TT_SF_Zll_8TeV']
 
-InUse_HighPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_exHighPt_8TeV','CMS_vhbb_ZjHF_exHighPt_8TeV','CMS_vhbb_TT_exHighPt_8TeV']
-InUse_LowPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_exLowPt_8TeV','CMS_vhbb_ZjHF_exLowPt_8TeV','CMS_vhbb_TT_exLowPt_8TeV']
-InUse_HighPtLooseBTag: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_exHighPtLooseBTag_8TeV','CMS_vhbb_ZjHF_exHighPtLooseBTag_8TeV','CMS_vhbb_TT_exHighPtLoooseBTag_8TeV']
+InUse_HighPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_exHighPt_Zll_8TeV','CMS_vhbb_ZjHF_exHighPt_Zll_8TeV','CMS_vhbb_TT_exHighPt_Zll_8TeV']
+InUse_LowPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_exLowPt_Zll_8TeV','CMS_vhbb_ZjHF_exLowPt_Zll_8TeV','CMS_vhbb_TT_exLowPt_Zll_8TeV']
+InUse_HighPtLooseBTag: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_exHighPtLooseBTag_Zll_8TeV','CMS_vhbb_ZjHF_exHighPtLooseBTag_Zll_8TeV','CMS_vhbb_TT_exHighPtLoooseBTag_Zll_8TeV']
 
 lumi_7TeV: {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022}
 lumi_8TeV: {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05}
@@ -519,27 +520,27 @@ CMS_eff_m: {'type':'lnN',  'ZH':1.04, 'ST':1.04,'VV':1.04,'QCD':1.04}
 CMS_trigger_m: {'type':'lnN', 'ZH':1.01, 'ST':1.01,'VV':1.01 }
 CMS_vhbb_trigger_MET: {'type':'lnN'}
 
-CMS_vhbb_ZjLF_exHighPtLooseBTag_8TeV: {'type':'lnN', 'DYlight':1.20}
-CMS_vhbb_ZjHF_exHighPtLooseBTag_8TeV: {'type':'lnN', 'DYb':1.20}
-CMS_vhbb_TT_exHighPtLoooseBTag_8TeV: {'type':'lnN', 'TT':1.20}
-CMS_vhbb_ZjLF_exHighPt_8TeV: {'type':'lnN', 'DYlight':1.05}
-CMS_vhbb_ZjHF_exHighPt_8TeV: {'type':'lnN', 'DYb':1.05}
-CMS_vhbb_TT_exHighPt_8TeV: {'type':'lnN', 'TT':1.05}
-CMS_vhbb_ZjLF_exLowPt_8TeV: {'type':'lnN', 'DYlight':1.05}
-CMS_vhbb_ZjHF_exLowPt_8TeV: {'type':'lnN', 'DYb':1.05}
-CMS_vhbb_TT_exLowPt_8TeV: {'type':'lnN', 'TT':1.05}
+CMS_vhbb_ZjLF_exHighPtLooseBTag_Zll_8TeV: {'type':'lnN', 'DYlight':1.20}
+CMS_vhbb_ZjHF_exHighPtLooseBTag_Zll_8TeV: {'type':'lnN', 'DYb':1.20}
+CMS_vhbb_TT_exHighPtLoooseBTag_Zll_8TeV: {'type':'lnN', 'TT':1.20}
+CMS_vhbb_ZjLF_exHighPt_Zll_8TeV: {'type':'lnN', 'DYlight':1.20}
+CMS_vhbb_ZjHF_exHighPt_Zll_8TeV: {'type':'lnN', 'DYb':1.20}
+CMS_vhbb_TT_exHighPt_Zll_8TeV: {'type':'lnN', 'TT':1.20}
+CMS_vhbb_ZjLF_exLowPt_Zll_8TeV: {'type':'lnN', 'DYlight':1.20}
+CMS_vhbb_ZjHF_exLowPt_Zll_8TeV: {'type':'lnN', 'DYb':1.20}
+CMS_vhbb_TT_exLowPt_Zll_8TeV: {'type':'lnN', 'TT':1.20}
 
-CMS_vhbb_ZjLF_SF_7TeV: {'type':'lnN', 'DYlight':1.198 ,'DYb':0.875 ,'TT':1.003}
-CMS_vhbb_ZjHF_SF_7TeV: {'type':'lnN', 'DYlight':0.873 ,'DYb':1.202 ,'TT':0.957}
-CMS_vhbb_TT_SF_7TeV: {'type':'lnN',  'DYlight':1.002 ,'DYb':0.974 ,'TT':1.123}
+CMS_vhbb_ZjLF_SF_Zll_7TeV: {'type':'lnN', 'DYlight':1.198 ,'DYb':0.875 ,'TT':1.003}
+CMS_vhbb_ZjHF_SF_Zll_7TeV: {'type':'lnN', 'DYlight':0.873 ,'DYb':1.202 ,'TT':0.957}
+CMS_vhbb_TT_SF_Zll_7TeV: {'type':'lnN',  'DYlight':1.002 ,'DYb':0.974 ,'TT':1.123}
 
 #CMS_vhbb_ZjLF_SF_8TeV: {'type':'lnN', 'DYlight':1.085 ,'DYb':0.940 ,'TT':0.998}
 #CMS_vhbb_ZjHF_SF_8TeV: {'type':'lnN', 'DYlight':0.942 ,'DYb':1.082 ,'TT':0.986}
 #CMS_vhbb_TT_SF_8TeV: {'type':'lnN',  'DYlight':0.998 ,'DYb':0.986 ,'TT':1.081}
 
-CMS_vhbb_ZjLF_SF_8TeV: {'type':'lnN', 'DYlight':1.036,'DYb':0.976,'TT':1.001}
-CMS_vhbb_ZjHF_SF_8TeV: {'type':'lnN', 'DYlight':0.953,'DYb':1.070,'TT':0.985}
-CMS_vhbb_TT_SF_8TeV: {'type':'lnN', 'DYlight':1.001,'DYb':0.992,'TT':1.038} 
+CMS_vhbb_ZjLF_SF_Zll_8TeV: {'type':'lnN', 'DYlight':1.036,'DYb':0.976,'TT':1.001}
+CMS_vhbb_ZjHF_SF_Zll_8TeV: {'type':'lnN', 'DYlight':0.953,'DYb':1.070,'TT':0.985}
+CMS_vhbb_TT_SF_Zll_8TeV: {'type':'lnN', 'DYlight':1.001,'DYb':0.992,'TT':1.038} 
 
 
 [Limit]
@@ -1041,9 +1042,9 @@ ccBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
-preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
-# & EVENT.run < 196532
-# & <!ZHbb|MassVeto!>
+preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0. 
+#& <!ZHbb|MassVeto!>
+#& EVENT.run < 196532
 30jets = hJet_pt[0] > 30. & hJet_pt[1] > 30.
 preselection_beforeReg = (hJet_pt[0]/hJet_regWeight[0]) > 20. & (hJet_pt[1]*hJet_regWeight[1]) > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
 zWindow = V.mass > 75. & V.mass < 105
