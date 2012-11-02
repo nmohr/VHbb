@@ -75,7 +75,6 @@ else:
     sys.exit("Unknown Pt region")
 
 outpath=config.get('Directories','limits')
-outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
 systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming7TeV'))
 
 TrainFlag = eval(config.get('Analysis','TrainFlag'))
@@ -97,11 +96,11 @@ else: MC_rescale_factor = 1.
 
 rescaleSqrtN=eval(config.get('LimitGeneral','rescaleSqrtN'))
 if 'RTight' in RCut:
-    Datacradbin=options[10]
+    Datacardbin=options[10]
 elif 'RMed' in RCut:
-    Datacradbin=options[10]
+    Datacardbin=options[10]
 else:
-    Datacradbin=options[10]
+    Datacardbin=options[10]
 blind=eval(config.get('LimitGeneral','blind'))
 BKGlist = eval(config.get('LimitGeneral','BKG'))
 #Groups for adding samples together
@@ -128,6 +127,10 @@ rebin_active=eval(config.get('LimitGeneral','rebin_active'))
 signal_inject=config.get('LimitGeneral','signal_inject')
 
 
+outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
+outfile.mkdir(Datacardbin,Datacardbin)
+outfile.cd(Datacardbin)
+
 class Rebinner:
     def __init__(self,nBins,lowedgearray,active=True):
         self.lowedgearray=lowedgearray
@@ -150,7 +153,7 @@ class Rebinner:
 
 # -------------------- generate the Workspace with all Histograms: ----------------------------------------------------------------------
 
-WS = ROOT.RooWorkspace('%s'%Datacradbin,'%s'%Datacradbin) #Zee
+WS = ROOT.RooWorkspace('%s'%Datacardbin,'%s'%Datacardbin) #Zee
 print 'WS initialized'
 disc= ROOT.RooRealVar(name,name,xMin,xMax)
 obs = ROOT.RooArgList(disc)
@@ -382,6 +385,7 @@ for i in range(0,len(histos)):
     histos[i].SetName(newname)
     #histos[i].SetDirectory(outfile)
     outfile.cd()
+    outfile.cd(Datacardbin)
     histos[i].Write()
     errorsum=0
     total=0
@@ -474,6 +478,7 @@ if flow > 0:
     printc('red','','U/O flow: %s'%flow)
 d1.SetName(Dict['Data'])
 outfile.cd()
+outfile.cd(Datacardbin)
 #d1.Write()
 
 
@@ -563,6 +568,7 @@ for sys in systematics:
         for i in range(0,len(systhistosarray[Coco])):
             systhistosarray[Coco][i].SetName('%s%s%s'%(Dict[typs[i]],systematicsnaming[sys],Q))
             outfile.cd()
+            outfile.cd(Datacardbin)
             systhistosarray[Coco][i].Write()            
             histPdf = ROOT.RooDataHist('%s%s%s'%(Dict[typs[i]],systematicsnaming[sys],Q),'%s%s%s'%(Dict[typs[i]],systematicsnaming[sys],Q),obs,systhistosarray[Coco][i])
             getattr(WS,'import')(histPdf)
@@ -570,110 +576,107 @@ for sys in systematics:
 WS.writeToFile(outpath+'vhbb_WS_'+ROOToutname+'.root')
 
 
-
 # -------------------- write DATAcard: ----------------------------------------------------------------------
-columns=len(setup)
+DCprocessseparatordict = {'WS':':','TH':'/'}
+for DCtype in ['WS','TH']:
+    columns=len(setup)
+    #if '8TeV' in options[10]:
+    #    pier = open(vhbbpath+'/python/pier8TeV.txt','r')
+    #else:
+    #    pier = open(vhbbpath+'/python/pier.txt','r')
+    #scalefactors=pier.readlines()
+    #pier.close()
+    f = open(outpath+'vhbb_DC_%s_%s.txt'%(DCtype,ROOToutname),'w')
+    f.write('imax\t1\tnumber of channels\n')
+    f.write('jmax\t%s\tnumber of backgrounds (\'*\' = automatic)\n'%(columns-1))
+    f.write('kmax\t*\tnumber of nuisance parameters (sources of systematical uncertainties)\n\n')
+    f.write('shapes * * vhbb_%s_%s.root $CHANNEL%s$PROCESS $CHANNEL%s$PROCESS$SYSTEMATIC\n\n'%(DCtype,ROOToutname,DCprocessseparatordict[DCtype],DCprocessseparatordict[DCtype]))
+    f.write('bin\t%s\n\n'%Datacardbin)
+    if blind:
+        f.write('observation\t%s\n\n'%(hDummy.Integral()))
+    else:
+        f.write('observation\t%s\n\n'%(int(d1.Integral())))
 
-if '8TeV' in options[10]:
-    pier = open(vhbbpath+'/python/pier8TeV.txt','r')
-else:
-    pier = open(vhbbpath+'/python/pier.txt','r')
-scalefactors=pier.readlines()
-pier.close()
-f = open(outpath+'vhbb_DC_'+ROOToutname+'.txt','w')
-f.write('imax\t1\tnumber of channels\n')
-f.write('jmax\t%s\tnumber of backgrounds (\'*\' = automatic)\n'%(columns-1))
-f.write('kmax\t*\tnumber of nuisance parameters (sources of systematical uncertainties)\n\n')
-if bdt==True:
-    f.write('shapes * * vhbb_WS_%s.root $CHANNEL:$PROCESS $CHANNEL:$PROCESS$SYSTEMATIC\n\n'%ROOToutname)
-else:
-    f.write('shapes * * vhbb_TH_%s.root $PROCESS $PROCESS$SYSTEMATIC\n\n'%ROOToutname)
-f.write('bin\t%s\n\n'%Datacradbin)
-if blind:
-    f.write('observation\t%s\n\n'%(hDummy.Integral()))
-else:
-    f.write('observation\t%s\n\n'%(int(d1.Integral())))
-
-f.write('bin')
-for c in range(0,columns): f.write('\t%s'%Datacradbin)
-f.write('\n')
-
-f.write('process')
-for c in setup: f.write('\t%s'%Dict[c])
-f.write('\n')
-
-f.write('process')
-for c in range(0,columns): f.write('\t%s'%c)
-f.write('\n')
-
-f.write('rate')
-for c in range(0,columns): f.write('\t%s'%histos[c].Integral())
-f.write('\n')
-
-InUse=eval(config.get('Datacard','InUse_%s'%pt_region))
-#Parse from config
-for item in InUse:
-    f.write(item)
-    what=eval(config.get('Datacard',item))
-    f.write('\t%s'%what['type'])
-    for c in setup:
-        if c in what:
-            if item == 'CMS_eff_e' and 'Zmm' in options[10]: f.write('\t-')
-            elif item == 'CMS_eff_m' and 'Zee' in options[10]: f.write('\t-')
-            elif item == 'CMS_trigger_e' and 'Zmm' in options[10]: f.write('\t-')
-            elif item == 'CMS_trigger_m' and 'Zee' in options[10]: f.write('\t-')
-            else:
-                f.write('\t%s'%what[c])
-        else:
-            f.write('\t-')
+    f.write('bin')
+    for c in range(0,columns): f.write('\t%s'%Datacardbin)
     f.write('\n')
 
-#Write shape stats and sys
-if binstat:
-    for c in setup:
-        for bin in range(0,nBins):
-            f.write('CMS_vhbb_stats_%s_%s_%s\tshape'%(Dict[c], bin, options[10]))
+    f.write('process')
+    for c in setup: f.write('\t%s'%Dict[c])
+    f.write('\n')
+
+    f.write('process')
+    for c in range(0,columns): f.write('\t%s'%c)
+    f.write('\n')
+
+    f.write('rate')
+    for c in range(0,columns): f.write('\t%s'%histos[c].Integral())
+    f.write('\n')
+
+    InUse=eval(config.get('Datacard','InUse_%s'%pt_region))
+    #Parse from config
+    for item in InUse:
+        f.write(item)
+        what=eval(config.get('Datacard',item))
+        f.write('\t%s'%what['type'])
+        for c in setup:
+            if c in what:
+                if item == 'CMS_eff_e' and 'Zmm' in options[10]: f.write('\t-')
+                elif item == 'CMS_eff_m' and 'Zee' in options[10]: f.write('\t-')
+                elif item == 'CMS_trigger_e' and 'Zmm' in options[10]: f.write('\t-')
+                elif item == 'CMS_trigger_m' and 'Zee' in options[10]: f.write('\t-')
+                else:
+                    f.write('\t%s'%what[c])
+            else:
+                f.write('\t-')
+        f.write('\n')
+
+    #Write shape stats and sys
+    if binstat:
+        for c in setup:
+            for bin in range(0,nBins):
+                f.write('CMS_vhbb_stats_%s_%s_%s\tshape'%(Dict[c], bin, options[10]))
+                for it in range(0,columns):
+                    if it == setup.index(c):
+                        f.write('\t1.0')
+                    else:
+                        f.write('\t-')
+                f.write('\n')
+
+    else:
+        for c in setup:
+            f.write('CMS_vhbb_stats_%s_%s\tshape'%(Dict[c], options[10]))
             for it in range(0,columns):
                 if it == setup.index(c):
                     f.write('\t1.0')
                 else:
                     f.write('\t-')
             f.write('\n')
-
-else:
-    for c in setup:
-        f.write('CMS_vhbb_stats_%s_%s\tshape'%(Dict[c], options[10]))
-        for it in range(0,columns):
-            if it == setup.index(c):
-                f.write('\t1.0')
-            else:
-                f.write('\t-')
+        
+    if weightF_sys:
+        f.write('UEPS\tshape')
+        for it in range(0,columns): f.write('\t1.0')
         f.write('\n')
-    
-if weightF_sys:
-    f.write('UEPS\tshape')
-    for it in range(0,columns): f.write('\t1.0')
-    f.write('\n')
 
-if addSample_sys:
-    alreadyAdded = []
-    for newSample in addSample_sys.iterkeys():
-        for c in setup:
-            if not c == Group[newSample]: continue
-            if Dict[c] in alreadyAdded: continue
-            f.write('CMS_vhbb_model_%s\tshape'%(Dict[c]))
-            for it in range(0,columns):
-                if it == setup.index(c):
-                     f.write('\t1.0')
-                else:
-                     f.write('\t-')
-            f.write('\n')
-            alreadyAdded.append(Dict[c])
-    
-for sys in systematics:
-    sys_factor=sys_factor_dict[sys]
-    f.write('%s\tshape'%systematicsnaming[sys])
-    for c in range(0,columns): f.write('\t%s'%sys_factor)
-    f.write('\n')
-f.close()
+    if addSample_sys:
+        alreadyAdded = []
+        for newSample in addSample_sys.iterkeys():
+            for c in setup:
+                if not c == Group[newSample]: continue
+                if Dict[c] in alreadyAdded: continue
+                f.write('CMS_vhbb_model_%s\tshape'%(Dict[c]))
+                for it in range(0,columns):
+                    if it == setup.index(c):
+                         f.write('\t1.0')
+                    else:
+                         f.write('\t-')
+                f.write('\n')
+                alreadyAdded.append(Dict[c])
+        
+    for sys in systematics:
+        sys_factor=sys_factor_dict[sys]
+        f.write('%s\tshape'%systematicsnaming[sys])
+        for c in range(0,columns): f.write('\t%s'%sys_factor)
+        f.write('\n')
+    f.close()
 outfile.Close()
