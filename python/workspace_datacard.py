@@ -121,7 +121,7 @@ elif str(anType) == 'Mjj':
     mjj = True
     systematics = eval(config.get('LimitGeneral','sys_Mjj'))
 sys_cut_suffix=eval(config.get('LimitGeneral','sys_cut_suffix'))
-
+sys_affecting = eval(config.get('LimitGeneral','sys_affecting'))
 rebin_active=eval(config.get('LimitGeneral','rebin_active'))
 
 signal_inject=config.get('LimitGeneral','signal_inject')
@@ -676,7 +676,11 @@ for DCtype in ['WS','TH']:
     for sys in systematics:
         sys_factor=sys_factor_dict[sys]
         f.write('%s\tshape'%systematicsnaming[sys])
-        for c in range(0,columns): f.write('\t%s'%sys_factor)
+        for c in setup:
+            if c in sys_affecting[sys]:
+                f.write('\t%s'%sys_factor)
+            else:
+                f.write('\t-')
         f.write('\n')
     f.close()
 outfile.Close()

@@ -439,10 +439,12 @@ systematicsnaming7TeV={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'C
 systematicsnaming8TeV={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff1_b'}
 #systematicsnaming8TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_8TeV','beff1':'CMS_vhbb_eff1_b'}
 
-sys_BDT: ['JER','JES','beff','bmis']
-sys_Mjj: ['JER','JES','beff','bmis']
+sys_BDT: ['JER','JES','beff','bmis','beff1']
+sys_Mjj: ['JER','JES','beff','bmis','beff1']
 
 sys_factor = {'JER':1.0,'JES':1.0,'beff':1.0,'bmis':1.0,'beff1':1.0}
+
+sys_affecting = {'JER':['ZH','DYlight','DYb','VV','TT','ST'],'JES':['ZH','DYlight','DYb','VV','TT','ST'],'beff':['DYlight','DYb','VV','TT','ST'],'beff1':['ZH'],'bmis':['ZH','DYlight','DYb','VV','TT','ST']}
 
 #Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
 
