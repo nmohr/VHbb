@@ -437,11 +437,12 @@ BDTbinning = 15
 
 systematicsnaming7TeV={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_7TeV','beff1':'CMS_vhbb_eff1_b'}
 systematicsnaming8TeV={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff1_b'}
+#systematicsnaming8TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_8TeV','beff1':'CMS_vhbb_eff1_b'}
 
-sys_BDT: ['JER','JES','beff','bmis','beff1']
-sys_Mjj: ['JER','JES','beff','bmis','beff1']
+sys_BDT: ['JER','JES','beff','bmis']
+sys_Mjj: ['JER','JES','beff','bmis']
 
-sys_factor = {'JER':1.0,'JES':1.0,'beff':0.33,'bmis':0.33,'beff1':0.33}
+sys_factor = {'JER':1.0,'JES':1.0,'beff':1.0,'bmis':1.0,'beff1':1.0}
 
 #Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
 
@@ -520,11 +521,11 @@ List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTight_ZH110_MM_8TeV_oct,R
 
 [Datacard]
 
-InUse: ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_ZjLF_SF_Zll_8TeV','CMS_vhbb_ZjHF_SF_Zll_8TeV','CMS_vhbb_TT_SF_Zll_8TeV']
+InUse: ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_ZjLF_Zll_SF_8TeV','CMS_vhbb_ZjHF_Zll_SF_8TeV','CMS_vhbb_TT_Zll_SF_8TeV']
 
-InUse_HighPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_exHighPt_Zll_8TeV','CMS_vhbb_ZjHF_exHighPt_Zll_8TeV','CMS_vhbb_TT_exHighPt_Zll_8TeV']
-InUse_LowPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_exLowPt_Zll_8TeV','CMS_vhbb_ZjHF_exLowPt_Zll_8TeV','CMS_vhbb_TT_exLowPt_Zll_8TeV']
-InUse_HighPtLooseBTag: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_exHighPtLooseBTag_Zll_8TeV','CMS_vhbb_ZjHF_exHighPtLooseBTag_Zll_8TeV','CMS_vhbb_TT_exHighPtLoooseBTag_Zll_8TeV']
+InUse_HighPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPt_8TeV','CMS_vhbb_ZjHF_Zll_exHighPt_8TeV','CMS_vhbb_TT_Zll_exHighPt_8TeV']
+InUse_LowPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exLowPt_8TeV','CMS_vhbb_ZjHF_Zll_exLowPt_8TeV','CMS_vhbb_TT_Zll_exLowPt_8TeV']
+InUse_HighPtLooseBTag: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_TT_Zll_exHighPtLoooseBTag_8TeV']
 
 lumi_7TeV: {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022}
 lumi_8TeV: {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05}
@@ -551,27 +552,27 @@ CMS_eff_m: {'type':'lnN',  'ZH':1.04, 'ST':1.04,'VV':1.04,'QCD':1.04}
 CMS_trigger_m: {'type':'lnN', 'ZH':1.01, 'ST':1.01,'VV':1.01 }
 CMS_vhbb_trigger_MET: {'type':'lnN'}
 
-CMS_vhbb_ZjLF_exHighPtLooseBTag_Zll_8TeV: {'type':'lnN', 'DYlight':1.20}
-CMS_vhbb_ZjHF_exHighPtLooseBTag_Zll_8TeV: {'type':'lnN', 'DYb':1.20}
-CMS_vhbb_TT_exHighPtLoooseBTag_Zll_8TeV: {'type':'lnN', 'TT':1.20}
-CMS_vhbb_ZjLF_exHighPt_Zll_8TeV: {'type':'lnN', 'DYlight':1.20}
-CMS_vhbb_ZjHF_exHighPt_Zll_8TeV: {'type':'lnN', 'DYb':1.20}
-CMS_vhbb_TT_exHighPt_Zll_8TeV: {'type':'lnN', 'TT':1.20}
-CMS_vhbb_ZjLF_exLowPt_Zll_8TeV: {'type':'lnN', 'DYlight':1.20}
-CMS_vhbb_ZjHF_exLowPt_Zll_8TeV: {'type':'lnN', 'DYb':1.20}
-CMS_vhbb_TT_exLowPt_Zll_8TeV: {'type':'lnN', 'TT':1.20}
+CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV: {'type':'lnN', 'DYlight':1.20}
+CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV: {'type':'lnN', 'DYb':1.20}
+CMS_vhbb_TT_Zll_exHighPtLoooseBTag_8TeV: {'type':'lnN', 'TT':1.20}
+CMS_vhbb_ZjLF_Zll_exHighPt_8TeV: {'type':'lnN', 'DYlight':1.05}
+CMS_vhbb_ZjHF_Zll_exHighPt_8TeV: {'type':'lnN', 'DYb':1.05}
+CMS_vhbb_TT_Zll_exHighPt_8TeV: {'type':'lnN', 'TT':1.05}
+CMS_vhbb_ZjLF_Zll_exLowPt_8TeV: {'type':'lnN', 'DYlight':1.05}
+CMS_vhbb_ZjHF_Zll_exLowPt_8TeV: {'type':'lnN', 'DYb':1.05}
+CMS_vhbb_TT_Zll_exLowPt_8TeV: {'type':'lnN', 'TT':1.05}
 
-CMS_vhbb_ZjLF_SF_Zll_7TeV: {'type':'lnN', 'DYlight':1.198 ,'DYb':0.875 ,'TT':1.003}
-CMS_vhbb_ZjHF_SF_Zll_7TeV: {'type':'lnN', 'DYlight':0.873 ,'DYb':1.202 ,'TT':0.957}
-CMS_vhbb_TT_SF_Zll_7TeV: {'type':'lnN',  'DYlight':1.002 ,'DYb':0.974 ,'TT':1.123}
+CMS_vhbb_ZjLF_Zll_SF_7TeV: {'type':'lnN', 'DYlight':1.198 ,'DYb':0.875 ,'TT':1.003}
+CMS_vhbb_ZjHF_Zll_SF_7TeV: {'type':'lnN', 'DYlight':0.873 ,'DYb':1.202 ,'TT':0.957}
+CMS_vhbb_TT_Zll_SF_7TeV: {'type':'lnN',  'DYlight':1.002 ,'DYb':0.974 ,'TT':1.123}
 
 #CMS_vhbb_ZjLF_SF_8TeV: {'type':'lnN', 'DYlight':1.085 ,'DYb':0.940 ,'TT':0.998}
 #CMS_vhbb_ZjHF_SF_8TeV: {'type':'lnN', 'DYlight':0.942 ,'DYb':1.082 ,'TT':0.986}
 #CMS_vhbb_TT_SF_8TeV: {'type':'lnN',  'DYlight':0.998 ,'DYb':0.986 ,'TT':1.081}
 
-CMS_vhbb_ZjLF_SF_Zll_8TeV: {'type':'lnN', 'DYlight':1.036,'DYb':0.976,'TT':1.001}
-CMS_vhbb_ZjHF_SF_Zll_8TeV: {'type':'lnN', 'DYlight':0.953,'DYb':1.070,'TT':0.985}
-CMS_vhbb_TT_SF_Zll_8TeV: {'type':'lnN', 'DYlight':1.001,'DYb':0.992,'TT':1.038} 
+CMS_vhbb_ZjLF_Zll_SF_8TeV: {'type':'lnN', 'DYlight':1.036,'DYb':0.976,'TT':1.001}
+CMS_vhbb_ZjHF_Zll_SF_8TeV: {'type':'lnN', 'DYlight':0.953,'DYb':1.070,'TT':0.985}
+CMS_vhbb_TT_Zll_SF_8TeV: {'type':'lnN', 'DYlight':1.001,'DYb':0.992,'TT':1.038} 
 
 
 [Limit]
@@ -1077,10 +1078,10 @@ ccBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
-preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
-# & EVENT.run < 196532
+preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0. 
+#& <!ZHbb|MassVeto!>
 #5fb:
-# & <!ZHbb|MassVeto!>
+# & EVENT.run < 196532
 30jets = hJet_pt[0] > 30. & hJet_pt[1] > 30.
 preselection_beforeReg = (hJet_pt[0]/hJet_regWeight[0]) > 20. & (hJet_pt[1]*hJet_regWeight[1]) > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
 zWindow = V.mass > 75. & V.mass < 105
