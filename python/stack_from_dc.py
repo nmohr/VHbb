@@ -32,7 +32,7 @@ parser.add_option("-C", "--config", dest="config", default=[], action="append",
 
 def readBestFit(theFile):
     file = ROOT.TFile(theFile)
-    if file == None: raise RuntimeError, "Cannot open file %s" % args[0]
+    if file == None: raise RuntimeError, "Cannot open file %s" % theFile
     fit_s  = file.Get("fit_s")
     fit_b  = file.Get("fit_b")
     prefit = file.Get("nuisances_prefit")
@@ -62,6 +62,42 @@ def readBestFit(theFile):
                 #print valShift
     return nuiVariation
 
+def getBestFitShapes(procs,theShapes,shapeNui,DC,setup,opts,Dict):
+    b = opts.bin
+    for p in procs:
+        counter = 0
+        nom = theShapes[p].Clone()
+        for (lsyst,nofloat,pdf,pdfargs,errline) in DC.systs:
+            if errline[b][p] == 0: continue
+            if ("shape" in pdf) and not 'CMS_vhbb_stats_' in lsyst:
+                if shapeNui > 0.:
+                    theVari = 'Up'
+                else:
+                    theVari = 'Down'
+                bestNuiVar = theShapes[p+lsyst+theVari].Clone()
+                bestNuiVar.Add(nom,-1.)
+                bestNuiVar.Scale(abs(shapeNui[p]))
+                if counter == 0:
+                    bestNui = bestNuiVar.Clone()
+                else:
+                    bestNui.Add(bestNuiVar)
+                counter +=1
+                nom.Add(bestNui)
+        nom.Scale(theShapes[p].Integral()/nom.Integral())
+        nBins = nom.GetNbinsX()
+        for bin in range(1,nBins+1):
+            nom.SetBinError(bin,theShapes[p].GetBinError(bin))
+        theShapes['%s_%s'%(opts.fit,p)] = nom.Clone()
+    histos = []
+    typs = []
+    for s in setup:
+        if 'ZH' == s:
+            Overlay=copy(theShapes[Dict[s]])
+        else:
+            histos.append(theShapes['%s_%s'%(opts.fit,Dict[s])])
+            typs.append(s)
+    return histos,typs
+
 
 def drawFromDC():
     config = BetterConfigParser()
@@ -72,6 +108,10 @@ def drawFromDC():
     ws_var = config.get('plotDef:%s'%var,'relPath')
     blind = eval(config.get('Plot:%s'%region,'blind'))
     Stack=StackMaker(config,var,region,True)
+
+    preFit = False
+    if not opts.mlfit:
+        preFit = True
 
     dataname = ''
     if 'Zmm' in opts.bin: dataname = 'Zmm'
@@ -112,6 +152,7 @@ def drawFromDC():
     MB = ShapeBuilder(DC, options)
     theShapes = {}
     theSyst = {}
+    nuiVar = {}
     if opts.mlfit:
         nuiVar = readBestFit(opts.mlfit)
     for b in DC.bins:
@@ -234,38 +275,8 @@ def drawFromDC():
     
     #-------------
     #Best fit for shapes
-    for p in procs:
-        counter = 0
-        nom = theShapes[p].Clone()
-        for (lsyst,nofloat,pdf,pdfargs,errline) in DC.systs:
-            if errline[b][p] == 0: continue
-            if ("shape" in pdf) and not 'CMS_vhbb_stats_' in lsyst:
-                if shapeNui > 0.:
-                    theVari = 'Up'
-                else:
-                    theVari = 'Down'
-                bestNuiVar = theShapes[p+lsyst+theVari].Clone()
-                bestNuiVar.Add(nom,-1.)
-                bestNuiVar.Scale(abs(shapeNui[p]))
-                if counter == 0:
-                    bestNui = bestNuiVar.Clone()
-                else:
-                    bestNui.Add(bestNuiVar)
-                counter +=1
-                nom.Add(bestNui)
-        nom.Scale(theShapes[p].Integral()/nom.Integral())
-        nBins = nom.GetNbinsX()
-        for bin in range(1,nBins+1):
-            nom.SetBinError(bin,theShapes[p].GetBinError(bin))
-        theShapes['%s_%s'%(opts.fit,p)] = nom.Clone()
-    histos = []
-    typs = []
-    for s in setup:
-        if 'ZH' == s:
-            Overlay=copy(theShapes[Dict[s]])
-        else:
-            histos.append(theShapes['%s_%s'%(opts.fit,Dict[s])])
-            typs.append(s)
+    if not preFit:
+        histos, typs = getBestFitShapes(procs,theShapes,shapeNui,DC,setup,opts,Dict)
     
     counter = 0
     errUp=[]
