@@ -52,6 +52,7 @@ class StackMaker:
         self.typLegendDict=eval(config.get('Plot_general','typLegendDict'))
         self.anaTag = config.get("Analysis","tag")
         self.xAxis = config.get('plotDef:%s'%var,'xAxis')
+        self.plotDir = config.get('Directories','plotpath')
         self.options = [self.name,'',self.xAxis,self.nBins,self.xMin,self.xMax,'%s_%s.pdf'%(region,var),region,datacut,self.mass,data,blindopt]
         self.maxRatioUncert = 0.5
         if self.SignalRegion:
@@ -265,6 +266,7 @@ class StackMaker:
         t0.SetTextFont(ROOT.gStyle.GetLabelFont())
         if not self.log:
     	    t0.DrawTextNDC(0.1059,0.96, "0")
-
-        name = '%s/%s' %(self.config.get('Directories','plotpath'),self.options[6])
+        if not os.path.exists(self.plotDir):
+            os.makedirs(os.path.dirname(self.plotDir))
+        name = '%s/%s' %(self.plotDir,self.options[6])
         c.Print(name)

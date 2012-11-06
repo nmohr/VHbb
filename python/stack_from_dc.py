@@ -90,7 +90,7 @@ def drawFromDC():
     options.dataname = "data_obs"
     options.mass = 0
     options.format = "%8.3f +/- %6.3f"
-    options.channel = None
+    options.channel = opts.bin
     options.excludeSyst = []
     options.norm = False
     options.stat = False
@@ -197,7 +197,7 @@ def drawFromDC():
     shapesDown = [[] for _ in range(0,len(setup2))]
     
     for p in procs:
-        b = DC.bins[0]
+        b = opts.bin
         for s in setup:
             if not Dict[s] == p: continue
             if 'ZH' == s:
@@ -253,7 +253,7 @@ def drawFromDC():
                     bestNui.Add(bestNuiVar)
                 counter +=1
                 nom.Add(bestNui)
-        #nom.Scale(theBestFit[p])
+        nom.Scale(theShapes[p].Integral()/nom.Integral())
         nBins = nom.GetNbinsX()
         for bin in range(1,nBins+1):
             nom.SetBinError(bin,theShapes[p].GetBinError(bin))
@@ -316,7 +316,7 @@ def drawFromDC():
 
     #-----------------------
     #Read data
-    data0 = MB.getShape(DC.bins[0],'data_obs')
+    data0 = MB.getShape(opts.bin,'data_obs')
     if (data0.InheritsFrom("RooDataHist")):
         data0 = ROOT.RooAbsData.createHistogram(data0,ws_var)
         data0.SetName('data_obs')
