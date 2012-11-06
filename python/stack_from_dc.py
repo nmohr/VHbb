@@ -62,7 +62,7 @@ def readBestFit(theFile):
                 #print valShift
     return nuiVariation
 
-def getBestFitShapes(procs,theShapes,shapeNui,DC,setup,opts,Dict):
+def getBestFitShapes(procs,theShapes,shapeNui,theBestFit,DC,setup,opts,Dict):
     b = opts.bin
     for p in procs:
         counter = 0
@@ -83,7 +83,8 @@ def getBestFitShapes(procs,theShapes,shapeNui,DC,setup,opts,Dict):
                     bestNui.Add(bestNuiVar)
                 counter +=1
                 nom.Add(bestNui)
-        nom.Scale(theShapes[p].Integral()/nom.Integral())
+        #nom.Scale(theBestFit[p])
+        nom.Scale(theShapes[p].Integral()/nom.Integral()*theBestFit[p])
         nBins = nom.GetNbinsX()
         for bin in range(1,nBins+1):
             nom.SetBinError(bin,theShapes[p].GetBinError(bin))
@@ -107,11 +108,14 @@ def drawFromDC():
     ws_var = config.get('plotDef:%s'%var,'relPath')
     blind = eval(config.get('Plot:%s'%region,'blind'))
     Stack=StackMaker(config,var,region,True)
-    Stack.options[6] = '%s_%s.pdf'  %(var,opts.bin)
 
     preFit = False
+    addName = 'PostFit_%s' %(opts.fit)
     if not opts.mlfit:
+        addName = 'PreFit'
         preFit = True
+
+    Stack.options[6] = '%s_%s_%s.pdf'  %(var,opts.bin,addName)
 
     dataname = ''
     if 'Zmm' in opts.bin: dataname = 'Zmm'
@@ -276,7 +280,7 @@ def drawFromDC():
     #-------------
     #Best fit for shapes
     if not preFit:
-        histos, typs = getBestFitShapes(procs,theShapes,shapeNui,DC,setup,opts,Dict)
+        histos, typs = getBestFitShapes(procs,theShapes,shapeNui,theBestFit,DC,setup,opts,Dict)
     
     counter = 0
     errUp=[]
