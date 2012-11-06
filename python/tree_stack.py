@@ -27,6 +27,7 @@ parser.add_option("-C", "--config", dest="config", default=[], action="append",
 if opts.config =="":
         opts.config = "config"
 print opts.config
+opts.config.append('vhbbPlotDef.ini')
 config = BetterConfigParser()
 config.read(opts.config)
 
@@ -115,7 +116,7 @@ if 'vhbb_TH_BDT' in region or 'vhbb_TH_Mjj' in region:
 
     from HiggsAnalysis.CombinedLimit.DatacardParser import *
     from HiggsAnalysis.CombinedLimit.ShapeTools     import *
-    file = open(limitpath+'/'+region.replace('vhbb_TH_','vhbb_DC_')+'.txt', "r")
+    file = open(limitpath+'/'+region.replace('vhbb_TH_','vhbb_DC_WS_')+'.txt', "r")
     DC = parseCard(file, options)
     if not DC.hasShapes: DC.hasShapes = True
     MB = ShapeBuilder(DC, options)

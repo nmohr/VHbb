@@ -7,15 +7,13 @@ from Ratio import getRatio
 
 class StackMaker:
     def __init__(self, config, var,region,SignalRegion):
-        plotConfig = BetterConfigParser()
-        plotConfig.read('vhbbPlotDef.ini')
         section='Plot:%s'%region
         self.var = var
         self.SignalRegion=SignalRegion
         self.normalize = eval(config.get(section,'Normalize'))
         self.log = eval(config.get(section,'log'))
-        if plotConfig.has_option('plotDef:%s'%var,'log') and not self.log:
-            self.log = eval(plotConfig.get('plotDef:%s'%var,'log'))
+        if config.has_option('plotDef:%s'%var,'log') and not self.log:
+            self.log = eval(config.get('plotDef:%s'%var,'log'))
         self.blind = eval(config.get(section,'blind'))
         if self.blind: blindopt='blind'
         else: blindopt = 'noblind'
@@ -30,17 +28,17 @@ class StackMaker:
         if config.has_option(section,'nBins'):
             self.nBins = int(eval(config.get(section,'nBins'))/self.rebin)
         else:
-            self.nBins = int(eval(plotConfig.get('plotDef:%s'%var,'nBins'))/self.rebin)
+            self.nBins = int(eval(config.get('plotDef:%s'%var,'nBins'))/self.rebin)
         print self.nBins
         if config.has_option(section,'min'):
             self.xMin = eval(config.get(section,'min'))
         else:
-            self.xMin = eval(plotConfig.get('plotDef:%s'%var,'min'))
+            self.xMin = eval(config.get('plotDef:%s'%var,'min'))
         if config.has_option(section,'max'):
             self.xMax = eval(config.get(section,'max'))
         else:
-            self.xMax = eval(plotConfig.get('plotDef:%s'%var,'max'))
-        self.name = plotConfig.get('plotDef:%s'%var,'relPath')
+            self.xMax = eval(config.get('plotDef:%s'%var,'max'))
+        self.name = config.get('plotDef:%s'%var,'relPath')
         self.mass = config.get(section,'Signal')
         data = config.get(section,'Datas')
         if '<mass>' in self.name:
@@ -53,7 +51,7 @@ class StackMaker:
         self.colorDict=eval(config.get('Plot_general','colorDict'))
         self.typLegendDict=eval(config.get('Plot_general','typLegendDict'))
         self.anaTag = config.get("Analysis","tag")
-        self.xAxis = plotConfig.get('plotDef:%s'%var,'xAxis')
+        self.xAxis = config.get('plotDef:%s'%var,'xAxis')
         self.options = [self.name,'',self.xAxis,self.nBins,self.xMin,self.xMax,'%s_%s.pdf'%(region,var),region,datacut,self.mass,data,blindopt]
         self.maxRatioUncert = 0.5
         if self.SignalRegion:
@@ -144,6 +142,12 @@ class StackMaker:
 	        addFlag = 'Z(e^{-}e^{+})H(b#bar{b})'
         elif 'Zmm' in self.datanames:
 	        addFlag = 'Z(#mu^{-}#mu^{+})H(b#bar{b})'
+        elif 'Znn' in self.datanames:
+	        addFlag = 'Z(#nu#nu)H(b#bar{b})'
+        elif 'Wmn' in self.datanames:
+	        addFlag = 'W(#mu#nu)H(b#bar{b})'
+        elif 'Wen' in self.datanames:
+	        addFlag = 'W(e#nu)H(b#bar{b})'
         for i in range(0,len(self.datas)):
             d1.Add(self.datas[i],1)
         print "\033[1;32m\n\tDATA integral = %s\033[1;m"%d1.Integral()
