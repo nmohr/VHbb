@@ -102,12 +102,12 @@ def getBestFitShapes(procs,theShapes,shapeNui,DC,setup,opts,Dict):
 def drawFromDC():
     config = BetterConfigParser()
     config.read(opts.config)
-    print config.sections()
     region = 'BDT'
     var = 'BDT'
     ws_var = config.get('plotDef:%s'%var,'relPath')
     blind = eval(config.get('Plot:%s'%region,'blind'))
     Stack=StackMaker(config,var,region,True)
+    Stack.options[6] = '%s_%s.pdf'  %(var,opts.bin)
 
     preFit = False
     if not opts.mlfit:
