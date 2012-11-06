@@ -69,7 +69,7 @@ def getBestFitShapes(procs,theShapes,shapeNui,theBestFit,DC,setup,opts,Dict):
         nom = theShapes[p].Clone()
         for (lsyst,nofloat,pdf,pdfargs,errline) in DC.systs:
             if errline[b][p] == 0: continue
-            if ("shape" in pdf) and not 'CMS_vhbb_stats_' in lsyst:
+            if ("shape" in pdf) and not 'CMS_vhbb_stat' in lsyst:
                 if shapeNui > 0.:
                     theVari = 'Up'
                 else:
@@ -179,6 +179,7 @@ def drawFromDC():
             counter = 0
             for p in DC.exp[b].keys(): # so that we get only self.DC.processes contributing to this bin
                 if errline[b][p] == 0: continue
+                if p == 'QCD': continue
                 if pdf == 'gmN':
                     exps[p][1].append(1/sqrt(pdfargs[0]+1));
                 elif pdf == 'gmM':
@@ -193,7 +194,8 @@ def drawFromDC():
                      else:
                         nui= nuiVar['%s_%s'%(opts.fit,lsyst)]
                      expNui[p][1].append(abs(1-errline[b][p])*nui);
-                elif ("shape" in pdf) and not 'CMS_vhbb_stats_' in lsyst:
+                elif ("shape" in pdf) and not 'CMS_vhbb_stat' in lsyst:
+                    #print 'shape %s %s: %s'%(pdf,p,lsyst)
                     s0 = MB.getShape(b,p)
                     sUp   = MB.getShape(b,p,lsyst+"Up")
                     sDown = MB.getShape(b,p,lsyst+"Down")
@@ -222,6 +224,8 @@ def drawFromDC():
                         theSyst[lsyst+'Down'].Add(sDown.Clone()) 
                     counter += 1
     procs = DC.exp[b].keys(); procs.sort()
+    if 'QCD' in procs:
+        procs.remove('QCD')
     fmt = ("%%-%ds " % max([len(p) for p in procs]))+"  "+options.format;
     #Compute norm uncertainty and best fit
     theNormUncert = {}
@@ -253,7 +257,7 @@ def drawFromDC():
                 print s
             for (lsyst,nofloat,pdf,pdfargs,errline) in DC.systs:
                 if errline[b][p] == 0: continue
-                if ("shape" in pdf) and not 'CMS_vhbb_stats_' in lsyst:
+                if ("shape" in pdf) and not 'CMS_vhbb_stat' in lsyst:
                     print 'syst %s'%lsyst
                     shapesUp[setup2.index(s)].append(theShapes[Dict[s]+lsyst+'Up'])
                     shapesDown[setup2.index(s)].append(theShapes[Dict[s]+lsyst+'Down'])
@@ -262,7 +266,7 @@ def drawFromDC():
     #Compute absolute uncertainty from shapes
     counter = 0
     for (lsyst,nofloat,pdf,pdfargs,errline) in DC.systs:
-        if ("shape" in pdf) and not 'CMS_vhbb_stats_' in lsyst:
+        if ("shape" in pdf) and not 'CMS_vhbb_stat' in lsyst:
             theSystUp = theSyst[lsyst+'Up'].Clone()
             theSystUp.Add(theSyst[lsyst].Clone(),-1.)
             theSystUp.Multiply(theSystUp)

@@ -11,13 +11,13 @@ setup: ZH,VV,DYb,DYlight,TT,ST
 setupLog: ZH,DYb,DYlight,TT,ST,VV
 
 #colors
-colorDict: {'DYlight':401,'DYc':41,'DYb':5,'TT':596,'ST':602,'VV':17,'ZH':2,'DYlc':401}
-typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DYb':'Z + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','ZH':'ZH','Overlay':'ZH (125 GeV)'}
+colorDict: {'DYlight':401,'DYc':41,'DYb':5,'Wlight':814,'Wc':41,'Wb':820,'TT':596,'ST':840,'VV':17,'ZH':2,'DYlc':401}
+typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DYb':'Z + b#bar{b}','Wlight':'W+udscg','Wc':'W + c#bar{c}','Wb':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','ZH':'ZH','Overlay':'WH (125 GeV)'}
 
 addOverFlow = True
 
 [LimitGeneral]
-Dict: {'ZH':'ZH','DYlight':'ZjLF','DYb':'ZjHF','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs'}
+Dict: {'ZH':'ZH','DYlight':'ZjLF','DYb':'ZjHF','Wlight':'WjLF','Wb':'WjHF','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs'}
 
 [plotDef:BDT]
 relPath = CMS_vhbb_BDT_Zll_8TeV
