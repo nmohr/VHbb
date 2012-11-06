@@ -1,0 +1,35 @@
+[Analysis]
+tag = 8TeV
+
+[Directories]
+plotpath: ~/Stacks/hcpUnblind/
+
+[Plot_general]
+lumi = 12.1
+#how and which groups in the plot
+setup: ZH,VV,DYb,DYlight,TT,ST
+setupLog: ZH,DYb,DYlight,TT,ST,VV
+
+#colors
+colorDict: {'DYlight':401,'DYc':41,'DYb':5,'TT':596,'ST':602,'VV':17,'ZH':2,'DYlc':401}
+typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DYb':'Z + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','ZH':'ZH','Overlay':'ZH (125 GeV)'}
+
+addOverFlow = True
+
+[LimitGeneral]
+Dict: {'ZH':'ZH','DYlight':'ZjLF','DYb':'ZjHF','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs'}
+
+[plotDef:BDT]
+relPath = CMS_vhbb_BDT_Zll_8TeV
+xAxis = BDT output
+nBins = 15
+min = -1
+max = 1
+
+[Plot:BDT]
+Datas: Zee
+Normalize: False
+Signal: ZH125
+log: True
+blind: False
+
