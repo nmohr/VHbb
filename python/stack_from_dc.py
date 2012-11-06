@@ -239,7 +239,7 @@ def drawFromDC():
         nom = theShapes[p].Clone()
         for (lsyst,nofloat,pdf,pdfargs,errline) in DC.systs:
             if errline[b][p] == 0: continue
-            if ("shape" in pdf) and not 'CMS_vhbb_stats_' in lsyst and not 'CMS_vhbb_model_VV' in lsyst:
+            if ("shape" in pdf) and not 'CMS_vhbb_stats_' in lsyst:
                 if shapeNui > 0.:
                     theVari = 'Up'
                 else:
