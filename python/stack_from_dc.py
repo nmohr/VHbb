@@ -82,7 +82,7 @@ def getBestFitShapes(procs,theShapes,shapeNui,theBestFit,DC,setup,opts,Dict):
                 else:
                     bestNui.Add(bestNuiVar)
                 counter +=1
-                nom.Add(bestNui)
+        nom.Add(bestNui)
         #nom.Scale(theBestFit[p])
         nom.Scale(theShapes[p].Integral()/nom.Integral()*theBestFit[p])
         nBins = nom.GetNbinsX()
