@@ -52,8 +52,10 @@ class StackMaker:
         self.typLegendDict=eval(config.get('Plot_general','typLegendDict'))
         self.anaTag = config.get("Analysis","tag")
         self.xAxis = config.get('plotDef:%s'%var,'xAxis')
+        self.options = [self.name,'',self.xAxis,self.nBins,self.xMin,self.xMax,'%s_%s_%s.pdf'%(region,var,self.mass),region,datacut,self.mass,data,blindopt]
+        #self.xAxis = config.get('plotDef:%s'%var,'xAxis')
+        #self.options = [self.name,'',self.xAxis,self.nBins,self.xMin,self.xMax,'%s_%s.pdf'%(region,var),region,datacut,self.mass,data,blindopt]
         self.plotDir = config.get('Directories','plotpath')
-        self.options = [self.name,'',self.xAxis,self.nBins,self.xMin,self.xMax,'%s_%s.pdf'%(region,var),region,datacut,self.mass,data,blindopt]
         self.maxRatioUncert = 0.5
         if self.SignalRegion:
             self.maxRatioUncert = 1000.
@@ -174,10 +176,10 @@ class StackMaker:
             for blabla in stackhists:
         	    if MC_integral != 0: blabla.Scale(stackscale)
    
-        if self.SignalRegion:
-            allMC=allStack.GetStack().At(allStack.GetStack().GetLast()-1).Clone()
-        else:
-            allMC=allStack.GetStack().Last().Clone()
+        #if self.SignalRegion:
+        #    allMC=allStack.GetStack().At(allStack.GetStack().GetLast()-1).Clone()
+        #else:
+        allMC=allStack.GetStack().Last().Clone()
 
         allStack.SetTitle()
         allStack.Draw("hist")
@@ -247,6 +249,10 @@ class StackMaker:
             self.AddErrors.Draw('SAME2')
 
             l2.AddEntry(self.AddErrors,"MC uncert. (stat. + syst.)","f")
+
+            #ksScore = d1.KolmogorovTest( self.AddErrors )
+            #chiScore = d1.Chi2Test( self.AddErrors , "UWCHI2/NDF")
+
 
         l2.AddEntry(ratioError,"MC uncert. (stat.)","f")
 
