@@ -111,8 +111,8 @@ def drawFromDC():
     dataname = ''
     if 'Zmm' in opts.bin: dataname = 'Zmm'
     elif 'Zee' in opts.bin: dataname = 'Zee'
-    elif 'Wmn' in opts.bin: dataname = 'Wmn'
-    elif 'Wen' in opts.bin: dataname = 'Wen'
+    elif 'Wmunu' in opts.bin: dataname = 'Wmn'
+    elif 'Wenu' in opts.bin: dataname = 'Wen'
     elif 'Znunu' in opts.bin: dataname = 'Znn'
 
     var = 'BDT'
