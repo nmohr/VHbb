@@ -91,20 +91,40 @@ def getBestFitShapes(procs,theShapes,shapeNui,theBestFit,DC,setup,opts,Dict):
         theShapes['%s_%s'%(opts.fit,p)] = nom.Clone()
     histos = []
     typs = []
+    sigCount = 0
     for s in setup:
-        if 'ZH' == s:
-            Overlay=copy(theShapes[Dict[s]])
+        if 'ZH' == s or 'WH' == s:
+            if sigCount ==0:
+                Overlay=copy(theShapes[Dict[s]])
+            else:
+                Overlay.Add(theShapes[Dict[s]])
+            sigCount += 1
         else:
             histos.append(theShapes['%s_%s'%(opts.fit,Dict[s])])
             typs.append(s)
-    return histos,typs
+    return histos,Overlay,typs
 
 
 def drawFromDC():
     config = BetterConfigParser()
     config.read(opts.config)
-    region = 'BDT'
+    dataname = ''
+    if 'Zmm' in opts.bin: dataname = 'Zmm'
+    elif 'Zee' in opts.bin: dataname = 'Zee'
+    elif 'Wmn' in opts.bin: dataname = 'Wmn'
+    elif 'Wen' in opts.bin: dataname = 'Wen'
+    elif 'Znunu' in opts.bin: dataname = 'Znn'
+
     var = 'BDT'
+    if dataname == 'Zmm' or dataname == 'Zee': var = 'BDT_Zll' 
+    elif dataname == 'Wmn' or dataname == 'Wen': var = 'BDT_Wln' 
+    elif dataname == 'Znn': 
+        if 'HighPt' in opts.bin: var = 'BDT_ZnnHighPt' 
+        if 'LowPt' in opts.bin: var = 'BDT_ZnnLowPt' 
+        if 'LowCSV' in opts.bin: var = 'BDT_ZnnLowCSV' 
+    if dataname == '' or var == 'BDT': raise RuntimeError, "Did not recognise mode or var from %s" % opts.bin
+    
+    region = 'BDT'
     ws_var = config.get('plotDef:%s'%var,'relPath')
     blind = eval(config.get('Plot:%s'%region,'blind'))
     Stack=StackMaker(config,var,region,True)
@@ -117,16 +137,13 @@ def drawFromDC():
 
     Stack.options[6] = '%s_%s_%s.pdf'  %(var,opts.bin,addName)
 
-    dataname = ''
-    if 'Zmm' in opts.bin: dataname = 'Zmm'
-    elif 'Zee' in opts.bin: dataname = 'Zee'
-    elif 'Wmn' in opts.bin: dataname = 'Wmn'
-    elif 'Wen' in opts.bin: dataname = 'Wen'
-    elif 'Znn' in opts.bin: dataname = 'Znn'
-
     log = eval(config.get('Plot:%s'%region,'log'))
 
     setup = config.get('Plot_general','setup').split(',')
+    if dataname == 'Zmm' or dataname == 'Zee': 
+        setup.remove('Wb')
+        setup.remove('Wlight')
+        setup.remove('WH')
     Dict = eval(config.get('LimitGeneral','Dict'))
     lumi = eval(config.get('Plot_general','lumi'))
     
@@ -159,6 +176,7 @@ def drawFromDC():
     nuiVar = {}
     if opts.mlfit:
         nuiVar = readBestFit(opts.mlfit)
+    if not opts.bin in DC.bins: raise RuntimeError, "Cannot open find %s in bins %s of %s" % (opts.bin,DC.bins,opts.dc)
     for b in DC.bins:
         if options.channel != None and (options.channel != b): continue
         exps = {}
@@ -245,16 +263,20 @@ def drawFromDC():
     shapesUp = [[] for _ in range(0,len(setup2))]
     shapesDown = [[] for _ in range(0,len(setup2))]
     
+    sigCount = 0
     for p in procs:
         b = opts.bin
         for s in setup:
             if not Dict[s] == p: continue
-            if 'ZH' == s:
-                Overlay=copy(theShapes[Dict[s]])
+            if 'ZH' == s or 'WH' == s:
+                if sigCount ==0:
+                    Overlay=copy(theShapes[Dict[s]])
+                else:
+                    Overlay.Add(theShapes[Dict[s]])
+                sigCount += 1
             else:
                 histos.append(theShapes[Dict[s]])
                 typs.append(s)
-                print s
             for (lsyst,nofloat,pdf,pdfargs,errline) in DC.systs:
                 if errline[b][p] == 0: continue
                 if ("shape" in pdf) and not 'CMS_vhbb_stat' in lsyst:
@@ -284,7 +306,7 @@ def drawFromDC():
     #-------------
     #Best fit for shapes
     if not preFit:
-        histos, typs = getBestFitShapes(procs,theShapes,shapeNui,theBestFit,DC,setup,opts,Dict)
+        histos, Overlay, typs = getBestFitShapes(procs,theShapes,shapeNui,theBestFit,DC,setup,opts,Dict)
     
     counter = 0
     errUp=[]
@@ -349,7 +371,15 @@ def drawFromDC():
             datas[0].SetBinContent(bin,0)
 
     histos.append(copy(Overlay))
-    typs.append('ZH')
+    if 'ZH' in setup and 'WH' in setup:
+        typs.append('VH')
+        Stack.setup.remove('ZH')
+        Stack.setup.remove('WH')
+        Stack.setup.insert(0,'VH')
+    elif 'ZH' in setup:
+        typs.append('ZH')
+    elif 'WH' in setup:
+        typs.append('WH')
 
     Stack.histos = histos
     Stack.typs = typs

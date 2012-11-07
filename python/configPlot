@@ -5,24 +5,52 @@ tag = 8TeV
 plotpath: ~/Stacks/hcpUnblind/
 
 [Plot_general]
-lumi = 12.1
+lumi = 12100
 #how and which groups in the plot
-setup: ZH,VV,DYb,DYlight,TT,ST
-setupLog: ZH,DYb,DYlight,TT,ST,VV
+setup: ZH,WH,VV,DYb,DYlight,Wb,Wlight,TT,ST
+setupLog: ZH,WH,DYb,DYlight,Wb,Wlight,TT,ST,VV
 
 #colors
-colorDict: {'DYlight':401,'DYc':41,'DYb':5,'Wlight':814,'Wc':41,'Wb':820,'TT':596,'ST':840,'VV':17,'ZH':2,'DYlc':401}
-typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DYb':'Z + b#bar{b}','Wlight':'W+udscg','Wc':'W + c#bar{c}','Wb':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','ZH':'ZH','Overlay':'WH (125 GeV)'}
+colorDict: {'DYlight':401,'DYc':41,'DYb':5,'Wlight':814,'Wc':41,'Wb':820,'TT':596,'ST':840,'VV':17,'WH':2,'ZH':2,'VH':2,'DYlc':401}
+typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DYb':'Z + b#bar{b}','Wlight':'W+udscg','Wc':'W + c#bar{c}','Wb':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','ZH':'ZH','WH':'WH','VH':'VH','Overlay':'VH (125 GeV)'}
 
 addOverFlow = True
 
 [LimitGeneral]
-Dict: {'ZH':'ZH','DYlight':'ZjLF','DYb':'ZjHF','Wlight':'WjLF','Wb':'WjHF','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs'}
+Dict: {'ZH':'ZH','WH':'WH','DYlight':'ZjLF','DYb':'ZjHF','Wlight':'WjLF','Wb':'WjHF','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs'}
 
-[plotDef:BDT]
+[plotDef:BDT_Zll]
 relPath = CMS_vhbb_BDT_Zll_8TeV
 xAxis = BDT output
 nBins = 15
+min = -1
+max = 1
+
+[plotDef:BDT_Wln]
+relPath = CMS_vhbb_BDT_Wln_8TeV
+xAxis = BDT output
+nBins = 21
+min = -1
+max = 1
+
+[plotDef:BDT_ZnnHighPt]
+relPath = CMS_vhbb_BDT_ZnunuHighPt_8TeV
+xAxis = BDT output
+nBins = 32
+min = -1
+max = 1.
+
+[plotDef:BDT_ZnnLowPt]
+relPath = CMS_vhbb_BDT_ZnunuLowPt_8TeV
+xAxis = BDT output
+nBins = 20
+min = -1
+max = 1
+
+[plotDef:BDT_ZnnLowCSV]
+relPath = CMS_vhbb_BDT_ZnunuLowCSV_8TeV
+xAxis = BDT output
+nBins = 20
 min = -1
 max = 1
 
