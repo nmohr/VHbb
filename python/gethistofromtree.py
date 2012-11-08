@@ -63,7 +63,7 @@ def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1,which_weight
         elif type(options[7])==list:
             cutcut=config.get('Cuts',options[7][0])
             cutcut=cutcut.replace(options[7][1],options[7][2])
-            print cutcut
+            #print cutcut
         if subsample>-1:
             treeCut='%s & %s%s'%(cutcut,job.subcuts[subsample],traincut)        
         else:
@@ -147,7 +147,7 @@ def orderandadd(histos,typs,setup):
     num=[0]*len(setup)
     for i in range(0,len(setup)):
         for j in range(0,len(histos)):
-            if typs[j] in setup[i]:
+            if typs[j] == setup[i]:
                 num[i]+=1
                 ordnung.append(histos[j])
                 ordnungtyp.append(typs[j])

@@ -65,7 +65,9 @@ if 'vhbb_TH_BDT' in region or 'vhbb_TH_Mjj' in region:
     elif 'Mjj_lowPt' in region:
         var='Hmass'
         newregion='LowPt_MJJ_%s'%d
-
+    elif 'Mjj_medPt' in region:
+        var='Hmass'
+        newregion='MedPt_MJJ_%s'%d
 
     blind = eval(config.get('Plot:%s'%newregion,'blind'))
     Stack=StackMaker(config,var,newregion,True)

@@ -75,6 +75,11 @@ else:
     sys.exit("Unknown Pt region")
 
 outpath=config.get('Directories','limits')
+try:
+    os.stat(outpath)
+except:
+    os.mkdir(outpath)
+
 systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming7TeV'))
 
 TrainFlag = eval(config.get('Analysis','TrainFlag'))
@@ -84,8 +89,7 @@ TrainFlag = eval(config.get('Analysis','TrainFlag'))
 if anaTag =='8TeV':
     systematicsnaming=eval(config.get('LimitGeneral','systematicsnaming8TeV'))
 elif not anaTag =='7TeV':
-    print "What is your Analysis Tag in config? (anaTag)"
-    sys.exit("What is your Analysis Tag in config? (anaTag)")
+    raise Exception("What is your Analysis Tag in config? (anaTag)")
 scaling=eval(config.get('LimitGeneral','scaling'))
 sys_factor_dict = eval(config.get('LimitGeneral','sys_factor'))
 
@@ -125,7 +129,10 @@ sys_affecting = eval(config.get('LimitGeneral','sys_affecting'))
 rebin_active=eval(config.get('LimitGeneral','rebin_active'))
 
 signal_inject=config.get('LimitGeneral','signal_inject')
+add_signal_as_bkg=config.get('LimitGeneral','add_signal_as_bkg')
 
+if not add_signal_as_bkg == 'None':
+    setup.append(add_signal_as_bkg)
 
 outfile = ROOT.TFile(outpath+'vhbb_TH_'+ROOToutname+'.root', 'RECREATE')
 outfile.mkdir(Datacardbin,Datacardbin)
@@ -172,7 +179,6 @@ if blind:
 
 
 #---- get the BKG for the rebinning calculation----
-counterRB=0
 injection = False
 
 for job in info:
@@ -181,26 +187,26 @@ for job in info:
             for subsample in range(0,len(job.subnames)):
                 if job.subnames[subsample] in BKGlist:
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
-                    if counterRB == 0:
-                        hDummyRB = copy(hTemp)
-                    else:
-                        hDummyRB.Add(hTemp)
-                    counterRB += 1
+                    try: hDummyRB.Add(hTemp)
+                    except NameError: hDummyRB = copy(hTemp)
                     
         else:
             if job.name in BKGlist:
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
-                if counterRB == 0:
-                    hDummyRB = copy(hTemp)
-                else:
-                    hDummyRB.Add(hTemp)
-                counterRB += 1
-
+                try: hDummyRB.Add(hTemp)
+                except NameError: hDummyRB = copy(hTemp)
 
             elif job.name == signal_inject:
                 inject_SIG, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 injection = True
+            #elif job.name == add_signal_as_bkg:
+            #    hTemp, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+            #    try: hDummyRB.Add(hTemp)
+            #    except NameError: hDummyRB = copy(hTemp)
 
+
+
+            
 ErrorR=0
 ErrorL=0
 TotR=0
@@ -270,7 +276,7 @@ for job in info:
                 if job.subnames[subsample] in BKGlist:
                     print 'getting %s'%job.subnames[subsample]
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
-                    print hTemp.Integral()
+                    #print hTemp.Integral()
                     histos.append(myBinning.rebin(hTemp))
                     typs.append(Group[job.subnames[subsample]])
                     hNames.append(job.subnames[subsample])                        
@@ -284,7 +290,7 @@ for job in info:
                     hNames.append(job.subnames[subsample])
                     print 'getting %s'%job.subnames[subsample]                        
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
-                    print hTemp.Integral()
+                    #print hTemp.Integral()
                     histos.append(myBinning.rebin(hTemp))
                     typs.append(Group[job.subnames[subsample]])
                     if weightF_sys:
@@ -303,7 +309,7 @@ for job in info:
                 print 'getting %s'%job.name
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 histos.append(myBinning.rebin(hTemp))
-                print hTemp.Integral()
+                #print hTemp.Integral()
                 typs.append(Group[job.name])                        
                 hNames.append(job.name)
                 if weightF_sys:
@@ -316,7 +322,7 @@ for job in info:
                 print 'getting %s'%job.name
                 hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
                 histos.append(myBinning.rebin(hTemp))
-                print hTemp.Integral()
+                #print hTemp.Integral()
                 typs.append(Group[job.name])                                        
                 hNames.append(job.name)                        
                 if weightF_sys:
@@ -325,14 +331,40 @@ for job in info:
                     hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_DOWN')
                     weightF_sys_Downs.append(myBinning.rebin(hTempWD))
 
+                if job.name == add_signal_as_bkg:
+                    hTemp, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+                    histos.append(myBinning.rebin(hTemp))
+                    #print hTemp.Integral()
+                    typs.append(job.name)                        
+                    hNames.append(job.name)
+                    if weightF_sys:
+                        hTempWU, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_UP')
+                        weightF_sys_Ups.append(myBinning.rebin(hTempWU))
+                        hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_DOWN')
+                        weightF_sys_Downs.append(myBinning.rebin(hTempWD))
+
+
+
             elif job.name in data:
                 #print 'DATA'
                 print 'getting %s'%job.name
                 hTemp, typ = getHistoFromTree(job,path,config,options)
                 datas.append(myBinning.rebin(hTemp))
-                print hTemp.Integral()
+                #print hTemp.Integral()
                 datatyps.append(typ)
             
+            elif job.name == add_signal_as_bkg:
+                hTemp, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+                histos.append(myBinning.rebin(hTemp))
+                #print hTemp.Integral()
+                typs.append(job.name)                        
+                hNames.append(job.name)
+                if weightF_sys:
+                    hTempWU, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_UP')
+                    weightF_sys_Ups.append(myBinning.rebin(hTempWU))
+                    hTempWD, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor,-1,'weightF_sys_DOWN')
+                    weightF_sys_Downs.append(myBinning.rebin(hTempWD))
+
             if addSample_sys and job.name in addSample_sys.values():
                 aNames.append(job.name)
                 hTempS, s_ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
@@ -468,10 +500,10 @@ for i in range(0,len(histos)):
 
 
 #HISTOGRAMM of DATA    
-d1 = datas[0]
-if len(datas)>1:
-    for i in range(1,len(datas)):
-        d1.Add(datas[i],1)
+for data in datas:
+    try: d1.Add(data,1)
+    except NameError: d1 = data 
+
 printc('green','','\nDATA integral = %s\n'%d1.Integral())
 flow = d1.GetEntries()-d1.Integral()
 if flow > 0:
@@ -551,6 +583,15 @@ for sys in systematics:
                         hTemp, typ = getHistoFromTree(job,path,config,new_options,MC_rescale_factor)
                         systhistosarray[Coco].append(myBinning.rebin(hTemp))
                         typsX.append(Group[job.name])
+                        if job.name == add_signal_as_bkg:
+                            hTemp, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+                            systhistosarray[Coco].append(myBinning.rebin(hTemp))
+                            typsX.append(job.name)   
+                                                 
+                    elif job.name == add_signal_as_bkg:
+                        hTemp, _ = getHistoFromTree(job,path,config,options,MC_rescale_factor)
+                        systhistosarray[Coco].append(myBinning.rebin(hTemp))
+                        typsX.append(job.name)                        
 
         MC_integral=0
         for histoX in systhistosarray[Coco]:
@@ -577,6 +618,7 @@ WS.writeToFile(outpath+'vhbb_WS_'+ROOToutname+'.root')
 
 
 # -------------------- write DATAcard: ----------------------------------------------------------------------
+#add ZH as BKGd
 DCprocessseparatordict = {'WS':':','TH':'/'}
 for DCtype in ['WS','TH']:
     columns=len(setup)

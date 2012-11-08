@@ -444,7 +444,7 @@ sys_Mjj: ['JER','JES','beff','bmis','beff1']
 
 sys_factor = {'JER':1.0,'JES':1.0,'beff':1.0,'bmis':1.0,'beff1':1.0}
 
-sys_affecting = {'JER':['ZH','DYlight','DYb','VV','TT','ST'],'JES':['ZH','DYlight','DYb','VV','TT','ST'],'beff':['DYlight','DYb','VV','TT','ST'],'beff1':['ZH'],'bmis':['ZH','DYlight','DYb','VV','TT','ST']}
+sys_affecting = {'JER':['ZH','DYlight','DYb','VV','TT','ST','ZH125'],'JES':['ZH','DYlight','DYb','VV','TT','ST','ZH125'],'beff':['DYlight','DYb','VV','TT','ST'],'beff1':['ZH','ZH125'],'bmis':['ZH','DYlight','DYb','VV','TT','ST','ZH125']}
 
 #Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
 
@@ -462,6 +462,7 @@ binstat: False
 
 signal_inject: None
 #ZH125
+add_signal_as_bkg: ZH125
 
 blind: False
 #### rescaling by factor 4
@@ -482,7 +483,7 @@ Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135'
 
 
 #naming for DC
-Dict: {'ZH':'ZH','DYlight':'ZjLF','DYb':'ZjHF','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs'}
+Dict: {'ZH':'ZH','DYlight':'ZjLF','DYb':'ZjHF','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs','ZH125':'H125'}
 
 #SETUP DATACARD (1st Signal, afterwards BKG)
 setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
@@ -538,8 +539,8 @@ QCDscale_VH: {'type':'lnN', 'ZH':1.04}
 QCDscale_ttbar: {'type':'lnN', 'ST':1.06}
 QCDscale_VV: {'type':'lnN', 'VV':1.04} 
 QCDscale_QCD: {'type':'lnN', 'QCD':1.30}
-CMS_vhbb_boost_EWK: {'type':'lnN', 'ZH':1.05}
-CMS_vhbb_boost_QCD: {'type':'lnN', 'ZH':1.10}
+CMS_vhbb_boost_EWK: {'type':'lnN', 'ZH':1.05,'ZH125':1.05}
+CMS_vhbb_boost_QCD: {'type':'lnN', 'ZH':1.10,'ZH125':1.10}
 CMS_vhbb_ST: {'type':'lnN', 'ST':1.29}
 CMS_vhbb_VV: {'type':'lnN', 'VV':1.30}
 CMS_vhbb_ZjLF_ex: {'type':'lnN', 'DYlight':1.05}
@@ -548,10 +549,10 @@ CMS_vhbb_TT_ex: {'type':'lnN', 'TT':1.05}
 #CMS_vhbb_ZjLF_ex_8TeV: {'type':'lnN', 'DYlight':1.05}
 #CMS_vhbb_ZjHF_ex_8TeV: {'type':'lnN', 'DYb':1.05}
 #CMS_vhbb_TT_ex_8TeV: {'type':'lnN', 'TT':1.05}
-CMS_eff_e: {'type':'lnN', 'ZH':1.04, 'ST':1.04,'VV':1.04,'QCD':1.04}
-CMS_trigger_e: {'type':'lnN','ZH':1.02, 'ST':1.02,'VV':1.02 }
-CMS_eff_m: {'type':'lnN',  'ZH':1.04, 'ST':1.04,'VV':1.04,'QCD':1.04}
-CMS_trigger_m: {'type':'lnN', 'ZH':1.01, 'ST':1.01,'VV':1.01 }
+CMS_eff_e: {'type':'lnN', 'ZH':1.04,'ZH125':1.04,'ST':1.04,'VV':1.04,'QCD':1.04}
+CMS_trigger_e: {'type':'lnN','ZH':1.02,'ZH125':1.02,'ST':1.02,'VV':1.02 }
+CMS_eff_m: {'type':'lnN',  'ZH':1.04,'ZH125':1.04,'ST':1.04,'VV':1.04,'QCD':1.04}
+CMS_trigger_m: {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'ST':1.01,'VV':1.01 }
 CMS_vhbb_trigger_MET: {'type':'lnN'}
 
 CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV: {'type':'lnN', 'DYlight':1.20}
@@ -1080,10 +1081,10 @@ ccBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
-preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0. 
+preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
+# & EVENT.run < 196532
 #& <!ZHbb|MassVeto!>
 #5fb:
-# & EVENT.run < 196532
 30jets = hJet_pt[0] > 30. & hJet_pt[1] > 30.
 preselection_beforeReg = (hJet_pt[0]/hJet_regWeight[0]) > 20. & (hJet_pt[1]*hJet_regWeight[1]) > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
 zWindow = V.mass > 75. & V.mass < 105
