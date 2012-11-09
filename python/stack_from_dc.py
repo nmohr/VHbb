@@ -127,6 +127,7 @@ def drawFromDC():
     
     region = 'BDT'
     ws_var = config.get('plotDef:%s'%var,'relPath')
+    ws_var = ROOT.RooRealVar(ws_var,ws_var,-1.,1.)
     blind = eval(config.get('Plot:%s'%region,'blind'))
     Stack=StackMaker(config,var,region,True)
 
@@ -166,6 +167,7 @@ def drawFromDC():
     options.poisson = 0
     options.nuisancesToExclude = []
     options.noJMax = None
+    theBinning = ROOT.RooFit.Binning(Stack.nBins,Stack.xMin,Stack.xMax)
 
     file = open(opts.dc, "r")
     os.chdir(os.path.dirname(opts.dc))
@@ -219,11 +221,11 @@ def drawFromDC():
                     sUp   = MB.getShape(b,p,lsyst+"Up")
                     sDown = MB.getShape(b,p,lsyst+"Down")
                     if (s0.InheritsFrom("RooDataHist")):
-                        s0 = ROOT.RooAbsData.createHistogram(s0,ws_var)
+                        s0 = ROOT.RooAbsData.createHistogram(s0,p,ws_var,theBinning)
                         s0.SetName(p)
-                        sUp = ROOT.RooAbsData.createHistogram(sUp,ws_var)
+                        sUp = ROOT.RooAbsData.createHistogram(sUp,p+lsyst+'Up',ws_var,theBinning)
                         sUp.SetName(p+lsyst+'Up')
-                        sDown = ROOT.RooAbsData.createHistogram(sDown,ws_var)
+                        sDown = ROOT.RooAbsData.createHistogram(sDown,p+lsyst+'Down',ws_var,theBinning)
                         sDown.SetName(p+lsyst+'Down')
                     theShapes[p] = s0.Clone()
                     theShapes[p+lsyst+'Up'] = sUp.Clone()
@@ -365,7 +367,7 @@ def drawFromDC():
     #Read data
     data0 = MB.getShape(opts.bin,'data_obs')
     if (data0.InheritsFrom("RooDataHist")):
-        data0 = ROOT.RooAbsData.createHistogram(data0,ws_var)
+        data0 = ROOT.RooAbsData.createHistogram(data0,'data_obs',ws_var,theBinning)
         data0.SetName('data_obs')
     datas=[data0]
     datatyps = [None]

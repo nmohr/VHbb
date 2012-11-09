@@ -19,6 +19,7 @@ addOverFlow = True
 [LimitGeneral]
 Dict: {'ZH':'ZH','WH':'WH','DYlight':'ZjLF','DYb':'ZjHF','Wlight':'WjLF','Wb':'WjHF','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs'}
 
+
 [plotDef:BDT_Zll]
 relPath = CMS_vhbb_BDT_Zll_8TeV
 xAxis = BDT output
@@ -36,23 +37,23 @@ max = 1
 [plotDef:BDT_ZnnHighPt]
 relPath = CMS_vhbb_BDT_ZnunuHighPt_8TeV
 xAxis = BDT output
-nBins = 32
-min = -1
-max = 1.
+nBins = 15
+min = -1.
+max = -0.0625
 
 [plotDef:BDT_ZnnLowPt]
 relPath = CMS_vhbb_BDT_ZnunuLowPt_8TeV
 xAxis = BDT output
-nBins = 20
+nBins = 8
 min = -1
-max = 1
+max = -0.2
 
 [plotDef:BDT_ZnnLowCSV]
 relPath = CMS_vhbb_BDT_ZnunuLowCSV_8TeV
 xAxis = BDT output
-nBins = 20
-min = -1
-max = 1
+nBins = 7
+min = -1.
+max = -0.3
 
 [Plot:BDT]
 Datas: Zee
