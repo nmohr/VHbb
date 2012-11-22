@@ -35,6 +35,7 @@ class HistoMaker:
             theScale = float(self.lumi)*xsec*sf/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*MC_rescale_factor/float(job.split)
         elif anaTag == '8TeV':
             theScale = float(self.lumi)*xsec*sf/(CountWithPU.GetBinContent(1))*MC_rescale_factor/float(job.split)
+        input.Close()
         return theScale 
 
 
