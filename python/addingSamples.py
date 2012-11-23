@@ -37,42 +37,101 @@ pt100 = []
 ht200400 = []
 ht400 = []
 
-prefix='DiJetPt_'
+prefix='DiJetPt_noweight_'
 fileList = [ [prefix+'DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball.root' , 2950.0, inc ] ,
              [prefix+'DYJetsToLL_PtZ-50To70_TuneZ2star_8TeV-madgraph-tarball.root' , 93.8, pt5070 ],
              [prefix+'DYJetsToLL_PtZ-70To100_TuneZ2star_8TeV-madgraph-tarball.root' , 52.31, pt70100 ],
              [prefix+'DYJetsToLL_PtZ-100_TuneZ2star_8TeV-madgraph.root' , 34.1, pt100 ],
              [prefix+'DY1JetsToLL_M-50_TuneZ2Star_8TeV-madgraph.root' , 561.0, j1 ] ,
              [prefix+'DY2JetsToLL_M-50_TuneZ2Star_8TeV-madgraph.root' , 181.0, j2 ] ,
-#             [prefix+'DY4JetsToLL_M-50_TuneZ2Star_8TeV-madgraph.root' , 51.1, j3 ] , # not ready in 53X
-             [prefix+'DY4JetsToLL_M-50_TuneZ2Star_8TeV-madgraph.root' , 23.04, j4 ] ]
+             [prefix+'DY3JetsToLL_M-50_TuneZ2Star_8TeV-madgraph.root' , 51.1, j3 ] ,
+             [prefix+'DY4JetsToLL_M-50_TuneZ2Star_8TeV-madgraph.root' , 23.04, j4 ] ,
+             [prefix+'DYJetsToLL_HT-200To400_TuneZ2Star_8TeV-madgraph.root' , 19.73, ht200400 ],
+             [prefix+'DYJetsToLL_HT-400ToInf_TuneZ2Star_8TeV-madgraph.root' , 2.826, ht400 ] ]
 
 #look here https://www.evernote.com/shard/s186/sh/8ffc289c-ede2-4e09-83ba-1e1981f13617/4d5aac2f42a9fd480dc66f9303c1c217
 
-lheBin = ['lheV_pt < 50 & lheNj == 0',
-          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 0',
-          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 0',
-          'lheV_pt > 100 & lheNj == 0',
+lheBin = [
 
-          'lheV_pt < 50 & lheNj == 1',
-          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 1',
-          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 1',
-          'lheV_pt > 100 & lheNj == 1',
+    'lheV_pt < 50 & lheNj == 0 & lheHT < 200',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 0 & lheHT < 200',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 0 & lheHT < 200',
+          'lheV_pt > 100 & lheNj == 0 & lheHT < 200',
+
+          'lheV_pt < 50 & lheNj == 1 & lheHT < 200',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 1 & lheHT < 200',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 1 & lheHT < 200',
+          'lheV_pt > 100 & lheNj == 1 & lheHT < 200',
           
-          'lheV_pt < 50 & lheNj == 2',
-          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 2',
-          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 2',
-          'lheV_pt > 100 & lheNj == 2',
+          'lheV_pt < 50 & lheNj == 2 & lheHT < 200',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 2 & lheHT < 200',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 2 & lheHT < 200',
+          'lheV_pt > 100 & lheNj == 2 & lheHT < 200',
           
-          'lheV_pt < 50 & lheNj == 3',
-          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 3',
-          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 3',
-          'lheV_pt > 100 & lheNj == 3',
+          'lheV_pt < 50 & lheNj == 3 & lheHT < 200',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 3 & lheHT < 200',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 3 & lheHT < 200',
+          'lheV_pt > 100 & lheNj == 3 & lheHT < 200',
           
-          'lheV_pt < 50 & lheNj == 4',
-          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 4',
-          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 4',
-          'lheV_pt > 100 & lheNj == 4'          ]
+          'lheV_pt < 50 & lheNj == 4 & lheHT < 200',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 4 & lheHT < 200',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 4 & lheHT < 200',
+          'lheV_pt > 100 & lheNj == 4 & lheHT < 200',
+
+
+   'lheV_pt < 50 & lheNj == 0 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 0 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 0 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 100 & lheNj == 0 & lheHT > 200 & lheHT < 400',
+
+          'lheV_pt < 50 & lheNj == 1 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 1 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 1 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 100 & lheNj == 1 & lheHT > 200 & lheHT < 400',
+          
+          'lheV_pt < 50 & lheNj == 2 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 2 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 2 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 100 & lheNj == 2 & lheHT > 200 & lheHT < 400',
+          
+          'lheV_pt < 50 & lheNj == 3 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 3 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 3 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 100 & lheNj == 3 & lheHT > 200 & lheHT < 400',
+          
+          'lheV_pt < 50 & lheNj == 4 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 4 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 4 & lheHT > 200 & lheHT < 400',
+          'lheV_pt > 100 & lheNj == 4 & lheHT > 200 & lheHT < 400',
+
+
+    'lheV_pt < 50 & lheNj == 0 & lheHT > 400',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 0 & lheHT > 400',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 0 & lheHT > 400',
+          'lheV_pt > 100 & lheNj == 0 & lheHT > 400',
+
+          'lheV_pt < 50 & lheNj == 1 & lheHT > 400',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 1 & lheHT > 400',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 1 & lheHT > 400',
+          'lheV_pt > 100 & lheNj == 1 & lheHT > 400',
+          
+          'lheV_pt < 50 & lheNj == 2 & lheHT > 400',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 2 & lheHT > 400',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 2 & lheHT > 400',
+          'lheV_pt > 100 & lheNj == 2 & lheHT > 400',
+          
+          'lheV_pt < 50 & lheNj == 3 & lheHT > 400',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 3 & lheHT > 400',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 3 & lheHT > 400',
+          'lheV_pt > 100 & lheNj == 3 & lheHT > 400',
+          
+          'lheV_pt < 50 & lheNj == 4 & lheHT > 400',
+          'lheV_pt > 50 & lheV_pt < 70 & lheNj == 4 & lheHT > 400',
+          'lheV_pt > 70 & lheV_pt < 100 & lheNj == 4 & lheHT > 400',
+          'lheV_pt > 100 & lheNj == 4 & lheHT > 400'
+
+
+    ]
 
 eventList = {}
 num = []
@@ -118,6 +177,18 @@ print weight
 for file in fileList:
     infile = ROOT.TFile(file[0],"READ")
     outfile = ROOT.TFile('lheWeight.'+file[0],'RECREATE')
+    histoInfile = ROOT.TFile(prefix+'DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball.root',"READ")
+    histoInfile.cd()
+    obj = ROOT.TObject
+    for key in ROOT.gDirectory.GetListOfKeys():
+        histoInfile.cd()
+        obj = key.ReadObj()
+        print obj.GetName()
+        if obj.GetName() == 'tree':
+            continue
+        outfile.cd()
+        print key.GetName()
+        obj.Write(key.GetName())
 
     infile.cd()
     tree = infile.Get('tree')
@@ -130,50 +201,146 @@ for file in fileList:
     for entry in range(0,nEntries):
         tree.GetEntry(entry)
 
-        if tree.lheV_pt < 50 and tree.lheNj == 0:
+        if tree.lheV_pt < 50 and tree.lheNj == 0 and tree.lheHT < 200:
             lheWeight[0] = weight[0]
-        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 0:
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 0 and tree.lheHT < 200:
             lheWeight[0] = weight[1]
-        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 0:
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 0 and tree.lheHT < 200:
             lheWeight[0] = weight[2]
-        elif tree.lheV_pt > 100 and tree.lheNj == 0:
+        elif tree.lheV_pt > 100 and tree.lheNj == 0 and tree.lheHT < 200:
             lheWeight[0] = weight[3]
 
-        elif tree.lheV_pt < 50 and tree.lheNj == 1:
+        elif tree.lheV_pt < 50 and tree.lheNj == 1 and tree.lheHT < 200:
             lheWeight[0] = weight[4]
-        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 1:
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 1 and tree.lheHT < 200:
             lheWeight[0] = weight[5]
-        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 1:
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 1 and tree.lheHT < 200:
             lheWeight[0] = weight[6]
-        elif tree.lheV_pt > 100 and tree.lheNj == 1:
+        elif tree.lheV_pt > 100 and tree.lheNj == 1 and tree.lheHT < 200:
             lheWeight[0] = weight[7]
 
-        elif tree.lheV_pt < 50 and tree.lheNj == 2:
+        elif tree.lheV_pt < 50 and tree.lheNj == 2 and tree.lheHT < 200:
             lheWeight[0] = weight[8]
-        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 2:
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 2 and tree.lheHT < 200:
             lheWeight[0] = weight[9]
-        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 2:
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 2 and tree.lheHT < 200:
             lheWeight[0] = weight[10]
-        elif tree.lheV_pt > 100 and tree.lheNj == 2:
+        elif tree.lheV_pt > 100 and tree.lheNj == 2 and tree.lheHT < 200:
             lheWeight[0] = weight[11]
 
-        elif tree.lheV_pt < 50 and tree.lheNj == 3:
+        elif tree.lheV_pt < 50 and tree.lheNj == 3 and tree.lheHT < 200:
             lheWeight[0] = weight[12]
-        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 3:
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 3 and tree.lheHT < 200:
             lheWeight[0] = weight[13]
-        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 3:
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 3 and tree.lheHT < 200:
             lheWeight[0] = weight[14]
-        elif tree.lheV_pt > 100 and tree.lheNj == 3:
+        elif tree.lheV_pt > 100 and tree.lheNj == 3 and tree.lheHT < 200:
             lheWeight[0] = weight[15]
             
-        elif tree.lheV_pt < 50 and tree.lheNj == 4:
+        elif tree.lheV_pt < 50 and tree.lheNj == 4 and tree.lheHT < 200:
             lheWeight[0] = weight[16]
-        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 4:
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 4 and tree.lheHT < 200:
             lheWeight[0] = weight[17]
-        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 4:
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 4 and tree.lheHT < 200:
             lheWeight[0] = weight[18]
-        elif tree.lheV_pt > 100 and tree.lheNj == 4:
+        elif tree.lheV_pt > 100 and tree.lheNj == 4 and tree.lheHT < 200:
             lheWeight[0] = weight[19]
+
+
+
+
+        elif tree.lheV_pt < 50 and tree.lheNj == 0 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[20]
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 0 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[21]
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 0 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[22]
+        elif tree.lheV_pt > 100 and tree.lheNj == 0 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[23]
+
+        elif tree.lheV_pt < 50 and tree.lheNj == 1 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[24]
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 1 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[25]
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 1 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[26]
+        elif tree.lheV_pt > 100 and tree.lheNj == 1 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[27]
+
+        elif tree.lheV_pt < 50 and tree.lheNj == 2 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[28]
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 2 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[29]
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 2 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[30]
+        elif tree.lheV_pt > 100 and tree.lheNj == 2 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[31]
+
+        elif tree.lheV_pt < 50 and tree.lheNj == 3 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[32]
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 3 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[33]
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 3 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[34]
+        elif tree.lheV_pt > 100 and tree.lheNj == 3 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[35]
+            
+        elif tree.lheV_pt < 50 and tree.lheNj == 4 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[36]
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 4 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[37]
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 4 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[38]
+        elif tree.lheV_pt > 100 and tree.lheNj == 4 and tree.lheHT > 200 and tree.lheHT < 400:
+            lheWeight[0] = weight[39]
+
+
+
+        elif tree.lheV_pt < 50 and tree.lheNj == 0 and tree.lheHT > 400:
+            lheWeight[0] = weight[40]
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 0 and tree.lheHT > 400:
+            lheWeight[0] = weight[41]
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 0 and tree.lheHT > 400:
+            lheWeight[0] = weight[42]
+        elif tree.lheV_pt > 100 and tree.lheNj == 0 and tree.lheHT > 400:
+            lheWeight[0] = weight[43]
+
+        elif tree.lheV_pt < 50 and tree.lheNj == 1 and tree.lheHT > 400:
+            lheWeight[0] = weight[44]
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 1 and tree.lheHT > 400:
+            lheWeight[0] = weight[45]
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 1 and tree.lheHT > 400:
+            lheWeight[0] = weight[46]
+        elif tree.lheV_pt > 100 and tree.lheNj == 1 and tree.lheHT > 400:
+            lheWeight[0] = weight[47]
+
+        elif tree.lheV_pt < 50 and tree.lheNj == 2 and tree.lheHT > 400:
+            lheWeight[0] = weight[48]
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 2 and tree.lheHT > 400:
+            lheWeight[0] = weight[49]
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 2 and tree.lheHT > 400:
+            lheWeight[0] = weight[50]
+        elif tree.lheV_pt > 100 and tree.lheNj == 2 and tree.lheHT > 400:
+            lheWeight[0] = weight[51]
+
+        elif tree.lheV_pt < 50 and tree.lheNj == 3 and tree.lheHT > 400:
+            lheWeight[0] = weight[52]
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 3 and tree.lheHT > 400:
+            lheWeight[0] = weight[53]
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 3 and tree.lheHT > 400:
+            lheWeight[0] = weight[54]
+        elif tree.lheV_pt > 100 and tree.lheNj == 3 and tree.lheHT > 400:
+            lheWeight[0] = weight[55]
+            
+        elif tree.lheV_pt < 50 and tree.lheNj == 4 and tree.lheHT > 400:
+            lheWeight[0] = weight[56]
+        elif tree.lheV_pt > 50 and tree.lheV_pt < 70 and tree.lheNj == 4 and tree.lheHT > 400:
+            lheWeight[0] = weight[57]
+        elif tree.lheV_pt > 70 and tree.lheV_pt < 100 and tree.lheNj == 4 and tree.lheHT > 400:
+            lheWeight[0] = weight[58]
+        elif tree.lheV_pt > 100 and tree.lheNj == 4 and tree.lheHT > 400:
+            lheWeight[0] = weight[59]
+
 
         else:
             lheWeight[0] = 1.
