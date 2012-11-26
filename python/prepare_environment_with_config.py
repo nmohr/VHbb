@@ -1,12 +1,7 @@
-#!/usr/bin/env python
-from copytree import copytree
-from printcolor import printc
-from samplesclass import sample
-import pickle
-import sys
+#! /usr/bin/env python
+import os, pickle, sys, ROOT
 from optparse import OptionParser
 from BetterConfigParser import BetterConfigParser
-import ROOT
 
 argv = sys.argv
 
@@ -28,7 +23,12 @@ parser.add_option("-S", "--samples", dest="samples", default="",
 
 (opts, args) = parser.parse_args(argv)
 
-SamplesList=opts.samples.split(',')
+from copytree import copytree
+from printcolor import printc
+from samplesclass import sample
+
+SamplesList=opts.samples.split(',')    
+
 
 pathIN=opts.pathIn
 pathOUT=opts.pathOut
