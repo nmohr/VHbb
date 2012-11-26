@@ -691,6 +691,9 @@ RMed_ZH125_MM_8TeV_oct: RMed_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!Lim
 RMed_ZH130_MM_8TeV_oct: RMed_ZH130_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH130,ZmmLowPt_8TeV,BDT
 RMed_ZH135_MM_8TeV_oct: RMed_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLowPt_8TeV,BDT
 
+#individual BKGd trainings:
+
+
 
 #CTRL region DCs
 TT_RTight_ZH125_MM_8TeV_oct: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmHighPt_8TeV,TTbar_Zmm,TTbar_Zmm,ZH125,ZmmHighPt_8TeV,BDT
@@ -738,11 +741,29 @@ SettingsTight = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:Ad
 SettingsLooseBtag = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 SettingsMed = !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 
+typeCut = Cuts
+SettingsTightCut= !H:!V:FitMethod=GA:EffSel
+
 
 backgrounds = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
 backgroundsNoDiboson = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 TT
 
-backgrounds8TeV: Zudsg Zudsg1J Zudsg2J Zudsg4J Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc4J Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb4J Zbb5070 Zbb70100 Zbb100 ZZ WW WZ TT 
+
+#individual BKGds:
+TT: TT
+#ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+DY: Zudsg Zudsg1J Zudsg2J Zudsg3J Zudsg4J ZudsgHT200400 ZudsgHT400 Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc3J Zcc4J ZccHT200400 ZccHT400 Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb3J Zbb4J ZbbHT200400 ZbbHT400 Zbb5070 Zbb70100 Zbb100
+Diboson: ZZ WW WZ
+#settings:
+SettingsTT = !H:!V:NTrees=300:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+SettingsDY = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+SettingsDiboson = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+
+#backgrounds8TeV: Zudsg Zudsg1J Zudsg2J Zudsg4J Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc4J Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb4J Zbb5070 Zbb70100 Zbb100 ZZ WW WZ TT 
+
+backgrounds8TeV: Zudsg Zudsg1J Zudsg2J Zudsg3J Zudsg4J ZudsgHT200400 ZudsgHT400 Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc3J Zcc4J ZccHT200400 ZccHT400 Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb3J Zbb4J ZbbHT200400 ZbbHT400 Zbb5070 Zbb70100 Zbb100 ZZ WW WZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW ZH125
+
+Test: ZZ
 
 [factory]
 factoryname: MVA
@@ -759,6 +780,48 @@ List_for_submitscript: RTight_ZH110_oct,RTight_ZH115_oct,RTight_ZH120_oct,RTight
 
 
 #List_for_submitscript: RTight_ZH125_may,RMed_ZH125_may,RTight_ZH125_oct,RMed_ZH125_oct
+
+
+#individual BKGds training
+[TT_HighPt_ZH125_nov]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTT!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH125
+backgrounds: <!MVAGeneral|TT!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[DY_HighPt_ZH125_nov]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsDY!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH125
+backgrounds: <!MVAGeneral|DY!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[Diboson_HighPt_ZH125_nov]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsDiboson!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH125
+backgrounds: <!MVAGeneral|Diboson!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+
+
+
+
+[RTight_Mjj_opt]
+MVAtype: <!MVAGeneral|typeCut!>
+MVAsettings: <!MVAGeneral|SettingsTightCut!>
+path: <!Directories|samplepath!>/env/sys/
+signals: ZH125
+backgrounds: <!MVAGeneral|Test!>
+treeVarSet: treeVarsNoMass
+treeCut: RTight
 
 
 ##ZZ
@@ -1066,6 +1129,9 @@ bmis_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFUp[0],hJet_csvFUp[1]
 bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFDown[0],hJet_csvFDown[1]) min(hJet_csvFDown[0],hJet_csvFDown[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2
 beff1_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv_upBC4p[0],hJet_csv_upBC4p[1]) min(hJet_csv_upBC4p[0],hJet_csv_upBC4p[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2
 beff1_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv_downBC4p[0],hJet_csv_downBC4p[1]) min(hJet_csv_downBC4p[0],hJet_csv_downBC4p[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2
+
+[treeVarsNoMass]
+Nominal: H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2
 
 
 #############################################################################################
