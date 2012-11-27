@@ -18,7 +18,7 @@ from progbar import progbar
 from printcolor import printc
 
 #CONFIGURE
-
+print 'hello'
 #load config
 #os.mkdir(path+'/sys')
 argv = sys.argv
@@ -27,8 +27,10 @@ parser.add_option("-U", "--update", dest="update", default=0,
                       help="update infofile")
 parser.add_option("-D", "--discr", dest="discr", default="",
                       help="discriminators to be added")
-parser.add_option("-P", "--path", dest="path", default="",
-                      help="path to samples")
+#parser.add_option("-I", "--inpath", dest="inpath", default="",
+#                      help="path to samples")
+#parser.add_option("-O", "--outpath", dest="outpath", default="",
+#                      help="path where to store output samples")
 parser.add_option("-S", "--samples", dest="names", default="",
                       help="samples you want to run on")
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
@@ -59,7 +61,11 @@ systematics=systematics.split(' ')
 ######################
 #Evaluate multi: Must Have same treeVars!!!
 
-Apath=opts.path
+#OUTpath=opts.outpath
+#INpath=opts.inpath
+INpath = config.get('Directories','MVAin')
+OUTpath = config.get('Directories','MVAout')
+
 infofile = open(samplesinfo,'r')
 info = pickle.load(infofile)
 infofile.close()
@@ -137,8 +143,10 @@ for job in Ainfo:
     if eval(job.active):
         if job.name in namelist:
             #get trees:
-            input = TFile.Open(Apath+'/'+job.getpath(),'read')
-            outfile = TFile.Open(Apath+'/'+MVASubdir+job.prefix+job.identifier+'.root','recreate')
+            print INpath+'/'+job.prefix+job.identifier+'.root'
+            input = TFile.Open(INpath+'/'+job.prefix+job.identifier+'.root','read')
+            print OUTpath+'/'+job.prefix+job.identifier+'.root'
+            outfile = TFile.Open(OUTpath+'/'+job.prefix+job.identifier+'.root','recreate')
             input.cd()
             obj = ROOT.TObject
             for key in ROOT.gDirectory.GetListOfKeys():
@@ -154,6 +162,7 @@ for job in Ainfo:
             nEntries = tree.GetEntries()
             outfile.cd()
             newtree = tree.CloneTree(0)
+            #input.Close()
 
             #MCs:
             if job.type != 'DATA':
