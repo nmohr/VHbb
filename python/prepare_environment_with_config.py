@@ -26,9 +26,9 @@ parser.add_option("-S", "--samples", dest="samples", default="",
 from copytree import copytree
 from printcolor import printc
 from samplesclass import sample
+from addingSamples import writeLheWeights
 
-SamplesList=opts.samples.split(',')    
-
+SamplesList=opts.samples.split(',')
 
 pathIN=opts.pathIn
 pathOUT=opts.pathOut
@@ -83,17 +83,27 @@ for Sample in config.sections():
             info[-1].sf = config.get(Sample, 'SF')
             info[-1].xsec = config.get(Sample,'xSec')
 
-    if not opts.dry:    
-        copytree(pathIN,pathOUT,prefix,newprefix,infile,'',cut+Precut)
+    if not opts.dry:
+        if not 'DY' in sampleName: # for the DY sample we use writeLheConfig
+            copytree(pathIN,pathOUT,prefix,newprefix,infile,'',cut+Precut)
+
+#this copy the trees for the DYJets samples
+if not opts.dry:
+    writeLheWeights( config, pathIN, pathOUT, prefix, newprefix, infile, '', cut+Precut )
 
 #dump info
+pathConfig = 'pathConfig8TeV'
+print "Path Config is: " + str(pathConfig)
+pathconfig = BetterConfigParser()
+pathconfig.read(pathConfig)
+
 if opts.update:
-    infofile = open(pathOUT+'/samples.info','r')
+    infofile = open(pathconfig.get('Directories','samplesinfo'),'r')
     info_old = pickle.load(infofile)
     infofile.close()
     
     info += info_old
 
-infofile = open(pathOUT+'/samples.info','w')
+infofile = open(pathconfig.get('Directories','samplesinfo'),'w')
 pickle.dump(info,infofile)
 infofile.close()
