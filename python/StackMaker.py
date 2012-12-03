@@ -158,20 +158,23 @@ class StackMaker:
         if flow > 0:
             print "\033[1;31m\tU/O flow: %s\033[1;m"%flow
 
-        self.overlay.SetLineColor(2)
-        self.overlay.SetLineWidth(2)
-        self.overlay.SetFillColor(0)
-        self.overlay.SetFillStyle(4000)
-        self.overlay.SetNameTitle('Overlay','Overlay')
+        if self.overlay:
+            self.overlay.SetLineColor(2)
+            self.overlay.SetLineWidth(2)
+            self.overlay.SetFillColor(0)
+            self.overlay.SetFillStyle(4000)
+            self.overlay.SetNameTitle('Overlay','Overlay')
 
         l.AddEntry(d1,datatitle,'P')
         for j in range(0,k):
             l.AddEntry(self.histos[j],self.typLegendDict[self.typs[j]],'F')
-        l.AddEntry(self.overlay,self.typLegendDict['Overlay'],'L')
+        if self.overlay:
+            l.AddEntry(self.overlay,self.typLegendDict['Overlay'],'L')
     
         if self.normalize:
             if MC_integral != 0:	stackscale=d1.Integral()/MC_integral
-            self.overlay.Scale(stackscale)
+            if self.overlay:
+                self.overlay.Scale(stackscale)
             stackhists=allStack.GetHists()
             for blabla in stackhists:
         	    if MC_integral != 0: blabla.Scale(stackscale)
@@ -207,8 +210,9 @@ class StackMaker:
         #allStack.Draw("hist")
         l.SetFillColor(0)
         l.SetBorderSize(0)
-
-        self.overlay.Draw('hist,same')
+        
+        if self.overlay:
+            self.overlay.Draw('hist,same')
         d1.Draw("E,same")
         l.Draw()
 
