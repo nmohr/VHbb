@@ -23,20 +23,12 @@ fi
 #cd /shome/peller/CMSSW_5_2_4_patch4/src/
 # this doesnt work for me..?
 
-#cd $CMSSW_BASE/src/
-#source /swshare/psit3/etc/profile.d/cms_ui_env.sh
-#export SCRAM_ARCH="slc5_amd64_gcc462"
-#source $VO_CMS_SW_DIR/cmsset_default.sh
-#eval `scramv1 runtime -sh`
-#export LD_LIBRARY_PATH=/swshare/glite/d-cache/dcap/lib/:$LD_LIBRARY_PATH
-
-
-#source /swshare/psit3/etc/profile.d/cms_ui_env.sh
-export LD_LIBRARY_PATH=/swshare/glite/d-cache/dcap/lib/:$LD_LIBRARY_PATH
-#export SCRAM_ARCH="slc5_amd64_gcc462"
-#source $VO_CMS_SW_DIR/cmsset_default.sh
-#eval `scramv1 runtime -sh`
-source /swshare/ROOT/root_v5.30.01_slc5_amd64/bin/thisroot.sh
+cd $CMSSW_BASE/src/
+source /swshare/psit3/etc/profile.d/cms_ui_env.sh
+export SCRAM_ARCH="slc5_amd64_gcc462"
+source $VO_CMS_SW_DIR/cmsset_default.sh
+eval `scramv1 runtime -sh`
+export LD_PRELOAD="libglobus_gssapi_gsi_gcc64pthr.so.0":${LD_PRELOAD}
 
 mkdir $TMPDIR
 
@@ -66,7 +58,7 @@ import os
 from BetterConfigParser import BetterConfigParser
 config = BetterConfigParser()
 config.read('./pathConfig$energy')
-print config.get('Directories','storagesamples')
+print config.get('Directories','samplepath')
 EOF`
 
 
