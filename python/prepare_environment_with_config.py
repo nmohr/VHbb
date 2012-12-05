@@ -19,7 +19,8 @@ parser.add_option("-D", "--dry", dest="dry", default=False, action='store_true',
                       help="dry drun - just write samples. info withou copying and skimming trees")
 parser.add_option("-S", "--samples", dest="samples", default="",
                       help="List of samples")
-
+parser.add_option("-L","--lheList", dest="fileLHEList",default="[]",
+                      help="List of lhe weights. Use it if you need to rerun on one DYJets sample alone.")
 
 (opts, args) = parser.parse_args(argv)
 
@@ -41,6 +42,7 @@ prefix=config.get('General','prefix')
 newprefix=config.get('General','newprefix')
 lumi=float(config.get('General','lumi'))
 weightexpression=config.get('General','weightexpression')
+fileList=eval(opts.fileLHEList)
 #this is only to speed it up, remove for final trees!
 Precut=''
 info = []
@@ -87,9 +89,19 @@ for Sample in config.sections():
         if not 'DY' in sampleName: # for the DY sample we use writeLheConfig
             copytree(pathIN,pathOUT,prefix,newprefix,infile,'',cut+Precut)
 
-#this copy the trees for the DYJets samples
+#this part take care of DYJets
 if not opts.dry:
-    writeLheWeights( config, pathIN, pathOUT, prefix, newprefix, infile, '', cut+Precut )
+    for Sample in config.sections():
+        if not config.has_option(Sample,'infile'): continue
+        sampleName = config.get(Sample,'sampleName')
+        infile = config.get(Sample,'infile')
+        print infile
+        if not 'DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball' in infile: continue
+        sampleType = config.get(Sample,'sampleType')
+        cut = config.get(Sample, 'cut')
+
+        #this copy the trees for the DYJets samples
+        writeLheWeights( config, pathIN, pathOUT, prefix, newprefix, '', cut+Precut, fileList, SamplesList )
 
 #dump info
 pathConfig = 'pathConfig8TeV'
