@@ -4,6 +4,11 @@ from printcolor import printc
 
         
 def copytree(pathIN,pathOUT,prefix,newprefix,file,Aprefix,Acut):
+
+    print "##### COPY TREE - BEGIN ######"
+    print "Input File : %s/%s%s.root " %(pathIN,prefix,file)
+    print "Output File : %s/%s%s%s.root" %(pathOUT,newprefix,Aprefix,file)
+        
     input = TFile.Open("%s/%s%s.root" %(pathIN,prefix,file),'read')
     output = TFile.Open("%s/%s%s%s.root" %(pathOUT,newprefix,Aprefix,file),'recreate')
 
@@ -29,8 +34,15 @@ def copytree(pathIN,pathOUT,prefix,newprefix,file,Aprefix,Acut):
     printc('green','',"\t survived\t %s" %kEntries)
     #print "\t Factor for Scaling is %s" %factor
     outputTree.AutoSave()
+    output.ls()
     #Count.Scale(factor)
     #CountWithPU.Scale(factor)
     #CountWithPU2011B.Scale(factor)
-    input.Close()
+    print "Writing output file"
+    output.Write()
+    print "Closing output file"
     output.Close()
+    print "Closing input file"
+    input.Close()
+
+    print "##### COPY TREE - END ######"
