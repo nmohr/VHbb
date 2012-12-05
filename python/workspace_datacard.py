@@ -64,6 +64,12 @@ RCut=options[7]
 setup=eval(config.get('LimitGeneral','setup'))
 ROOToutname = options[6]
 
+try:
+    path = config.get('Directories','dcSamples')
+except:
+    pass
+
+
 if 'HighPtLooseBTag' in ROOToutname:
     pt_region = 'HighPtLooseBTag'
 elif 'HighPt' in ROOToutname or 'highPt' in ROOToutname or 'medPt' in ROOToutname:
@@ -113,7 +119,10 @@ Group = eval(config.get('LimitGeneral','Group'))
 Dict= eval(config.get('LimitGeneral','Dict'))
 weightF_sys = eval(config.get('LimitGeneral','weightF_sys'))
 binstat = eval(config.get('LimitGeneral','binstat'))
-addSample_sys = None if not config.has_option('LimitGeneral','addSample_sys') else eval(config.get('LimitGeneral','addSample_sys'))
+if config.has_option('LimitGeneral','addSample_sys'):
+    addSample_sys = eval(config.get('LimitGeneral','addSample_sys'))
+else:
+    addSample_sys = None
 bdt = False
 mjj = False
 #print str(anType)
@@ -145,8 +154,12 @@ class Rebinner:
         self.active=active
     def rebin(self, histo):
         if not self.active: return histo
+        print 'rebinning'
+        print histo.Integral()
+        ROOT.gDirectory.Delete('hnew')
         histo.Rebin(self.nBins,'hnew',self.lowedgearray)
         binhisto=ROOT.gDirectory.Get('hnew')
+        print binhisto.Integral()
         newhisto=ROOT.TH1F('new','new',self.nBins,self.lowedgearray[0],self.lowedgearray[-1])
         newhisto.Sumw2()
         for bin in range(0,self.nBins+1):
@@ -154,7 +167,8 @@ class Rebinner:
             newhisto.SetBinError(bin,binhisto.GetBinError(bin))
             newhisto.SetName(binhisto.GetName())
             newhisto.SetTitle(binhisto.GetTitle())
-        return newhisto
+        print newhisto.Integral()
+        return copy(newhisto)
 
 
 
@@ -276,8 +290,10 @@ for job in info:
                 if job.subnames[subsample] in BKGlist:
                     print 'getting %s'%job.subnames[subsample]
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
-                    #print hTemp.Integral()
+                    print hTemp.Integral()
                     histos.append(myBinning.rebin(hTemp))
+                    print '='
+                    print myBinning.rebin(hTemp).Integral()
                     typs.append(Group[job.subnames[subsample]])
                     hNames.append(job.subnames[subsample])                        
                     if weightF_sys:
@@ -372,6 +388,7 @@ for job in info:
 
 MC_integral=0
 MC_entries=0
+print histos
 for histo in histos:
     MC_integral+=histo.Integral()
     print 'histo integral %s'%histo.Integral()
@@ -433,7 +450,7 @@ for i in range(0,len(histos)):
             statUps[i*nBins+bin].SetName('%sCMS_vhbb_stats_%s_%s_%sUp'%(newname,newname,bin,options[10]))
             statDowns[i*nBins+bin].SetName('%sCMS_vhbb_stats_%s_%s_%sDown'%(newname,newname,bin,options[10]))
             #shift up and down with statistical error
-            if rescaleSqrtN:
+            if rescaleSqrtN and not total == 0:
                 statUps[i*nBins+bin].SetBinContent(bin,statUps[i*nBins+bin].GetBinContent(bin)+statUps[i*nBins+bin].GetBinError(bin)/total*errorsum)
                 statDowns[i*nBins+bin].SetBinContent(bin,statDowns[i*nBins+bin].GetBinContent(bin)-statDowns[i*nBins+bin].GetBinError(bin)/total*errorsum)
             else:
@@ -457,7 +474,7 @@ for i in range(0,len(histos)):
         statDowns[i].SetName('%sCMS_vhbb_stats_%s_%sDown'%(newname,newname,options[10]))
         #shift up and down with statistical error
         for j in range(histos[i].GetNbinsX()+1):
-            if rescaleSqrtN:
+            if rescaleSqrtN and not total ==0:
                 statUps[i].SetBinContent(j,statUps[i].GetBinContent(j)+statUps[i].GetBinError(j)/total*errorsum)
                 statDowns[i].SetBinContent(j,statDowns[i].GetBinContent(j)-statDowns[i].GetBinError(j)/total*errorsum)
             else:

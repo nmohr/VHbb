@@ -11,9 +11,9 @@ import sys
 
 def getScale(job,path,config,rescale,subsample=-1):
     anaTag=config.get('Analysis','tag')
-    input = TFile.Open(path+'/'+job.getpath())
-    CountWithPU = input.Get("CountWithPU")
-    CountWithPU2011B = input.Get("CountWithPU2011B")
+    inputfile = TFile.Open(path+'/'+job.getpath())
+    CountWithPU = inputfile.Get("CountWithPU")
+    CountWithPU2011B = inputfile.Get("CountWithPU2011B")
     #print lumi*xsecs[i]/hist.GetBinContent(1)
     
     if subsample>-1:
@@ -31,7 +31,7 @@ def getScale(job,path,config,rescale,subsample=-1):
         theScale = float(job.lumi)*xsec*sf/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*rescale/float(job.split)
     elif anaTag == '8TeV':
     	theScale = float(job.lumi)*xsec*sf/(CountWithPU.GetBinContent(1))*rescale/float(job.split)
-    input.Close()
+    inputfile.Close()
     return theScale 
 
 def getHistoFromTree(job,path,config,options,rescale=1,subsample=-1,which_weightF='weightF'):
