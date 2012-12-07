@@ -26,7 +26,8 @@ parser.add_option("-S", "--samples", dest="samples", default="",
 from copytree import copytree
 from printcolor import printc
 from samplesclass import sample
-from addingSamples import writeLheWeights
+if not opts.dry:
+    from addingSamples import writeLheWeights
 
 SamplesList=opts.samples.split(',')
 
@@ -51,7 +52,8 @@ for Sample in config.sections():
     infile = config.get(Sample,'infile')
     if not ROOT.TFile.Open(pathIN+prefix+infile+'.root',"READ"):
         print 'WARNING: No file ' + pathIN+prefix+infile+ ' found! '
-        continue
+        if not opts.dry:
+            continue
     #this need exception handle    
     #if type(eval(config.get(Sample,'sampleName'))) != list: 
     
