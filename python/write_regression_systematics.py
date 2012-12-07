@@ -7,8 +7,6 @@ import os
 import ROOT 
 import math
 import shutil
-from ROOT import TFile
-import ROOT
 from array import array
 import warnings
 from optparse import OptionParser
@@ -113,8 +111,8 @@ for job in info:
         btagFDown = BTagShapeInterface("../data/csvdiscr.root",0,-1.)
     
     print '\t - %s' %(job.name)
-    input = TFile.Open(path+'/'+job.getpath(),'read')
-    output = TFile.Open(path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
+    input = ROOT.TFile.Open(path+'/'+job.getpath(),'read')
+    output = ROOT.TFile.Open(path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
 
     input.cd()
     obj = ROOT.TObject
