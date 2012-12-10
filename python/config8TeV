@@ -739,14 +739,16 @@ RMed_ZH135_MM_8TeV_oct: RMed_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!Lim
 
 #individual BKGd trainings:
 HighPt_ZH125_ExpertRegion0_EE_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert0_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion0_EE,HighPt_ExpertRegion0_EE,ZH125,ZeeHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegion1_EE_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert1_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion1_EE,HighPt_ExpertRegion1_EE,ZH125,ZeeHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegion2_EE_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert2_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion2_EE,HighPt_ExpertRegion2_EE,ZH125,ZeeHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegion3_EE_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert3_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion3_EE,HighPt_ExpertRegion3_EE,ZH125,ZeeHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegion1_EE_8TeV_nov: DY_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert1_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion1_EE,HighPt_ExpertRegion1_EE,ZH125,ZeeHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegion2_EE_8TeV_nov: VV_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert2_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion2_EE,HighPt_ExpertRegion2_EE,ZH125,ZeeHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegion3_EE_8TeV_nov: VV_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert3_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion3_EE,HighPt_ExpertRegion3_EE,ZH125,ZeeHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegionX_EE_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expertX_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion3_EE,HighPt_ExpertRegion3_EE,ZH125,ZeeHighPt_8TeV,BDT
 
 HighPt_ZH125_ExpertRegion0_MM_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert0_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion0_MM,HighPt_ExpertRegion0_MM,ZH125,ZmmHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegion1_MM_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert1_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion1_MM,HighPt_ExpertRegion1_MM,ZH125,ZmmHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegion2_MM_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert2_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion2_MM,HighPt_ExpertRegion2_MM,ZH125,ZmmHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegion3_MM_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert3_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion3_MM,HighPt_ExpertRegion3_MM,ZH125,ZmmHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegion1_MM_8TeV_nov: DY_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert1_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion1_MM,HighPt_ExpertRegion1_MM,ZH125,ZmmHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegion2_MM_8TeV_nov: VV_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert2_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion2_MM,HighPt_ExpertRegion2_MM,ZH125,ZmmHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegion3_MM_8TeV_nov: VV_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert3_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion3_MM,HighPt_ExpertRegion3_MM,ZH125,ZmmHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegionX_MM_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expertX_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion3_MM,HighPt_ExpertRegion3_MM,ZH125,ZmmHighPt_8TeV,BDT
 
 
 #CTRL region DCs
@@ -807,11 +809,12 @@ backgroundsNoDiboson = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 TT
 TT: TT
 #ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
 DY: Zudsg Zudsg1J Zudsg2J Zudsg3J Zudsg4J ZudsgHT200400 ZudsgHT400 Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc3J Zcc4J ZccHT200400 ZccHT400 Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb3J Zbb4J ZbbHT200400 ZbbHT400 Zbb5070 Zbb70100 Zbb100
-Diboson: ZZ WW WZ
+VV: ZZ WW WZ
+
 #settings:
 SettingsTT = !H:!V:NTrees=300:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 SettingsDY = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
-SettingsDiboson = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+SettingsVV = !H:!V:NTrees=250:nEventsMin=250:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 
 #backgrounds8TeV: Zudsg Zudsg1J Zudsg2J Zudsg4J Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc4J Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb4J Zbb5070 Zbb70100 Zbb100 ZZ WW WZ TT 
 
@@ -852,20 +855,20 @@ treeCut: RTight
 [DY_HighPt_ZH125_nov]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsDY!>
-path: <!Directories|samplepath!>/env/sys/
+path: <!Directories|TT_MVA_path!>
 signals: ZH125
 backgrounds: <!MVAGeneral|DY!>
 treeVarSet: treeVarsICHEP
-treeCut: RTight
+treeCut: RTight_andTT
 
-[Diboson_HighPt_ZH125_nov]
+[VV_HighPt_ZH125_nov]
 MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsDiboson!>
-path: <!Directories|samplepath!>/env/sys/
+MVAsettings: <!MVAGeneral|SettingsVV!>
+path: <!Directories|DY_MVA_path!>
 signals: ZH125
-backgrounds: <!MVAGeneral|Diboson!>
+backgrounds: <!MVAGeneral|VV!>
 treeVarSet: treeVarsICHEP
-treeCut: RTight
+treeCut: RTight_andDY
 
 
 
