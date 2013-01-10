@@ -1,21 +1,9 @@
 #!/usr/bin/env python
-from samplesclass import sample
-from printcolor import printc
-import pickle
-import ROOT 
-from ROOT import TFile, TTree
-import ROOT
-from array import array
 from optparse import OptionParser
 from BetterConfigParser import BetterConfigParser
 import sys
-from mvainfos import mvainfo
-from gethistofromtree import getScale
-
 
 #warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
-
-
 #usage: ./train run gui
 
 
@@ -31,6 +19,19 @@ parser.add_option("-C", "--config", dest="config", default=[], action="append",
 (opts, args) = parser.parse_args(argv)
 if opts.config =="":
         opts.config = "config"
+
+
+from samplesclass import sample
+from printcolor import printc
+import pickle
+import ROOT 
+from ROOT import TFile, TTree
+import ROOT
+from array import array
+from mvainfos import mvainfo
+from gethistofromtree import getScale
+
+
 
 #load config
 config = BetterConfigParser()
@@ -52,8 +53,8 @@ systematics=systematics.split(' ')
 
 weightF=config.get('Weights','weightF')
 
-
-
+VHbbNameSpace=config.get('VHbbNameSpace','library')
+ROOT.gSystem.Load(VHbbNameSpace)
 
 def getTree(job,cut,path,subsample=-1):
     #print path+'/'+job.getpath()
