@@ -16,7 +16,7 @@ namespace VHbb {
     {
       double deta = eta1 - eta2;
       double dphi = deltaPhi(phi1, phi2);
-      return std::sqrt(deta*deta + dphi*dphi);
+      return TMath::Sqrt(deta*deta + dphi*dphi);
     }
 
 
@@ -43,7 +43,7 @@ namespace VHbb {
     H1.SetMag( (  - n2.Py() * V.Px() + n2.Px() * V.Py() )  / (sin(n1.Theta()) *det ) );
     H2.SetMag( ( + n1.Py() * V.Px() - n1.Px() * V.Py() )  / (sin(n2.Theta())  *det ) );
     
-    float mass=std::sqrt( TMath::Power( (H1.Mag()+H2.Mag()),2 ) - TMath::Power(( ( H1+H2 ).Mag()),2) );
+    float mass=TMath::Sqrt( TMath::Power( (H1.Mag()+H2.Mag()),2 ) - TMath::Power(( ( H1+H2 ).Mag()),2) );
     
     return mass;
     
