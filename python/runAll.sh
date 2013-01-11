@@ -99,7 +99,7 @@ if [ $task = "eval" ]; then
 fi
 if [ $task = "syseval" ]; then
     ./write_regression_systematics.py -P $pathAna/env/ -S $sample -C $configFile -C pathConfig$energy
-    ./evaluateMVA.py -P $pathAna/env/sys/ -D $MVAList -S $sample -U 0 -C ${configFile} -C pathConfig$energy
+    ./evaluateMVA.py -D $MVAList -S $sample -U 0 -C ${configFile} -C pathConfig$energy
 fi
 if [ $task = "plot" ]; then
     ./tree_stack.py -P $pathAna/env/sys/MVAout/ -C ${configFile} -C pathConfig$energy -R $sample
