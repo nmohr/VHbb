@@ -72,6 +72,11 @@ MVAlist=arglist.split(',')
 #CONFIG
 #factory
 factoryname=config.get('factory','factoryname')
+
+#load the namespace
+VHbbNameSpace=config.get('VHbbNameSpace','library')
+ROOT.gSystem.Load(VHbbNameSpace)
+
 #MVA
 MVAinfos=[]
 MVAdir=config.get('Directories','vhbbpath')
@@ -83,6 +88,7 @@ for MVAname in MVAlist:
 longe=40
 #Workdir
 workdir=ROOT.gDirectory.GetPath()
+
 
 #Apply samples
 infofile = open(samplesinfo,'r')
