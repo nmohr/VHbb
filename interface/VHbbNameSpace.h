@@ -71,6 +71,53 @@ namespace VHbb {
 
 
   }
+  
+  double ANGLELZ(double pt, double eta, double phi, double mass, double pt2, double eta2, double phi2, double mass2){
+  TLorentzVector m1, m2, msum;
+  m1.SetPtEtaPhiM(pt, eta, phi, mass);
+  m2.SetPtEtaPhiM(pt2, eta2, phi2, mass2);
+  msum = m1 + m2;
+
+  TVector3 bZ =  msum.BoostVector();
+
+  m1.Boost(-bZ);  
+  m2.Boost(-bZ);  
+
+  TVector3 b1;
+
+
+  if((int) (pt) % 2 == 0)
+    b1 =  m1.BoostVector();
+  else
+    b1 =  m2.BoostVector();
+
+ float cosTheta = b1.Dot(msum.BoostVector()) / (b1.Mag()*msum.BoostVector().Mag());
+ return(cosTheta);
+  }
+
+
+   double ANGLEHB(double pt, double eta, double phi, double e, double pt2, double eta2, double phi2, double e2){
+ TLorentzVector m1, m2, msum;
+ m1.SetPtEtaPhiE(pt, eta, phi, e);
+ m2.SetPtEtaPhiE(pt2, eta2, phi2, e2);
+ msum = m1 + m2;
+
+ TVector3 bZ =  msum.BoostVector();
+
+ m1.Boost(-bZ);
+ m2.Boost(-bZ);  
+
+ TVector3 b1;
+
+  if((int) (pt) % 2 == 0)
+    b1 =  m1.BoostVector();
+  else
+    b1 =  m2.BoostVector();
+
+ float cosTheta = b1.Dot(msum.BoostVector()) / (b1.Mag()*msum.BoostVector().Mag());
+ return(cosTheta);
+   }
+
 
 
 }
