@@ -466,6 +466,13 @@ useMt = False
 [BTagReshaping]
 library=<!Directories|vhbbpath!>/interface/BTagReshaping_h.so
 
+[VHbbNameSpace]
+library=<!Directories|vhbbpath!>/interface/VHbbNameSpace_h.so
+
+[AngularLike]
+backgrounds = ['Zbb','Zudsg','ttbar','ZZ']
+yields = {'Zbb':584.8,'Zudsg':881.61,'ttbar':135.7,'ZZ':44.04,'Sig':5.13}
+
 ###########################################################################################
 # LIMIT
 [LimitGeneral]

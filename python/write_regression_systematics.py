@@ -36,6 +36,12 @@ anaTag = config.get("Analysis","tag")
 TrainFlag = eval(config.get('Analysis','TrainFlag'))
 btagLibrary = config.get('BTagReshaping','library')
 samplesinfo=config.get('Directories','samplesinfo')
+
+VHbbNameSpace=config.get('VHbbNameSpace','library')
+ROOT.gSystem.Load(VHbbNameSpace)
+AngLikeBkgs=eval(config.get('AngularLike','backgrounds'))
+ang_yield=eval(config.get('AngularLike','yields'))
+
 path=opts.path
 namelist=opts.names.split(',')
 #load info
@@ -165,6 +171,7 @@ for job in info:
     fEvent = ROOT.TTreeFormula("Event",'EVENT.event',tree)
     fMETet = ROOT.TTreeFormula("METet",'METnoPU.et',tree)
     fMETphi = ROOT.TTreeFormula("METphi",'METnoPU.phi',tree)
+    fHVMass = ROOT.TTreeFormula("HVMass",'HVMass',tree)
     hJet_MtArray = [array('f',[0]),array('f',[0])]
     hJet_EtArray = [array('f',[0]),array('f',[0])]
     hJet_MET_dPhi = array('f',[0]*2)
@@ -220,6 +227,41 @@ for job in info:
     EventForTraining[0]=0
 
     TFlag=ROOT.TTreeFormula("EventForTraining","EVENT.event%2",tree)
+
+    #Angular Likelihood
+    angleHB = array('f',[0])
+    newtree.Branch('angleHB',angleHB,'angleHB/F')
+    angleLZ = array('f',[0])
+    newtree.Branch('angleLZ',angleLZ,'angleLZ/F')
+    angleZZS = array('f',[0])
+    newtree.Branch('angleZZS',angleZZS,'angleZZS/F')
+    kinLikeRatio = array('f',[0]*len(AngLikeBkgs))
+    newtree.Branch('kinLikeRatio',kinLikeRatio,'%s/F' %(':'.join(AngLikeBkgs)))
+    fAngleHB = ROOT.TTreeFormula("fAngleHB",'abs(VHbb::ANGLEHB(hJet_pt[0],hJet_eta[0],hJet_phi[0],hJet_e[0]*(hJet_pt[0]/hJet_pt[0]),hJet_pt[1],hJet_eta[1],hJet_phi[1],hJet_e[1]*(hJet_pt[1]/hJet_pt[1])))',newtree)
+    fAngleLZ = ROOT.TTreeFormula("fAngleLZ",'abs(VHbb::ANGLELZ(vLepton_pt[0],vLepton_eta[0],vLepton_phi[0],vLepton_mass[0],vLepton_pt[1],vLepton_eta[1],vLepton_phi[1],vLepton_mass[1]))',newtree)
+    fAngleZZS = ROOT.TTreeFormula("fAngleZZS",'abs(VHbb::ANGLELZ(H.pt,H.eta,H.phi,H.pt,V.pt,V.eta,V.phi,V.mass))',newtree)
+    likeSBH = array('f',[0]*len(AngLikeBkgs))
+    likeBBH = array('f',[0]*len(AngLikeBkgs))
+    likeSLZ = array('f',[0]*len(AngLikeBkgs))
+    likeBLZ = array('f',[0]*len(AngLikeBkgs))
+    likeSZZS = array('f',[0]*len(AngLikeBkgs))
+    likeBZZS = array('f',[0]*len(AngLikeBkgs))
+    likeSMassZS = array('f',[0]*len(AngLikeBkgs))
+    likeBMassZS = array('f',[0]*len(AngLikeBkgs))
+
+    SigBH = []; BkgBH = []; SigLZ = []; BkgLZ = []; SigZZS = []; BkgZZS = []; SigMassZS = []; BkgMassZS = [];
+    for angLikeBkg in AngLikeBkgs:
+        f = ROOT.TFile("../data/angleFitFunctions-%s.root"%(angLikeBkg),"READ")
+        SigBH.append(f.Get("sigFuncBH"))
+        BkgBH.append(f.Get("bkgFuncBH"))
+        SigLZ.append(f.Get("sigFuncLZ"))
+        BkgLZ.append(f.Get("bkgFuncLZ"))
+        SigZZS.append(f.Get("sigFuncZZS"))
+        BkgZZS.append(f.Get("bkgFuncZZS"))
+        SigMassZS.append(f.Get("sigFuncMassZS"))
+        BkgMassZS.append(f.Get("bkgFuncMassZS"))
+        f.Close()
+
         
     if job.type != 'DATA':
         #CSV branches
@@ -373,7 +415,35 @@ for job in info:
                     print 'rE0 %.2f' %(rE0)
                     print 'rE1 %.2f' %(rE1)
                     print 'Mass %.2f' %(H.mass)
-                
+            
+            angleHB[0]=fAngleHB.EvalInstance()
+            angleLZ[0]=fAngleLZ.EvalInstance()
+            angleZZS[0]=fAngleZZS.EvalInstance()
+
+            for i, angLikeBkg in enumerate(AngLikeBkgs):
+                likeSBH[i] = math.fabs(SigBH[i].Eval(angleHB[0]))
+                likeBBH[i] = math.fabs(BkgBH[i].Eval(angleHB[0]))
+
+                likeSZZS[i] = math.fabs(SigZZS[i].Eval(angleZZS[0]))
+                likeBZZS[i] = math.fabs(BkgZZS[i].Eval(angleZZS[0]))         
+                                   
+                likeSLZ[i] = math.fabs(SigLZ[i].Eval(angleLZ[0]))         
+                likeBLZ[i] = math.fabs(BkgLZ[i].Eval(angleLZ[0]))
+                                                
+                likeSMassZS[i] = math.fabs(SigMassZS[i].Eval(fHVMass.EvalInstance()))
+                likeBMassZS[i] = math.fabs(BkgMassZS[i].Eval(fHVMass.EvalInstance()))
+
+                scaleSig  = float( ang_yield['Sig'] / (ang_yield['Sig'] + ang_yield[angLikeBkg]))
+                scaleBkg  = float( ang_yield[angLikeBkg] / (ang_yield['Sig'] + ang_yield[angLikeBkg]) )
+
+                numerator = (likeSBH[i]*likeSZZS[i]*likeSLZ[i]*likeSMassZS[i]);
+                denominator = ((scaleBkg*likeBLZ[i]*likeBZZS[i]*likeBBH[i]*likeBMassZS[i])+(scaleSig*likeSBH[i]*likeSZZS[i]*likeSLZ[i]*likeSMassZS[i]))
+
+                if denominator > 0:
+                    kinLikeRatio[i] = numerator/denominator;
+                else:
+                    kinLikeRatio[i] = 0;
+
             if job.type == 'DATA':
                 newtree.Fill()
                 continue
