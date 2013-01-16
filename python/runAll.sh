@@ -71,41 +71,44 @@ print config.get('MVALists','List_for_submitscript')
 EOF`
 configFile=config$energy
 
+pathAnaEnv=$pathAna/env
+pathAnaSys=$pathAnaEnv/sys
+pathAnaMVAout=$pathAnaSys/MVAout
 
 #Create subdirs where processed samples will be stored
-if [ ! -d $pathAna/env ]
+if [ ! -d $pathAnaEnv ]
     then
-    mkdir $pathAna/env
+    mkdir $pathAnaEnv
 fi
-if [ ! -d $pathAna/env/sys ]
+if [ ! -d $pathAnaSys ]
     then
-    mkdir $pathAna/env/sys
+    mkdir $pathAnaSys
 fi
-if [ ! -d $pathAna/env/sys/MVAout ]
+if [ ! -d $pathAnaMVAout ]
     then
-    mkdir $pathAna/env/sys/MVAout
+    mkdir $pathAnaMVAout
 fi
 
 #Run the scripts
 
 if [ $task = "prep" ]; then
-    ./prepare_environment_with_config.py -I $storagesamples -O $pathAna/env/ -C ${energy}samples_nosplit.cfg
+    ./prepare_environment_with_config.py -I $storagesamples -O $pathAnaEnv/ -C ${energy}samples_nosplit.cfg
 fi
 if [ $task = "sys" ]; then
-    ./write_regression_systematics.py -P $pathAna/env/ -S $sample -C $configFile -C pathConfig$energy
+    ./write_regression_systematics.py -P $pathAnaEnv/ -S $sample -C $configFile -C pathConfig$energy
 fi
 if [ $task = "eval" ]; then
     ./evaluateMVA.py -D $MVAList -S $sample -U 0 -C ${configFile} -C pathConfig$energy
 fi
 if [ $task = "syseval" ]; then
-    ./write_regression_systematics.py -P $pathAna/env/ -S $sample -C $configFile -C pathConfig$energy
+    ./write_regression_systematics.py -P $pathAnaEnv/ -S $sample -C $configFile -C pathConfig$energy
     ./evaluateMVA.py -D $MVAList -S $sample -U 0 -C ${configFile} -C pathConfig$energy
 fi
 if [ $task = "plot" ]; then
-    ./tree_stack.py -P $pathAna/env/sys/MVAout/ -C ${configFile} -C pathConfig$energy -R $sample
+    ./tree_stack.py -P $pathAnaMVAout/ -C ${configFile} -C pathConfig$energy -R $sample
 fi
 if [ $task = "dc" ]; then
-    ./workspace_datacard.py -P $pathAna/env/sys/MVAout/ -C ${configFile} -C pathConfig$energy -V $sample 
+    ./workspace_datacard.py -P $pathAnaMVAout/ -C ${configFile} -C pathConfig$energy -V $sample 
 fi
 
 rm -rf $TMPDIR
