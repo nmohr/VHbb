@@ -11,6 +11,7 @@ warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='crea
 from optparse import OptionParser
 from BetterConfigParser import BetterConfigParser
 import pickle
+from myutils import parse_info
 
 #CONFIGURE
 ROOT.gROOT.SetBatch(True)
@@ -33,7 +34,7 @@ parser.add_option("-C", "--config", dest="config", default=[], action="append",
                       help="configuration file")
 (opts, args) = parser.parse_args(argv)
 
-from samplesclass import sample
+#from samplesclass import sample
 from mvainfos import mvainfo
 from progbar import progbar
 from printcolor import printc
@@ -56,15 +57,17 @@ samplesinfo=config.get('Directories','samplesinfo')
 INpath = config.get('Directories','MVAin')
 OUTpath = config.get('Directories','MVAout')
 
-infofile = open(samplesinfo,'r')
-info = pickle.load(infofile)
-infofile.close()
+info = parse_info(samplesinfo,INpath)
+
+#infofile = open(samplesinfo,'r')
+#info = pickle.load(infofile)
+#infofile.close()
 arglist=opts.discr #RTight_blavla,bsbsb
 
 namelistIN=opts.names
 namelist=namelistIN.split(',')
 
-doinfo=bool(int(opts.update))
+#doinfo=bool(int(opts.update))
 
 MVAlist=arglist.split(',')
 
@@ -91,9 +94,9 @@ workdir=ROOT.gDirectory.GetPath()
 
 
 #Apply samples
-infofile = open(samplesinfo,'r')
-Ainfo = pickle.load(infofile)
-infofile.close()
+#infofile = open(samplesinfo,'r')
+#Ainfo = pickle.load(infofile)
+#infofile.close()
 
 
 class MvaEvaluater:
@@ -140,7 +143,7 @@ for mva in MVAinfos:
 
 
 #eval
-for job in Ainfo:
+for job in info:
     if eval(job.active):
         if job.name in namelist:
             #get trees:
@@ -205,13 +208,11 @@ for job in Ainfo:
 print '\n'
 
 #Update Info:
-if doinfo:
-    for job in Ainfo:        
-        for MVAinfo in MVAinfos:
-            job.addcomment('Added MVA %s'%MVAinfo.MVAname)
-        job.addpath(MVAdir)
-    infofile = open(samplesinfo,'w')
-    pickle.dump(Ainfo,infofile)
-    infofile.close()
-
-
+#if doinfo:
+#    for job in Ainfo:        
+#        for MVAinfo in MVAinfos:
+#            job.addcomment('Added MVA %s'%MVAinfo.MVAname)
+#        job.addpath(MVAdir)
+#    infofile = open(samplesinfo,'w')
+#    pickle.dump(Ainfo,infofile)
+#    infofile.close()
