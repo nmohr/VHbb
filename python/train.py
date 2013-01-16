@@ -121,9 +121,14 @@ MVA_Vars['Nominal']=MVA_Vars['Nominal'].split(' ')
 #spectators=spectators.split(' ')
 
 #TRAINING samples
-infofile = open(samplesinfo,'r')
-info = pickle.load(infofile)
-infofile.close()
+#infofile = open(samplesinfo,'r')
+#info = pickle.load(infofile)
+#infofile.close()
+from myutils import parse_info
+samplesConfig=config.get('Directories','samplesConfig')
+samplespath=config.get('Directories','samplepath')
+info = parse_info(samplesConfig,samplespath)
+
 
 #Workdir
 workdir=ROOT.gDirectory.GetPath()
