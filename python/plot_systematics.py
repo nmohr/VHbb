@@ -7,6 +7,8 @@ from BetterConfigParser import BetterConfigParser
 from optparse import OptionParser
 import sys
 
+ROOT.gROOT.SetBatch(True)
+
 argv = sys.argv
 parser = OptionParser()
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
