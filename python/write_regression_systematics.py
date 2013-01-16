@@ -122,13 +122,8 @@ for job in info:
         btagFDown = BTagShapeInterface("../data/csvdiscr.root",0,-1.)
     
     print '\t - %s' %(job.name)
-<<<<<<< write_regression_systematics.py
-    input = TFile.Open(storagesamples+'/env/'+job.getpath(),'read')
-    output = TFile.Open(path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
-=======
-    input = ROOT.TFile.Open(path+'/'+job.getpath(),'read')
+    input = ROOT.TFile.Open(storagesamples+'/env/'+job.getpath(),'read')
     output = ROOT.TFile.Open(path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
->>>>>>> 1.29
 
     input.cd()
     obj = ROOT.TObject
