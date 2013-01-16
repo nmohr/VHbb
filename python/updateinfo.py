@@ -18,7 +18,7 @@ info = pickle.load(infofile)
 infofile.close()
 
 for job in info:
-    if (job.name == name) or (name == "all"):
+    if (name in job.name) or (name == "all"):
         print '\t - %s' %(job.name)
         setattr(job,attribute,newvalue)
 

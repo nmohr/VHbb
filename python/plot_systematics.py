@@ -17,10 +17,19 @@ config.read(opts.config)
 
 
 #---------- yes, this is not in the config yet---------
-xMin=-1
-xMax=1
+#mode = 'BDT'
+#xMin=-1
+#xMax=1
+#masses = ['125']
+#Abins = ['HighPt','LowPt','HighPtLooseBTag']
+#channels= ['Zee','Zmm']
+#------------------------------------------------------
+#---------- Mjj ---------------------------------------
+mode = 'Mjj'
+xMin=0
+xMax=255
 masses = ['125']
-Abins = ['HighPt','LowPt','HighPtLooseBTag']
+Abins = ['highPt','lowPt','medPt']
 channels= ['Zee','Zmm']
 #------------------------------------------------------
 
@@ -54,8 +63,10 @@ for mass in masses:
     for Abin in Abins:
         for channel in channels:
 
-            input = TFile.Open(path+'/vhbb_TH_BDT_M'+mass+'_'+channel+Abin+'_8TeV.root','read')
-
+            if mode == 'BDT':
+                input = TFile.Open(path+'/vhbb_TH_BDT_M'+mass+'_'+channel+Abin+'_8TeV.root','read')
+            if mode == 'Mjj':
+                input = TFile.Open(path+'/vhbb_TH_Mjj_'+Abin+'_M'+mass+'_'+channel+'.root','read')
 
             for MC in MCs:
                 for syst in systs:

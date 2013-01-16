@@ -38,8 +38,12 @@ from StackMaker import StackMaker
 #get locations:
 Wdir=config.get('Directories','Wdir')
 samplesinfo=config.get('Directories','samplesinfo')
-#limitpath=config.get('Directories','limits')
-limitpath=path
+
+try:
+    path = config.get('Directories','plottingSamples')
+except:
+    pass
+
 section='Plot:%s'%region
 
 infofile = open(samplesinfo,'r')

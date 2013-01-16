@@ -74,12 +74,12 @@ if not opts.task == 'prep':
 
 
 if opts.task == 'plot': 
-    repDict['queue'] = 'short.q'
+    repDict['queue'] = 'all.q'
     for item in Plot_vars:
         submit(item,repDict)
 
 elif opts.task == 'dc':
-    repDict['queue'] = 'short.q'
+    repDict['queue'] = 'all.q'
     for item in DC_vars:
         if 'ZH%s'%opts.mass in item:
             submit(item,repDict) 

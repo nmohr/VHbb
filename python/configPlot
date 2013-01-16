@@ -2,7 +2,7 @@
 tag = 8TeV
 
 [Directories]
-plotpath: ~/Stacks/hcpUnblind/
+plotpath: ~/VHbb/Oct22/Stacks_Allnominal/
 
 [Plot_general]
 lumi = 12100
@@ -23,7 +23,7 @@ Dict: {'ZH':'ZH','WH':'WH','DYlight':'ZjLF','DYb':'ZjHF','Wlight':'WjLF','Wb':'W
 [plotDef:BDT_Zll]
 relPath = CMS_vhbb_BDT_Zll_8TeV
 xAxis = BDT output
-nBins = 15
+nBins = 10
 min = -1
 max = 1
 

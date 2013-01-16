@@ -1,31 +1,26 @@
 [Directories]
-##Peller's T3 setup
-#Wdir: /shome/peller
-#limits: <!Directories|Wdir!>/VHbb/Limits/HCPV42/
-#plotpath: <!Directories|Wdir!>/VHbb/Stacks/HCPV42/
-#samplepath= <!Directories|Wdir!>/DATA/HCPV42/
-#vhbbpath= <!Directories|Wdir!>/UserCode/VHbb/
-#logpath= <!Directories|Wdir!>/VHbb/LOG/HCPV42/
-#SYSdir: /sys/
-##MVAdir is relative to the samples with systematics.....i.e. /MVAout/ normally
-#MVAdir: /MVAout/
-
-#Peller's home setup
-Wdir: /Users/peller/
-plotpath: <!Directories|Wdir!>/VHbb/Stacks/Oct1/
-samplepath= /scratch/Oct1/
-limits: <!Directories|Wdir!>/VHbb/Limits/Oct1/
+#Peller's T3 setup
+Dname: Oct22
+Wdir: /shome/peller
 vhbbpath= <!Directories|Wdir!>/UserCode/VHbb/
-
-#Only one place for samples info
-samplesinfo= <!Directories|plotpath!>/samples.info
-#Wdir: /shome/bortigno
-#limits: <!Directories|Wdir!>/Limits/Test/
-#plotpath: <!Directories|Wdir!>/Stacks/TopUp/
-#samplepath= <!Directories|Wdir!>/VHbbAnalysis/VHbbTest/Step2_8TeV
-
+#samplepath: <!Directories|Wdir!>/DATA/<!Directories|Dname!>/
+samplepath: dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/peller/Oct22_VVexpert/
+#samplepath= dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat//store/HBB_EDMNtuple/V42/Oct5/
+#samplepath= /shome/nmohr/VHbbAnalysis/EDMNtuple_step2/<!Directories|Dname!>/
+storagesamples: dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/nmohr/Oct5/
+#samplesinfo: <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/samples.info
+samplesinfo: <!Directories|Wdir!>/UserCode/VHbb/python/8TeVsamples_test.cfg
+limits: <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/Limit_expertAllnominal/
+plotpath: <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/Stacks_expertAllnominal/
+logpath= <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/LOG/
 SYSdir: /sys/
-#MVAdir is relative to the samples with systematics.....i.e. /MVAout/ normally
 MVAdir: /MVAout/
 
+plottingSamples: dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/peller/Oct22_VVexpert/
+dcSamples: dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/peller/Oct22_VVexpert/
 
+#MVAin: dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/HBB_EDMNtuple/V42/Oct22/env/sys/MVAout/
+#MVAin: dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/peller/Oct22_TTexpert/
+MVAin: dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/peller/Oct22_DYexpert/
+#MVAout: gsidcap://t3se01.psi.ch:22128//pnfs/psi.ch/cms/trivcat/store/user/peller/Oct22_VVexpert2/
+MVAout: <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/

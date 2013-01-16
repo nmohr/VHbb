@@ -162,11 +162,11 @@ class Rebinner:
         print binhisto.Integral()
         newhisto=ROOT.TH1F('new','new',self.nBins,self.lowedgearray[0],self.lowedgearray[-1])
         newhisto.Sumw2()
-        for bin in range(0,self.nBins+1):
+        for bin in range(1,self.nBins+1):
             newhisto.SetBinContent(bin,binhisto.GetBinContent(bin))
             newhisto.SetBinError(bin,binhisto.GetBinError(bin))
-            newhisto.SetName(binhisto.GetName())
-            newhisto.SetTitle(binhisto.GetTitle())
+        newhisto.SetName(binhisto.GetName())
+        newhisto.SetTitle(binhisto.GetTitle())
         print newhisto.Integral()
         return copy(newhisto)
 
@@ -247,6 +247,8 @@ while rel > 0.35:
     if not TotL == 0 and not ErrorL == 0:
         rel=ErrorL/TotL
         #print rel
+#it's the lower edge
+binL+=1
 print 'lower bin is %s'%binL
 
 inbetween=binR-binL
