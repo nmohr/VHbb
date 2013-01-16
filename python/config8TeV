@@ -11,6 +11,9 @@ TrainFlag = True
 # <<<<<<<<<<<<<<<<<<<
 # <<<<<<<<<<<<<<<<<<<
 
+[VHbbNameSpace]
+library=../interface/VHbbNameSpace_h.so
+
 [Plot_general]
 #In Use:
 samples: Zudsg,Zudsg1J,Zudsg2J,Zudsg3J,Zudsg4J,ZudsgHT200400,ZudsgHT400,Zudsg5070,Zudsg70100,Zudsg100,Zcc,Zcc1J,Zcc2J,Zcc3J,Zcc4J,ZccHT200400,ZccHT400,Zcc5070,Zcc70100,Zcc100,Zbb,Zbb1J,Zbb2J,Zbb3J,Zbb4J,ZbbHT200400,ZbbHT400,Zbb5070,Zbb70100,Zbb100,ZZ,WW,WZ,TT,ST_s,ST_t,ST_tW,STbar_s,STbar_t,STbar_tW,ZH125 
@@ -549,6 +552,7 @@ setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
 #List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTight_ZH110_MM_8TeV_oct,RMed_ZH110_MM_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTight_ZH115_MM_8TeV_oct,RMed_ZH115_MM_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTight_ZH120_MM_8TeV_oct,RMed_ZH120_MM_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTight_ZH130_MM_8TeV_oct,RMed_ZH130_MM_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTight_ZH135_MM_8TeV_oct,RMed_ZH135_MM_8TeV_oct
 
 List: HighPt_ZH125_ExpertRegion0_EE_8TeV_nov,HighPt_ZH125_ExpertRegion1_EE_8TeV_nov,HighPt_ZH125_ExpertRegion2_EE_8TeV_nov,HighPt_ZH125_ExpertRegion3_EE_8TeV_nov,HighPt_ZH125_ExpertRegion0_MM_8TeV_nov,HighPt_ZH125_ExpertRegion1_MM_8TeV_nov,HighPt_ZH125_ExpertRegion2_MM_8TeV_nov,HighPt_ZH125_ExpertRegion3_MM_8TeV_nov
+#,HighPt_ZH125_ExpertRegionX_EE_8TeV_nov,HighPt_ZH125_ExpertRegionX_MM_8TeV_nov
 #List: HighPt_ZH125_ExpertRegion2_EE_8TeV_nov
 
 # only LBT
@@ -745,17 +749,29 @@ RMed_ZH130_MM_8TeV_oct: RMed_ZH130_oct.nominal,<!LimitGeneral|BDToutname!>,<!Lim
 RMed_ZH135_MM_8TeV_oct: RMed_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLowPt_8TeV,BDT
 
 #individual BKGd trainings:
-HighPt_ZH125_ExpertRegion0_EE_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert0_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion0_EE,HighPt_ExpertRegion0_EE,ZH125,ZeeHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegion1_EE_8TeV_nov: DY_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert1_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion1_EE,HighPt_ExpertRegion1_EE,ZH125,ZeeHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegion2_EE_8TeV_nov: VV_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert2_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion2_EE,HighPt_ExpertRegion2_EE,ZH125,ZeeHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegion3_EE_8TeV_nov: VV_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert3_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion3_EE,HighPt_ExpertRegion3_EE,ZH125,ZeeHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegionX_EE_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expertX_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion3_EE,HighPt_ExpertRegion3_EE,ZH125,ZeeHighPt_8TeV,BDT
+#HighPt_ZH125_ExpertRegion0_EE_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert0_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion0_EE,HighPt_ExpertRegion0_EE,ZH125,ZeeHighPt_8TeV,BDT
+#HighPt_ZH125_ExpertRegion1_EE_8TeV_nov: DY_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert1_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion1_EE,HighPt_ExpertRegion1_EE,ZH125,ZeeHighPt_8TeV,BDT
+#HighPt_ZH125_ExpertRegion2_EE_8TeV_nov: VV_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert2_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion2_EE,HighPt_ExpertRegion2_EE,ZH125,ZeeHighPt_8TeV,BDT
+#HighPt_ZH125_ExpertRegion3_EE_8TeV_nov: VV_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert3_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion3_EE,HighPt_ExpertRegion3_EE,ZH125,ZeeHighPt_8TeV,BDT
+#HighPt_ZH125_ExpertRegionX_EE_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expertX_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion3_EE,HighPt_ExpertRegion3_EE,ZH125,ZeeHighPt_8TeV,BDT
+#
+#HighPt_ZH125_ExpertRegion0_MM_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert0_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion0_MM,HighPt_ExpertRegion0_MM,ZH125,ZmmHighPt_8TeV,BDT
+#HighPt_ZH125_ExpertRegion1_MM_8TeV_nov: DY_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert1_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion1_MM,HighPt_ExpertRegion1_MM,ZH125,ZmmHighPt_8TeV,BDT
+#HighPt_ZH125_ExpertRegion2_MM_8TeV_nov: VV_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert2_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion2_MM,HighPt_ExpertRegion2_MM,ZH125,ZmmHighPt_8TeV,BDT
+#HighPt_ZH125_ExpertRegion3_MM_8TeV_nov: VV_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert3_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion3_MM,HighPt_ExpertRegion3_MM,ZH125,ZmmHighPt_8TeV,BDT
+#HighPt_ZH125_ExpertRegionX_MM_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expertX_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion3_MM,HighPt_ExpertRegion3_MM,ZH125,ZmmHighPt_8TeV,BDT
 
-HighPt_ZH125_ExpertRegion0_MM_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert0_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion0_MM,HighPt_ExpertRegion0_MM,ZH125,ZmmHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegion1_MM_8TeV_nov: DY_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert1_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion1_MM,HighPt_ExpertRegion1_MM,ZH125,ZmmHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegion2_MM_8TeV_nov: VV_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert2_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion2_MM,HighPt_ExpertRegion2_MM,ZH125,ZmmHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegion3_MM_8TeV_nov: VV_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert3_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion3_MM,HighPt_ExpertRegion3_MM,ZH125,ZmmHighPt_8TeV,BDT
-HighPt_ZH125_ExpertRegionX_MM_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expertX_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion3_MM,HighPt_ExpertRegion3_MM,ZH125,ZmmHighPt_8TeV,BDT
+
+#individual BKGd trainings nominal BDT:
+HighPt_ZH125_ExpertRegion0_EE_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert0_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion0_EE,HighPt_ExpertRegion0_EE,ZH125,ZeeHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegion1_EE_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert1_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion1_EE,HighPt_ExpertRegion1_EE,ZH125,ZeeHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegion2_EE_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert2_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion2_EE,HighPt_ExpertRegion2_EE,ZH125,ZeeHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegion3_EE_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert3_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion3_EE,HighPt_ExpertRegion3_EE,ZH125,ZeeHighPt_8TeV,BDT
+
+HighPt_ZH125_ExpertRegion0_MM_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert0_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion0_MM,HighPt_ExpertRegion0_MM,ZH125,ZmmHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegion1_MM_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert1_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion1_MM,HighPt_ExpertRegion1_MM,ZH125,ZmmHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegion2_MM_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert2_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion2_MM,HighPt_ExpertRegion2_MM,ZH125,ZmmHighPt_8TeV,BDT
+HighPt_ZH125_ExpertRegion3_MM_8TeV_nov: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert3_M125_ZmmHighPt_8TeV,HighPt_ExpertRegion3_MM,HighPt_ExpertRegion3_MM,ZH125,ZmmHighPt_8TeV,BDT
 
 
 #CTRL region DCs
