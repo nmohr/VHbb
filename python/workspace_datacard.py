@@ -7,18 +7,15 @@ from copy import copy
 #suppres the EvalInstace conversion warning bug
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
 from optparse import OptionParser
-from BetterConfigParser import BetterConfigParser
-from samplesclass import sample
-from mvainfos import mvainfo
-from progbar import progbar
-from printcolor import printc
+from myutils import BetterConfigParser, sample, mvainfo, progbar, printc, parse_info
+#ToDo:
 from gethistofromtree import getHistoFromTree, orderandadd
 
 #CONFIGURE
 argv = sys.argv
 parser = OptionParser()
-parser.add_option("-P", "--path", dest="path", default="",
-                      help="path to samples")
+#parser.add_option("-P", "--path", dest="path", default="",
+#                      help="path to samples")
 parser.add_option("-V", "--var", dest="variable", default="",
                       help="variable for shape analysis")
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
@@ -41,12 +38,14 @@ samplesinfo=config.get('Directories','samplesinfo')
 systematics=config.get('systematics','systematics')
 systematics=systematics.split(' ')
 weightF=config.get('Weights','weightF')
-path=opts.path
+
+path = config.get('Directories','dcSamples')
+
 var=opts.variable
 plot=config.get('Limit',var)
-infofile = open(samplesinfo,'r')
-info = pickle.load(infofile)
-infofile.close()
+
+info = parse_info(samplesinfo,path)
+
 options = plot.split(',')
 if len(options) < 12:
     print "You have to choose option[11]: either Mjj or BDT"
@@ -63,11 +62,6 @@ anType=options[11]
 RCut=options[7]
 setup=eval(config.get('LimitGeneral','setup'))
 ROOToutname = options[6]
-
-try:
-    path = config.get('Directories','dcSamples')
-except:
-    pass
 
 
 if 'HighPtLooseBTag' in ROOToutname:
@@ -154,12 +148,12 @@ class Rebinner:
         self.active=active
     def rebin(self, histo):
         if not self.active: return histo
-        print 'rebinning'
-        print histo.Integral()
+        #print 'rebinning'
+        #print histo.Integral()
         ROOT.gDirectory.Delete('hnew')
         histo.Rebin(self.nBins,'hnew',self.lowedgearray)
         binhisto=ROOT.gDirectory.Get('hnew')
-        print binhisto.Integral()
+        #print binhisto.Integral()
         newhisto=ROOT.TH1F('new','new',self.nBins,self.lowedgearray[0],self.lowedgearray[-1])
         newhisto.Sumw2()
         for bin in range(1,self.nBins+1):
@@ -167,7 +161,7 @@ class Rebinner:
             newhisto.SetBinError(bin,binhisto.GetBinError(bin))
         newhisto.SetName(binhisto.GetName())
         newhisto.SetTitle(binhisto.GetTitle())
-        print newhisto.Integral()
+        #print newhisto.Integral()
         return copy(newhisto)
 
 
@@ -236,7 +230,7 @@ while rel > 0.35:
     if not TotR == 0 and not ErrorR == 0:
         rel=ErrorR/TotR
         #print rel
-print 'upper bin is %s'%binR
+#print 'upper bin is %s'%binR
 
 #---- from left
 rel=1.0
@@ -249,14 +243,14 @@ while rel > 0.35:
         #print rel
 #it's the lower edge
 binL+=1
-print 'lower bin is %s'%binL
+#print 'lower bin is %s'%binL
 
 inbetween=binR-binL
 stepsize=int(inbetween)/(int(nBins)-2)
 modulo = int(inbetween)%(int(nBins)-2)
 
-print'stepsize %s'% stepsize
-print 'modulo %s'%modulo
+#print'stepsize %s'% stepsize
+#print 'modulo %s'%modulo
 
 binlist=[binL]
 for i in range(0,int(nBins)-3):
@@ -265,7 +259,7 @@ binlist[-1]+=modulo
 binlist.append(binR)
 binlist.append(nBinsRB+1)
 
-print binlist
+#print binlist
 myBinning=Rebinner(int(nBins),array('d',[-1.0]+[hDummyRB.GetBinLowEdge(i) for i in binlist]),rebin_active)
 #--------------------------------------------------
 
@@ -292,10 +286,10 @@ for job in info:
                 if job.subnames[subsample] in BKGlist:
                     print 'getting %s'%job.subnames[subsample]
                     hTemp, typ = getHistoFromTree(job,path,config,options,MC_rescale_factor,subsample)
-                    print hTemp.Integral()
+                    #print hTemp.Integral()
                     histos.append(myBinning.rebin(hTemp))
-                    print '='
-                    print myBinning.rebin(hTemp).Integral()
+                    #print '='
+                    #print myBinning.rebin(hTemp).Integral()
                     typs.append(Group[job.subnames[subsample]])
                     hNames.append(job.subnames[subsample])                        
                     if weightF_sys:

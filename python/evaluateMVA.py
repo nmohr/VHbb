@@ -9,9 +9,9 @@ from copy import copy
 import warnings
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
 from optparse import OptionParser
-from BetterConfigParser import BetterConfigParser
 import pickle
-from myutils import parse_info
+from myutils import BetterConfigParser, progbar, mvainfo, printc, parse_info
+
 
 #CONFIGURE
 ROOT.gROOT.SetBatch(True)
@@ -35,9 +35,10 @@ parser.add_option("-C", "--config", dest="config", default=[], action="append",
 (opts, args) = parser.parse_args(argv)
 
 #from samplesclass import sample
-from mvainfos import mvainfo
-from progbar import progbar
-from printcolor import printc
+#from mvainfos import mvainfo
+#from progbar import progbar
+#from printcolor import printc
+
 
 if opts.config =="":
         opts.config = "config"
@@ -48,7 +49,6 @@ anaTag = config.get("Analysis","tag")
 
 #get locations:
 Wdir=config.get('Directories','Wdir')
-MVASubdir=config.get('Directories','MVAdir')
 samplesinfo=config.get('Directories','samplesinfo')
 
 #systematics

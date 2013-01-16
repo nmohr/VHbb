@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-from samplesclass import sample
-from printcolor import printc
-import pickle
 import sys
 import os
 import ROOT 
@@ -9,19 +6,17 @@ import math
 import shutil
 from array import array
 import warnings
-from optparse import OptionParser
-from BetterConfigParser import BetterConfigParser
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
-
+from optparse import OptionParser
+from myutils import BetterConfigParser, printc, sample, parse_info
 
 #usage: ./write_regression_systematic.py path
-
 
 #os.mkdir(path+'/sys')
 argv = sys.argv
 parser = OptionParser()
-parser.add_option("-P", "--path", dest="path", default="", 
-                      help="path to samples")
+#parser.add_option("-P", "--path", dest="path", default="", 
+#                      help="path to samples")
 parser.add_option("-S", "--samples", dest="names", default="", 
                       help="samples you want to run on")
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
@@ -42,17 +37,21 @@ ROOT.gSystem.Load(VHbbNameSpace)
 AngLikeBkgs=eval(config.get('AngularLike','backgrounds'))
 ang_yield=eval(config.get('AngularLike','yields'))
 
-path=opts.path
+#path=opts.path
+pathIN = config.get('Directories','SYSin')
+pathOUT = config.get('Directories','SYSout')
+
+print 'INput samples:\t%s'%pathIN
+print 'OUTput samples:\t%s'%pathOUT
 
 
-storagesamples = config.get('Directories','storagesamples')
+#storagesamples = config.get('Directories','storagesamples')
 
 
 namelist=opts.names.split(',')
+
 #load info
-infofile = open(samplesinfo,'r')
-info = pickle.load(infofile)
-infofile.close()
+info = parse_info(samplesinfo,pathIN)
 
 def deltaPhi(phi1, phi2): 
     result = phi1 - phi2
@@ -122,8 +121,10 @@ for job in info:
         btagFDown = BTagShapeInterface("../data/csvdiscr.root",0,-1.)
     
     print '\t - %s' %(job.name)
-    input = ROOT.TFile.Open(storagesamples+'/env/'+job.getpath(),'read')
-    output = ROOT.TFile.Open(path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
+    input = ROOT.TFile.Open(pathIN+job.getpath(),'read')
+    output = ROOT.TFile.Open(pathOUT+job.getpath()+'.root','recreate')
+    #input = ROOT.TFile.Open(storagesamples+'/env/'+job.getpath(),'read')
+    #output = ROOT.TFile.Open(path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
 
     input.cd()
     obj = ROOT.TObject
@@ -587,8 +588,3 @@ for job in info:
                    
     newtree.AutoSave()
     output.Close()
-        
-#dump info
-#infofile = open(samplesinfo,'w')
-#pickle.dump(info,infofile)
-#infofile.close()

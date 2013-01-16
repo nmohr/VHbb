@@ -1,0 +1,35 @@
+[Directories]
+
+#just a variable
+Dname: newTest
+#Working Directory
+Wdir: /shome/peller
+
+#The directory with the code
+vhbbpath= <!Directories|Wdir!>/UserCode/VHbb/
+
+#specifies the .cfg files with the Samples information
+samplesinfo: <!Directories|Wdir!>/UserCode/VHbb/python/8TeVconfig/samples_test.cfg
+
+#where you want to store the logfiles from job submissions
+logpath= <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/LOG/
+
+#from which samples to plot and where to save the plots
+plottingSamples: dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/peller/Oct22_VVexpert/
+plotpath: <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/Stacks_expertAllnominal/
+
+#from which samples to make the DCs and where to save the DCs
+dcSamples: dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/peller/Oct22_VVexpert/
+limits: <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/Limit_expertAllnominal/
+
+#From where to take the raw samples and where to put the prepared trees:
+PREPin: dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/peller/Oct22_DYexpert/
+PREPout: <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/env/
+
+#On which samples to apply the regression and write the sys and where to write the resulting trees:
+SYSin: dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/peller/Oct22_DYexpert/
+SYSout: <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/env/sys/
+
+#On which samples to evaluate the MVA on and where to write the resulting trees:
+MVAin: dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/peller/Oct22_DYexpert/
+MVAout: <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/env/sys/MVAout/

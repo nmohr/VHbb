@@ -1,9 +1,17 @@
 #!/usr/bin/env python
 import pickle
-
-from BetterConfigParser import BetterConfigParser
 import sys, os
 from optparse import OptionParser
+from copy import copy,deepcopy
+from math import sqrt
+import math
+from HiggsAnalysis.CombinedLimit.DatacardParser import *
+from HiggsAnalysis.CombinedLimit.ShapeTools     import *
+import ROOT 
+from myutils import StackMaker, BetterConfigParser
+
+ROOT.gROOT.SetBatch(True)
+ROOT.gSystem.Load("libHiggsAnalysisCombinedLimit.so")
 
 #CONFIGURE
 argv = sys.argv
@@ -19,18 +27,6 @@ parser.add_option("-F", "--fitresult", dest="fit", default="s",
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
                       help="configuration file")
 (opts, args) = parser.parse_args(argv)
-
-from copy import copy,deepcopy
-from StackMaker import StackMaker
-from math import sqrt
-import math
-from HiggsAnalysis.CombinedLimit.DatacardParser import *
-from HiggsAnalysis.CombinedLimit.ShapeTools     import *
-import ROOT 
-ROOT.gROOT.SetBatch(True)
-ROOT.gSystem.Load("libHiggsAnalysisCombinedLimit.so")
-
-
 
 def readBestFit(theFile):
     file = ROOT.TFile(theFile)

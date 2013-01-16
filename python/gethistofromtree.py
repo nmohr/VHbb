@@ -1,13 +1,10 @@
-from samplesclass import sample
-from printcolor import printc
 import pickle
 import ROOT 
 from ROOT import TFile, TTree
 import ROOT
 from array import array
-from BetterConfigParser import BetterConfigParser
 import sys
-
+from myutils import sample, printc
 
 def getScale(job,path,config,rescale,subsample=-1):
     anaTag=config.get('Analysis','tag')

@@ -1,21 +1,18 @@
 #!/usr/bin/env python
-from samplesclass import sample
-from printcolor import printc
 import pickle
 import ROOT 
 from array import array
-from BetterConfigParser import BetterConfigParser
 import sys, os
-#from gethistofromtree import getHistoFromTree, orderandadd
 from optparse import OptionParser
 from copy import copy,deepcopy
 from math import sqrt
+from myutils import BetterConfigParser, sample, printc, parse_info, mvainfo, StackMaker, HistoMaker, orderandadd
 
 #CONFIGURE
 argv = sys.argv
 parser = OptionParser()
-parser.add_option("-P", "--path", dest="path", default="",
-                      help="path to samples")
+#parser.add_option("-P", "--path", dest="path", default="",
+#                      help="path to samples")
 parser.add_option("-R", "--reg", dest="region", default="",
                       help="region to plot")
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
@@ -24,31 +21,23 @@ parser.add_option("-C", "--config", dest="config", default=[], action="append",
 if opts.config =="":
         opts.config = "config"
 print opts.config
-opts.config.append('vhbbPlotDef.ini')
+opts.config.append('8TeVconfig/vhbbPlotDef.ini')
 config = BetterConfigParser()
 config.read(opts.config)
 
-path = opts.path
+#path = opts.path
 region = opts.region
 
-from mvainfos import mvainfo
-from HistoMaker import HistoMaker, orderandadd
-from StackMaker import StackMaker
 
 #get locations:
 Wdir=config.get('Directories','Wdir')
 samplesinfo=config.get('Directories','samplesinfo')
 
-try:
-    path = config.get('Directories','plottingSamples')
-except:
-    pass
+path = config.get('Directories','plottingSamples')
 
 section='Plot:%s'%region
 
-infofile = open(samplesinfo,'r')
-info = pickle.load(infofile)
-infofile.close()
+info = parse_info(samplesinfo,path)
 
 #----------Histo from trees------------
 def doPlot():
@@ -93,6 +82,7 @@ def doPlot():
 
     if lumicounter > 0:
         lumi=lumi/lumicounter
+
 
     Plotter.lumi=lumi
     mass = Stacks[0].mass

@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 from optparse import OptionParser
-from BetterConfigParser import BetterConfigParser
 import sys
+import pickle
+import ROOT 
+from ROOT import TFile, TTree
+from array import array
+from myutils import BetterConfigParser, sample, printc, mvainfo, parse_info
+#ToDo:
+from gethistofromtree import getScale
 
 #warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
 #usage: ./train run gui
@@ -19,19 +25,6 @@ parser.add_option("-C", "--config", dest="config", default=[], action="append",
 (opts, args) = parser.parse_args(argv)
 if opts.config =="":
         opts.config = "config"
-
-
-from samplesclass import sample
-from printcolor import printc
-import pickle
-import ROOT 
-from ROOT import TFile, TTree
-import ROOT
-from array import array
-from mvainfos import mvainfo
-from gethistofromtree import getScale
-
-
 
 #load config
 config = BetterConfigParser()
@@ -124,11 +117,8 @@ MVA_Vars['Nominal']=MVA_Vars['Nominal'].split(' ')
 #infofile = open(samplesinfo,'r')
 #info = pickle.load(infofile)
 #infofile.close()
-from myutils import parse_info
-samplesConfig=config.get('Directories','samplesConfig')
-samplespath=config.get('Directories','samplepath')
-info = parse_info(samplesConfig,samplespath)
 
+info = parse_info(samplesinfo,path)
 
 #Workdir
 workdir=ROOT.gDirectory.GetPath()
@@ -295,7 +285,7 @@ infofile.close()
 
 # open the TMVA Gui 
 if gui == True: 
-    ROOT.gROOT.ProcessLine( ".L TMVAGui.C")
+    ROOT.gROOT.ProcessLine( ".L myutils/TMVAGui.C")
     ROOT.gROOT.ProcessLine( "TMVAGui(\"%s\")" % fnameOutput )
     ROOT.gApplication.Run() 
 

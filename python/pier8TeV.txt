@@ -1,3 +1,0 @@
-_vhbb_ZjLF_SF    lnN    -    -     -    1.040 0.974 1.001   -   -   -   -  
-CMS_vhbb_ZjHF_SF    lnN    -    -     -    0.897 1.162 0.966   -   -   -   -  
-CMS_vhbb_TT_SF    lnN    -    -     -    1.002 0.983 1.079   -   -   -   -  

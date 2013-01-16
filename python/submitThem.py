@@ -1,9 +1,8 @@
 #! /usr/bin/env python
 import os,shutil,sys,pickle,subprocess,ROOT
 from optparse import OptionParser
-from BetterConfigParser import BetterConfigParser
-from samplesclass import sample
 import getpass
+from myutils import BetterConfigParser, sample, parse_info
 
 parser = OptionParser()
 parser.add_option("-T", "--tag", dest="tag", default="",
@@ -29,7 +28,8 @@ if opts.task == "":
 samplesList=opts.samples.split(",")
 
 en = opts.tag
-configs = ['config%s'%(en),'pathConfig%s'%(en)]
+#configs = ['config%s'%(en),'pathConfig%s'%(en)]
+configs = ['#sconfig/general'%(en),'#sconfig/paths'%(en),'#sconfig/plots'%(en),'#sconfig/training'%(en),'#sconfig/datacards'%(en),'#sconfig/cuts'%(en)]
 	
 print configs
 config = BetterConfigParser()
@@ -68,10 +68,7 @@ if opts.task == 'plot':
 if not opts.task == 'prep':
     path = config.get("Directories","samplepath")
     samplesinfo = config.get("Directories","samplesinfo")
-    infofile = open(samplesinfo,'r')
-    info = pickle.load(infofile)
-    infofile.close()
-
+    info = parse_info(samplesinfo,path)
 
 if opts.task == 'plot': 
     repDict['queue'] = 'all.q'

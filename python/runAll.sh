@@ -43,72 +43,71 @@ printenv
 cd -
 
 #Parsing the path form the config
-pathAna=`python << EOF 
-import os
-from BetterConfigParser import BetterConfigParser
-config = BetterConfigParser()
-config.read('./pathConfig$energy')
-print config.get('Directories','samplepath')
-EOF`
-echo $pathAna
-configFile=config$energy
+#pathAna=`python << EOF 
+#import os
+#from BetterConfigParser import BetterConfigParser
+#config = BetterConfigParser()
+#config.read('./pathConfig$energy')
+#print config.get('Directories','samplepath')
+#EOF`
+#echo $pathAna
 
-storagesamples=`python << EOF 
-import os
-from BetterConfigParser import BetterConfigParser
-config = BetterConfigParser()
-config.read('./pathConfig$energy')
-print config.get('Directories','samplepath')
-EOF`
+#configFile=config$energy
 
+#storagesamples=`python << EOF 
+#import os
+#from BetterConfigParser import BetterConfigParser
+#config = BetterConfigParser()
+#config.read('./pathConfig$energy')
+#print config.get('Directories','samplepath')
+#EOF`
 
 MVAList=`python << EOF 
 import os
 from BetterConfigParser import BetterConfigParser
 config = BetterConfigParser()
-config.read('./config$energy')
+config.read('./${energy}config/training')
 print config.get('MVALists','List_for_submitscript')
 EOF`
-configFile=config$energy
 
 pathAnaEnv=$pathAna/env
 pathAnaSys=$pathAnaEnv/sys
 pathAnaMVAout=$pathAnaSys/MVAout
 
 #Create subdirs where processed samples will be stored
-if [ ! -d $pathAnaEnv ]
-    then
-    mkdir $pathAnaEnv
-fi
-if [ ! -d $pathAnaSys ]
-    then
-    mkdir $pathAnaSys
-fi
-if [ ! -d $pathAnaMVAout ]
-    then
-    mkdir $pathAnaMVAout
-fi
+#if [ ! -d $pathAna/env ]
+#    then
+#    mkdir $pathAna/env
+#fi
+#if [ ! -d $pathAna/env/sys ]
+#    then
+#    mkdir $pathAna/env/sys
+#fi
+#if [ ! -d $pathAna/env/sys/MVAout ]
+#    then
+#    mkdir $pathAna/env/sys/MVAout
+#fi
 
 #Run the scripts
 
 if [ $task = "prep" ]; then
-    ./prepare_environment_with_config.py -I $storagesamples -O $pathAnaEnv/ -C ${energy}samples_nosplit.cfg
+    ./prepare_environment_with_config.py -C ${energy}config/samples_nosplit.cfg -C ${energy}config/paths
 fi
 if [ $task = "sys" ]; then
-    ./write_regression_systematics.py -P $pathAnaEnv/ -S $sample -C $configFile -C pathConfig$energy
+    ./write_regression_systematics.py -S $sample -C ${energy}config/general -C ${energy}config/paths
 fi
 if [ $task = "eval" ]; then
-    ./evaluateMVA.py -D $MVAList -S $sample -U 0 -C ${configFile} -C pathConfig$energy
+    ./evaluateMVA.py -D $MVAList -S $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training
 fi
 if [ $task = "syseval" ]; then
-    ./write_regression_systematics.py -P $pathAnaEnv/ -S $sample -C $configFile -C pathConfig$energy
-    ./evaluateMVA.py -D $MVAList -S $sample -U 0 -C ${configFile} -C pathConfig$energy
+    ./write_regression_systematics.py -S $sample -C ${energy}config/general -C ${energy}config/paths
+    ./evaluateMVA.py -D $MVAList -S $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training
 fi
 if [ $task = "plot" ]; then
-    ./tree_stack.py -P $pathAnaMVAout/ -C ${configFile} -C pathConfig$energy -R $sample
+    ./tree_stack.py -R $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/plots
 fi
 if [ $task = "dc" ]; then
-    ./workspace_datacard.py -P $pathAnaMVAout/ -C ${configFile} -C pathConfig$energy -V $sample 
+    ./workspace_datacard.py -V $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/datacards
 fi
 
 rm -rf $TMPDIR

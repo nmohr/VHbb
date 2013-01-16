@@ -34,7 +34,6 @@ def parse_info(samples_config,samples_path):
     for line in ls.readlines():
         fileslist.append(line)
 
-    print fileslist
 
     for Sample in config.sections():
         

@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 import ROOT 
 from ROOT import TFile
-from Ratio import getRatio
-import TdrStyles
-from BetterConfigParser import BetterConfigParser
 from optparse import OptionParser
 import sys
+from myutils import BetterConfigParser, tdrStyles, getRatio
 
 ROOT.gROOT.SetBatch(True)
 
@@ -34,8 +32,6 @@ masses = ['125']
 Abins = ['highPt','lowPt','medPt']
 channels= ['Zee','Zmm']
 #------------------------------------------------------
-
-
 
 path = samplesinfo=config.get('Directories','limits')
 outpath = samplesinfo=config.get('Directories','plotpath')
@@ -76,7 +72,7 @@ for mass in masses:
                 #for syst in ['CMS_vhbb_stats_']:
 
 
-                    TdrStyles.tdrStyle()
+                    tdrStyle()
 
                     c = ROOT.TCanvas('','', 600, 600)
                     c.SetFillStyle(4000)
