@@ -3,7 +3,6 @@ from optparse import OptionParser
 import sys
 import pickle
 import ROOT 
-from ROOT import TFile, TTree
 from array import array
 from myutils import BetterConfigParser, sample, printc, mvainfo, parse_info
 #ToDo:
@@ -51,7 +50,7 @@ ROOT.gSystem.Load(VHbbNameSpace)
 
 def getTree(job,cut,path,subsample=-1):
     #print path+'/'+job.getpath()
-    newinput = TFile.Open(path+'/'+job.getpath(),'read')
+    newinput = ROOT.TFile.Open(path+'/'+job.getpath(),'read')
     output.cd()
     Tree = newinput.Get(job.tree)
     #Tree.SetDirectory(0)
@@ -89,7 +88,7 @@ MVAname=run
 MVAsettings=config.get(run,'MVAsettings')
 fnameOutput = MVAdir+factoryname+'_'+MVAname+'.root'
 #locations
-path=config.get(run,'path')
+path=config.get('Directories','SYSout')
 
 TCutname=config.get(run, 'treeCut')
 TCut=config.get('Cuts',TCutname)

@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, warnings
 from optparse import OptionParser
 from BetterConfigParser import BetterConfigParser
 from samplesclass import sample
@@ -45,8 +45,8 @@ def parse_info(samples_config,samples_path):
         if any(infile in file for file in fileslist):
             print 'Sample %s is present'%(sampleName)
         else:
-            print 'Sample %s is NOT! present'%(sampleName)
-            raise Exception("File %s not present"%(infile))
+            warnings.warn('Sample %s is NOT! present'%(sampleName))
+            warnings.warn("File %s not present"%(infile))
         #Initialize samplecalss element
         sampleType = config.get(Sample,'sampleType')
         cut = config.get(Sample, 'cut')
