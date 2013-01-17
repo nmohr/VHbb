@@ -32,39 +32,12 @@ export LD_PRELOAD="libglobus_gssapi_gsi_gcc64pthr.so.0":${LD_PRELOAD}
 
 mkdir $TMPDIR
 
-printenv
-
-#Path where the script write_regression_systematic.py and evaluateMVA.py are stored
-#execute=$PWD/UserCode/VHbb/python/
-#execute=/shome/peller/UserCode/VHbb/python/
-#cd $execute
-
 #back to the working dir
 cd -
 
-#Parsing the path form the config
-#pathAna=`python << EOF 
-#import os
-#from BetterConfigParser import BetterConfigParser
-#config = BetterConfigParser()
-#config.read('./pathConfig$energy')
-#print config.get('Directories','samplepath')
-#EOF`
-#echo $pathAna
-
-#configFile=config$energy
-
-#storagesamples=`python << EOF 
-#import os
-#from BetterConfigParser import BetterConfigParser
-#config = BetterConfigParser()
-#config.read('./pathConfig$energy')
-#print config.get('Directories','samplepath')
-#EOF`
-
 MVAList=`python << EOF 
 import os
-from BetterConfigParser import BetterConfigParser
+from myutils import BetterConfigParser
 config = BetterConfigParser()
 config.read('./${energy}config/training')
 print config.get('MVALists','List_for_submitscript')
@@ -73,20 +46,6 @@ EOF`
 pathAnaEnv=$pathAna/env
 pathAnaSys=$pathAnaEnv/sys
 pathAnaMVAout=$pathAnaSys/MVAout
-
-#Create subdirs where processed samples will be stored
-#if [ ! -d $pathAna/env ]
-#    then
-#    mkdir $pathAna/env
-#fi
-#if [ ! -d $pathAna/env/sys ]
-#    then
-#    mkdir $pathAna/env/sys
-#fi
-#if [ ! -d $pathAna/env/sys/MVAout ]
-#    then
-#    mkdir $pathAna/env/sys/MVAout
-#fi
 
 #Run the scripts
 
