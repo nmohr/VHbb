@@ -27,7 +27,7 @@ def renewHist(hist,reference,min,max):
 def getRatio(hist,reference,min,max,yTitle="",maxUncertainty = 1000.000,restrict=True):
     from ROOT import gROOT
     theHist, theReference = renewHist(hist,reference,min,max)
-    ROOT.gSystem.Load('./Ratio_C.so') 
+    ROOT.gSystem.Load('./myutils/Ratio_C.so') 
     from ROOT import coolRatio
     thePlotter = coolRatio()
     theRatio = thePlotter.make_rebinned_ratios(theHist,theReference,maxUncertainty,False,0)
