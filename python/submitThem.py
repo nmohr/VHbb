@@ -28,8 +28,7 @@ if opts.task == "":
 samplesList=opts.samples.split(",")
 
 en = opts.tag
-#configs = ['config%s'%(en),'pathConfig%s'%(en)]
-configs = ['#sconfig/general'%(en),'#sconfig/paths'%(en),'#sconfig/plots'%(en),'#sconfig/training'%(en),'#sconfig/datacards'%(en),'#sconfig/cuts'%(en)]
+configs = ['%sconfig/general'%(en),'%sconfig/paths'%(en),'%sconfig/plots'%(en),'%sconfig/training'%(en),'%sconfig/datacards'%(en),'%sconfig/cuts'%(en)]
 	
 print configs
 config = BetterConfigParser()
