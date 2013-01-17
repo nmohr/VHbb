@@ -38,12 +38,12 @@ namespace VHbb {
     TVector3 n1(H1);
     TVector3 n2(H2);
     
-    float det= n1.Px() * n2.Py() - n2.Px() * n1.Py();
+    double det= n1.Px() * n2.Py() - n2.Px() * n1.Py();
     
     H1.SetMag( (  - n2.Py() * V.Px() + n2.Px() * V.Py() )  / (sin(n1.Theta()) *det ) );
     H2.SetMag( ( + n1.Py() * V.Px() - n1.Px() * V.Py() )  / (sin(n2.Theta())  *det ) );
     
-    float mass=TMath::Sqrt( TMath::Power( (H1.Mag()+H2.Mag()),2 ) - TMath::Power(( ( H1+H2 ).Mag()),2) );
+    double mass=TMath::Sqrt( TMath::Power( (H1.Mag()+H2.Mag()),2 ) - TMath::Power(( ( H1+H2 ).Mag()),2) );
     
     return mass;
     
@@ -91,7 +91,7 @@ namespace VHbb {
   else
     b1 =  m2.BoostVector();
 
- float cosTheta = b1.Dot(msum.BoostVector()) / (b1.Mag()*msum.BoostVector().Mag());
+ double cosTheta = b1.Dot(msum.BoostVector()) / (b1.Mag()*msum.BoostVector().Mag());
  return(cosTheta);
   }
 
@@ -114,11 +114,88 @@ namespace VHbb {
   else
     b1 =  m2.BoostVector();
 
- float cosTheta = b1.Dot(msum.BoostVector()) / (b1.Mag()*msum.BoostVector().Mag());
+ double cosTheta = b1.Dot(msum.BoostVector()) / (b1.Mag()*msum.BoostVector().Mag());
  return(cosTheta);
    }
 
+   double metCorSysShift(double met, double metphi, int Nvtx, int EVENT_run)
+{
+    double metx = met * cos(metphi);
+    double mety = met * sin(metphi);
+    double px = 0.0, py = 0.0;
+    if (EVENT_run!=1) {
+        //pfMEtSysShiftCorrParameters_2012runAplusBvsNvtx_data
+        px = +1.68804e-01 + 3.37139e-01*Nvtx;
+        py = -1.72555e-01 - 1.79594e-01*Nvtx;
+    } else {
+        //pfMEtSysShiftCorrParameters_2012runAplusBvsNvtx_mc
+        px = +2.22335e-02 - 6.59183e-02*Nvtx;
+        py = +1.52720e-01 - 1.28052e-01*Nvtx;
+    }
+    metx -= px;
+    mety -= py;
+    return std::sqrt(metx*metx + mety*mety);
+}
 
+    double metphiCorSysShift(double met, double metphi, int Nvtx, int EVENT_run)
+{
+    double metx = met * cos(metphi);
+    double mety = met * sin(metphi);
+    double px = 0.0, py = 0.0;
+    if (EVENT_run!=1) {
+
+        //pfMEtSysShiftCorrParameters_2012runAplusBvsNvtx_data
+        px = +1.68804e-01 + 3.37139e-01*Nvtx;
+        py = -1.72555e-01 - 1.79594e-01*Nvtx;
+    } else {
+        //pfMEtSysShiftCorrParameters_2012runAplusBvsNvtx_mc
+        px = +2.22335e-02 - 6.59183e-02*Nvtx;
+        py = +1.52720e-01 - 1.28052e-01*Nvtx;
+    }
+    metx -= px;
+    mety -= py;
+    if (metx == 0.0 && mety == 0.0)
+        return 0.0;
+
+    double phi1 = std::atan2(mety,metx);
+    double phi2 = std::atan2(mety,metx)-2.0*M_PI;
+    if (std::abs(phi1-metphi) < std::abs(phi2-metphi)+0.5*M_PI)
+        return phi1;
+    else
+        return phi2;
+}
+
+double resolutionBias(double eta)
+{
+// return 0;//Nominal!
+ if(eta< 1.1) return 0.05;
+ if(eta< 2.5) return 0.10;
+ if(eta< 5) return 0.30;
+ return 0;
+}
+
+double evalJERBias( double ptreco, double ptgen, double eta1){
+  double eta = fabs(eta1);
+  double cor =1;   
+  if ((fabs(ptreco - ptgen)/ ptreco)<0.5) { //Limit the effect to the core 
+     cor = (ptreco +resolutionBias(eta) *(ptreco-ptgen))/ptreco;   
+  }
+  return ptreco*cor;
+}
+
+double evalEt( double pt, double eta, double phi, double e){
+  TLorentzVector j;
+  j.SetPtEtaPhiE(pt,eta,phi, e );
+  return j.Et(); 
+
+}
+
+double evalMt( double pt, double eta, double phi, double e){
+  TLorentzVector j;
+  j.SetPtEtaPhiE(pt,eta,phi, e );
+  return j.Mt(); 
+
+}
 
 }
 
