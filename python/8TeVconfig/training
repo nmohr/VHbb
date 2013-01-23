@@ -14,9 +14,10 @@ backgroundsNoDiboson = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 TT
 
 
 #individual BKGds:
-TT: TT
-#ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
-DY: Zudsg Zudsg1J Zudsg2J Zudsg3J Zudsg4J ZudsgHT200400 ZudsgHT400 Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc3J Zcc4J ZccHT200400 ZccHT400 Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb3J Zbb4J ZbbHT200400 ZbbHT400 Zbb5070 Zbb70100 Zbb100
+#TT: TT
+TT : TT_FullLept TT_SemiLept
+ST : ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
+DY: Zudsg Zudsg1J Zudsg2J Zudsg3J Zudsg4J ZudsgHT200400 ZudsgHT400 Zudsg5070 Zudsg70100 Zudsg100 Zudsg180 Zcc Zcc1J Zcc2J Zcc3J Zcc4J ZccHT200400 ZccHT400 Zcc5070 Zcc70100 Zcc100 Zbb180 Zbb Zbb1J Zbb2J Zbb3J Zbb4J ZbbHT200400 ZbbHT400 Zbb5070 Zbb70100 Zbb100 Zbb180
 VV: ZZ WW WZ
 
 #settings:
@@ -26,7 +27,8 @@ SettingsVV = !H:!V:NTrees=250:nEventsMin=250:MaxDepth=2:BoostType=AdaBoost:AdaBo
 
 #backgrounds8TeV: Zudsg Zudsg1J Zudsg2J Zudsg4J Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc4J Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb4J Zbb5070 Zbb70100 Zbb100 ZZ WW WZ TT 
 
-backgrounds8TeV: Zudsg Zudsg1J Zudsg2J Zudsg3J Zudsg4J ZudsgHT200400 ZudsgHT400 Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc3J Zcc4J ZccHT200400 ZccHT400 Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb3J Zbb4J ZbbHT200400 ZbbHT400 Zbb5070 Zbb70100 Zbb100 ZZ WW WZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW ZH125
+#backgrounds8TeV: Zudsg Zudsg1J Zudsg2J Zudsg3J Zudsg4J ZudsgHT200400 ZudsgHT400 Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc3J Zcc4J ZccHT200400 ZccHT400 Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb3J Zbb4J ZbbHT200400 ZbbHT400 Zbb5070 Zbb70100 Zbb100 ZZ WW WZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW ZH125
+backgrounds8TeV: <!MVAGeneral|DY!> <!MVAGeneral|VV!> <!MVAGeneral|TT!> <!MVAGeneral|ST!> ZH125
 
 Test: ZZ
 
