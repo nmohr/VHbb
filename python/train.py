@@ -36,7 +36,7 @@ gui=opts.verbose
 global_rescale=2.
 
 #get locations:
-MVAdir=config.get('Directories','vhbbpath')+'/data/'
+MVAdir=config.get('Directories','vhbbpath')+'/data_test/'
 samplesinfo=config.get('Directories','samplesinfo')
 
 #systematics
@@ -59,11 +59,12 @@ def getTree(job,cut,path,subsample=-1):
     if subsample>-1:
         #print 'cut: (%s) & (%s)'%(cut,job.subcuts[subsample]) 
         CuttedTree=Tree.CopyTree('(%s) & (%s)'%(cut,job.subcuts[subsample]))    
-        #print '\t--> read in %s'%job.group[subsample]
-
+	CuttedTree.SetNameTitle(job.subnames[subsample],job.subnames[subsample])
+        print '\t--> read in %s'%job.subnames[subsample]
     else:
         CuttedTree=Tree.CopyTree(cut)
-        #print '\t--> read in %s'%job.name
+	CuttedTree.SetNameTitle(job.name,job.name)
+        print '\t--> read in %s'%job.name
     newinput.Close()
 
     #CuttedTree.SetDirectory(0)
@@ -76,9 +77,9 @@ def getTree(job,cut,path,subsample=-1):
 #    #print lumi*xsecs[i]/hist.GetBinContent(1)
 #    return float(job.lumi)*float(job.xsec)*float(job.sf)/(0.46502*CountWithPU.GetBinContent(1)+0.53498*CountWithPU2011B.GetBinContent(1))*2/float(job.split)
 
-
-
 #CONFIG
+#suffix for output name
+suffix='_newVars_v2'
 #factory
 factoryname=config.get('factory','factoryname')
 factorysettings=config.get('factory','factorysettings')
@@ -86,7 +87,7 @@ factorysettings=config.get('factory','factorysettings')
 MVAtype=config.get(run,'MVAtype')
 MVAname=run
 MVAsettings=config.get(run,'MVAsettings')
-fnameOutput = MVAdir+factoryname+'_'+MVAname+'.root'
+fnameOutput = MVAdir+factoryname+'_'+MVAname+suffix+'.root'
 #locations
 path=config.get('Directories','SYSout')
 
@@ -268,7 +269,7 @@ factory.EvaluateAllMethods()
 output.Write()
 
 #WRITE INFOFILE
-infofile = open(MVAdir+factoryname+'_'+MVAname+'.info','w')
+infofile = open(MVAdir+factoryname+'_'+MVAname+suffix+'.info','w')
 info=mvainfo(MVAname)
 info.factoryname=factoryname
 info.factorysettings=factorysettings
