@@ -1,8 +1,6 @@
 #! /usr/bin/env python
-import os,shutil,sys,pickle,subprocess,ROOT
 from optparse import OptionParser
-import getpass
-from myutils import BetterConfigParser, sample, parse_info
+import sys
 
 parser = OptionParser()
 parser.add_option("-T", "--tag", dest="tag", default="",
@@ -14,8 +12,12 @@ parser.add_option("-M", "--mass", dest="mass", default="125",
 parser.add_option("-S","--samples",dest="samples",default="",
 		      help="samples you want to run on")
 
-
 (opts, args) = parser.parse_args(sys.argv)
+
+import os,shutil,pickle,subprocess,ROOT
+from myutils import BetterConfigParser, sample, parse_info
+import getpass
+
 if opts.tag == "":
 	print "Please provide tag to run the analysis with, example '-T 8TeV' uses config8TeV and pathConfig8TeV to run the analysis."
 	sys.exit(123)
