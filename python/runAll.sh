@@ -43,10 +43,6 @@ config.read('./${energy}config/training')
 print config.get('MVALists','List_for_submitscript')
 EOF`
 
-pathAnaEnv=$pathAna/env
-pathAnaSys=$pathAnaEnv/sys
-pathAnaMVAout=$pathAnaSys/MVAout
-
 #Run the scripts
 
 if [ $task = "prep" ]; then
