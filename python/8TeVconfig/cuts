@@ -17,7 +17,7 @@ preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & ab
 30jets = hJet_pt[0] > 30. & hJet_pt[1] > 30.
 preselection_beforeReg = (hJet_pt[0]/hJet_regWeight[0]) > 20. & (hJet_pt[1]*hJet_regWeight[1]) > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
 zWindow = V.mass > 75. & V.mass < 105
-zWindow2 = V.mass > 80. & V.mass < 100.
+zWindow2 = V.mass > 82. & V.mass < 100.
 zVeto =  (V.mass > 105 | V.mass < 75.)
 noAddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) == 0 
 max1AddJet = Sum$(aJet_pt > 20 & abs(aJet_eta) < 2.4) < 2.
@@ -49,8 +49,11 @@ addCuts = Vtype==0
 #& (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0)
 
 [Cuts]
-mjjLowPt = <!ZHbb|preselection!> & <!ZHbb|rMed!> & <!ZHbb|tcBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
-mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tcBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
+mjjLowPt = <!ZHbb|preselection!> & <!ZHbb|rMed!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
+mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
+
+#mjjLowPt = <!ZHbb|preselection!> & <!ZHbb|rMed!> & <!ZHbb|tcBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
+#mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tcBtag!> & <!ZHbb|zWindow!> & <!ZHbb|max1AddJet!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
 #mjjLowPt = <!ZHbb|preselection!> & <!ZHbb|rMed!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
 #mjjHighPt = <!ZHbb|preselection!> & <!ZHbb|rTight!> & <!ZHbb|tlBtag!> & <!ZHbb|zWindow!> & <!ZHbb|upperHMass!> & <!ZHbb|dPhiVH!>
 
@@ -158,12 +161,104 @@ LowPt_MM: Vtype==0 & <!Cuts|RMed!>
 HighPtLooseBTag_EE: Vtype==1 & <!Cuts|RTightLooseBTag!>
 HighPtLooseBTag_MM: Vtype==0 & <!Cuts|RTightLooseBTag!>
 
-#Mjj
-LowPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjLowPt_opt!> 
-LowPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjLowPt_opt!> 
+ZZll: <!ZHbb|zWindow!> & hJet_pt[0] > 40. & hJet_pt[1] > 20. & <!ZHbb|preselection!> & <!ZHbb|tcBtag!> & MET.et < 45.
+ZZll_Zee: <!ZHeebb|addCuts!> & <!ZHbb|zWindow!> & hJet_pt[0] > 40. & hJet_pt[1] > 20. & <!ZHbb|preselection!> & <!ZHbb|tcBtag!> & MET.et < 45.
+ZZll_Zmm: <!ZHmmbb|addCuts!> & <!ZHbb|zWindow!> & hJet_pt[0] > 40. & hJet_pt[1] > 20. & <!ZHbb|preselection!> & <!ZHbb|tcBtag!> & MET.et < 45.
 
-HighPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjHighPt_opt!>
-HighPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjHighPt_opt!> 
+#Mjj
+LowPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjLowPt!> 
+LowPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjLowPt!> 
+#LowPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjLowPt_opt!> 
+#LowPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjLowPt_opt!> 
+
+HighPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjHighPt!>
+HighPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjHighPt!> 
+#HighPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjHighPt_opt!>
+#HighPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjHighPt_opt!> 
 
 MedPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjMedPt_opt!>
 MedPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjMedPt_opt!> 
+
+
+
+# ATLAS Mjj:
+#------------
+
+ATLAS_preselection: hJet_pt[0] > 45. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
+ATLAS_zWindow: V.mass > 83. & V.mass < 99
+ATLAS_Mjj: <!Cuts|ATLAS_preselection!> & <!ZHbb|ccBtag!> & MET.et < 60. & <!Cuts|ATLAS_zWindow!>
+#ATLAS_Mjj: <!Cuts|ATLAS_preselection!> & <!ZHbb|ccBtag!> & MET.et < 60. & <!Cuts|ATLAS_zWindow!> & <!ZHbb|dPhiVH!>
+
+ATLAS_Mjj_pt50:     <!Cuts|ATLAS_Mjj!>               & V.pt <= 50.
+ATLAS_Mjj_pt50100:  <!Cuts|ATLAS_Mjj!> & V.pt > 50.  & V.pt <= 100.
+ATLAS_Mjj_pt100150: <!Cuts|ATLAS_Mjj!> & V.pt > 100. & V.pt <= 150.
+ATLAS_Mjj_pt150200: <!Cuts|ATLAS_Mjj!> & V.pt > 150. & V.pt <= 200.
+ATLAS_Mjj_pt200:    <!Cuts|ATLAS_Mjj!> & V.pt > 200.
+
+ATLAS_Mjj_pt50_dR:     <!Cuts|ATLAS_Mjj_pt50!>     & H.dR > 0.7
+ATLAS_Mjj_pt50100_dR:  <!Cuts|ATLAS_Mjj_pt50100!>  & H.dR > 0.7
+ATLAS_Mjj_pt100150_dR: <!Cuts|ATLAS_Mjj_pt100150!> & H.dR > 0.7
+ATLAS_Mjj_pt150200_dR: <!Cuts|ATLAS_Mjj_pt150200!> & H.dR > 0.7 & H.dR < 1.8
+ATLAS_Mjj_pt200_dR:    <!Cuts|ATLAS_Mjj_pt200!>                 & H.dR < 1.6
+
+ATLAS_Mjj_pt50_dR_Zee:     <!Cuts|ATLAS_Mjj_pt50!>     & H.dR > 0.7              & <!ZHeebb|addCuts!>
+ATLAS_Mjj_pt50100_dR_Zee:  <!Cuts|ATLAS_Mjj_pt50100!>  & H.dR > 0.7              & <!ZHeebb|addCuts!> 
+ATLAS_Mjj_pt100150_dR_Zee: <!Cuts|ATLAS_Mjj_pt100150!> & H.dR > 0.7              & <!ZHeebb|addCuts!>
+ATLAS_Mjj_pt150200_dR_Zee: <!Cuts|ATLAS_Mjj_pt150200!> & H.dR > 0.7 & H.dR < 1.8 & <!ZHeebb|addCuts!>
+ATLAS_Mjj_pt200_dR_Zee:    <!Cuts|ATLAS_Mjj_pt200!>                 & H.dR < 1.6 & <!ZHeebb|addCuts!>
+
+ATLAS_Mjj_pt50_dR_Zmm:     <!Cuts|ATLAS_Mjj_pt50!>     & H.dR > 0.7              & <!ZHmmbb|addCuts!>
+ATLAS_Mjj_pt50100_dR_Zmm:  <!Cuts|ATLAS_Mjj_pt50100!>  & H.dR > 0.7              & <!ZHmmbb|addCuts!> 
+ATLAS_Mjj_pt100150_dR_Zmm: <!Cuts|ATLAS_Mjj_pt100150!> & H.dR > 0.7              & <!ZHmmbb|addCuts!>
+ATLAS_Mjj_pt150200_dR_Zmm: <!Cuts|ATLAS_Mjj_pt150200!> & H.dR > 0.7 & H.dR < 1.8 & <!ZHmmbb|addCuts!>
+ATLAS_Mjj_pt200_dR_Zmm:    <!Cuts|ATLAS_Mjj_pt200!>                 & H.dR < 1.6 & <!ZHmmbb|addCuts!>
+
+ATLAS_Mjj_pt50_Zee:     <!Cuts|ATLAS_Mjj_pt50!>     & <!ZHeebb|addCuts!>
+ATLAS_Mjj_pt50100_Zee:  <!Cuts|ATLAS_Mjj_pt50100!>  & <!ZHeebb|addCuts!> 
+ATLAS_Mjj_pt100150_Zee: <!Cuts|ATLAS_Mjj_pt100150!> & <!ZHeebb|addCuts!>
+ATLAS_Mjj_pt150200_Zee: <!Cuts|ATLAS_Mjj_pt150200!> & <!ZHeebb|addCuts!>
+ATLAS_Mjj_pt200_Zee:    <!Cuts|ATLAS_Mjj_pt200!>    & <!ZHeebb|addCuts!>
+
+ATLAS_Mjj_pt50_Zmm:     <!Cuts|ATLAS_Mjj_pt50!>     & <!ZHmmbb|addCuts!>
+ATLAS_Mjj_pt50100_Zmm:  <!Cuts|ATLAS_Mjj_pt50100!>  & <!ZHmmbb|addCuts!> 
+ATLAS_Mjj_pt100150_Zmm: <!Cuts|ATLAS_Mjj_pt100150!> & <!ZHmmbb|addCuts!>
+ATLAS_Mjj_pt150200_Zmm: <!Cuts|ATLAS_Mjj_pt150200!> & <!ZHmmbb|addCuts!>
+ATLAS_Mjj_pt200_Zmm:    <!Cuts|ATLAS_Mjj_pt200!>    & <!ZHmmbb|addCuts!>
+
+
+#new Mjj:
+Mjj_selection: <!ZHbb|preselection!> & <!ZHbb|ccBtag!> & <!ZHbb|zWindow!> & MET.et < 60. & <!ZHbb|upperHMass!>
+
+Mjj_pt70:    <!Cuts|Mjj_selection!>               & V.pt <= 70. & H.dR > 1.2
+Mjj_pt70150: <!Cuts|Mjj_selection!> & V.pt > 70.  & V.pt <= 150.
+Mjj_pt150:   <!Cuts|Mjj_selection!> & V.pt > 150. & H.dR < 1.6
+
+Mjj_HdR00: <!Cuts|Mjj_pt70!> & H.dR < 0.0
+Mjj_HdR02: <!Cuts|Mjj_pt70!> & H.dR < 0.2
+Mjj_HdR04: <!Cuts|Mjj_pt70!> & H.dR < 0.4
+Mjj_HdR06: <!Cuts|Mjj_pt70!> & H.dR < 0.6
+Mjj_HdR08: <!Cuts|Mjj_pt70!> & H.dR < 0.8
+Mjj_HdR10: <!Cuts|Mjj_pt70!> & H.dR < 1.0
+Mjj_HdR12: <!Cuts|Mjj_pt70!> & H.dR < 1.2
+Mjj_HdR14: <!Cuts|Mjj_pt70!> & H.dR < 1.4
+Mjj_HdR16: <!Cuts|Mjj_pt70!> & H.dR < 1.6
+Mjj_HdR18: <!Cuts|Mjj_pt70!> & H.dR < 1.8
+Mjj_HdR20: <!Cuts|Mjj_pt70!> & H.dR < 2.0
+
+#Mjj_pt50:  <!Cuts|Mjj_selection!> & V.pt > 50.
+#Mjj_pt60:  <!Cuts|Mjj_selection!> & V.pt > 60.
+#Mjj_pt70:  <!Cuts|Mjj_selection!> & V.pt > 70.
+#Mjj_pt80:  <!Cuts|Mjj_selection!> & V.pt > 80.
+#Mjj_pt90:  <!Cuts|Mjj_selection!> & V.pt > 90.
+#Mjj_pt100: <!Cuts|Mjj_selection!> & V.pt > 100.
+#Mjj_pt110: <!Cuts|Mjj_selection!> & V.pt > 110.
+#Mjj_pt120: <!Cuts|Mjj_selection!> & V.pt > 120.
+#Mjj_pt130: <!Cuts|Mjj_selection!> & V.pt > 130.
+#Mjj_pt140: <!Cuts|Mjj_selection!> & V.pt > 140.
+#Mjj_pt150: <!Cuts|Mjj_selection!> & V.pt > 150.
+#Mjj_pt160: <!Cuts|Mjj_selection!> & V.pt < 160.
+#Mjj_pt170: <!Cuts|Mjj_selection!> & V.pt < 170.
+#Mjj_pt180: <!Cuts|Mjj_selection!> & V.pt < 180.
+#Mjj_pt190: <!Cuts|Mjj_selection!> & V.pt < 190.
+#Mjj_pt200: <!Cuts|Mjj_selection!> & V.pt < 200.
+
