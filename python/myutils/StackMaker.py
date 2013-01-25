@@ -44,17 +44,16 @@ class StackMaker:
         if '<mass>' in self.name:
             self.name = self.name.replace('<mass>',self.mass)
             print self.name
+        cut = config.get('Cuts',region)
         if config.has_option(section, 'Datacut'):
-            datacut=config.get(section, 'Datacut')
-        else:
-            datacut = region
+            cut=config.get(section, 'Datacut')
+
         self.colorDict=eval(config.get('Plot_general','colorDict'))
         self.typLegendDict=eval(config.get('Plot_general','typLegendDict'))
         self.anaTag = config.get("Analysis","tag")
         self.xAxis = config.get('plotDef:%s'%var,'xAxis')
-        self.options = [self.name,'',self.xAxis,self.nBins,self.xMin,self.xMax,'%s_%s_%s.pdf'%(region,var,self.mass),region,datacut,self.mass,data,blindopt]
-        #self.xAxis = config.get('plotDef:%s'%var,'xAxis')
-        #self.options = [self.name,'',self.xAxis,self.nBins,self.xMin,self.xMax,'%s_%s.pdf'%(region,var),region,datacut,self.mass,data,blindopt]
+        self.options = {'var': self.name,'name':'','xAxis': self.xAxis, 'nBins': self.nBins, 'xMin': self.xMin, 'xMax': self.xMax,'pdfName': '%s_%s_%s.pdf'%(region,var,self.mass),'cut':cut,'mass': self.mass, 'data': data, 'blind': blindopt}
+        self.options['weight'] = config.get('Weights','weightF')
         self.plotDir = config.get('Directories','plotpath')
         self.maxRatioUncert = 0.5
         if self.SignalRegion:
@@ -69,7 +68,8 @@ class StackMaker:
         self.AddErrors = None
         print self.setup
 
-    def myText(self,txt="CMS Preliminary",ndcX=0,ndcY=0,size=0.8):
+    @staticmethod
+    def myText(txt="CMS Preliminary",ndcX=0,ndcY=0,size=0.8):
         ROOT.gPad.Update()
         text = ROOT.TLatex()
         text.SetNDC()
@@ -278,5 +278,5 @@ class StackMaker:
     	    t0.DrawTextNDC(0.1059,0.96, "0")
         if not os.path.exists(self.plotDir):
             os.makedirs(os.path.dirname(self.plotDir))
-        name = '%s/%s' %(self.plotDir,self.options[6])
+        name = '%s/%s' %(self.plotDir,self.options['pdfName'])
         c.Print(name)

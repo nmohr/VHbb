@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 import sys
 import os
 import ROOT 
@@ -10,12 +11,11 @@ import warnings
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
 from optparse import OptionParser
 import pickle
-from myutils import BetterConfigParser, progbar, mvainfo, printc, parse_info
 
 
 #CONFIGURE
 ROOT.gROOT.SetBatch(True)
-print 'hello'
+print('hello')
 #load config
 #os.mkdir(path+'/sys')
 argv = sys.argv
@@ -34,14 +34,12 @@ parser.add_option("-C", "--config", dest="config", default=[], action="append",
                       help="configuration file")
 (opts, args) = parser.parse_args(argv)
 
-#from samplesclass import sample
-#from mvainfos import mvainfo
-#from progbar import progbar
-#from printcolor import printc
-
-
 if opts.config =="":
         opts.config = "config"
+
+#Import after configure to get help message
+from myutils import BetterConfigParser, progbar, printc, mvainfo, ParseInfo
+
 config = BetterConfigParser()
 #config.read('./config7TeV_ZZ')
 config.read(opts.config)
@@ -52,16 +50,11 @@ Wdir=config.get('Directories','Wdir')
 samplesinfo=config.get('Directories','samplesinfo')
 
 #systematics
-
-
 INpath = config.get('Directories','MVAin')
 OUTpath = config.get('Directories','MVAout')
 
-info = parse_info(samplesinfo,INpath)
+info = ParseInfo(samplesinfo,INpath)
 
-#infofile = open(samplesinfo,'r')
-#info = pickle.load(infofile)
-#infofile.close()
 arglist=opts.discr #RTight_blavla,bsbsb
 
 namelistIN=opts.names
@@ -70,7 +63,6 @@ namelist=namelistIN.split(',')
 #doinfo=bool(int(opts.update))
 
 MVAlist=arglist.split(',')
-
 
 #CONFIG
 #factory
@@ -91,13 +83,6 @@ for MVAname in MVAlist:
 longe=40
 #Workdir
 workdir=ROOT.gDirectory.GetPath()
-
-
-#Apply samples
-#infofile = open(samplesinfo,'r')
-#Ainfo = pickle.load(infofile)
-#infofile.close()
-
 
 class MvaEvaluater:
     def __init__(self, config, MVAinfo):
@@ -143,76 +128,65 @@ for mva in MVAinfos:
 
 
 #eval
-for job in info:
-    if eval(job.active):
-        if job.name in namelist:
-            #get trees:
-            print INpath+'/'+job.prefix+job.identifier+'.root'
-            input = ROOT.TFile.Open(INpath+'/'+job.prefix+job.identifier+'.root','read')
-            print OUTpath+'/'+job.prefix+job.identifier+'.root'
-            outfile = ROOT.TFile.Open(OUTpath+'/'+job.prefix+job.identifier+'.root','recreate')
-            input.cd()
-            obj = ROOT.TObject
-            for key in ROOT.gDirectory.GetListOfKeys():
-                input.cd()
-                obj = key.ReadObj()
-                #print obj.GetName()
-                if obj.GetName() == job.tree:
-                    continue
-                outfile.cd()
-                #print key.GetName()
-                obj.Write(key.GetName())
-            tree = input.Get(job.tree)
-            nEntries = tree.GetEntries()
-            outfile.cd()
-            newtree = tree.CloneTree(0)
+
+samples = info.get_samples(namelist)
+for job in samples:
+    #get trees:
+    print(INpath+'/'+job.prefix+job.identifier+'.root')
+    input = ROOT.TFile.Open(INpath+'/'+job.prefix+job.identifier+'.root','read')
+    print(OUTpath+'/'+job.prefix+job.identifier+'.root')
+    outfile = ROOT.TFile.Open(OUTpath+'/'+job.prefix+job.identifier+'.root','recreate')
+    input.cd()
+    obj = ROOT.TObject
+    for key in ROOT.gDirectory.GetListOfKeys():
+        input.cd()
+        obj = key.ReadObj()
+        #print obj.GetName()
+        if obj.GetName() == job.tree:
+            continue
+        outfile.cd()
+        #print key.GetName()
+        obj.Write(key.GetName())
+    tree = input.Get(job.tree)
+    nEntries = tree.GetEntries()
+    outfile.cd()
+    newtree = tree.CloneTree(0)
             
-
-            #Set branch adress for all vars
-            for i in range(0,len(theMVAs)):
-                theMVAs[i].setBranches(tree,job)
-            outfile.cd()
-            #Setup Branches
-            MVAbranches=[]
-            for i in range(0,len(theMVAs)):
-                if job.type == 'Data':
-                    MVAbranches.append(array('f',[0]))
-                    newtree.Branch(MVAinfos[i].MVAname,MVAbranches[i],'nominal/F') 
-                else:
-                    MVAbranches.append(array('f',[0]*11))
-                    newtree.Branch(theMVAs[i].MVAname,MVAbranches[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down:beff1_up:beff1_down/F')
-                MVA_formulas_Nominal = []
-            print '\n--> ' + job.name +':'
-            #progbar setup
-            if nEntries >= longe:
-                step=int(nEntries/longe)
-                long=longe
-            else:
-                long=nEntries
-                step = 1
-            bar=progbar(long)
-            #Fill event by event:
-            for entry in range(0,nEntries):
-                if entry % step == 0:
-                    bar.move()
-                #load entry
-                tree.GetEntry(entry)
+    #Set branch adress for all vars
+    for i in range(0,len(theMVAs)):
+        theMVAs[i].setBranches(tree,job)
+    outfile.cd()
+    #Setup Branches
+    MVAbranches=[]
+    for i in range(0,len(theMVAs)):
+        if job.type == 'Data':
+            MVAbranches.append(array('f',[0]))
+            newtree.Branch(MVAinfos[i].MVAname,MVAbranches[i],'nominal/F') 
+        else:
+            MVAbranches.append(array('f',[0]*11))
+            newtree.Branch(theMVAs[i].MVAname,MVAbranches[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down:beff1_up:beff1_down/F')
+        MVA_formulas_Nominal = []
+        print('\n--> ' + job.name +':')
+    #progbar setup
+    if nEntries >= longe:
+        step=long(nEntries/longe)
+        long=longe
+    else:
+        long=nEntries
+        step = 1
+    bar=progbar(long)
+    #Fill event by event:
+    for entry in range(0,nEntries):
+        if entry % step == 0:
+            bar.move()
+        #load entry
+        tree.GetEntry(entry)
                             
-                for i in range(0,len(theMVAs)):
-                    theMVAs[i].evaluate(MVAbranches[i],job)
-                #Fill:
-                newtree.Fill()
-            newtree.AutoSave()
-            outfile.Close()
+        for i in range(0,len(theMVAs)):
+            theMVAs[i].evaluate(MVAbranches[i],job)
+        #Fill:
+        newtree.Fill()
+    newtree.AutoSave()
+    outfile.Close()
                 
-print '\n'
-
-#Update Info:
-#if doinfo:
-#    for job in Ainfo:        
-#        for MVAinfo in MVAinfos:
-#            job.addcomment('Added MVA %s'%MVAinfo.MVAname)
-#        job.addpath(MVAdir)
-#    infofile = open(samplesinfo,'w')
-#    pickle.dump(Ainfo,infofile)
-#    infofile.close()
+print('\n')

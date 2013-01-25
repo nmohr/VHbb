@@ -8,7 +8,7 @@ from array import array
 import warnings
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
 from optparse import OptionParser
-from myutils import BetterConfigParser, printc, sample, parse_info
+ROOT.gROOT.SetBatch(True)
 
 #usage: ./write_regression_systematic.py path
 
@@ -24,6 +24,9 @@ parser.add_option("-C", "--config", dest="config", default=[], action="append",
 (opts, args) = parser.parse_args(argv)
 if opts.config =="":
         opts.config = "config"
+
+from myutils import BetterConfigParser, ParseInfo
+
 print opts.config
 config = BetterConfigParser()
 config.read(opts.config)
@@ -51,7 +54,7 @@ print 'OUTput samples:\t%s'%pathOUT
 namelist=opts.names.split(',')
 
 #load info
-info = parse_info(samplesinfo,pathIN)
+info = ParseInfo(samplesinfo,pathIN)
 
 def deltaPhi(phi1, phi2): 
     result = phi1 - phi2
@@ -121,8 +124,8 @@ for job in info:
         btagFDown = BTagShapeInterface("../data/csvdiscr.root",0,-1.)
     
     print '\t - %s' %(job.name)
-    input = ROOT.TFile.Open(pathIN+job.getpath(),'read')
-    output = ROOT.TFile.Open(pathOUT+job.getpath()+'.root','recreate')
+    input = ROOT.TFile.Open(pathIN+job.get_path,'read')
+    output = ROOT.TFile.Open(pathOUT+job.get_path+'.root','recreate')
     #input = ROOT.TFile.Open(storagesamples+'/env/'+job.getpath(),'read')
     #output = ROOT.TFile.Open(path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
 
@@ -142,10 +145,6 @@ for job in info:
     tree = input.Get(job.tree)
     nEntries = tree.GetEntries()
         
-    job.addpath('/sys')
-    if job.type != 'DATA':
-        job.SYS = ['Nominal','JER_up','JER_down','JES_up','JES_down','beff_up','beff_down','bmis_up','bmis_down']
-        
     H = ROOT.H()
     HNoReg = ROOT.H()
     tree.SetBranchStatus('H',0)
@@ -154,27 +153,32 @@ for job in info:
         
     hJ0 = ROOT.TLorentzVector()
     hJ1 = ROOT.TLorentzVector()
+    hFJ0 = ROOT.TLorentzVector()
+    hFJ1 = ROOT.TLorentzVector()
         
     regWeight = config.get("Regression","regWeight")
     regDict = eval(config.get("Regression","regDict"))
     regVars = eval(config.get("Regression","regVars"))
-    useMET = eval(config.get("Regression","useMET"))
-    usePtRaw = eval(config.get("Regression","usePtRaw"))
-    useMt = eval(config.get("Regression","useMt"))
-    useRho25 = eval(config.get("Regression","useRho25"))
+    regWeightFilterJets = config.get("Regression","regWeightFilterJets")
+    regDictFilterJets = eval(config.get("Regression","regDictFilterJets"))
+    regVarsFilterJets = eval(config.get("Regression","regVarsFilterJets"))
           
     #Regression branches
     applyRegression = True
     hJet_pt = array('f',[0]*2)
     hJet_e = array('f',[0]*2)
-    newtree.Branch( 'H', H , 'HiggsFlag/I:mass/F:pt/F:eta:phi/F:dR/F:dPhi/F:dEta/F' )
-    newtree.Branch( 'HNoReg', HNoReg , 'HiggsFlag/I:mass/F:pt/F:eta:phi/F:dR/F:dPhi/F:dEta/F' )
+    newtree.Branch( 'H', H , 'HiggsFlag/I:mass/F:pt/F:eta/F:phi/F:dR/F:dPhi/F:dEta/F' )
+    newtree.Branch( 'HNoReg', HNoReg , 'HiggsFlag/I:mass/F:pt/F:eta/F:phi/F:dR/F:dPhi/F:dEta/F' )
+    FatHReg = array('f',[0]*2)
+    newtree.Branch('FatHReg',FatHReg,'filteredmass:filteredpt/F')
     Event = array('f',[0])
     METet = array('f',[0])
     rho25 = array('f',[0])
     METphi = array('f',[0])
     fRho25 = ROOT.TTreeFormula("rho25",'rho25',tree)
     fEvent = ROOT.TTreeFormula("Event",'EVENT.event',tree)
+    fFatHFlag = ROOT.TTreeFormula("FatHFlag",'FatH.FatHiggsFlag',tree)
+    fFatHnFilterJets = ROOT.TTreeFormula("FatHnFilterJets",'nfathFilterJets',tree)
     fMETet = ROOT.TTreeFormula("METet",'METnoPU.et',tree)
     fMETphi = ROOT.TTreeFormula("METphi",'METnoPU.phi',tree)
     fHVMass = ROOT.TTreeFormula("HVMass",'HVMass',tree)
@@ -182,6 +186,7 @@ for job in info:
     hJet_EtArray = [array('f',[0]),array('f',[0])]
     hJet_MET_dPhi = array('f',[0]*2)
     hJet_regWeight = array('f',[0]*2)
+    fathFilterJets_regWeight = array('f',[0]*2)
     hJet_MET_dPhiArray = [array('f',[0]),array('f',[0])]
     hJet_ptRawArray = [array('f',[0]),array('f',[0])]
     newtree.Branch('hJet_MET_dPhi',hJet_MET_dPhi,'hJet_MET_dPhi[2]/F')
@@ -192,7 +197,7 @@ for job in info:
     theForms = {}
     theVars0 = {}
     theVars1 = {}
-    def addVarsToReader(reader,theVars,theForms,i,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray):
+    def addVarsToReader(reader,regDict,regVars,theVars,theForms,i,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray):
         for key in regVars:
             var = regDict[key]
             theVars[key] = array( 'f', [ 0 ] )
@@ -220,11 +225,20 @@ for job in info:
                 print 'Adding var: %s with %s to readerJet%.0f' %(key,formula,i)
                 theForms['form_reg_%s_%.0f'%(key,i)] = ROOT.TTreeFormula("form_reg_%s_%.0f"%(key,i),'%s' %(formula),tree)
         return 
-    addVarsToReader(readerJet0,theVars0,theForms,0,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray)    
-    addVarsToReader(readerJet1,theVars1,theForms,1,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray)    
+    addVarsToReader(readerJet0,regDict,regVars,theVars0,theForms,0,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray)    
+    addVarsToReader(readerJet1,regDict,regVars,theVars1,theForms,1,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray)    
     readerJet0.BookMVA( "jet0Regression", regWeight )
     readerJet1.BookMVA( "jet1Regression", regWeight )
     
+    readerFJ0 = ROOT.TMVA.Reader("!Color:!Silent" )
+    readerFJ1 = ROOT.TMVA.Reader("!Color:!Silent" )
+    theFormsFJ = {}
+    theVars0FJ = {}
+    theVars1FJ = {}
+    addVarsToReader(readerFJ0,regDictFilterJets,regVarsFilterJets,theVars0FJ,theFormsFJ,0,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray)    
+    addVarsToReader(readerFJ1,regDictFilterJets,regVarsFilterJets,theVars1FJ,theFormsFJ,1,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray)    
+    readerFJ0.BookMVA( "jet0RegressionFJ", regWeightFilterJets )
+    readerFJ1.BookMVA( "jet1RegressionFJ", regWeightFilterJets )
     
         
     #Add training Flag
@@ -322,11 +336,12 @@ for job in info:
             if job.type != 'DATA' and TrainFlag:
                 EventForTraining[0]=int(not TFlag.EvalInstance())
 
+            #Has fat higgs
+            fatHiggsFlag=fFatHFlag.EvalInstance()*fFatHnFilterJets.EvalInstance()
 
             #get
             hJet_pt = tree.hJet_pt
             hJet_e = tree.hJet_e
-            hJet_pt1 = tree.hJet_pt[1]
             hJet_pt0 = tree.hJet_pt[0]
             hJet_pt1 = tree.hJet_pt[1]
             hJet_eta0 = tree.hJet_eta[0]
@@ -341,6 +356,16 @@ for job in info:
             hJet_phi1 = tree.hJet_phi[1]
             hJet_JECUnc0 = tree.hJet_JECUnc[0]
             hJet_JECUnc1 = tree.hJet_JECUnc[1]
+            #Filterjets
+            if fatHiggsFlag:
+                fathFilterJets_pt0 = tree.fathFilterJets_pt[0]
+                fathFilterJets_pt1 = tree.fathFilterJets_pt[1]
+                fathFilterJets_eta0 = tree.fathFilterJets_eta[0]
+                fathFilterJets_eta1 = tree.fathFilterJets_eta[1]
+                fathFilterJets_phi0 = tree.fathFilterJets_phi[0]
+                fathFilterJets_phi1 = tree.fathFilterJets_phi[1]
+                fathFilterJets_e0 = tree.fathFilterJets_e[0]
+                fathFilterJets_e1 = tree.fathFilterJets_e[1]
 
             Event[0]=fEvent.EvalInstance()
             METet[0]=fMETet.EvalInstance()
@@ -350,6 +375,10 @@ for job in info:
                 if not (value == 'Jet_MET_dPhi' or value == 'METet' or value == "rho25" or value == "Jet_et" or value == 'Jet_mt' or value == 'Jet_ptRaw'):
                     theVars0[key][0] = theForms["form_reg_%s_0" %(key)].EvalInstance()
                     theVars1[key][0] = theForms["form_reg_%s_1" %(key)].EvalInstance()
+            for key, value in regDictFilterJets.items():
+                if not (value == 'Jet_MET_dPhi' or value == 'METet' or value == "rho25" or value == "Jet_et" or value == 'Jet_mt' or value == 'Jet_ptRaw'):
+                    theVars0FJ[key][0] = theFormsFJ["form_reg_%s_0" %(key)].EvalInstance()
+                    theVars1FJ[key][0] = theFormsFJ["form_reg_%s_1" %(key)].EvalInstance()
             hJet_MET_dPhi[0] = deltaPhi(METphi[0],hJet_phi0)
             hJet_MET_dPhi[1] = deltaPhi(METphi[0],hJet_phi1)
             hJet_MET_dPhiArray[0][0] = deltaPhi(METphi[0],hJet_phi0)
@@ -421,6 +450,25 @@ for job in info:
                     print 'rE0 %.2f' %(rE0)
                     print 'rE1 %.2f' %(rE1)
                     print 'Mass %.2f' %(H.mass)
+                if fatHiggsFlag:
+                    hFJ0.SetPtEtaPhiE(fathFilterJets_pt0,fathFilterJets_eta0,fathFilterJets_phi0,fathFilterJets_e0)
+                    hFJ1.SetPtEtaPhiE(fathFilterJets_pt1,fathFilterJets_eta1,fathFilterJets_phi1,fathFilterJets_e1)
+                    rFJPt0 = max(0.0001,readerFJ0.EvaluateRegression( "jet0RegressionFJ" )[0])
+                    rFJPt1 = max(0.0001,readerFJ1.EvaluateRegression( "jet1RegressionFJ" )[0])
+                    fathFilterJets_regWeight[0] = rPt0/fathFilterJets_pt0
+                    fathFilterJets_regWeight[1] = rPt1/fathFilterJets_pt1
+                    rFJE0 = fathFilterJets_e0*fathFilterJets_regWeight[0]
+                    rFJE1 = fathFilterJets_e1*fathFilterJets_regWeight[1]
+                    hFJ0.SetPtEtaPhiE(rFJPt0,fathFilterJets_eta0,fathFilterJets_phi0,rFJE0)
+                    hFJ1.SetPtEtaPhiE(rFJPt1,fathFilterJets_eta1,fathFilterJets_phi1,rFJE1)
+                    FatHReg[0] = (hFJ0+hFJ1).M()
+                    FatHReg[1] = (hFJ0+hFJ1).Pt()
+                else:
+                    FatHReg[0] = 0.
+                    FatHReg[1] = 0.
+
+                    #print rFJPt0
+                    #print rFJPt1
             
             angleHB[0]=fAngleHB.EvalInstance()
             angleLZ[0]=fAngleLZ.EvalInstance()

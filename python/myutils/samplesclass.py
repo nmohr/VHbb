@@ -1,47 +1,28 @@
-class sample:
-    
+class Sample:
     def __init__(self,name,type):
         self.name=name
-        #type = bkg, sig or data
-        #if type not in ['BKG','SIG','DATA']:
-        #    raise Exception("type must be 'BKG', 'SIG', or 'DATA'!")
         self.type=type
-        self.prefix=''
         self.identifier=''
-        self.active='True'
+        self.prefix=''
+        self.active=True
         self.group=''
-        self.path=''
         self.lumi=0.
-        self.sf=1.0
+        self.sf=1.
         self.xsec=0.
-        self.split=1.0
         self.weightexpression=1.0
-        self.SYS=['Nominal']
         self.tree='tree'
         self.treecut=''
-        self.comment=''
-        #for DY falvours
-        self.subsamples=False
-        self.subnames=[]
-        self.subcuts=[]
+        self.count_with_PU=1.
+        self.count_with_PU2011B=1.
+        self.subsample=False
+        self.subcut='1'
 
-    def getpath(self):
-        return './'+self.prefix+self.identifier+'.root'
-        
-    def addtreecut(self, cut):
-        if self.treecut == '':
-            self.treecut = cut
-        else:
-            self.treecut = '(%s) && (%s)'%(self.treecut,cut)
-            
-    def addcomment(self, comment):
-        if self.comment == '':
-            self.comment = '- %s'%comment
-        else:
-            self.comment = '%s\n- %s'%(self.comment,comment)
-            
-    def addprefix(self,prefix):
-        self.prefix=prefix+self.prefix
+    @property
+    def get_path(self):
+        return './%s%s.root' %(self.prefix,self.identifier)
 
-    def addpath(self,path):
-        self.path=self.path+path
+    def __str__(self):
+        return '%s' %self.name
+    
+    def __eq__(self,other):
+        return self.name == other.name

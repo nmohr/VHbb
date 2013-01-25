@@ -135,7 +135,7 @@ def drawFromDC():
         addName = 'PreFit'
         preFit = True
 
-    Stack.options[6] = '%s_%s_%s.pdf'  %(var,opts.bin,addName)
+    Stack.options['pdfName'] = '%s_%s_%s.pdf'  %(var,opts.bin,addName)
 
     log = eval(config.get('Plot:%s'%region,'log'))
 
