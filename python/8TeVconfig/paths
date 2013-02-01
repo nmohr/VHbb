@@ -5,6 +5,7 @@ Dname: afterHCP
 #Working Directory
 Wdir: /shome/nmohr/
 samplepath = gsidcap://t3se01.psi.ch:22128//pnfs/psi.ch/cms/trivcat/store/HBB_EDMNtuple/V42/Oct22/
+tmpSamples: <!Directories|samplepath!>/envW/sys/MVAout/tmp/
 
 #The directory with the code
 vhbbpath= <!Directories|Wdir!>/CMSSW_5_2_6_patch1/src/UserCode/VHbb/

@@ -93,7 +93,7 @@ cuts = [TrainCut,EvalCut]
 samples = []
 samples = info.get_samples(signals+backgrounds)
 
-tc = TreeCache(cuts,samples,path)
+tc = TreeCache(cuts,samples,path,config)
 
 output = ROOT.TFile.Open(fnameOutput, "RECREATE")
 
