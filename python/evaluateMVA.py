@@ -12,22 +12,16 @@ warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='crea
 from optparse import OptionParser
 import pickle
 
-
 #CONFIGURE
 ROOT.gROOT.SetBatch(True)
 print('hello')
 #load config
-#os.mkdir(path+'/sys')
 argv = sys.argv
 parser = OptionParser()
 parser.add_option("-U", "--update", dest="update", default=0,
                       help="update infofile")
 parser.add_option("-D", "--discr", dest="discr", default="",
                       help="discriminators to be added")
-#parser.add_option("-I", "--inpath", dest="inpath", default="",
-#                      help="path to samples")
-#parser.add_option("-O", "--outpath", dest="outpath", default="",
-#                      help="path where to store output samples")
 parser.add_option("-S", "--samples", dest="names", default="",
                       help="samples you want to run on")
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
@@ -38,10 +32,9 @@ if opts.config =="":
         opts.config = "config"
 
 #Import after configure to get help message
-from myutils import BetterConfigParser, progbar, printc, mvainfo, ParseInfo
+from myutils import BetterConfigParser, progbar, printc, ParseInfo, MvaEvaluator
 
 config = BetterConfigParser()
-#config.read('./config7TeV_ZZ')
 config.read(opts.config)
 anaTag = config.get("Analysis","tag")
 
@@ -84,47 +77,11 @@ longe=40
 #Workdir
 workdir=ROOT.gDirectory.GetPath()
 
-class MvaEvaluater:
-    def __init__(self, config, MVAinfo):
-        self.varset = MVAinfo.varset
-        #Define reader
-        self.reader = ROOT.TMVA.Reader("!Color:!Silent")
-        MVAdir=config.get('Directories','vhbbpath')
-        self.systematics=config.get('systematics','systematics').split(' ')
-        self.MVA_Vars={}
-        self.MVAname = MVAinfo.MVAname
-        for systematic in self.systematics:
-            self.MVA_Vars[systematic]=config.get(self.varset,systematic)
-            self.MVA_Vars[systematic]=self.MVA_Vars[systematic].split(' ')
-        #define variables and specatators
-        self.MVA_var_buffer = []
-        for i in range(len( self.MVA_Vars['Nominal'])):
-            self.MVA_var_buffer.append(array( 'f', [ 0 ] ))
-            self.reader.AddVariable( self.MVA_Vars['Nominal'][i],self.MVA_var_buffer[i])
-        self.reader.BookMVA(MVAinfo.MVAname,MVAdir+'/data/'+MVAinfo.getweightfile())
-        #--> Now the MVA is booked
-
-    def setBranches(self,tree,job):
-        #Set formulas for all vars
-        self.MVA_formulas={}
-        for systematic in self.systematics: 
-            if job.type == 'DATA' and not systematic == 'Nominal': continue
-            self.MVA_formulas[systematic]=[]
-            for j in range(len( self.MVA_Vars['Nominal'])):
-                self.MVA_formulas[systematic].append(ROOT.TTreeFormula("MVA_formula%s_%s"%(j,systematic),self.MVA_Vars[systematic][j],tree))
-
-    def evaluate(self,MVAbranches,job):
-        #Evaluate all vars and fill the branches
-        for systematic in self.systematics:
-            for j in range(len( self.MVA_Vars['Nominal'])):
-                if job.type == 'DATA' and not systematic == 'Nominal': continue
-                self.MVA_var_buffer[j][0] = self.MVA_formulas[systematic][j].EvalInstance()                
-            MVAbranches[self.systematics.index(systematic)] = self.reader.EvaluateMVA(self.MVAname)
 
 
 theMVAs = []
 for mva in MVAinfos:
-    theMVAs.append(MvaEvaluater(config,mva))
+    theMVAs.append(MvaEvaluator(config,mva))
 
 
 #eval
@@ -154,17 +111,17 @@ for job in samples:
             
     #Set branch adress for all vars
     for i in range(0,len(theMVAs)):
-        theMVAs[i].setBranches(tree,job)
+        theMVAs[i].setVariables(tree,job)
     outfile.cd()
     #Setup Branches
-    MVAbranches=[]
+    mvaVals=[]
     for i in range(0,len(theMVAs)):
         if job.type == 'Data':
-            MVAbranches.append(array('f',[0]))
-            newtree.Branch(MVAinfos[i].MVAname,MVAbranches[i],'nominal/F') 
+            mvaVals.append(array('f',[0]))
+            newtree.Branch(MVAinfos[i].MVAname,mvaVals[i],'nominal/F') 
         else:
-            MVAbranches.append(array('f',[0]*11))
-            newtree.Branch(theMVAs[i].MVAname,MVAbranches[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down:beff1_up:beff1_down/F')
+            mvaVals.append(array('f',[0]*11))
+            newtree.Branch(theMVAs[i].MVAname,mvaVals[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down:beff1_up:beff1_down/F')
         MVA_formulas_Nominal = []
         print('\n--> ' + job.name +':')
     #progbar setup
@@ -183,7 +140,7 @@ for job in samples:
         tree.GetEntry(entry)
                             
         for i in range(0,len(theMVAs)):
-            theMVAs[i].evaluate(MVAbranches[i],job)
+            theMVAs[i].evaluate(mvaVals[i],job)
         #Fill:
         newtree.Fill()
     newtree.AutoSave()

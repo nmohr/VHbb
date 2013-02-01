@@ -10,3 +10,4 @@ from mvainfos import mvainfo
 from Ratio import getRatio, renewHist
 from TdrStyles import tdrStyle
 from TreeCache import TreeCache
+from MvaEvaluator import MvaEvaluator

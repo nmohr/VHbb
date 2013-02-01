@@ -15,7 +15,8 @@ parser.add_option("-S","--samples",dest="samples",default="",
 (opts, args) = parser.parse_args(sys.argv)
 
 import os,shutil,pickle,subprocess,ROOT
-from myutils import BetterConfigParser, sample, parse_info
+ROOT.gROOT.SetBatch(True)
+from myutils import BetterConfigParser, Sample, ParseInfo
 import getpass
 
 if opts.tag == "":
@@ -54,7 +55,7 @@ if( not os.path.isdir(logPath) ):
 repDict = {'en':en,'logpath':logPath,'job':'','task':opts.task,'queue': 'all.q'}
 def submit(job,repDict):
 	repDict['job'] = job
-	command = 'qsub -V -cwd -q %(queue)s -N %(job)s_%(en)s%(task)s -o %(logpath)s/%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task
+	command = 'qsub -V -cwd -q %(queue)s -l h_vmem=6G -N %(job)s_%(en)s%(task)s -o %(logpath)s/%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task
 	print command
 	subprocess.call([command], shell=True)
 
@@ -69,7 +70,7 @@ if opts.task == 'plot':
 if not opts.task == 'prep':
     path = config.get("Directories","samplepath")
     samplesinfo = config.get("Directories","samplesinfo")
-    info = parse_info(samplesinfo,path)
+    info = ParseInfo(samplesinfo,path)
 
 if opts.task == 'plot': 
     repDict['queue'] = 'all.q'
