@@ -101,7 +101,7 @@ class TreeCache:
     def get_checksum(file):
         if 'gsidcap://t3se01.psi.ch:22128' in file:
             srmPath = 'srm://t3se01.psi.ch:8443/srm/managerv2?SFN='
-            command = 'lcg-ls -l %s' %file.replace('gsidcap://t3se01.psi.ch:22128/','%s/'%srmPath)
+            command = 'lcg-ls -b -D srmv2 -l %s' %file.replace('gsidcap://t3se01.psi.ch:22128/','%s/'%srmPath)
             p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,shell=True)
             lines = p.stdout.readlines()
             line = lines[1].replace('\t* Checksum: ','')

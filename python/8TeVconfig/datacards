@@ -6,12 +6,13 @@ Mjjrange = 17,0.,255.
 
 #wanna rebin? (bin transform)
 rebin_active = True
+#rel. error until which to rebi
+rebin_max_rel = 0.35
+
 #Mjj-> False
 BDTbinning = 10
 
-systematicsnaming7TeV={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_7TeV','beff1':'CMS_vhbb_eff_b_SIG'}
-systematicsnaming8TeV={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff_b_SIG'}
-#systematicsnaming8TeV={'JER':'CMS_res_j','JES':'CMS_scale_j','beff':'CMS_eff_b','bmis':'CMS_fake_b_8TeV','beff1':'CMS_vhbb_eff1_b'}
+systematicsnaming={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff_b_SIG','stats': 'CMS_vhbb_stats','weightF_sys':'UEPS'}
 
 sys_BDT: ['JER','JES','beff','bmis','beff1']
 sys_Mjj: ['JER','JES','beff','bmis','beff1']
@@ -29,7 +30,7 @@ sys_cut_include: ['ZH','VV','ST']
 weightF_sys: True
 
 #Example of sample systematic, in this case the ZZ sample is replaced by WZ
-addSample_sys: {'ZZ':'AltZZ','WZ': 'AltWZ'}
+#addSample_sys: {'ZZ':'AltZZ','WZ': 'AltWZ'}
 
 # bin-by-bin statistics
 binstat: False
@@ -44,12 +45,12 @@ scaling: False
 #rescale stats
 rescaleSqrtN: True
 
-BKG = ['Zudsg','Zudsg1J','Zudsg2J','Zudsg3J','Zudsg4J','ZudsgHT200400','ZudsgHT400','Zudsg5070','Zudsg70100','Zudsg100','Zcc','Zcc1J','Zcc2J','Zcc3J','Zcc4J','ZccHT200400','ZccHT400','Zcc5070','Zcc70100','Zcc100','Zbb','Zbb1J','Zbb2J','Zbb3J','Zbb4J','ZbbHT200400','ZbbHT400','Zbb5070','Zbb70100','Zbb100','ZZ','WW','WZ','TT','ST_s','ST_t','ST_tW','STbar_s','STbar_t','STbar_tW']
+BKG = ['Zudsg','Zudsg1J','Zudsg2J','Zudsg3J','Zudsg4J','ZudsgHT200400','ZudsgHT400','Zudsg5070','Zudsg70100','Zudsg100','Zudsg180','Zcc','Zcc1J','Zcc2J','Zcc3J','Zcc4J','ZccHT200400','ZccHT400','Zcc5070','Zcc70100','Zcc100','Zcc180','Zbb','Zbb1J','Zbb2J','Zbb3J','Zbb4J','ZbbHT200400','ZbbHT400','Zbb5070','Zbb70100','Zbb100','Zbb180','ZZ','WW','WZ','TT','ST_s','ST_t','ST_tW','STbar_s','STbar_t','STbar_tW']
 
 #Groups for adding samples together
 #Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
 
-Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight','ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc3J':'DYlight','Zcc4J':'DYlight','ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb','ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
+Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight','ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zudsg180':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc3J':'DYlight','Zcc4J':'DYlight','ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zcc180':'DYlight','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb','ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','Zbb180':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
 
 #Mjj-> this Group
 #No ST for Mjj (added to TT)
@@ -61,6 +62,8 @@ Dict: {'ZH':'ZH','DYlight':'ZjLF','DYb':'ZjHF','TT':'TT','ST':'s_Top','VV':'VV',
 
 #SETUP DATACARD (1st Signal, afterwards BKG)
 setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
+
+
 #Mjj-> this setup
 #setup: ['ZH', 'DYlight','DYb','VV','TT']
 

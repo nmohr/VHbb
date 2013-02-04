@@ -15,15 +15,14 @@ class HistoMaker:
         self.cuts = []
         for options in optionsList:
             self.cuts.append(options['cut'])
-        self.tc = TreeCache(self.cuts,samples,path) 
-
+        #self.tc = TreeCache(self.cuts,samples,path) 
+        self.tc = TreeCache(self.cuts,samples,path,config)
 
     def get_histos_from_tree(self,job):
         if self.lumi == 0: 
             raise Exception("You're trying to plot with no lumi")
          
         hTreeList=[]
-        groupList=[]
 
         #get the conversion rate in case of BDT plots
         TrainFlag = eval(self.config.get('Analysis','TrainFlag'))
@@ -60,8 +59,7 @@ class HistoMaker:
                 else:
                     full=False
             elif job.type == 'DATA':
-                if options['blind'] == 'blind':
-                    output.cd()
+                if options['blind']:
                     if treeVar == 'H.mass':
                         CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<90. || '+treeVar + '>150.' , "goff,e")
                     else:
@@ -98,37 +96,25 @@ class HistoMaker:
             	hTree.SetBinError(1,uFlowErr)
             	hTree.SetBinError(hTree.GetNbinsX(),oFlowErr)
             hTree.SetDirectory(0)
-            hTreeList.append(hTree)
-            groupList.append(group)
+            gDict = {}
+            gDict[group] = hTree
+            hTreeList.append(gDict)
          
-        return hTreeList, groupList
+        return hTreeList
         
 
-######################
-def orderandadd(histos,typs,setup):
-#ORDER AND ADD TOGETHER
-    ordnung=[]
-    ordnungtyp=[]
-    num=[0]*len(setup)
-    for i in range(0,len(setup)):
-        for j in range(0,len(histos)):
-            if typs[j] in setup[i]:
-                num[i]+=1
-                ordnung.append(histos[j])
-                ordnungtyp.append(typs[j])
-    del histos
-    del typs
-    histos=ordnung
-    typs=ordnungtyp
-    print typs
-    for k in range(0,len(num)):
-        for m in range(0,num[k]):
-            if m > 0:
-                #add
-                histos[k].Add(histos[k+1],1)
-                printc('magenta','','\t--> added %s to %s'%(typs[k],typs[k+1]))
-                del histos[k+1]
-                del typs[k+1]
-    del histos[len(setup):]
-    del typs[len(setup):]
-    return histos, typs
+    @staticmethod
+    def orderandadd(histo_dicts,setup):
+        print histo_dicts
+        ordered_histo_dict = {}
+        for sample in setup:
+            nSample = 0
+            for histo_dict in histo_dicts:
+                if histo_dict.has_key(sample):
+                    if nSample == 0:
+                        ordered_histo_dict[sample] = histo_dict[sample]
+                    else:
+                        printc('magenta','','\t--> added %s to %s'%(sample,sample))
+                        ordered_histo_dict[sample].Add(histo_dict[sample])
+                    nSample += 1
+        return ordered_histo_dict 

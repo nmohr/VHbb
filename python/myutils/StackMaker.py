@@ -1,6 +1,6 @@
 import ROOT 
+ROOT.gROOT.SetBatch(True)
 import sys,os
-from HistoMaker import orderandadd
 from BetterConfigParser import BetterConfigParser
 import TdrStyles
 from Ratio import getRatio
@@ -81,7 +81,8 @@ class StackMaker:
 
     def doPlot(self):
         TdrStyles.tdrStyle()
-        self.histos, self.typs = orderandadd(self.histos,self.typs,self.setup)
+        histo_dict = HistoMaker.orderandadd([{self.typs[i]:self.histos[i]} for i in range(self.histos)],self.setup)
+        self.histos, self.typs = histo_dict.keys(), histo_dict.values() 
     
         c = ROOT.TCanvas(self.var,'', 600, 600)
         c.SetFillStyle(4000)
