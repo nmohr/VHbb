@@ -45,7 +45,7 @@ if len(options) < 12:
 treevar = options[0]
 name = options[1]
 title = options[2]
-nBinsRB = int(options[3])
+nBins = int(options[3])
 xMin = float(options[4])
 xMax = float(options[5])
 ROOToutname = options[6]
@@ -54,7 +54,6 @@ SCut = options[8]
 signals = options[9].split(' ')
 datas = options[10].split(' ')
 anType = options[11]
-nBins= int(config.get('LimitGeneral','BDTbinning'))
 setup=eval(config.get('LimitGeneral','setup'))
 #Systematics:
 if config.has_option('LimitGeneral','addSample_sys'):
@@ -101,7 +100,7 @@ Dict= eval(config.get('LimitGeneral','Dict'))
 binstat = eval(config.get('LimitGeneral','binstat'))
 # Use the rebinning:
 rebin_active=eval(config.get('LimitGeneral','rebin_active'))
-max_rel = float(config.get('LimitGeneral','rebin_max_rel'))
+#max_rel = float(config.get('LimitGeneral','rebin_max_rel'))
 signal_inject=config.get('LimitGeneral','signal_inject')
 # add signal as background
 add_signal_as_bkg=config.get('LimitGeneral','add_signal_as_bkg')
@@ -218,13 +217,14 @@ if nData > 1:
 mc_hMaker.lumi = lumi
 data_hMaker.lumi = lumi
 
-mc_hMaker.calc_rebin(background_samples)
-#transfer rebinning info to data maker
-data_hMaker.norebin_nBins = mc_hMaker.norebin_nBins
-data_hMaker.rebin_nBins = mc_hMaker.rebin_nBins
-data_hMaker.mybinning = mc_hMaker.mybinning
 
-data_hMaker.rebin = True
+if rebin_active:
+    mc_hMaker.calc_rebin(background_samples)
+    #transfer rebinning info to data maker
+    data_hMaker.norebin_nBins = mc_hMaker.norebin_nBins
+    data_hMaker.rebin_nBins = mc_hMaker.rebin_nBins
+    data_hMaker.mybinning = mc_hMaker.mybinning
+    data_hMaker.rebin = True
 
 #mc_hMaker.rebin = False
 #data_hMaker.rebin = False
@@ -374,7 +374,7 @@ for key in final_histos:
     printout += '%-25s'%key
     printout += ':'
     for item, val in final_histos[key].items():
-        printout += '%-10s'%'%0.5f'%val.Integral()
+        printout += '%-12'%str('%0.5f'%val.Integral())
     print printout
 
 #-----------------------------------------------------------------------------------------------------------
