@@ -5,18 +5,23 @@ from array import array
 from printcolor import printc
 from BetterConfigParser import BetterConfigParser
 from TreeCache import TreeCache
+from math import sqrt
+from copy import copy
 
 class HistoMaker:
     def __init__(self, samples, path, config, optionsList):
         self.path = path
         self.config = config
         self.optionsList = optionsList
+        self.nBins = optionsList[0]['nBins']
         self.lumi=0.
         self.cuts = []
         for options in optionsList:
             self.cuts.append(options['cut'])
         #self.tc = TreeCache(self.cuts,samples,path) 
         self.tc = TreeCache(self.cuts,samples,path,config)
+        self._rebin = False
+        self.mybinning = None
 
     def get_histos_from_tree(self,job):
         if self.lumi == 0: 
@@ -38,7 +43,8 @@ class HistoMaker:
             group=job.group
             treeVar=options['var']
             name=options['name']
-            nBins=int(options['nBins'])
+            nBins=self.nBins
+            #int(options['nBins'])
             xMin=float(options['xMin'])
             xMax=float(options['xMax'])
             weightF=options['weight']
@@ -97,11 +103,92 @@ class HistoMaker:
             	hTree.SetBinError(hTree.GetNbinsX(),oFlowErr)
             hTree.SetDirectory(0)
             gDict = {}
-            gDict[group] = hTree
+            if self._rebin:
+                gDict[group] = self.mybinning.rebin(hTree)
+            else: 
+                gDict[group] = hTree
             hTreeList.append(gDict)
-         
         return hTreeList
-        
+       
+    @property
+    def rebin(self):
+        return self._rebin
+
+    @property
+    def rebin(self, value):
+        if self._rebin and value:
+            return True
+        elif self._rebin and not value:
+            self.nBins = self.norebin_nBins
+            self._rebin = False
+        elif not self._rebin and value:
+            if self.mybinning is None:
+                raise Exception('define rebinning first')
+            else:
+                self.nBins = self.rebin_nBins
+                self._rebin = True
+                return True
+        elif not self._rebin and not self.value:
+            return False
+
+    def calc_rebin(self, bg_list, nBins_start=1000, tolerance=0.35):
+        self.norebin_nBins = self.nBins
+        self.rebin_nBins = nBins_start
+        self.nBins = nBins_start
+        i=0
+        #add all together:
+        for job in bg_list:
+            if not i:
+                totalBG = self.get_histos_from_tree(job)[0].values()[0]
+            else:
+                totalBG.Add(self.get_histos_from_tree(job)[0].values()[0],1)
+            i+=1
+        ErrorR=0
+        ErrorL=0
+        TotR=0
+        TotL=0
+        binR=self.rebin_nBins
+        binL=1
+        rel=1.0
+        #---- from right
+        while rel > tolerance:
+            TotR+=totalBG.GetBinContent(binR)
+            ErrorR=sqrt(ErrorR**2+totalBG.GetBinError(binR)**2)
+            binR-=1
+            if not TotR == 0 and not ErrorR == 0:
+                rel=ErrorR/TotR
+                #print rel
+        #print 'upper bin is %s'%binR
+
+        #---- from left
+        rel=1.0
+        while rel > tolerance:
+            TotL+=totalBG.GetBinContent(binL)
+            ErrorL=sqrt(ErrorL**2+totalBG.GetBinError(binL)**2)
+            binL+=1
+            if not TotL == 0 and not ErrorL == 0:
+                rel=ErrorL/TotL
+                #print rel
+        #it's the lower edge
+        binL+=1
+        #print 'lower bin is %s'%binL
+
+        inbetween=binR-binL
+        stepsize=int(inbetween)/(int(self.norebin_nBins)-2)
+        modulo = int(inbetween)%(int(self.norebin_nBins)-2)
+
+        #print'stepsize %s'% stepsize
+        #print 'modulo %s'%modulo
+        binlist=[binL]
+        for i in range(0,int(self.norebin_nBins)-3):
+            binlist.append(binlist[-1]+stepsize)
+        binlist[-1]+=modulo
+        binlist.append(binR)
+        binlist.append(self.rebin_nBins+1)
+
+        self.mybinning = Rebinner(int(self.norebin_nBins),array('d',[-1.0]+[totalBG.GetBinLowEdge(i) for i in binlist]),True)
+        self._rebin = True
+
 
     @staticmethod
     def orderandadd(histo_dicts,setup):
@@ -118,3 +205,26 @@ class HistoMaker:
                         ordered_histo_dict[sample].Add(histo_dict[sample])
                     nSample += 1
         return ordered_histo_dict 
+
+class Rebinner:
+    def __init__(self,nBins,lowedgearray,active=True):
+        self.lowedgearray=lowedgearray
+        self.nBins=nBins
+        self.active=active
+    def rebin(self, histo):
+        if not self.active: return histo
+        #print 'rebinning'
+        #print histo.Integral()
+        ROOT.gDirectory.Delete('hnew')
+        histo.Rebin(self.nBins,'hnew',self.lowedgearray)
+        binhisto=ROOT.gDirectory.Get('hnew')
+        #print binhisto.Integral()
+        newhisto=ROOT.TH1F('new','new',self.nBins,self.lowedgearray[0],self.lowedgearray[-1])
+        newhisto.Sumw2()
+        for bin in range(1,self.nBins+1):
+            newhisto.SetBinContent(bin,binhisto.GetBinContent(bin))
+            newhisto.SetBinError(bin,binhisto.GetBinError(bin))
+        newhisto.SetName(binhisto.GetName())
+        newhisto.SetTitle(binhisto.GetTitle())
+        #print newhisto.Integral()
+        return copy(newhisto)

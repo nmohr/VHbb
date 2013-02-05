@@ -218,6 +218,17 @@ if nData > 1:
 mc_hMaker.lumi = lumi
 data_hMaker.lumi = lumi
 
+mc_hMaker.calc_rebin(background_samples)
+#transfer rebinning info to data maker
+data_hMaker.norebin_nBins = mc_hMaker.norebin_nBins
+data_hMaker.rebin_nBins = mc_hMaker.rebin_nBins
+data_hMaker.mybinning = mc_hMaker.mybinning
+
+data_hMaker.rebin = True
+
+#mc_hMaker.rebin = False
+#data_hMaker.rebin = False
+
 all_histos = {}
 data_histos = {}
 
@@ -312,17 +323,20 @@ WS.writeToFile(outpath+'vhbb_WS_'+ROOToutname+'.root')
 # now we have a Dict final_histos with sets of all grouped MCs for all systematics:
 # nominal, ($SYS_Up/Down)*4, weightF_sys_Up/Down, stats_Up/Down
 
-print '\n\t >>> PRINTOUT TABLE <<<\n'
-
+print '\n\t >>> PRINTOUT PRETTY TABLE <<<\n'
+#header
+printout = ''
+printout += '%-25s'%'Process'
+printout += ':'
+for item, val in final_histos['nominal'].items():
+    printout += '%-10s'%item
+print printout+'\n'
 for key in final_histos:
     printout = ''
-    printout += '%-20s'%key
-    printout += ':\t'
+    printout += '%-25s'%key
+    printout += ':'
     for item, val in final_histos[key].items():
-        printout += item
-        printout += ': Yield = '
-        printout += '%0.5f'%val.Integral()
-        printout += '\t'
+        printout += '%-10s'%'%0.5f'%val.Integral()
     print printout
 
 #-----------------------------------------------------------------------------------------------------------
