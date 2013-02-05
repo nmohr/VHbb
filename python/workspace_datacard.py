@@ -301,6 +301,8 @@ for job,hist in final_histos['nominal'].items():
 for key in final_histos:
     for job, hist in final_histos[key].items():
         if 'nominal' == key:
+            hist.SetName('%s'%(job))
+            hist.Write()
             rooDataHist = ROOT.RooDataHist('%s' %(job),'%s'%(job),obs, hist)
             getattr(WS,'import')(rooDataHist)
         for Q in UD:
@@ -312,9 +314,13 @@ for key in final_histos:
                 nameSyst = '%s_%s_%s' %(theSyst,job,Datacardbin)
             else:
                 nameSyst = theSyst
+            hist.SetName('%s%s%s' %(job,nameSyst,Q))
+            hist.Write()
             rooDataHist = ROOT.RooDataHist('%s%s%s' %(job,nameSyst,Q),'%s%s%s'%(job,nameSyst,Q),obs, hist)
             getattr(WS,'import')(rooDataHist)
 
+theData.SetName('data_obs')
+theData.Write()
 rooDataHist = ROOT.RooDataHist('data_obs','data_obs',obs, theData)
 getattr(WS,'import')(rooDataHist)
 
@@ -329,7 +335,7 @@ printout = ''
 printout += '%-25s'%'Process'
 printout += ':'
 for item, val in final_histos['nominal'].items():
-    printout += '%-10s'%item
+    printout += '%-12s'%item
 print printout+'\n'
 for key in final_histos:
     printout = ''
