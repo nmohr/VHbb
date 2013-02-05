@@ -83,9 +83,6 @@ weightF_sys = eval(config.get('LimitGeneral','weightF_sys'))
 treecut = config.get('Cuts',RCut)
 # Train flag: splitting of samples
 TrainFlag = eval(config.get('Analysis','TrainFlag'))
-# scaling options
-scaling=eval(config.get('LimitGeneral','scaling'))
-rescaleSqrtN=eval(config.get('LimitGeneral','rescaleSqrtN'))
 # blind data option:
 blind=eval(config.get('LimitGeneral','blind'))
 if blind: 
