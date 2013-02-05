@@ -192,7 +192,6 @@ class HistoMaker:
 
     @staticmethod
     def orderandadd(histo_dicts,setup):
-        print histo_dicts
         ordered_histo_dict = {}
         for sample in setup:
             nSample = 0

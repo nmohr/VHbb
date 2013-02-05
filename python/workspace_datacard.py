@@ -277,13 +277,43 @@ final_histos['nominal'] = HistoMaker.orderandadd([all_histos['%s'%job][0] for jo
 ind = 1
 for syst in systematics:
     for Q in UD:
-        final_histos['%s_%s'%(systematicsnaming[syst],Q)] = HistoMaker.orderandadd([all_histos['%s'%job][ind] for job in all_samples],setup)
+        final_histos['%s_%s'%(systematicsnaming[syst],Q)] = HistoMaker.orderandadd([all_histos[job.name][ind] for job in all_samples],setup)
         ind+=1
 
 if weightF_sys: 
     for Q in UD:
-        final_histos['%s_%s'%(systematicsnaming['weightF_sys'],Q)]= HistoMaker.orderandadd([all_histos['%s'%job][ind] for job in all_samples],setup)
+        final_histos['%s_%s'%(systematicsnaming['weightF_sys'],Q)]= HistoMaker.orderandadd([all_histos[job.name][ind] for job in all_samples],setup)
         ind+=1
+
+def get_alternate_shape(hNominal,hAlternate):
+    hVar = hAlternate.Clone()
+    hNom = hNominal.Clone()
+    hAlt = hNom.Clone()
+    hNom.Add(hVar,-1.)
+    hAlt.Add(hNom)
+    for bin in range(0,hNominal.GetNbinsX()+1):
+        if hAlt.GetBinContent(bin) < 0.: hAlt.SetBinContent(bin,0.)
+    return hVar,hAlt
+
+def get_alternate_shapes(all_histos,asample_dict,all_samples):
+    alternate_shapes_up = []
+    alternate_shapes_down = []
+    for job in all_samples:
+        nominal = all_histos[job.name][0]
+        if job.name in asample_dict:
+            alternate = copy(all_histos[asample_dict[job.name]][0])
+            hUp, hDown = get_alternate_shape(nominal[nominal.keys()[0]],alternate[alternate.keys()[0]])
+            alternate_shapes_up.append({nominal.keys()[0]:hUp})
+            alternate_shapes_down.append({nominal.keys()[0]:hDown})
+        else:
+            alternate_shapes_up.append(copy(nominal))
+            alternate_shapes_down.append(copy(nominal))
+    return alternate_shapes_up, alternate_shapes_down
+        
+if addSample_sys: 
+    aUp, aDown = get_alternate_shapes(all_histos,addSample_sys,all_samples)
+    final_histos['%s_Up'%(systematicsnaming['model'])]= HistoMaker.orderandadd(aUp,setup)
+    final_histos['%s_Down'%(systematicsnaming['model'])]= HistoMaker.orderandadd(aDown,setup)
 
 #make statistical shapes:
 for Q in UD:
@@ -301,22 +331,24 @@ for job,hist in final_histos['nominal'].items():
 for key in final_histos:
     for job, hist in final_histos[key].items():
         if 'nominal' == key:
-            hist.SetName('%s'%(job))
+            hist.SetName('%s'%(Dict[job]))
             hist.Write()
-            rooDataHist = ROOT.RooDataHist('%s' %(job),'%s'%(job),obs, hist)
+            rooDataHist = ROOT.RooDataHist('%s' %(Dict[job]),'%s'%(Dict[job]),obs, hist)
             getattr(WS,'import')(rooDataHist)
         for Q in UD:
             if Q in key:
                 theSyst = key.replace('_%s'%Q,'')
             else:
                 continue
-            if 'stats' in key:
-                nameSyst = '%s_%s_%s' %(theSyst,job,Datacardbin)
+            if systematicsnaming['stats'] in key:
+                nameSyst = '%s_%s_%s' %(theSyst,Dict[job],Datacardbin)
+            elif systematicsnaming['model'] in key:
+                nameSyst = '%s_%s' %(theSyst,Dict[job])
             else:
                 nameSyst = theSyst
-            hist.SetName('%s%s%s' %(job,nameSyst,Q))
+            hist.SetName('%s%s%s' %(Dict[job],nameSyst,Q))
             hist.Write()
-            rooDataHist = ROOT.RooDataHist('%s%s%s' %(job,nameSyst,Q),'%s%s%s'%(job,nameSyst,Q),obs, hist)
+            rooDataHist = ROOT.RooDataHist('%s%s%s' %(Dict[job],nameSyst,Q),'%s%s%s'%(Dict[job],nameSyst,Q),obs, hist)
             getattr(WS,'import')(rooDataHist)
 
 theData.SetName('data_obs')
@@ -397,7 +429,7 @@ for DCtype in ['WS','TH']:
     if binstat:
         for c in setup:
             for bin in range(0,nBins):
-                f.write('CMS_vhbb_stats_%s_%s_%s\tshape'%(Dict[c], bin, options[10]))
+                f.write('%s_%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], bin, options[10]))
                 for it in range(0,columns):
                     if it == setup.index(c):
                         f.write('\t1.0')
@@ -406,7 +438,7 @@ for DCtype in ['WS','TH']:
                 f.write('\n')
     else:
         for c in setup:
-            f.write('CMS_vhbb_stats_%s_%s\tshape'%(Dict[c], options[10]))
+            f.write('%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], options[10]))
             for it in range(0,columns):
                 if it == setup.index(c):
                     f.write('\t1.0')
@@ -425,7 +457,7 @@ for DCtype in ['WS','TH']:
             for c in setup:
                 if not c == Group[newSample]: continue
                 if Dict[c] in alreadyAdded: continue
-                f.write('CMS_vhbb_model_%s\tshape'%(Dict[c]))
+                f.write('%s_%s\tshape'%(systematicsnaming['model'],Dict[c]))
                 for it in range(0,columns):
                     if it == setup.index(c):
                          f.write('\t1.0')

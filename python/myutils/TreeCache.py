@@ -83,6 +83,7 @@ class TreeCache:
         cuttedTree.SetDirectory(0)
         input.Close()
         del input
+        del tree
         return cuttedTree
 
     @staticmethod
