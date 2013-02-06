@@ -105,6 +105,7 @@ class HistoMaker:
             gDict = {}
             if self._rebin:
                 gDict[group] = self.mybinning.rebin(hTree)
+                del hTree
             else: 
                 gDict[group] = hTree
             hTreeList.append(gDict)
@@ -140,10 +141,13 @@ class HistoMaker:
         i=0
         #add all together:
         for job in bg_list:
+            print job
+            htree = self.get_histos_from_tree(job)[0].values()[0]
             if not i:
-                totalBG = self.get_histos_from_tree(job)[0].values()[0]
+                totalBG = copy(htree)
             else:
-                totalBG.Add(self.get_histos_from_tree(job)[0].values()[0],1)
+                totalBG.Add(htree,1)
+            del htree
             i+=1
         ErrorR=0
         ErrorL=0
@@ -200,11 +204,12 @@ class HistoMaker:
             for histo_dict in histo_dicts:
                 if histo_dict.has_key(sample):
                     if nSample == 0:
-                        ordered_histo_dict[sample] = histo_dict[sample]
+                        ordered_histo_dict[sample] = histo_dict[sample].Clone()
                     else:
                         printc('magenta','','\t--> added %s to %s'%(sample,sample))
                         ordered_histo_dict[sample].Add(histo_dict[sample])
                     nSample += 1
+        del histo_dicts
         return ordered_histo_dict 
 
 class Rebinner:
@@ -214,7 +219,6 @@ class Rebinner:
         self.active=active
     def rebin(self, histo):
         if not self.active: return histo
-        #print 'rebinning'
         #print histo.Integral()
         ROOT.gDirectory.Delete('hnew')
         histo.Rebin(self.nBins,'hnew',self.lowedgearray)
@@ -228,4 +232,6 @@ class Rebinner:
         newhisto.SetName(binhisto.GetName())
         newhisto.SetTitle(binhisto.GetTitle())
         #print newhisto.Integral()
+        del histo
+        del binhisto
         return copy(newhisto)

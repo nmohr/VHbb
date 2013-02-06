@@ -200,7 +200,6 @@ if weightF_sys:
 
 mc_hMaker = HistoMaker(all_samples,path,config,optionsList)
 data_hMaker = HistoMaker(data_samples,path,config,[optionsList[0]])
-
 #Calculate lumi
 lumi = 0.
 nData = 0
@@ -218,9 +217,9 @@ data_hMaker.lumi = lumi
 if rebin_active:
     mc_hMaker.calc_rebin(background_samples)
     #transfer rebinning info to data maker
-    data_hMaker.norebin_nBins = mc_hMaker.norebin_nBins
-    data_hMaker.rebin_nBins = mc_hMaker.rebin_nBins
-    data_hMaker.mybinning = mc_hMaker.mybinning
+    data_hMaker.norebin_nBins = copy(mc_hMaker.norebin_nBins)
+    data_hMaker.rebin_nBins = copy(mc_hMaker.rebin_nBins)
+    data_hMaker.mybinning = deepcopy(mc_hMaker.mybinning)
     data_hMaker.rebin = True
 
 #mc_hMaker.rebin = False
@@ -298,18 +297,25 @@ def get_alternate_shapes(all_histos,asample_dict,all_samples):
     for job in all_samples:
         nominal = all_histos[job.name][0]
         if job.name in asample_dict:
+            print 'calc add shape %s'%job
             alternate = copy(all_histos[asample_dict[job.name]][0])
             hUp, hDown = get_alternate_shape(nominal[nominal.keys()[0]],alternate[alternate.keys()[0]])
             alternate_shapes_up.append({nominal.keys()[0]:hUp})
             alternate_shapes_down.append({nominal.keys()[0]:hDown})
         else:
-            alternate_shapes_up.append(copy(nominal))
-            alternate_shapes_down.append(copy(nominal))
+            print 'copy add shape %s'%job
+            #hUp, hDown = get_alternate_shape(nominal[nominal.keys()[0]],nominal[nominal.keys()[0]])
+            #alternate_shapes_up.append({nominal.keys()[0]:hUp})
+            #alternate_shapes_down.append({nominal.keys()[0]:hDown})
+            newh=nominal[nominal.keys()[0]].Clone('%s_%s_Up'%(nominal[nominal.keys()[0]].GetName(),'model'))
+            alternate_shapes_up.append({nominal.keys()[0]:nominal[nominal.keys()[0]].Clone()})
+            alternate_shapes_down.append({nominal.keys()[0]:nominal[nominal.keys()[0]].Clone()})
     return alternate_shapes_up, alternate_shapes_down
         
 if addSample_sys: 
     aUp, aDown = get_alternate_shapes(all_histos,addSample_sys,all_samples)
     final_histos['%s_Up'%(systematicsnaming['model'])]= HistoMaker.orderandadd(aUp,setup)
+    del aUp
     final_histos['%s_Down'%(systematicsnaming['model'])]= HistoMaker.orderandadd(aDown,setup)
 
 #make statistical shapes:
@@ -371,7 +377,7 @@ for key in final_histos:
     printout += '%-25s'%key
     printout += ':'
     for item, val in final_histos[key].items():
-        printout += '%-12'%str('%0.5f'%val.Integral())
+        printout += '%-12s'%str('%0.5f'%val.Integral())
     print printout
 
 #-----------------------------------------------------------------------------------------------------------
