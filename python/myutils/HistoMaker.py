@@ -108,6 +108,8 @@ class HistoMaker:
             else: 
                 gDict[group] = hTree
             hTreeList.append(gDict)
+            CuttedTree.IsA().Destructor(CuttedTree)
+            del CuttedTree
         return hTreeList
        
     @property
