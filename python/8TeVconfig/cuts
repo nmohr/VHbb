@@ -180,6 +180,13 @@ MedPt_MJJ_Zee: <!ZHeebb|addCuts!> & <!Cuts|mjjMedPt_opt!>
 MedPt_MJJ_Zmm: <!ZHmmbb|addCuts!> & <!Cuts|mjjMedPt_opt!> 
 
 
+############################
+#FAT HIGGS CONTROL REGIONS #
+############################
+Zbb_fatH = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|zWindow!> & <!ZHbb|ccBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!> & V.pt > 100 & fathFilterJets_pt > 20
+Zbb_Zee_fatH = <!Cuts|Zbb_fatH!> & <!ZHeebb|addCuts!> 
+Zbb_Zmm_fatH = <!Cuts|Zbb_fatH!> & <!ZHmmbb|addCuts!>
+
 
 # ATLAS Mjj:
 #------------
