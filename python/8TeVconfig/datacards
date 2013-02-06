@@ -38,8 +38,10 @@ binstat: False
 signal_inject: None
 # add signal als BKG, e.g. ZH125 (working?)
 add_signal_as_bkg: None
-# toy Data
+# blind Data
 blind: True
+# toy Datatoy
+toy: True
 
 
 
@@ -237,7 +239,7 @@ ATLAS_Mjj_pt200_ZH125_Zmm: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,ATLAS_Mjj_pt
 
 Mjj_pt70_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt70_ZH125,Mjj_pt70,Mjj_pt70,ZH125,Zee,Mjj
 Mjj_pt70150_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt70150_ZH125,Mjj_pt70150,Mjj_pt70150,ZH125,Zee,Mjj
-Mjj_pt150_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt150_ZH125,Mjj_pt150,Mjj_pt150,ZH125,Zee,Mjj
+Mjj_pt150_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt150_ZH125,Mjj_pt150,Mjj_pt150,ZH125,Zmm,Mjj
 
 
 #Mjj low EE

@@ -83,6 +83,8 @@ weightF_sys = eval(config.get('LimitGeneral','weightF_sys'))
 treecut = config.get('Cuts',RCut)
 # Train flag: splitting of samples
 TrainFlag = eval(config.get('Analysis','TrainFlag'))
+# toy data option:
+toy=eval(config.get('LimitGeneral','toy'))
 # blind data option:
 blind=eval(config.get('LimitGeneral','blind'))
 if blind: 
@@ -90,7 +92,7 @@ if blind:
 #get List of backgrounds in use:
 backgrounds = eval(config.get('LimitGeneral','BKG'))
 #Groups for adding samples together
-Group = eval(config.get('LimitGeneral','Group'))
+GroupDict = eval(config.get('LimitGeneral','Group'))
 #naming for DC
 Dict= eval(config.get('LimitGeneral','Dict'))
 #treating statistics bin-by-bin:
@@ -150,14 +152,13 @@ data_samples = info.get_samples(datas)
 
 optionsList=[]
 
-def appendList(): optionsList.append({'cut':copy(_cut),'var':copy(_treevar),'name':copy(_name),'nBins':nBins,'xMin':xMin,'xMax':xMax,'weight':copy(_weight),'blind':copy(_blind)})
+def appendList(): optionsList.append({'cut':copy(_cut),'var':copy(_treevar),'name':copy(_name),'nBins':nBins,'xMin':xMin,'xMax':xMax,'weight':copy(_weight),'blind':False})
 
 #nominal
 _cut = treecut
 _treevar = treevar
 _name = title
 _weight = weightF
-_blind = blind
 appendList()
 
 #the 4 sys
@@ -198,7 +199,7 @@ if weightF_sys:
 #    print option['cut']
 
 
-mc_hMaker = HistoMaker(all_samples,path,config,optionsList)
+mc_hMaker = HistoMaker(all_samples,path,config,optionsList,GroupDict)
 data_hMaker = HistoMaker(data_samples,path,config,[optionsList[0]])
 #Calculate lumi
 lumi = 0.
@@ -228,11 +229,29 @@ if rebin_active:
 all_histos = {}
 data_histos = {}
 
+print '\n\t...fetching histos...'
+
 for job in all_samples:
+    print '\t- %s'%job
     all_histos[job.name] = mc_hMaker.get_histos_from_tree(job)
 
 for job in data_samples:
+    print '\t- %s'%job
     data_histos[job.name] = data_hMaker.get_histos_from_tree(job)[0]['DATA']
+
+print '\t> done <\n'
+#blind: 
+
+i=0
+for job in background_samples: 
+    print job.name
+    htree = all_histos[job.name][0].values()[0]
+    if not i: 
+        hDummy = copy(htree) 
+    else: 
+        hDummy.Add(htree,1) 
+    del htree 
+    i+=1
 
 nData = 0
 for job in data_histos:
@@ -275,7 +294,6 @@ for syst in systematics:
     for Q in UD:
         final_histos['%s_%s'%(systematicsnaming[syst],Q)] = HistoMaker.orderandadd([all_histos[job.name][ind] for job in all_samples],setup)
         ind+=1
-
 if weightF_sys: 
     for Q in UD:
         final_histos['%s_%s'%(systematicsnaming['weightF_sys'],Q)]= HistoMaker.orderandadd([all_histos[job.name][ind] for job in all_samples],setup)
@@ -297,16 +315,11 @@ def get_alternate_shapes(all_histos,asample_dict,all_samples):
     for job in all_samples:
         nominal = all_histos[job.name][0]
         if job.name in asample_dict:
-            print 'calc add shape %s'%job
             alternate = copy(all_histos[asample_dict[job.name]][0])
             hUp, hDown = get_alternate_shape(nominal[nominal.keys()[0]],alternate[alternate.keys()[0]])
             alternate_shapes_up.append({nominal.keys()[0]:hUp})
             alternate_shapes_down.append({nominal.keys()[0]:hDown})
         else:
-            print 'copy add shape %s'%job
-            #hUp, hDown = get_alternate_shape(nominal[nominal.keys()[0]],nominal[nominal.keys()[0]])
-            #alternate_shapes_up.append({nominal.keys()[0]:hUp})
-            #alternate_shapes_down.append({nominal.keys()[0]:hDown})
             newh=nominal[nominal.keys()[0]].Clone('%s_%s_Up'%(nominal[nominal.keys()[0]].GetName(),'model'))
             alternate_shapes_up.append({nominal.keys()[0]:nominal[nominal.keys()[0]].Clone()})
             alternate_shapes_down.append({nominal.keys()[0]:nominal[nominal.keys()[0]].Clone()})
@@ -354,9 +367,27 @@ for key in final_histos:
             rooDataHist = ROOT.RooDataHist('%s%s%s' %(Dict[job],nameSyst,Q),'%s%s%s'%(Dict[job],nameSyst,Q),obs, hist)
             getattr(WS,'import')(rooDataHist)
 
-theData.SetName('data_obs')
-theData.Write()
-rooDataHist = ROOT.RooDataHist('data_obs','data_obs',obs, theData)
+if toy:
+    rooDummy = ROOT.RooDataHist('data_obs','data_obs',obs,hDummy)
+    toydata = ROOT.RooHistPdf('data_obs','data_obs',ROOT.RooArgSet(obs),rooDummy)
+    if blind:
+        rooDataSet = toydata.generate(ROOT.RooArgSet(obs),int(hDummy.Integral()))
+    else:
+        rooDataSet = toydata.generate(ROOT.RooArgSet(obs),int(theData.Integral()))
+    rooDataHist = ROOT.RooDataHist('data_obs','data_obs',ROOT.RooArgSet(obs),rooDataSet.reduce(ROOT.RooArgSet(obs)))
+    # for TH?
+
+else:
+    if blind: #not yet realy working...
+        hDummy.SetName('data_obs')
+        hDummy.Write()
+        rooDataHist = ROOT.RooDataHist('data_obs','data_obs',obs, hDummy)
+
+    else:
+        theData.SetName('data_obs')
+        theData.Write()
+        rooDataHist = ROOT.RooDataHist('data_obs','data_obs',obs, theData)
+
 getattr(WS,'import')(rooDataHist)
 
 WS.writeToFile(outpath+'vhbb_WS_'+ROOToutname+'.root')
@@ -393,7 +424,10 @@ for DCtype in ['WS','TH']:
     f.write('kmax\t*\tnumber of nuisance parameters (sources of systematical uncertainties)\n\n')
     f.write('shapes * * vhbb_%s_%s.root $CHANNEL%s$PROCESS $CHANNEL%s$PROCESS$SYSTEMATIC\n\n'%(DCtype,ROOToutname,DCprocessseparatordict[DCtype],DCprocessseparatordict[DCtype]))
     f.write('bin\t%s\n\n'%Datacardbin)
-    f.write('observation\t%s\n\n'%(int(theData.Integral())))
+    if blind:
+        f.write('observation\t%s\n\n'%(int(hDummy.Integral())))
+    else:
+        f.write('observation\t%s\n\n'%(int(theData.Integral())))
     # datacard bin
     f.write('bin')
     for c in range(0,columns): f.write('\t%s'%Datacardbin)
@@ -458,7 +492,7 @@ for DCtype in ['WS','TH']:
         alreadyAdded = []
         for newSample in addSample_sys.iterkeys():
             for c in setup:
-                if not c == Group[newSample]: continue
+                if not c == GroupDict[newSample]: continue
                 if Dict[c] in alreadyAdded: continue
                 f.write('%s_%s\tshape'%(systematicsnaming['model'],Dict[c]))
                 for it in range(0,columns):

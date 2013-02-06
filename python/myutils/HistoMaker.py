@@ -9,7 +9,7 @@ from math import sqrt
 from copy import copy
 
 class HistoMaker:
-    def __init__(self, samples, path, config, optionsList):
+    def __init__(self, samples, path, config, optionsList,GroupDict=None):
         self.path = path
         self.config = config
         self.optionsList = optionsList
@@ -22,6 +22,7 @@ class HistoMaker:
         self.tc = TreeCache(self.cuts,samples,path,config)
         self._rebin = False
         self.mybinning = None
+        self.GroupDict=GroupDict
 
     def get_histos_from_tree(self,job):
         if self.lumi == 0: 
@@ -40,7 +41,10 @@ class HistoMaker:
         # get all Histos at once
         for options in self.optionsList:
             name=job.name
-            group=job.group
+            if self.GroupDict is None:
+                group=job.group
+            else:
+                group=self.GroupDict[job.name]
             treeVar=options['var']
             name=options['name']
             nBins=self.nBins
@@ -140,8 +144,8 @@ class HistoMaker:
         self.nBins = nBins_start
         i=0
         #add all together:
+        print '\n\t...calculating rebinning...'
         for job in bg_list:
-            print job
             htree = self.get_histos_from_tree(job)[0].values()[0]
             if not i:
                 totalBG = copy(htree)
@@ -194,7 +198,7 @@ class HistoMaker:
 
         self.mybinning = Rebinner(int(self.norebin_nBins),array('d',[-1.0]+[totalBG.GetBinLowEdge(i) for i in binlist]),True)
         self._rebin = True
-
+        print '\t > rebinning is set <\n'
 
     @staticmethod
     def orderandadd(histo_dicts,setup):
