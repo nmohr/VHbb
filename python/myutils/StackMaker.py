@@ -16,8 +16,6 @@ class StackMaker:
         if config.has_option('plotDef:%s'%var,'log') and not self.log:
             self.log = eval(config.get('plotDef:%s'%var,'log'))
         self.blind = eval(config.get(section,'blind'))
-        if self.blind: blindopt='blind'
-        else: blindopt = 'noblind'
         self.setup=config.get('Plot_general','setup')
         if self.log:
             self.setup=config.get('Plot_general','setupLog')
@@ -53,7 +51,7 @@ class StackMaker:
         self.typLegendDict=eval(config.get('Plot_general','typLegendDict'))
         self.anaTag = config.get("Analysis","tag")
         self.xAxis = config.get('plotDef:%s'%var,'xAxis')
-        self.options = {'var': self.name,'name':'','xAxis': self.xAxis, 'nBins': self.nBins, 'xMin': self.xMin, 'xMax': self.xMax,'pdfName': '%s_%s_%s.pdf'%(region,var,self.mass),'cut':cut,'mass': self.mass, 'data': data, 'blind': blindopt}
+        self.options = {'var': self.name,'name':'','xAxis': self.xAxis, 'nBins': self.nBins, 'xMin': self.xMin, 'xMax': self.xMax,'pdfName': '%s_%s_%s.pdf'%(region,var,self.mass),'cut':cut,'mass': self.mass, 'data': data, 'blind': self.blind}
         self.options['weight'] = config.get('Weights','weightF')
         self.plotDir = config.get('Directories','plotpath')
         self.maxRatioUncert = 0.5

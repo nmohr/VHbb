@@ -47,8 +47,10 @@ class HistoMaker:
                 group=self.GroupDict[job.name]
             treeVar=options['var']
             name=options['name']
-            nBins=self.nBins
-            #int(options['nBins'])
+            if self._rebin:
+                nBins = self.nBins
+            else:
+                nBins = int(options['nBins'])
             xMin=float(options['xMin'])
             xMax=float(options['xMax'])
             weightF=options['weight']

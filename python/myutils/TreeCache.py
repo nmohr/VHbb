@@ -1,5 +1,5 @@
 from __future__ import print_function
-import os,subprocess,hashlib
+import os,sys,subprocess,hashlib
 import ROOT
 from samplesclass import Sample
 
@@ -10,7 +10,13 @@ class TreeCache:
         self._cutList = []
         for cut in cutList:
             self._cutList.append('(%s)'%cut.replace(' ',''))
-        self.__tmpPath = os.environ["TMPDIR"]
+        try:
+            self.__tmpPath = os.environ["TMPDIR"]
+        except KeyError:
+            print("\x1b[32;5m %s \x1b[0m" %open('%s/data/vhbb.txt' %config.get('Directories','vhbbpath')).read())
+            print("\x1b[31;5;1m\n\t>>> %s: Please set your TMPDIR and try again... <<<\n\x1b[0m" %os.getlogin())
+            sys.exit(-1)
+
         self.__doCache = False
         if config:
             if config.has_option('Directories','tmpSamples'):

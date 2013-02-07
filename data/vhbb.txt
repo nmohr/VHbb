@@ -1,0 +1,19 @@
+                                                                                         
+                                                  bbbbbbbb           bbbbbbbb            
+VVVVVVVV           VVVVVVVVHHHHHHHHH     HHHHHHHHHb::::::b           b::::::b            
+V::::::V           V::::::VH:::::::H     H:::::::Hb::::::b           b::::::b            
+V::::::V           V::::::VH:::::::H     H:::::::Hb::::::b           b::::::b            
+V::::::V           V::::::VHH::::::H     H::::::HH b:::::b            b:::::b            
+ V:::::V           V:::::V   H:::::H     H:::::H   b:::::bbbbbbbbb    b:::::bbbbbbbbb    
+  V:::::V         V:::::V    H:::::H     H:::::H   b::::::::::::::bb  b::::::::::::::bb  
+   V:::::V       V:::::V     H::::::HHHHH::::::H   b::::::::::::::::b b::::::::::::::::b 
+    V:::::V     V:::::V      H:::::::::::::::::H   b:::::bbbbb:::::::bb:::::bbbbb:::::::b
+     V:::::V   V:::::V       H:::::::::::::::::H   b:::::b    b::::::bb:::::b    b::::::b
+      V:::::V V:::::V        H::::::HHHHH::::::H   b:::::b     b:::::bb:::::b     b:::::b
+       V:::::V:::::V         H:::::H     H:::::H   b:::::b     b:::::bb:::::b     b:::::b
+        V:::::::::V          H:::::H     H:::::H   b:::::b     b:::::bb:::::b     b:::::b
+         V:::::::V         HH::::::H     H::::::HH b:::::bbbbbb::::::bb:::::bbbbbb::::::b
+          V:::::V          H:::::::H     H:::::::H b::::::::::::::::b b::::::::::::::::b 
+           V:::V           H:::::::H     H:::::::H b:::::::::::::::b  b:::::::::::::::b  
+            VVV            HHHHHHHHH     HHHHHHHHH bbbbbbbbbbbbbbbb   bbbbbbbbbbbbbbbb   
+                                                                                         
