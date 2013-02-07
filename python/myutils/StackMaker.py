@@ -4,6 +4,7 @@ import sys,os
 from BetterConfigParser import BetterConfigParser
 import TdrStyles
 from Ratio import getRatio
+from HistoMaker import HistoMaker
 
 class StackMaker:
     def __init__(self, config, var,region,SignalRegion):
@@ -81,8 +82,10 @@ class StackMaker:
 
     def doPlot(self):
         TdrStyles.tdrStyle()
-        histo_dict = HistoMaker.orderandadd([{self.typs[i]:self.histos[i]} for i in range(self.histos)],self.setup)
-        self.histos, self.typs = histo_dict.keys(), histo_dict.values() 
+        histo_dict = HistoMaker.orderandadd([{self.typs[i]:self.histos[i]} for i in range(len(self.histos))],self.setup)
+        #sort
+        self.histos=[histo_dict[key] for key in self.setup]
+        self.typs=self.setup
     
         c = ROOT.TCanvas(self.var,'', 600, 600)
         c.SetFillStyle(4000)

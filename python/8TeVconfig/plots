@@ -1,13 +1,16 @@
 [Plot_general]
 
 #TT Merged
-samples: Zudsg,Zudsg1J,Zudsg2J,Zudsg3J,Zudsg4J,ZudsgHT200400,ZudsgHT400,Zudsg5070,Zudsg70100,Zudsg100,Zudsg180,Zcc,Zcc1J,Zcc2J,Zcc3J,Zcc4J,ZccHT200400,ZccHT400,Zcc5070,Zcc70100,Zcc100,Zcc180,Zbb,Zbb1J,Zbb2J,Zbb3J,Zbb4J,ZbbHT200400,ZbbHT400,Zbb5070,Zbb70100,Zbb100,Zbb180,ZZ,WW,WZ,TT,ST_s,ST_t,ST_tW,STbar_s,STbar_t,STbar_tW,ZH125 
+<<<<<<< plots
+#samples: Zudsg,Zudsg1J,Zudsg2J,Zudsg3J,Zudsg4J,ZudsgHT200400,ZudsgHT400,Zudsg5070,Zudsg70100,Zudsg100,Zcc,Zcc1J,Zcc2J,Zcc3J,Zcc4J,ZccHT200400,ZccHT400,Zcc5070,Zcc70100,Zcc100,Zbb,Zbb1J,Zbb2J,Zbb3J,Zbb4J,ZbbHT200400,ZbbHT400,Zbb5070,Zbb70100,Zbb100,ZZ,WW,WZ,TT,ST_s,ST_t,ST_tW,STbar_s,STbar_t,STbar_tW,ZH125 
 
-#TT individual decay modes
-samples: Zudsg,Zudsg1J,Zudsg2J,Zudsg3J,Zudsg4J,ZudsgHT200400,ZudsgHT400,Zudsg5070,Zudsg70100,Zudsg100,Zudsg180,Zcc,Zcc1J,Zcc2J,Zcc3J,Zcc4J,ZccHT200400,ZccHT400,Zcc5070,Zcc70100,Zcc100,Zcc180,Zbb,Zbb1J,Zbb2J,Zbb3J,Zbb4J,ZbbHT200400,ZbbHT400,Zbb5070,Zbb70100,Zbb100,Zbb180,ZZ,WW,WZ,TT_FullLept,TT_SemiLept,ST_s,ST_t,ST_tW,STbar_s,STbar_t,STbar_tW,ZH125
+samples: [<!Samples|allBKG!>,'ZH125']
+
 
 #Groups for adding samples together
-Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight','ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zudsg180':'DYlight','Zcc':'DYc','Zcc1J':'DYc','Zcc2J':'DYc','Zcc3J':'DYc','Zcc4J':'DYc','ZccHT200400':'DYc','ZccHT400':'DYc','Zcc5070':'DYc','Zcc70100':'DYc','Zcc100':'DYc','Zcc180':'DYc','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb','ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','Zbb180':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','TT_FullLept':'TT','TT_SemiLept':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
+#Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight','ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zudsg180':'DYlight','Zcc':'DYc','Zcc1J':'DYc','Zcc2J':'DYc','Zcc3J':'DYc','Zcc4J':'DYc','ZccHT200400':'DYc','ZccHT400':'DYc','Zcc5070':'DYc','Zcc70100':'DYc','Zcc100':'DYc','Zcc180':'DYc','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb','ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','Zbb180':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','TT_FullLept':'TT','TT_SemiLept':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
+
+Group: <!Samples|Group_falvoursplit!>
 
 #how and which groups in the plot
 setup: ZH,VV,DYb,DYc,DYlight,TT,ST
@@ -239,9 +242,9 @@ vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
 blind: True
-nBins: 25
+nBins: 17
 min: 0
-max: 250.
+max: 255.
 
 [Plot:Mjj_pt70150]
 Datas: Zee Zmm
@@ -250,9 +253,9 @@ vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
 blind: True
-nBins: 25
+nBins: 17
 min: 0
-max: 250.
+max: 255.
 
 [Plot:Mjj_pt150]
 Datas: Zee Zmm

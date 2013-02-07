@@ -5,7 +5,7 @@ tag = 8TeV
 # if you train on 50% but then set it to 'Fakse' while writing DC, then you get your biased training samples in the limit!!!
 # be sure to have this right !!!
 # >>>>>>>>>>>>>>>>>>>
-TrainFlag = False
+TrainFlag = True
 #Mjj-> False
 # <<<<<<<<<<<<<<<<<<<
 
@@ -194,6 +194,17 @@ Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135'
         'ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zudsg180':'DYlight',\
         'Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc3J':'DYlight','Zcc4J':'DYlight',\
         'ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zcc180':'DYlight',\
+        'Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb',\
+        'ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','Zbb180':'DYb',\
+        'ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','ZZ-bb':'VV',\
+        'TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST',\
+        'Zee':'Data','Zmm':'Data',\
+        'AltZZ':'AltVV','AltWZ':'AltVV'}
+Group_falvoursplit: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH',\
+        'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight',\
+        'ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zudsg180':'DYlight',\
+        'Zcc':'DYc','Zcc1J':'DYc','Zcc2J':'DYc','Zcc3J':'DYc','Zcc4J':'DYc',\
+        'ZccHT200400':'DYc','ZccHT400':'DYc','Zcc5070':'DYc','Zcc70100':'DYc','Zcc100':'DYc','Zcc180':'DYc',\
         'Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb',\
         'ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','Zbb180':'DYb',\
         'ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','ZZ-bb':'VV',\

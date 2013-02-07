@@ -51,12 +51,12 @@ def doPlot():
 
     data = config.get(section,'Datas')
 
-    mc=config.get('Plot_general','samples').split(',')
+    mc=eval(config.get('Plot_general','samples'))
 
     datasamples = info.get_samples(data)
     mcsamples = info.get_samples(mc)
 
-    Group = eval(config.get('Plot_general','Group'))
+    GroupDict = eval(config.get('Plot_general','Group'))
 
     #GETALL AT ONCE
     options = []
@@ -65,7 +65,7 @@ def doPlot():
         Stacks.append(StackMaker(config,vars[i],region,SignalRegion))
         options.append(Stacks[i].options)
 
-    Plotter=HistoMaker(mcsamples+datasamples,path,config,options)
+    Plotter=HistoMaker(mcsamples+datasamples,path,config,options,GroupDict)
 
     #print '\nProducing Plot of %s\n'%vars[v]
     Lhistos = [[] for _ in range(0,len(vars))]
@@ -88,19 +88,21 @@ def doPlot():
     mass = Stacks[0].mass
 
     for job in mcsamples:
-        hTempList, typList = Plotter.get_histos_from_tree(job)
+        #hTempList, typList = Plotter.get_histos_from_tree(job)
+        hDictList = Plotter.get_histos_from_tree(job)
         if job.name == mass:
             print job.name
-            Overlaylist= deepcopy(hTempList)
+            Overlaylist= deepcopy([hDictList[v].values()[0] for v in range(0,len(vars))])
         for v in range(0,len(vars)):
-            Lhistos[v].append(hTempList[v])
-            Ltyps[v].append(Group[job.name])
+            Lhistos[v].append(hDictList[v].values()[0])
+            Ltyps[v].append(hDictList[v].keys()[0])
 
     for job in datasamples:
-        hTemp, typ = Plotter.get_histos_from_tree(job)
+        #hTemp, typ = Plotter.get_histos_from_tree(job)
+        dDictList = Plotter.get_histos_from_tree(job)
         for v in range(0,len(vars)):
-            Ldatas[v].append(hTemp[v])
-            Ldatatyps[v].append(typ[v])
+            Ldatas[v].append(dDictList[v].values()[0])
+            Ldatatyps[v].append(dDictList[v].keys()[0])
             Ldatanames[v].append(job.name)
 
     for v in range(0,len(vars)):
