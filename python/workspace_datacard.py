@@ -378,7 +378,7 @@ if toy:
     # for TH?
 
 else:
-    if blind: #not yet realy working...
+    if blind: #not yet realy working...?
         hDummy.SetName('data_obs')
         hDummy.Write()
         rooDataHist = ROOT.RooDataHist('data_obs','data_obs',obs, hDummy)
@@ -425,9 +425,9 @@ for DCtype in ['WS','TH']:
     f.write('shapes * * vhbb_%s_%s.root $CHANNEL%s$PROCESS $CHANNEL%s$PROCESS$SYSTEMATIC\n\n'%(DCtype,ROOToutname,DCprocessseparatordict[DCtype],DCprocessseparatordict[DCtype]))
     f.write('bin\t%s\n\n'%Datacardbin)
     if blind:
-        f.write('observation\t%s\n\n'%(int(hDummy.Integral())))
+        f.write('observation\t%s\n\n'%(hDummy.Integral()))
     else:
-        f.write('observation\t%s\n\n'%(int(theData.Integral())))
+        f.write('observation\t%s\n\n'%(theData.Integral()))
     # datacard bin
     f.write('bin')
     for c in range(0,columns): f.write('\t%s'%Datacardbin)

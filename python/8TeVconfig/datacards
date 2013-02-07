@@ -8,7 +8,7 @@ BDTrange = BDT output,10,-1,1
 BDToutname = CMS_vhbb_BDT_Zll_8TeV
 Mjjrange = 17,0.,255.
 #rebinning
-rebin_active = True
+rebin_active = False
 #Mjj-> False
 
 
@@ -40,8 +40,8 @@ signal_inject: None
 add_signal_as_bkg: None
 # blind Data
 blind: True
-# toy Datatoy
-toy: True
+# toy Data
+toy: False
 
 
 
