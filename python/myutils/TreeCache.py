@@ -4,7 +4,7 @@ import ROOT
 from samplesclass import Sample
 
 class TreeCache:
-    def __init__(self, cutList, sampleList, path, config = None):
+    def __init__(self, cutList, sampleList, path, config):
         ROOT.gROOT.SetBatch(True)
         self.path = path
         self._cutList = []
@@ -17,11 +17,9 @@ class TreeCache:
             print("\x1b[31;5;1m\n\t>>> %s: Please set your TMPDIR and try again... <<<\n\x1b[0m" %os.getlogin())
             sys.exit(-1)
 
-        self.__doCache = False
-        if config:
-            if config.has_option('Directories','tmpSamples'):
-                self.__tmpPath = config.get('Directories','tmpSamples')
-                self.__doCache = True
+        self.__doCache = True
+        if config.has_option('Directories','tmpSamples'):
+            self.__tmpPath = config.get('Directories','tmpSamples')
         self.__hashDict = {}
         self.minCut = None
         self.__find_min_cut()
@@ -30,6 +28,11 @@ class TreeCache:
         self.__cache_samples()
     
     def __find_min_cut(self):
+        effective_cuts = []
+        for cut in self._cutList:
+            if not cut in effective_cuts:
+                effective_cuts.append(cut)
+        self._cutList = effective_cuts
         self.minCut = '||'.join(self._cutList)
 
     def __trim_tree(self, sample):

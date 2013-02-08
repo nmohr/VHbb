@@ -77,6 +77,37 @@ class StackMaker:
         text.DrawLatex(ndcX,ndcY,txt)
         return text
 
+    def doCompPlot(self,aStack,l):
+        c = ROOT.TCanvas(self.var+'Comp','',600,600)
+        c.SetFillStyle(4000)
+        c.SetFrameFillStyle(1000)
+        c.SetFrameFillColor(0)
+        k=len(self.histos)
+        l.Clear()
+        maximum = 0.
+        for j in range(0,k):
+            #print histos[j].GetBinContent(1)
+            i=k-j-1
+            self.histos[i].SetLineColor(int(self.colorDict[self.typs[i]]))
+            self.histos[i].SetFillColor(0)
+            self.histos[i].SetLineWidth(3)
+            if self.histos[i].Integral() > 0.:
+                self.histos[i].Scale(1./self.histos[i].Integral())
+            if self.histos[i].GetMaximum() > maximum:
+                maximum = self.histos[i].GetMaximum()
+            l.AddEntry(self.histos[j],self.typLegendDict[self.typs[j]],'l')
+        aStack.SetMinimum(0.)
+        aStack.SetMaximum(maximum*1.5)
+        aStack.GetXaxis().SetTitle(self.xAxis)
+        aStack.Draw('HISTNOSTACK')
+        if self.overlay:
+            if self.overlay.Integral() > 0.:
+                self.overlay.Scale(1./self.overlay.Integral())
+            self.overlay.Draw('hist,same')
+            l.AddEntry(self.overlay,self.typLegendDict['Overlay'],'L')
+        l.Draw()
+        name = '%s/comp_%s' %(self.plotDir,self.options['pdfName'])
+        c.Print(name)
 
     def doPlot(self):
         TdrStyles.tdrStyle()
@@ -282,3 +313,4 @@ class StackMaker:
             os.makedirs(os.path.dirname(self.plotDir))
         name = '%s/%s' %(self.plotDir,self.options['pdfName'])
         c.Print(name)
+        self.doCompPlot(allStack,l)
