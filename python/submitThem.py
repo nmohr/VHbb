@@ -1,6 +1,9 @@
 #! /usr/bin/env python
 from optparse import OptionParser
 import sys
+import time
+import os
+import shutil
 
 parser = OptionParser()
 parser.add_option("-T", "--tag", dest="tag", default="",
@@ -11,7 +14,8 @@ parser.add_option("-M", "--mass", dest="mass", default="125",
 		      help="Mass for DC or Plots, 110...135")
 parser.add_option("-S","--samples",dest="samples",default="",
 		      help="samples you want to run on")
-
+parser.add_option("-F", "--folderTag", dest="ftag", default="",
+                      help="Creats a new folder structure for outputs or uses an existing one with the given name")
 (opts, args) = parser.parse_args(sys.argv)
 
 import os,shutil,pickle,subprocess,ROOT
@@ -27,15 +31,53 @@ if opts.task == "":
     print "Please provide a task.\n-J prep:\tpreparation of Trees\n-J sys:\t\twrite regression and systematics\n-J eval:\tcreate MVA output\n-J plot:\tproduce Plots\n-J dc:\t\twrite workspaces and datacards"
     sys.exit(123)
 
+
+en = opts.tag
+
 #create the list with the samples to run over
 samplesList=opts.samples.split(",")
 
-en = opts.tag
+timestamp = time.asctime().replace(' ','_').replace(':','-')
+
 configs = ['%sconfig/general'%(en),'%sconfig/paths'%(en),'%sconfig/plots'%(en),'%sconfig/training'%(en),'%sconfig/datacards'%(en),'%sconfig/cuts'%(en)]
-	
+
+pathconfig = BetterConfigParser()
+pathconfig.read('%sconfig/paths'%(en))
+
+if not opts.ftag == '':
+    tagDir = pathconfig.get('Directories','tagDir')
+    DirStruct={'tagDir':tagDir,'ftagdir':'%s/%s/'%(tagDir,opts.ftag),'logpath':'%s/%s/%s/'%(tagDir,opts.ftag,'Logs'),'plotpath':'%s/%s/%s/'%(tagDir,opts.ftag,'Plots'),'limitpath':'%s/%s/%s/'%(tagDir,opts.ftag,'Limits'),'confpath':'%s/%s/%s/'%(tagDir,opts.ftag,'config') }
+
+    for keys in ['tagDir','ftagdir','logpath','plotpath','limitpath','confpath']:
+        try:
+            os.stat(DirStruct[keys])
+        except:
+            os.mkdir(DirStruct[keys])
+
+    pathfile = open('%sconfig/paths'%(en))
+    buffer = pathfile.readlines()
+    pathfile.close()
+    os.rename('%sconfig/paths'%(en),'%sconfig/paths.bkp'%(en))
+    pathfile = open('%sconfig/paths'%(en),'w')
+    for line in buffer:
+        if line.startswith('plotpath'):
+            line = 'plotpath: %s\n'%DirStruct['plotpath']
+        elif line.startswith('logpath'):
+            line = 'logpath: %s\n'%DirStruct['logpath']
+        elif line.startswith('limits'):
+            line = 'limits: %s\n'%DirStruct['limitpath']
+        pathfile.write(line)
+    pathfile.close()
+
+    #copy config files
+    for item in configs:
+        shutil.copyfile(item,'%s/%s/%s'%(tagDir,opts.ftag,item.strip(en)))
+
+
 print configs
 config = BetterConfigParser()
 config.read(configs)
+
 btagLibrary = config.get('BTagReshaping','library')
 submitDir = os.getcwd()
 os.chdir(os.path.dirname(btagLibrary))
@@ -52,10 +94,10 @@ if( not os.path.isdir(logPath) ):
 	print 'Exit'
 	sys.exit(-1)
 
-repDict = {'en':en,'logpath':logPath,'job':'','task':opts.task,'queue': 'all.q'}
+repDict = {'en':en,'logpath':logPath,'job':'','task':opts.task,'queue': 'all.q','timestamp':timestamp}
 def submit(job,repDict):
 	repDict['job'] = job
-	command = 'qsub -V -cwd -q %(queue)s -l h_vmem=6G -N %(job)s_%(en)s%(task)s -o %(logpath)s/%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task
+	command = 'qsub -V -cwd -q %(queue)s -l h_vmem=6G -N %(job)s_%(en)s%(task)s -o %(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task
 	print command
 	subprocess.call([command], shell=True)
 
@@ -97,3 +139,4 @@ elif opts.task == 'eval' or opts.task == 'sys' or opts.task == 'syseval':
             submit(sample,repDict)
 
 os.system('qstat') 
+os.system('./qstat.py') 
