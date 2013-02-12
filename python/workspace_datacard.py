@@ -78,7 +78,8 @@ sys_affecting = eval(config.get('LimitGeneral','sys_affecting'))
 # weightF:
 weightF = config.get('Weights','weightF')
 weightF_sys = eval(config.get('LimitGeneral','weightF_sys'))
-
+# rescale stat shapes by sqrtN
+rescaleSqrtN=eval(config.get('LimitGeneral','rescaleSqrtN'))
 # get nominal cutstring:
 treecut = config.get('Cuts',RCut)
 # Train flag: splitting of samples
@@ -99,6 +100,8 @@ Dict= eval(config.get('LimitGeneral','Dict'))
 binstat = eval(config.get('LimitGeneral','binstat'))
 # Use the rebinning:
 rebin_active=eval(config.get('LimitGeneral','rebin_active'))
+# ignore stat shapes
+ignore_stats = eval(config.get('LimitGeneral','ignore_stats'))
 #max_rel = float(config.get('LimitGeneral','rebin_max_rel'))
 signal_inject=config.get('LimitGeneral','signal_inject')
 # add signal as background
@@ -143,7 +146,11 @@ info = ParseInfo(samplesinfo,path)
 all_samples = info.get_samples(signals+backgrounds+additionals)
 signal_samples = info.get_samples(signals) 
 background_samples = info.get_samples(backgrounds) 
-data_samples = info.get_samples(datas)
+data_sample_names=[]
+for item in datas:
+    if 'Zee' in item: data_sample_names.append('Zee')
+    if 'Zmm' in item: data_sample_names.append('Zmm')
+data_samples = info.get_samples(data_sample_names)
 #cache all samples
 #t_cache = TreeCache(cuts,all_samples,path)
 #cache datas
@@ -177,8 +184,9 @@ for syst in systematics:
             _weight = weightF
         #replace tree variable
         if bdt == True:
-            ff[1]='%s_%s'%(sys,Q.lower())
-            _treevar = nominalShape.replace('.nominal','.%s_%s'%(sys,Q.lower()))
+            #ff[1]='%s_%s'%(sys,Q.lower())
+            _treevar = treevar.replace('.nominal','.%s_%s'%(syst,Q.lower()))
+            print _treevar
         elif mjj == True:
             if sys == 'JER' or sys == 'JES':
                 _treevar = 'H_%s.mass_%s'%(sys,Q.lower())
@@ -220,8 +228,9 @@ if rebin_active:
     #transfer rebinning info to data maker
     data_hMaker.norebin_nBins = copy(mc_hMaker.norebin_nBins)
     data_hMaker.rebin_nBins = copy(mc_hMaker.rebin_nBins)
+    data_hMaker.nBins = copy(mc_hMaker.nBins)
+    data_hMaker._rebin = copy(mc_hMaker._rebin)
     data_hMaker.mybinning = deepcopy(mc_hMaker.mybinning)
-    data_hMaker.rebin = True
 
 #mc_hMaker.rebin = False
 #data_hMaker.rebin = False
@@ -331,17 +340,30 @@ if addSample_sys:
     del aUp
     final_histos['%s_Down'%(systematicsnaming['model'])]= HistoMaker.orderandadd(aDown,setup)
 
-#make statistical shapes:
-for Q in UD:
-    final_histos['%s_%s'%(systematicsnaming['stats'],Q)] = {}
-for job,hist in final_histos['nominal'].items():
+
+if not ignore_stats:
+    #make statistical shapes:
     for Q in UD:
-        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job] = hist.Clone()
+        final_histos['%s_%s'%(systematicsnaming['stats'],Q)] = {}
+    for job,hist in final_histos['nominal'].items():
+        errorsum=0
         for j in range(hist.GetNbinsX()+1):
-            if Q == 'Up':
-                final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)+hist.GetBinError(j)))
-            if Q == 'Down':
-                final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)))
+            errorsum=errorsum+(hist.GetBinError(j))**2
+        errorsum=sqrt(errorsum)
+        total=hist.Integral()
+        for Q in UD:
+            final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job] = hist.Clone()
+            for j in range(hist.GetNbinsX()+1):
+                if Q == 'Up':
+                    if rescaleSqrtN and total:
+                        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)+hist.GetBinError(j)/total*errorsum))
+                    else:
+                        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)+hist.GetBinError(j)))
+                if Q == 'Down':
+                    if rescaleSqrtN and total:
+                        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)/total*errorsum))
+                    else:
+                        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)))
 
 #write shapes in WS:
 for key in final_histos:
@@ -462,26 +484,27 @@ for DCtype in ['WS','TH']:
             else:
                 f.write('\t-')
         f.write('\n')
+    if not ignore_stats:
     # Write statistical shape variations
-    if binstat:
-        for c in setup:
-            for bin in range(0,nBins):
-                f.write('%s_%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], bin, options[10]))
+        if binstat:
+            for c in setup:
+                for bin in range(0,nBins):
+                    f.write('%s_%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], bin, options[10]))
+                    for it in range(0,columns):
+                        if it == setup.index(c):
+                            f.write('\t1.0')
+                        else:
+                            f.write('\t-')
+                    f.write('\n')
+        else:
+            for c in setup:
+                f.write('%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], options[10]))
                 for it in range(0,columns):
                     if it == setup.index(c):
                         f.write('\t1.0')
                     else:
                         f.write('\t-')
                 f.write('\n')
-    else:
-        for c in setup:
-            f.write('%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], options[10]))
-            for it in range(0,columns):
-                if it == setup.index(c):
-                    f.write('\t1.0')
-                else:
-                    f.write('\t-')
-            f.write('\n')
     # UEPS systematics
     if weightF_sys:
         f.write('UEPS\tshape')
