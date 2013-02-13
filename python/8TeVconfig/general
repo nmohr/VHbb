@@ -181,13 +181,16 @@ DYudsg: 'Zudsg','Zudsg1J','Zudsg2J','Zudsg3J','Zudsg4J','ZudsgHT200400','ZudsgHT
 DYc:    'Zcc',  'Zcc1J',  'Zcc2J',  'Zcc3J',  'Zcc4J',  'ZccHT200400',  'ZccHT400',  'Zcc5070',  'Zcc70100',  'Zcc100',  'Zcc180'
 DYb:    'Zbb',  'Zbb1J',  'Zbb2J',  'Zbb3J',  'Zbb4J',  'ZbbHT200400',  'ZbbHT400',  'Zbb5070',  'Zbb70100',  'Zbb100',  'Zbb180'
 Diboson:'ZZ','WW','WZ'
+Diboson_split: 'ZZ-light','ZZ-bb','WZ','WW'
 Top:    'TT'
 s_Top:  'ST_s','ST_t','ST_tW','STbar_s','STbar_t','STbar_tW'
 DrellYan: <!Samples|DYudsg!>,<!Samples|DYc!>,<!Samples|DYb!>
 
 allSIG: 'ZH110','ZH115','ZH120','ZH125','ZH130','ZH135'
 allBKG: <!Samples|DrellYan!>,<!Samples|Diboson!>,<!Samples|Top!>,<!Samples|s_Top!>
+allBKG_ZZsplit: <!Samples|DrellYan!>,<!Samples|Diboson_split!>,<!Samples|Top!>,<!Samples|s_Top!>
 #allBKG: <!Samples|Diboson!>,<!Samples|Top!>,<!Samples|s_Top!>
+BKG_VV_training: <!Samples|DrellYan!>,<!Samples|Top!>,<!Samples|s_Top!>,'WW','WZ'
 
 Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH',\
         'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight',\
@@ -196,10 +199,11 @@ Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135'
         'ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zcc180':'DYlight',\
         'Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb',\
         'ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','Zbb180':'DYb',\
-        'ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','ZZ-bb':'VV',\
+        'ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','ZZ-bb':'ZZ-bb',\
         'TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST',\
         'Zee':'Data','Zmm':'Data',\
-        'AltZZ':'AltVV','AltWZ':'AltVV'}
+        'AltZZ':'AltVV','AltWZ':'AltVV',\
+        'AltZZ-light':'AltVV','AltZZ-bb':'AltZZ-bb'}
 Group_falvoursplit: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH',\
         'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight',\
         'ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zudsg180':'DYlight',\
