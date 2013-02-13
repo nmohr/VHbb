@@ -101,6 +101,13 @@ def submit(job,repDict):
 	print command
 	subprocess.call([command], shell=True)
 
+if opts.task == 'train':
+    train_list = (config.get('MVALists','List_for_submitscript')).split(',')
+    print train_list
+    for item in train_list:
+        submit(item,repDict)
+
+
 if opts.task == 'dc':
     #DC_vars = config.items('Limit')
     DC_vars= (config.get('LimitGeneral','List')).split(',')

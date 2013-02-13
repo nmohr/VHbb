@@ -28,8 +28,9 @@ source /swshare/psit3/etc/profile.d/cms_ui_env.sh
 export SCRAM_ARCH="slc5_amd64_gcc462"
 source $VO_CMS_SW_DIR/cmsset_default.sh
 eval `scramv1 runtime -sh`
-export LD_PRELOAD="libglobus_gssapi_gsi_gcc64pthr.so.0":${LD_PRELOAD}
-
+#export LD_PRELOAD="libglobus_gssapi_gsi_gcc64pthr.so.0":${LD_PRELOAD}
+export LD_LIBRARY_PATH=/swshare/glite/globus/lib/:/swshare/glite/d-cache/dcap/lib64/:$LD_LIBRARY_PATH
+export LD_PRELOAD="libglobus_gssapi_gsi_gcc64pthr.so.0:${LD_PRELOAD}"
 mkdir $TMPDIR
 
 #back to the working dir
@@ -57,6 +58,9 @@ fi
 if [ $task = "syseval" ]; then
     ./write_regression_systematics.py -S $sample -C ${energy}config/general -C ${energy}config/paths
     ./evaluateMVA.py -D $MVAList -S $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training
+fi
+if [ $task = "train" ]; then
+    ./train.py -T $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training
 fi
 if [ $task = "plot" ]; then
     ./tree_stack.py -R $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/plots
