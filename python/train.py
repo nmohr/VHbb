@@ -65,11 +65,10 @@ TCut=config.get('Cuts',TCutname)
 
 #signals
 signals=config.get(run,'signals')
-signals=signals.split(' ')
+signals=eval(signals)
 #backgrounds
 backgrounds=config.get(run,'backgrounds')
-backgrounds=backgrounds.split(' ')
-
+backgrounds=eval(backgrounds)
 treeVarSet=config.get(run,'treeVarSet')
         
 #variables

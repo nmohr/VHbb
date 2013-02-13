@@ -8,29 +8,14 @@ SettingsMed = !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaB
 typeCut = Cuts
 SettingsTightCut= !H:!V:FitMethod=GA:EffSel
 
-
-backgrounds = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 WZ ZZ TT
-backgroundsNoDiboson = Zudsg Zudsg_pt120 Zbb Zbb_pt120 Zcc Zcc_pt120 TT
-
-
-#individual BKGds:
-#TT: TT
-TT : TT_FullLept TT_SemiLept
-ST : ST_s ST_t ST_tW STbar_s STbar_t STbar_tW
-DY: Zudsg Zudsg1J Zudsg2J Zudsg3J Zudsg4J ZudsgHT200400 ZudsgHT400 Zudsg5070 Zudsg70100 Zudsg100 Zudsg180 Zcc Zcc1J Zcc2J Zcc3J Zcc4J ZccHT200400 ZccHT400 Zcc5070 Zcc70100 Zcc100 Zbb180 Zbb Zbb1J Zbb2J Zbb3J Zbb4J ZbbHT200400 ZbbHT400 Zbb5070 Zbb70100 Zbb100 Zbb180
-VV: ZZ WW WZ
-
 #settings:
 SettingsTT = !H:!V:NTrees=300:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 SettingsDY = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 SettingsVV = !H:!V:NTrees=250:nEventsMin=250:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 
-#backgrounds8TeV: Zudsg Zudsg1J Zudsg2J Zudsg4J Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc4J Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb4J Zbb5070 Zbb70100 Zbb100 ZZ WW WZ TT 
 
-#backgrounds8TeV: Zudsg Zudsg1J Zudsg2J Zudsg3J Zudsg4J ZudsgHT200400 ZudsgHT400 Zudsg5070 Zudsg70100 Zudsg100 Zcc Zcc1J Zcc2J Zcc3J Zcc4J ZccHT200400 ZccHT400 Zcc5070 Zcc70100 Zcc100 Zbb Zbb1J Zbb2J Zbb3J Zbb4J ZbbHT200400 ZbbHT400 Zbb5070 Zbb70100 Zbb100 ZZ WW WZ TT ST_s ST_t ST_tW STbar_s STbar_t STbar_tW ZH125
-backgrounds8TeV: <!MVAGeneral|DY!> <!MVAGeneral|VV!> <!MVAGeneral|TT!> <!MVAGeneral|ST!> ZH125
+backgrounds8TeV: [<!Samples|allBKG!>] 
 
-Test: ZZ
 
 [factory]
 factoryname: MVA
@@ -46,8 +31,9 @@ factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Tr
 
 #List_for_submitscript: TT_HighPt_ZH125_nov
 #List_for_submitscript: DY_HighPt_ZH125_nov
-List_for_submitscript: VV_HighPt_ZH125_nov
+#List_for_submitscript: VV_HighPt_ZH125_nov
 
+List_for_submitscript: RTight_VV_feb,RMed_VV_feb
 
 #List_for_submitscript: RTight_ZH125_may,RMed_ZH125_may,RTight_ZH125_oct,RMed_ZH125_oct
 
@@ -56,172 +42,53 @@ List_for_submitscript: VV_HighPt_ZH125_nov
 [TT_HighPt_ZH125_nov]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsTT!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH125
-backgrounds: <!MVAGeneral|TT!>
+signals: ['ZH125']
+backgrounds: [<!Samples|Top!>]
 treeVarSet: treeVarsICHEP
 treeCut: RTight
 
 [DY_HighPt_ZH125_nov]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsDY!>
-path: <!Directories|TT_MVA_path!>
-signals: ZH125
-backgrounds: <!MVAGeneral|DY!>
+signals: ['ZH125']
+backgrounds: [<!Samples|DrellYan!>]
 treeVarSet: treeVarsICHEP
 treeCut: RTight_andTT
 
 [VV_HighPt_ZH125_nov]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsVV!>
-path: <!Directories|DY_MVA_path!>
-signals: ZH125
-backgrounds: <!MVAGeneral|VV!>
+signals: ['ZH125']
+backgrounds: [<!Samples|Diboson!>]
 treeVarSet: treeVarsICHEP
 treeCut: RTight_andDY
 
 
-
-
-
-[RTight_Mjj_opt]
-MVAtype: <!MVAGeneral|typeCut!>
-MVAsettings: <!MVAGeneral|SettingsTightCut!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH125
-backgrounds: <!MVAGeneral|Test!>
-treeVarSet: treeVarsNoMass
-treeCut: RTight
-
-
-##ZZ
-[RTight_ZZ_may]
+#--ZZ-bb training
+[RTight_VV_feb]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>
-signals: ZZ
-backgrounds: <!MVAGeneral|backgroundsNoDiboson!>
+signals: ['ZZ-bb']
+backgrounds: [<!Samples|BKG_VV_training!>]
 treeVarSet: treeVarsICHEP
 treeCut: RTight
 
-
-# old 7 TeV Training
-
-[RTight_ZH110_may]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>
-signals: ZH110
-backgrounds: <!MVAGeneral|backgrounds!>
-treeVarSet: treeVarsICHEP
-treeCut: RTigh
-
-[RTight_ZH115_may]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>
-signals: ZH115
-backgrounds: <!MVAGeneral|backgrounds!>
-treeVarSet: treeVarsICHEP
-treeCut: RTight
-
-[RTight_ZH120_may]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>
-signals: ZH120
-backgrounds: <!MVAGeneral|backgrounds!>
-treeVarSet: treeVarsICHEP
-treeCut: RTight
-
-[RTight_ZH125_may]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>
-signals: ZH125
-backgrounds: <!MVAGeneral|backgrounds!>
-treeVarSet: treeVarsICHEP
-treeCut: RTight
-
-[RTight_ZH130_may]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>
-signals: ZH130
-backgrounds: <!MVAGeneral|backgrounds!>
-treeVarSet: treeVarsICHEP
-treeCut: RTight
-
-[RTight_ZH135_may]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>
-signals: ZH135
-backgrounds: <!MVAGeneral|backgrounds!>
-treeVarSet: treeVarsICHEP
-treeCut: RTight
-
-[RMed_ZH110_may]
+[RMed_VV_feb]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>
-signals: ZH110
-backgrounds: <!MVAGeneral|backgrounds!>
+signals: ['ZZ-bb']
+backgrounds: [<!Samples|BKG_VV_training!>]
 treeVarSet: treeVarsICHEP
-treeCut: RMed
+treeCut: RMed_VV
+#---------------
 
-[RMed_ZH115_may]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>
-signals: ZH115
-backgrounds: <!MVAGeneral|backgrounds!>
-treeVarSet: treeVarsICHEP
-treeCut: RMed
 
-[RMed_ZH120_may]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>
-signals: ZH120
-backgrounds: <!MVAGeneral|backgrounds!>
-treeVarSet: treeVarsICHEP
-treeCut: RMed
-
-[RMed_ZH125_may]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>
-signals: ZH125
-backgrounds: <!MVAGeneral|backgrounds!>
-treeVarSet: treeVarsICHEP
-treeCut: RMed
-
-[RMed_ZH130_may]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>
-signals: ZH130
-backgrounds: <!MVAGeneral|backgrounds!>
-treeVarSet: treeVarsICHEP
-treeCut: RMed
-
-[RMed_ZH135_may]
-MVAtype: <!MVAGeneral|type!>
-MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>
-signals: ZH135
-backgrounds: <!MVAGeneral|backgrounds!>
-treeVarSet: treeVarsICHEP
-treeCut: RMed
-
-#new 8TeV Training
+# oct'12 8TeV Training
 
 [RTight_ZH110_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH110
+signals: ['ZH110']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTight
@@ -229,8 +96,7 @@ treeCut: RTight
 [RTight_ZH115_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH115
+signals: ['ZH115']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTight
@@ -238,8 +104,7 @@ treeCut: RTight
 [RTight_ZH120_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH120
+signals: ['ZH120']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTight
@@ -247,8 +112,7 @@ treeCut: RTight
 [RTight_ZH125_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH125
+signals: ['ZH125']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTight
@@ -256,8 +120,7 @@ treeCut: RTight
 [RTight_ZH130_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH130
+signals: ['ZH130']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTight
@@ -265,8 +128,7 @@ treeCut: RTight
 [RTight_ZH135_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsTight!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH135
+signals: ['ZH135']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTight
@@ -274,8 +136,7 @@ treeCut: RTight
 [RMed_ZH110_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH110
+signals: ['ZH110']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RMed
@@ -283,8 +144,7 @@ treeCut: RMed
 [RMed_ZH115_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH115
+signals: ['ZH115']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RMed
@@ -292,8 +152,7 @@ treeCut: RMed
 [RMed_ZH120_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH120
+signals: ['ZH120']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RMed
@@ -301,8 +160,7 @@ treeCut: RMed
 [RMed_ZH125_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH125
+signals: ['ZH125']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RMed
@@ -310,8 +168,7 @@ treeCut: RMed
 [RMed_ZH130_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH130
+signals: ['ZH130']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RMed
@@ -319,8 +176,7 @@ treeCut: RMed
 [RMed_ZH135_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsMed!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH135
+signals: ['ZH135']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RMed
@@ -328,8 +184,7 @@ treeCut: RMed
 [RTightLooseBTag_ZH110_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH110
+signals: ['ZH110']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTightLooseBTag
@@ -337,8 +192,7 @@ treeCut: RTightLooseBTag
 [RTightLooseBTag_ZH115_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH115
+signals: ['ZH115']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTightLooseBTag
@@ -346,8 +200,7 @@ treeCut: RTightLooseBTag
 [RTightLooseBTag_ZH120_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH120
+signals: ['ZH120']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTightLooseBTag
@@ -355,8 +208,7 @@ treeCut: RTightLooseBTag
 [RTightLooseBTag_ZH125_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH125
+signals: ['ZH125']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTightLooseBTag
@@ -364,8 +216,7 @@ treeCut: RTightLooseBTag
 [RTightLooseBTag_ZH130_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH130
+signals: ['ZH130']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTightLooseBTag
@@ -373,8 +224,7 @@ treeCut: RTightLooseBTag
 [RTightLooseBTag_ZH135_oct]
 MVAtype: <!MVAGeneral|type!>
 MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
-path: <!Directories|samplepath!>/env/sys/
-signals: ZH135
+signals: ['ZH135']
 backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsICHEP
 treeCut: RTightLooseBTag
