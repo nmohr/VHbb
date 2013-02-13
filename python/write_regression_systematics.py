@@ -125,7 +125,7 @@ for job in info:
     
     print '\t - %s' %(job.name)
     input = ROOT.TFile.Open(pathIN+job.get_path,'read')
-    output = ROOT.TFile.Open(pathOUT+job.get_path+'.root','recreate')
+    output = ROOT.TFile.Open(pathOUT+job.get_path,'recreate')
     #input = ROOT.TFile.Open(storagesamples+'/env/'+job.getpath(),'read')
     #output = ROOT.TFile.Open(path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
 
