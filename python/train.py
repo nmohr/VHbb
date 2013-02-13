@@ -17,6 +17,13 @@ parser.add_option("-T", "--training", dest="training", default="",
                       help="Training")
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
                       help="configuration file")
+parser.add_option("-S","--setting", dest="MVAsettings", default='',
+                      help="Parameter setting string")
+parser.add_option("-N","--name", dest="set_name", default='',
+                      help="Parameter setting name. Output files will have this name")
+parser.add_option("-L","--local",dest="local", default=True,
+                      help="True to run it locally. Default=False -> Run on batch system using config")
+
 (opts, args) = parser.parse_args(argv)
 if opts.config =="":
         opts.config = "config"
@@ -53,8 +60,26 @@ factoryname=config.get('factory','factoryname')
 factorysettings=config.get('factory','factorysettings')
 #MVA
 MVAtype=config.get(run,'MVAtype')
-MVAname=run
-MVAsettings=config.get(run,'MVAsettings')
+#MVA name. From local running or batch running different option
+if(opts.local):
+	MVAname=run
+elif(opts.set_name):
+	MVAname=opts.set_name
+else:
+	print 'Problem in configuration. Missing or inconsitent information Check input options'
+	sys.exit()	
+print MVAname
+
+#MVA settings. From local running or batch running different option
+if(opts.MVAsettings!=''):
+	MVAsettings=opts.MVAsettings
+elif(opts.local):
+	MVAsettings=config.get(run,'MVAsettings')
+else:
+	print 'Problem in configuration. Missing or inconsistent information. Check input options'
+	sys.exit()
+
+
 fnameOutput = MVAdir+factoryname+'_'+MVAname+'.root'
 #locations
 path=config.get('Directories','SYSout')
@@ -161,11 +186,63 @@ for var in MVA_Vars['Nominal']:
 factory.SetSignalWeightExpression(weightF)
 factory.SetBackgroundWeightExpression(weightF)
 factory.Verbose()
-factory.BookMethod(MVAtype,MVAname,MVAsettings)
-factory.TrainAllMethods()
+my_methodBase_bdt = factory.BookMethod(MVAtype,MVAname,MVAsettings)
+my_methodBase_bdt.TrainMethod()
+#factory.TrainAllMethods()
 factory.TestAllMethods()
 factory.EvaluateAllMethods()
 output.Write()
+
+
+#training performance parameters
+
+#output.ls()
+output.cd('Method_BDT')
+#ROOT.gDirectory.ls()
+ROOT.gDirectory.cd(MVAname)
+
+rocIntegral_default=my_methodBase_bdt.GetROCIntegral()
+roc_integral_test = my_methodBase_bdt.GetROCIntegral(ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_S'),ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_B'))
+roc_integral_train = my_methodBase_bdt.GetROCIntegral(ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_Train_S'),ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_Train_B'))
+significance = my_methodBase_bdt.GetSignificance()
+separation_test = my_methodBase_bdt.GetSeparation(ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_S'),ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_B'))
+separation_train = my_methodBase_bdt.GetSeparation(ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_Train_S'),ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_Train_B'))
+ks_signal = (ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_S')).KolmogorovTest(ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_Train_S'))
+ks_bkg= (ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_B')).KolmogorovTest(ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_Train_B'))
+
+
+print '@DEBUG: Test Integral'
+print ROOT.gDirectory.Get(factoryname+'_'+MVAname+'_S').Integral()
+print '@LOG: ROC integral (default)'
+print rocIntegral_default
+print '@LOG: ROC integral using signal and background'
+print roc_integral_test
+print '@LOG: ROC integral using train signal and background'
+print roc_integral_train
+print '@LOG: ROC integral ratio (Test/Train)'
+print roc_integral_test/roc_integral_train
+print '@LOG: Significance'
+print significance
+print '@LOG: Separation for test sample'
+print separation_test
+print '@LOG: Separation for test train'
+print separation_train
+print '@LOG: Kolmogorov test on signal'
+print ks_signal
+print '@LOG: Kolmogorov test on background'
+print ks_bkg
+
+#update the database
+import sqlite3 as lite
+
+con = lite.connect(MVAdir+'Trainings.db',timeout=10000) #timeout in milliseconds. default 5 sec
+
+with con: # here DB is locked
+	cur = con.cursor()
+	cur.execute("create table if not exists trainings (Roc_integral real, Separation real, Significance real, Ks_signal real, Ks_background real, Roc_integral_train real, Separation_train real, MVASettings text)");
+	cur.execute("insert into trainings values(?,?,?,?,?,?,?,?)",(roc_integral_test,separation_test,significance,ks_signal,ks_bkg,roc_integral_train,separation_train,MVAsettings));
+#here is unlocked
+
 
 #WRITE INFOFILE
 infofile = open(MVAdir+factoryname+'_'+MVAname+'.info','w')
