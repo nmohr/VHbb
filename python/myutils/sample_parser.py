@@ -4,6 +4,25 @@ from optparse import OptionParser
 from BetterConfigParser import BetterConfigParser
 from samplesclass import Sample
 
+def findnth(haystack, needle, n):
+        parts= haystack.split(needle, n+1)
+        if len(parts)<=n+1:
+            return -1
+        return len(haystack)-len(parts[-1])-len(needle)
+
+#it checks whether filename is a splitted sample or is a pure samples and returns the file name without the _#
+def checkSplittedSample(filename):
+	print 'checking if the sample is split'
+	print filename
+	try:
+		isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
+		print isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
+		return filename[:filename.rfind('_')]
+	except:
+		return filename
+	
+
+
 class ParseInfo:
     def __init__(self,samples_config,samples_path):
         try:
@@ -33,17 +52,26 @@ class ParseInfo:
         else:
             ls = os.popen("ls -l "+samples_path)
     
-        for line in ls.readlines():
-            self.__fileslist.append(line)
+	for line in ls.readlines():
+		if('.root' in line):
+			truncated_line = line[line.rfind('/')+1:]
+			_p = findnth(truncated_line,'.',2)
+			#print truncated_line[_p+1:]
+			self.__fileslist.append(truncated_line[_p+1:truncated_line.rfind('.')])
 
+	print self.__fileslist
+        for _sample in self.__fileslist:
 
-        for sample in config.sections():
-        
+#            sample = _sample[:_sample.rfind('root')-1]
+            sample = checkSplittedSample(_sample)
+	    #sample = _sample
             if not config.has_option(sample,'infile'): continue
-            infile = config.get(sample,'infile')
+            infile = _sample
             sampleName = config.get(sample,'sampleName')
-
-            if any(infile in file for file in self.__fileslist):
+	    print _sample
+#	    print config.sections()
+	    
+            if any(sample in file for file in config.sections()):
                 print 'Sample %s is present'%(sampleName)
             else:
                 warnings.warn('Sample %s is NOT! present'%(sampleName))
