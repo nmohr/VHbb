@@ -8,6 +8,10 @@ energy=$2
 
 task=$3
 
+job_id=$4
+
+additional_arg=$5
+
 if [ $# -lt 3 ]
     then
     echo "ERROR: You passed " $# "arguments while the script needs at least 3 arguments."
@@ -60,13 +64,32 @@ if [ $task = "syseval" ]; then
     ./evaluateMVA.py -D $MVAList -S $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training
 fi
 if [ $task = "train" ]; then
-    ./train.py -T $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training
+    ./train.py -T $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training -L False
 fi
 if [ $task = "plot" ]; then
     ./tree_stack.py -R $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/plots
 fi
 if [ $task = "dc" ]; then
     ./workspace_datacard.py -V $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/datacards
+fi
+if [ $task = "split" ]; then
+    ./split_tree.py -M $additional -S $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training 
+fi
+
+if [ $task = "mva_opt" ]; then
+    if [ $# -lt 5 ]
+	then
+	echo "@ERROR: You passed " $# "arguments while BDT optimisation needs at least 5 arguments."
+	echo "Exiting..."
+	echo " ---------------------------------- "
+	echo " Usage : ./runAll.sh sample energy task jo_id bdt_factory_settings"
+	echo " ---------------------------------- "
+	exit
+    fi
+    echo "BDT factory settings"
+    echo $additional_arg
+    echo "Runnning"
+    ./train.py -N ${sample} -T ${job_id} -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/training -C ${energy}config/cuts -S ${additional_arg} -L False
 fi
 
 rm -rf $TMPDIR
