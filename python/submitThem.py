@@ -16,9 +16,14 @@ parser.add_option("-S","--samples",dest="samples",default="",
 		      help="samples you want to run on")
 parser.add_option("-F", "--folderTag", dest="ftag", default="",
                       help="Creats a new folder structure for outputs or uses an existing one with the given name")
+parser.add_option("-N", "--number-of-events", dest="nevents_split", default=100000,
+                      help="Number of events per file when splitting.")
+parser.add_option("-P", "--philipp-love-progress-bars", dest="philipp_love_progress_bars", default=False,
+                      help="If you share the love of Philipp...")
+
 (opts, args) = parser.parse_args(sys.argv)
 
-import os,shutil,pickle,subprocess,ROOT
+import os,shutil,pickle,subprocess,ROOT,re
 ROOT.gROOT.SetBatch(True)
 from myutils import BetterConfigParser, Sample, ParseInfo
 import getpass
@@ -94,10 +99,10 @@ if( not os.path.isdir(logPath) ):
 	print 'Exit'
 	sys.exit(-1)
 
-repDict = {'en':en,'logpath':logPath,'job':'','task':opts.task,'queue': 'all.q','timestamp':timestamp}
+repDict = {'en':en,'logpath':logPath,'job':'','task':opts.task,'queue': 'all.q','timestamp':timestamp,'additional':'','job_id':''}
 def submit(job,repDict):
 	repDict['job'] = job
-	command = 'qsub -V -cwd -q %(queue)s -l h_vmem=6G -N %(job)s_%(en)s%(task)s -o %(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task
+	command = 'qsub -V -cwd -q %(queue)s -l h_vmem=6G -N %(job)s_%(en)s%(task)s -o %(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task + ' ' + repDict['job_id'] + ' ' + repDict['additional']
 	print command
 	subprocess.call([command], shell=True)
 
@@ -126,6 +131,7 @@ if opts.task == 'plot':
     for item in Plot_vars:
         submit(item,repDict)
 
+
 elif opts.task == 'dc':
     repDict['queue'] = 'all.q'
     for item in DC_vars:
@@ -137,13 +143,76 @@ elif opts.task == 'dc':
 elif opts.task == 'prep':
     submit('prepare',repDict)
 
-elif opts.task == 'eval' or opts.task == 'sys' or opts.task == 'syseval':
+elif opts.task == 'sys' or opts.task == 'syseval':
+    path = config.get("Directories","SYSin")
+    samplesinfo = config.get("Directories","samplesinfo")
+    info = ParseInfo(samplesinfo,path)
     if ( opts.samples == ""):
         for job in info:
+	    if (job.subsample): continue
             submit(job.name,repDict)
     else:
         for sample in samplesList:
             submit(sample,repDict)
 
-os.system('qstat') 
-os.system('./qstat.py') 
+elif opts.task == 'eval':
+    path = config.get("Directories","MVAin")
+    samplesinfo = config.get("Directories","samplesinfo")
+    info = ParseInfo(samplesinfo,path)
+    if ( opts.samples == ""):
+        for job in info:
+	    if (job.subsample): continue
+            submit(job.name,repDict)
+    else:
+        for sample in samplesList:
+            submit(sample,repDict)
+
+
+elif( opts.task == 'split' ):
+	path = config.get("Directories","SPLITin")
+	samplesinfo = config.get("Directories","samplesinfo")
+	repDict['additional']=opts.nevents_split
+	info = ParseInfo(samplesinfo,path)
+	if ( opts.samples == ""):
+		for job in info:
+			if (job.subsample): continue
+			submit(job.name,repDict)
+	else:
+		for sample in samplesList:
+			submit(sample,repDict)
+
+#BDT optimisation
+elif opts.task == 'mva_opt':
+	total_number_of_steps=1
+	setting = ''
+	for par in (config.get('Optimisation','parameters').split(',')):
+		scan_par=eval(config.get('Optimisation',par))
+		setting+=par+'='+str(scan_par[0])+':'
+		if len(scan_par) > 1 and scan_par[2] != 0:
+			total_number_of_steps+=scan_par[2]
+	setting=setting[:-1] # eliminate last column at the end of the setting string
+	print setting
+	repDict['additional']=setting
+	repDict['job_id']=config.get('Optimisation','training')
+	submit('OPT_main_set',repDict)
+	main_setting=setting
+
+	#Scanning all the parameters found in the training config in the Optimisation sector
+	for par in (config.get('Optimisation','parameters').split(',')):
+		scan_par=eval(config.get('Optimisation',par))
+		print par
+		if len(scan_par) > 1 and scan_par[2] != 0:
+			for step in range(scan_par[2]):
+				value = (scan_par[0])+((1+step)*(scan_par[1]-scan_par[0])/scan_par[2])
+				print value
+				setting=re.sub(par+'.*?:',par+'='+str(value)+':',main_setting)
+				repDict['additional']=setting
+#				repDict['job_id']=config.get('Optimisation','training')
+				submit('OPT_'+par+str(value),repDict)
+#				submit(config.get('Optimisation','training'),repDict)
+				print setting
+
+
+os.system('qstat')
+if (opts.philipp_love_progress_bars):
+	os.system('./qstat.py') 
