@@ -60,27 +60,26 @@ factoryname=config.get('factory','factoryname')
 factorysettings=config.get('factory','factorysettings')
 #MVA
 MVAtype=config.get(run,'MVAtype')
-#MVA name. From local running or batch running different option
-if(opts.local):
+#MVA name and settings. From local running or batch running different option
+print opts.local
+if(eval(opts.local)):
+	print 'Local run'
 	MVAname=run
-elif(opts.set_name):
+	MVAsettings=config.get(run,'MVAsettings')
+elif(opts.set_name!='' and opts.MVAsettings!=''):
+	print 'Batch run'
 	MVAname=opts.set_name
-else:
+	MVAsettings=opts.MVAsettings
+else :
 	print 'Problem in configuration. Missing or inconsitent information Check input options'
 	sys.exit()	
-print MVAname
-
-#MVA settings. From local running or batch running different option
-if(opts.MVAsettings!=''):
-	MVAsettings=opts.MVAsettings
-elif(opts.local):
-	MVAsettings=config.get(run,'MVAsettings')
-else:
-	print 'Problem in configuration. Missing or inconsistent information. Check input options'
-	sys.exit()
-
+print '@DEBUG: MVAname'
+print 'input : ' + opts.set_name
+print 'used : ' + MVAname
 
 fnameOutput = MVAdir+factoryname+'_'+MVAname+'.root'
+print '@DEBUG: output file name : ' + fnameOutput
+
 #locations
 path=config.get('Directories','SYSout')
 
@@ -234,9 +233,7 @@ print ks_bkg
 
 #update the database
 import sqlite3 as lite
-
 con = lite.connect(MVAdir+'Trainings.db',timeout=10000) #timeout in milliseconds. default 5 sec
-
 with con: # here DB is locked
 	cur = con.cursor()
 	cur.execute("create table if not exists trainings (Roc_integral real, Separation real, Significance real, Ks_signal real, Ks_background real, Roc_integral_train real, Separation_train real, MVASettings text)");
@@ -246,6 +243,9 @@ with con: # here DB is locked
 
 #WRITE INFOFILE
 infofile = open(MVAdir+factoryname+'_'+MVAname+'.info','w')
+print '@DEBUG: output infofile name'
+print infofile
+
 info=mvainfo(MVAname)
 info.factoryname=factoryname
 info.factorysettings=factorysettings
