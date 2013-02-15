@@ -10,18 +10,6 @@ def findnth(haystack, needle, n):
             return -1
         return len(haystack)-len(parts[-1])-len(needle)
 
-#it checks whether filename is a splitted sample or is a pure samples and returns the file name without the _#
-def checkSplittedSample(filename):
-	print 'checking if the sample is split'
-	print filename
-	try:
-		isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
-		print isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
-		return filename[:filename.rfind('_')]
-	except:
-		return filename
-	
-
 
 class ParseInfo:
     def __init__(self,samples_config,samples_path):
@@ -62,9 +50,7 @@ class ParseInfo:
 	print self.__fileslist
         for _sample in self.__fileslist:
 
-#            sample = _sample[:_sample.rfind('root')-1]
-            sample = checkSplittedSample(_sample)
-	    #sample = _sample
+            sample = self.checkSplittedSample(_sample)
             if not config.has_option(sample,'infile'): continue
             infile = _sample
             sampleName = config.get(sample,'sampleName')
@@ -120,16 +106,49 @@ class ParseInfo:
                 yield sample
 
     def get_sample(self, samplename):
-        for sample in self._samplelist:
-            if sample.name == samplename:
-                return sample
-        return None
+	    if (checkSplittedSampleName(samplename)):
+		    print('@WARNING: Running on splitted samples')
+	    for sample in self._samplelist:
+		    if sample.name == samplename:
+			    return sample
+		    return None
     
     def get_samples(self, samplenames):
-        samples = []
+        print '### GET SAMPLES ###'
+	samples = []
         thenames = []
-        for sample in self._samplelist:
-            if sample.name in samplenames:
-                samples.append(sample)
-                thenames.append(sample.name)
-        return samples
+        #for splitted samples use the identifier. There is always only one. if list, they are all true
+	print(self.checkSplittedSampleName(samplenames[0]))
+        if (self.checkSplittedSampleName(samplenames[0])):
+		for sample in self._samplelist:
+			print '@DEBUG: samplenames ' + samplenames[0]
+			print '@DEBUG: sample identifier ' + sample.identifier
+			if sample.identifier == samplenames[0]:
+				samples.append(sample)
+				thenames.append(sample.name)
+	#else check the name
+	else:
+		for sample in self._samplelist:
+			if sample.name in samplenames:
+				samples.append(sample)
+				thenames.append(sample.name)
+	return samples
+
+
+    #it checks whether filename is a splitted sample or is a pure samples and returns the file name without the _#
+    def checkSplittedSample(self, filename):
+	    print '### CHECKSPLITTEDSAMPLE ###'
+	    try:
+		    isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
+		    print isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
+		    return filename[:filename.rfind('_')]
+	    except:
+		    return filename
+
+    #bool
+    def checkSplittedSampleName(self,filename):
+	    print '### CHECKSPLITTEDSAMPLENAME ###'
+	    print filename
+	    return isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
+		   
+	    
