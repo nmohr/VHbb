@@ -105,6 +105,7 @@ class ParseInfo:
             if sample.active:
                 yield sample
 
+    #NOT USED. STILL NEEDED?
     def get_sample(self, samplename):
 	    if (checkSplittedSampleName(samplename)):
 		    print('@WARNING: Running on splitted samples')
@@ -121,6 +122,7 @@ class ParseInfo:
 	print(self.checkSplittedSampleName(samplenames[0]))
         if (self.checkSplittedSampleName(samplenames[0])):
 		for sample in self._samplelist:
+			if (sample.subsample): continue #avoid multiple submissions from subsamples
 			print '@DEBUG: samplenames ' + samplenames[0]
 			print '@DEBUG: sample identifier ' + sample.identifier
 			if sample.identifier == samplenames[0]:
@@ -130,6 +132,7 @@ class ParseInfo:
 	else:
 		for sample in self._samplelist:
 			if sample.name in samplenames:
+				if (sample.subsample): continue #avoid multiple submissions from subsamples
 				samples.append(sample)
 				thenames.append(sample.name)
 	return samples
