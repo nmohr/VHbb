@@ -25,7 +25,7 @@ parser.add_option("-P", "--philipp-love-progress-bars", dest="philipp_love_progr
 
 import os,shutil,pickle,subprocess,ROOT,re
 ROOT.gROOT.SetBatch(True)
-from myutils import BetterConfigParser, Sample, ParseInfo
+from myutils import BetterConfigParser, Sample, ParseInfo, sample_parser
 import getpass
 
 if opts.tag == "":
@@ -149,7 +149,8 @@ elif opts.task == 'sys' or opts.task == 'syseval':
     info = ParseInfo(samplesinfo,path)
     if ( opts.samples == ""):
         for job in info:
-	    if (job.subsample): continue
+	    if (job.subsample): continue #avoid multiple submissions form subsamples
+	    # TO FIX FOR SPLITTED SAMPLE
             submit(job.name,repDict)
     else:
         for sample in samplesList:
@@ -161,8 +162,11 @@ elif opts.task == 'eval':
     info = ParseInfo(samplesinfo,path)
     if ( opts.samples == ""):
         for job in info:
-	    if (job.subsample): continue
-            submit(job.name,repDict)
+	    if (job.subsample): continue #avoid multiple submissions from subsamples
+	    if(info.checkSplittedSampleName(job.identifier)): # if multiple entries for one name  (splitted samples) use the identifier to submit
+		    print '@INFO: Splitted samples: submit through identifier'
+		    submit(job.identifier,repDict)
+	    else: submit(job.name,repDict)
     else:
         for sample in samplesList:
             submit(sample,repDict)
