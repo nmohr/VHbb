@@ -144,6 +144,8 @@ class ParseInfo:
 	    try:
 		    isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
 		    print isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
+		    print '@DEBUG: fileName in CHECKSPLITTEDSAMPLE : ' + filename
+		    print '@DEBUG: return in CHECKSPLITTEDSAMPLE : ' + filename[:filename.rfind('_')]
 		    return filename[:filename.rfind('_')]
 	    except:
 		    return filename
@@ -152,6 +154,9 @@ class ParseInfo:
     def checkSplittedSampleName(self,filename):
 	    print '### CHECKSPLITTEDSAMPLENAME ###'
 	    print filename
-	    return isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
-		   
+	    # if there is an underscore in the filename
+	    if ( filename.rfind('_') > 0. ) :
+		    return isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
+	    else:
+		    return False
 	    
