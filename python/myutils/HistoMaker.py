@@ -18,11 +18,13 @@ class HistoMaker:
         self.cuts = []
         for options in optionsList:
             self.cuts.append(options['cut'])
+        print self.cuts
         #self.tc = TreeCache(self.cuts,samples,path) 
         self.tc = TreeCache(self.cuts,samples,path,config)
         self._rebin = False
         self.mybinning = None
         self.GroupDict=GroupDict
+        self.calc_rebin_flag = False
 
     def get_histos_from_tree(self,job):
         if self.lumi == 0: 
@@ -47,7 +49,7 @@ class HistoMaker:
                 group=self.GroupDict[job.name]
             treeVar=options['var']
             name=options['name']
-            if self._rebin:
+            if self._rebin or self.calc_rebin_flag:
                 nBins = self.nBins
             else:
                 nBins = int(options['nBins'])
@@ -61,7 +63,6 @@ class HistoMaker:
 
             if job.type != 'DATA':
                 if CuttedTree.GetEntries():
-                    
                     if 'RTight' in treeVar or 'RMed' in treeVar: 
                         drawoption = '(%s)*(%s)'%(weightF,BDT_add_cut)
                     else: 
@@ -71,7 +72,7 @@ class HistoMaker:
                 else:
                     full=False
             elif job.type == 'DATA':
-                if options['blind']:
+                if eval(options['blind']):
                     if treeVar == 'H.mass':
                         CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<90. || '+treeVar + '>150.' , "goff,e")
                     else:
@@ -89,7 +90,7 @@ class HistoMaker:
                 if 'RTight' in treeVar or 'RMed' in treeVar:
                     if TrainFlag:
                         MC_rescale_factor=2.
-                        print 'I RESCALE BY 2.0'
+                        #print 'I RESCALE BY 2.0'
                     else: 
                         MC_rescale_factor = 1.
                     ScaleFactor = self.tc.get_scale(job,self.config,self.lumi)*MC_rescale_factor
@@ -113,6 +114,7 @@ class HistoMaker:
                 gDict[group] = self.mybinning.rebin(hTree)
                 del hTree
             else: 
+                print 'not rebinning %s'%job.name 
                 gDict[group] = hTree
             hTreeList.append(gDict)
             CuttedTree.IsA().Destructor(CuttedTree)
@@ -141,7 +143,8 @@ class HistoMaker:
             return False
 
     def calc_rebin(self, bg_list, nBins_start=1000, tolerance=0.35):
-        self.norebin_nBins = self.nBins
+        self.calc_rebin_flag = True
+        self.norebin_nBins = copy(self.nBins)
         self.rebin_nBins = nBins_start
         self.nBins = nBins_start
         i=0
@@ -170,7 +173,7 @@ class HistoMaker:
             if not TotR == 0 and not ErrorR == 0:
                 rel=ErrorR/TotR
                 #print rel
-        #print 'upper bin is %s'%binR
+        print 'upper bin is %s'%binR
 
         #---- from left
         rel=1.0
@@ -183,13 +186,13 @@ class HistoMaker:
                 #print rel
         #it's the lower edge
         binL+=1
-        #print 'lower bin is %s'%binL
+        print 'lower bin is %s'%binL
 
         inbetween=binR-binL
         stepsize=int(inbetween)/(int(self.norebin_nBins)-2)
         modulo = int(inbetween)%(int(self.norebin_nBins)-2)
 
-        #print'stepsize %s'% stepsize
+        print 'stepsize %s'% stepsize
         #print 'modulo %s'%modulo
         binlist=[binL]
         for i in range(0,int(self.norebin_nBins)-3):
@@ -197,7 +200,7 @@ class HistoMaker:
         binlist[-1]+=modulo
         binlist.append(binR)
         binlist.append(self.rebin_nBins+1)
-
+        print 'binning set to %s'%binlist
         self.mybinning = Rebinner(int(self.norebin_nBins),array('d',[-1.0]+[totalBG.GetBinLowEdge(i) for i in binlist]),True)
         self._rebin = True
         print '\t > rebinning is set <\n'

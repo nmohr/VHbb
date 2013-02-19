@@ -7,7 +7,7 @@ from Ratio import getRatio
 from HistoMaker import HistoMaker
 
 class StackMaker:
-    def __init__(self, config, var,region,SignalRegion):
+    def __init__(self, config, var,region,SignalRegion,setup=None):
         section='Plot:%s'%region
         self.var = var
         self.SignalRegion=SignalRegion
@@ -16,11 +16,16 @@ class StackMaker:
         if config.has_option('plotDef:%s'%var,'log') and not self.log:
             self.log = eval(config.get('plotDef:%s'%var,'log'))
         self.blind = eval(config.get(section,'blind'))
-        self.setup=config.get('Plot_general','setup')
-        if self.log:
-            self.setup=config.get('Plot_general','setupLog')
-        self.setup=self.setup.split(',')
-        if not SignalRegion: self.setup.remove('ZH')
+        if self.blind: blindopt='True'
+        else: blindopt = 'False'
+        if setup is None:
+            self.setup=config.get('Plot_general','setup')
+            if self.log:
+                self.setup=config.get('Plot_general','setupLog')
+            self.setup=self.setup.split(',')
+        else:
+            self.setup=setup
+        #if not SignalRegion: self.setup.remove('ZH')
         self.rebin = 1
         if config.has_option(section,'rebin'):
             self.rebin = eval(config.get(section,'rebin'))
@@ -43,7 +48,10 @@ class StackMaker:
         if '<mass>' in self.name:
             self.name = self.name.replace('<mass>',self.mass)
             print self.name
-        cut = config.get('Cuts',region)
+        if config.has_option('Cuts',region):
+            cut = config.get('Cuts',region)
+        else:
+            cut = None
         if config.has_option(section, 'Datacut'):
             cut=config.get(section, 'Datacut')
 
@@ -51,8 +59,11 @@ class StackMaker:
         self.typLegendDict=eval(config.get('Plot_general','typLegendDict'))
         self.anaTag = config.get("Analysis","tag")
         self.xAxis = config.get('plotDef:%s'%var,'xAxis')
-        self.options = {'var': self.name,'name':'','xAxis': self.xAxis, 'nBins': self.nBins, 'xMin': self.xMin, 'xMax': self.xMax,'pdfName': '%s_%s_%s.pdf'%(region,var,self.mass),'cut':cut,'mass': self.mass, 'data': data, 'blind': self.blind}
-        self.options['weight'] = config.get('Weights','weightF')
+        self.options = {'var': self.name,'name':'','xAxis': self.xAxis, 'nBins': self.nBins, 'xMin': self.xMin, 'xMax': self.xMax,'pdfName': '%s_%s_%s.pdf'%(region,var,self.mass),'cut':cut,'mass': self.mass, 'data': data, 'blind': blindopt}
+        if config.has_option('Weights','weightF'):
+            self.options['weight'] = config.get('Weights','weightF')
+        else:
+            self.options['weight'] = None
         self.plotDir = config.get('Directories','plotpath')
         self.maxRatioUncert = 0.5
         if self.SignalRegion:
