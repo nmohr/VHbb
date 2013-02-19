@@ -64,6 +64,7 @@ def doPlot():
     for i in range(len(vars)):
         Stacks.append(StackMaker(config,vars[i],region,SignalRegion))
         options.append(Stacks[i].options)
+    print options
 
     Plotter=HistoMaker(mcsamples+datasamples,path,config,options,GroupDict)
 
