@@ -109,7 +109,7 @@ for job in samples:
     tree = input.Get(job.tree)
     nEntries = tree.GetEntries()
     outfile.cd()
-    newtree = tree.CopyTree('V.pt > 100') #hard skim to get faster
+    newtree = tree.CopyTree() #hard skim to get faster
     input.Close()
             
     #Set branch adress for all vars
