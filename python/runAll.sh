@@ -64,16 +64,16 @@ if [ $task = "syseval" ]; then
     ./evaluateMVA.py -D $MVAList -S $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training
 fi
 if [ $task = "train" ]; then
-    ./train.py -T $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training -L False
+    ./train.py -T $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training -L True
 fi
 if [ $task = "plot" ]; then
     ./tree_stack.py -R $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/plots
 fi
 if [ $task = "dc" ]; then
-    ./workspace_datacard.py -V $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/datacards
+    ./workspace_datacard.py -V $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/datacards -C ${energy}config/plots
 fi
 if [ $task = "split" ]; then
-    ./split_tree.py -M $additional -S $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training 
+    ./split_tree.py -S $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training -M $job_id
 fi
 
 if [ $task = "mva_opt" ]; then

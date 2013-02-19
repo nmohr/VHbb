@@ -12,6 +12,7 @@ warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='crea
 from optparse import OptionParser
 import pickle
 
+
 #CONFIGURE
 ROOT.gROOT.SetBatch(True)
 print('hello')
@@ -87,6 +88,7 @@ for mva in MVAinfos:
 #eval
 
 samples = info.get_samples(namelist)
+print(samples)
 for job in samples:
     #get trees:
     print(INpath+'/'+job.prefix+job.identifier+'.root')
@@ -107,11 +109,12 @@ for job in samples:
     tree = input.Get(job.tree)
     nEntries = tree.GetEntries()
     outfile.cd()
-    newtree = tree.CloneTree(0)
+    newtree = tree.CopyTree('V.pt > 100') #hard skim to get faster
+    input.Close()
             
     #Set branch adress for all vars
     for i in range(0,len(theMVAs)):
-        theMVAs[i].setVariables(tree,job)
+        theMVAs[i].setVariables(newtree,job)
     outfile.cd()
     #Setup Branches
     mvaVals=[]
@@ -124,20 +127,9 @@ for job in samples:
             newtree.Branch(theMVAs[i].MVAname,mvaVals[i],'nominal:JER_up:JER_down:JES_up:JES_down:beff_up:beff_down:bmis_up:bmis_down:beff1_up:beff1_down/F')
         MVA_formulas_Nominal = []
         print('\n--> ' + job.name +':')
-    #progbar setup
-    if nEntries >= longe:
-        step=long(nEntries/longe)
-        long=longe
-    else:
-        long=nEntries
-        step = 1
-    bar=progbar(long)
     #Fill event by event:
     for entry in range(0,nEntries):
-        if entry % step == 0:
-            bar.move()
-        #load entry
-        tree.GetEntry(entry)
+        newtree.GetEntry(entry)
                             
         for i in range(0,len(theMVAs)):
             theMVAs[i].evaluate(mvaVals[i],job)

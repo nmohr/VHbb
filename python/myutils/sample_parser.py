@@ -132,7 +132,7 @@ class ParseInfo:
 	else:
 		for sample in self._samplelist:
 			if sample.name in samplenames:
-				if (sample.subsample): continue #avoid multiple submissions from subsamples
+				#if (sample.subsample): continue #avoid multiple submissions from subsamples
 				samples.append(sample)
 				thenames.append(sample.name)
 	return samples

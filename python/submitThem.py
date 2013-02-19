@@ -133,7 +133,7 @@ if opts.task == 'plot':
 
 
 elif opts.task == 'dc':
-    repDict['queue'] = 'all.q'
+    repDict['queue'] = 'short.q'
     for item in DC_vars:
         if 'ZH%s'%opts.mass in item:
             submit(item,repDict) 
@@ -175,11 +175,11 @@ elif opts.task == 'eval':
 elif( opts.task == 'split' ):
 	path = config.get("Directories","SPLITin")
 	samplesinfo = config.get("Directories","samplesinfo")
-	repDict['additional']=opts.nevents_split
+	repDict['job_id']=opts.nevents_split
 	info = ParseInfo(samplesinfo,path)
-	if ( opts.samples == ""):
+	if ( opts.samples == "" ):
 		for job in info:
-			if (job.subsample): continue
+			if (job.subsample): continue #avoid multiple submissions from subsamples
 			submit(job.name,repDict)
 	else:
 		for sample in samplesList:
