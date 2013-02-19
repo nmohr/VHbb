@@ -156,7 +156,10 @@ class ParseInfo:
 	    print filename
 	    # if there is an underscore in the filename
 	    if ( filename.rfind('_') > 0. ) :
-		    return isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
+		    try:
+			    return isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
+		    except:
+			    return False
 	    else:
 		    return False
 	    
