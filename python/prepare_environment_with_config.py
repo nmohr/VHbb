@@ -24,4 +24,6 @@ prefix=config.get('General','prefix')
 info = ParseInfo(samplesinfo,pathIN)
 
 for job in info:
+    if job.subsample:
+        continue
     copytree(pathIN,pathOUT,prefix,job.prefix,job.identifier,'',job.addtreecut)
