@@ -107,9 +107,9 @@ for job in samples:
         #print key.GetName()
         obj.Write(key.GetName())
     tree = input.Get(job.tree)
-    nEntries = tree.GetEntries()
     outfile.cd()
-    newtree = tree.CopyTree('') #hard skim to get faster
+    newtree = tree.CopyTree('V.pt > 100') #hard skim to get faster
+    nEntries = newtree.GetEntries()
     input.Close()
             
     #Set branch adress for all vars
