@@ -107,14 +107,13 @@ for job in samples:
         #print key.GetName()
         obj.Write(key.GetName())
     tree = input.Get(job.tree)
+    nEntries = tree.GetEntries()
     outfile.cd()
-    newtree = tree.CopyTree('V.pt > 100') #hard skim to get faster
-    nEntries = newtree.GetEntries()
-    input.Close()
+    newtree = tree.CloneTree(0)
             
     #Set branch adress for all vars
     for i in range(0,len(theMVAs)):
-        theMVAs[i].setVariables(newtree,job)
+        theMVAs[i].setVariables(tree,job)
     outfile.cd()
     #Setup Branches
     mvaVals=[]
@@ -129,7 +128,7 @@ for job in samples:
         print('\n--> ' + job.name +':')
     #Fill event by event:
     for entry in range(0,nEntries):
-        newtree.GetEntry(entry)
+        tree.GetEntry(entry)
                             
         for i in range(0,len(theMVAs)):
             theMVAs[i].evaluate(mvaVals[i],job)
