@@ -51,7 +51,7 @@ EOF`
 #Run the scripts
 
 if [ $task = "prep" ]; then
-    ./prepare_environment_with_config.py -C ${energy}config/samples_nosplit.cfg -C ${energy}config/paths
+    ./prepare_environment_with_config.py -S $sample -C ${energy}config/samples_nosplit.cfg -C ${energy}config/paths
 fi
 if [ $task = "sys" ]; then
     ./write_regression_systematics.py -S $sample -C ${energy}config/general -C ${energy}config/paths

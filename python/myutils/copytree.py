@@ -1,7 +1,5 @@
 import ROOT 
-from ROOT import TFile
 from printcolor import printc
-
         
 def copytree(pathIN,pathOUT,prefix,newprefix,file,Aprefix,Acut):
 
@@ -9,8 +7,8 @@ def copytree(pathIN,pathOUT,prefix,newprefix,file,Aprefix,Acut):
     print "Input File : %s/%s%s.root " %(pathIN,prefix,file)
     print "Output File : %s/%s%s%s.root" %(pathOUT,newprefix,Aprefix,file)
         
-    input = TFile.Open("%s/%s%s.root" %(pathIN,prefix,file),'read')
-    output = TFile.Open("%s/%s%s%s.root" %(pathOUT,newprefix,Aprefix,file),'recreate')
+    input = ROOT.TFile.Open("%s/%s%s.root" %(pathIN,prefix,file),'read')
+    output = ROOT.TFile.Open("%s/%s%s%s.root" %(pathOUT,newprefix,Aprefix,file),'recreate')
 
     input.cd()
     obj = ROOT.TObject
@@ -32,12 +30,8 @@ def copytree(pathIN,pathOUT,prefix,newprefix,file,Aprefix,Acut):
     kEntries = outputTree.GetEntries()
     printc('blue','',"\t before cuts\t %s" %nEntries)
     printc('green','',"\t survived\t %s" %kEntries)
-    #print "\t Factor for Scaling is %s" %factor
     outputTree.AutoSave()
     output.ls()
-    #Count.Scale(factor)
-    #CountWithPU.Scale(factor)
-    #CountWithPU2011B.Scale(factor)
     print "Writing output file"
     output.Write()
     print "Closing output file"

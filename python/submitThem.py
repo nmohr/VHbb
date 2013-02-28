@@ -141,8 +141,16 @@ elif opts.task == 'dc':
             submit(item,repDict)
             
 elif opts.task == 'prep':
-    submit('prepare',repDict)
+    if ( opts.samples == ""):
+        path = config.get("Directories","PREPin")
+        samplesinfo = config.get("Directories","samplesinfo")
+        info = ParseInfo(samplesinfo,path)
+        for job in info:
+            submit(job.name,repDict)
 
+    else:
+        for sample in samplesList:
+            submit(sample,repDict)
 elif opts.task == 'sys' or opts.task == 'syseval':
     path = config.get("Directories","SYSin")
     samplesinfo = config.get("Directories","samplesinfo")
