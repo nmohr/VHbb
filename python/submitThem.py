@@ -92,19 +92,30 @@ shutil.copyfile(os.path.basename(btagLibrary),'/scratch/%s/%s'%(getpass.getuser(
 shutil.copyfile('/scratch/%s/%s'%(getpass.getuser(),os.path.basename(btagLibrary)),btagLibrary)
 os.chdir(submitDir)
 logPath = config.get("Directories","logpath")
+logo = open('%s/data/submit.txt' %config.get('Directories','vhbbpath')).readlines()
+counter = 0
+
 #check if the logPath exist. If not exit
 if( not os.path.isdir(logPath) ):
-	print 'ERROR: ' + logPath + ': dir not found.'
-	print 'ERROR: Create it before submitting '
-	print 'Exit'
-	sys.exit(-1)
+    print 'ERROR: ' + logPath + ': dir not found.'
+    print 'ERROR: Create it before submitting '
+    print 'Exit'
+    sys.exit(-1)
+    
 
 repDict = {'en':en,'logpath':logPath,'job':'','task':opts.task,'queue': 'all.q','timestamp':timestamp,'additional':'','job_id':''}
 def submit(job,repDict):
-	repDict['job'] = job
-	command = 'qsub -V -cwd -q %(queue)s -l h_vmem=6G -N %(job)s_%(en)s%(task)s -o %(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task + ' ' + repDict['job_id'] + ' ' + repDict['additional']
-	print command
-	subprocess.call([command], shell=True)
+    global counter
+    repDict['job'] = job
+    nJob = counter % len(logo)
+    counter += 1
+    if opts.philipp_love_progress_bars:
+        repDict['name'] = '"%s"' %logo[nJob].strip()
+    else:
+        repDict['name'] = '%(job)s_%(en)s%(task)s' %repDict
+    command = 'qsub -V -cwd -q %(queue)s -l h_vmem=6G -N %(name)s -o %(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task + ' ' + repDict['job_id'] + ' ' + repDict['additional']
+    print command
+    subprocess.call([command], shell=True)
 
 if opts.task == 'train':
     train_list = (config.get('MVALists','List_for_submitscript')).split(',')
@@ -157,8 +168,9 @@ elif opts.task == 'sys' or opts.task == 'syseval':
     info = ParseInfo(samplesinfo,path)
     if ( opts.samples == ""):
         for job in info:
-	    if (job.subsample): continue #avoid multiple submissions form subsamples
-	    # TO FIX FOR SPLITTED SAMPLE
+            if (job.subsample): 
+                continue #avoid multiple submissions form subsamples
+            # TO FIX FOR SPLITTED SAMPLE
             submit(job.name,repDict)
     else:
         for sample in samplesList:
@@ -170,11 +182,12 @@ elif opts.task == 'eval':
     info = ParseInfo(samplesinfo,path)
     if ( opts.samples == ""):
         for job in info:
-	    if (job.subsample): continue #avoid multiple submissions from subsamples
-	    if(info.checkSplittedSampleName(job.identifier)): # if multiple entries for one name  (splitted samples) use the identifier to submit
-		    print '@INFO: Splitted samples: submit through identifier'
-		    submit(job.identifier,repDict)
-	    else: submit(job.name,repDict)
+            if (job.subsample): 
+                continue #avoid multiple submissions from subsamples
+            if(info.checkSplittedSampleName(job.identifier)): # if multiple entries for one name  (splitted samples) use the identifier to submit
+                print '@INFO: Splitted samples: submit through identifier'
+                submit(job.identifier,repDict)
+            else: submit(job.name,repDict)
     else:
         for sample in samplesList:
             submit(sample,repDict)
