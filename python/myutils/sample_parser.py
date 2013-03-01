@@ -11,6 +11,22 @@ def findnth(haystack, needle, n):
         return len(haystack)-len(parts[-1])-len(needle)
 
 
+def test_samples(run_on_fileList,__fileslist,config_sections):
+	for _listed_file,_config_entry in map(None,__fileslist,config_sections): # loop in both, fileList and config
+		if( run_on_fileList and _listed_file == None ): # check the option to know whether to run in fileList mode or in config mode
+			return False
+		elif( (not run_on_fileList) and _config_entry == None ):
+			return False
+		else: return True
+
+def check_correspondency(sample,list,config):
+	if any( sample in file for file in list ):
+		print '@INFO: Sample %s is present'%(config.get(sample,'sampleName'))
+	else:
+		warnings.warn('@INFO: Sample %s is NOT! present'%(config.get(sample,'sampleName')))
+		warnings.warn("@INFO: File %s not present"%(config.get(sample,'infile')))
+
+
 class ParseInfo:
     def __init__(self,samples_config,samples_path):
         try:
@@ -47,21 +63,36 @@ class ParseInfo:
 			#print truncated_line[_p+1:]
 			self.__fileslist.append(truncated_line[_p+1:truncated_line.rfind('.')])
 
-	print self.__fileslist
-        for _sample in self.__fileslist:
+	print '@DEBUG: ' + str(self.__fileslist)
+
+	run_on_fileList = eval(config.get('Samples_running','run_from_config'))
+
+	if( not test_samples(run_on_fileList,self.__fileslist,config.sections()) ): # stop if it finds None as sample
+		sys.exit('@ERROR: Sample == None. Check RunOnFileList flag in section General, the sample_config of the sample directory.')
+
+        for _listed_file,_config_entry in map(None,self.__fileslist,config.sections()): # loop in both, fileList and config
+	    if( run_on_fileList ): # check the option to know whether to run in fileList mode or in config mode
+	        _sample = _listed_file
+		self._list = self.__fileslist
+	    else:
+	        _sample = _config_entry
+		self._list = config.sections()
 
             sample = self.checkSplittedSample(_sample)
             if not config.has_option(sample,'infile'): continue
             infile = _sample
             sampleName = config.get(sample,'sampleName')
 	    print _sample
-#	    print config.sections()
 	    
-            if any(sample in file for file in config.sections()):
-                print 'Sample %s is present'%(sampleName)
-            else:
-                warnings.warn('Sample %s is NOT! present'%(sampleName))
-                warnings.warn("File %s not present"%(infile))
+	    check_correspondency(sample,self._list,config)
+	    
+# 	        if ( run_on_file_list and any( sample in file for file in config.sections() ) ) or ( !run_on_file_list and any (sample in file for file in self.__fileList) ):
+# 		    print 'Sample %s is present'%(sampleName)
+# 		else:
+# 		    warnings.warn('Sample %s is NOT! present'%(sampleName))
+# 		    warnings.warn("File %s not present"%(infile))
+		    
+	    
             #Initialize samplecalss element
             sampleType = config.get(sample,'sampleType')
             cut = config.get(sample, 'cut')
