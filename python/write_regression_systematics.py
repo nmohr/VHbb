@@ -7,8 +7,8 @@ import shutil
 from array import array
 import warnings
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
-from optparse import OptionParser
 ROOT.gROOT.SetBatch(True)
+from optparse import OptionParser
 
 #usage: ./write_regression_systematic.py path
 
@@ -87,8 +87,6 @@ def csvReshape(sh, pt, eta, csv, flav):
 
 for job in info:
     if not job.name in namelist: continue
-    #print job.name
-    #if job.name != 'ZH120': continue
     ROOT.gROOT.ProcessLine(
         "struct H {\
         int         HiggsFlag;\
@@ -114,7 +112,7 @@ for job in info:
         btagFUp.computeFunctions(0.,+1.)
         btagFDown = BTagShape("../data/csvdiscr.root")
         btagFDown.computeFunctions(0.,-1.)
-    elif anaTag == '8TeV':
+    else:
         ROOT.gSystem.Load(btagLibrary)
         from ROOT import BTagShapeInterface
         btagNom = BTagShapeInterface("../data/csvdiscr.root",0,0)
@@ -123,23 +121,37 @@ for job in info:
         btagFUp = BTagShapeInterface("../data/csvdiscr.root",0,+1.)
         btagFDown = BTagShapeInterface("../data/csvdiscr.root",0,-1.)
     
+    lhe_weight_map = False if not config.has_option('LHEWeights', 'weights_per_bin') else eval(config.get('LHEWeights', 'weights_per_bin'))
+    
+    
     print '\t - %s' %(job.name)
     input = ROOT.TFile.Open(pathIN+job.get_path,'read')
     output = ROOT.TFile.Open(pathOUT+job.get_path,'recreate')
-    #input = ROOT.TFile.Open(storagesamples+'/env/'+job.getpath(),'read')
-    #output = ROOT.TFile.Open(path+'/sys/'+job.prefix+job.identifier+'.root','recreate')
 
     input.cd()
-    obj = ROOT.TObject
-    for key in ROOT.gDirectory.GetListOfKeys():
-        input.cd()
-        obj = key.ReadObj()
-        #print obj.GetName()
-        if obj.GetName() == job.tree:
-            continue
-        output.cd()
-        #print key.GetName()
-        obj.Write(key.GetName())
+    if lhe_weight_map and 'DY' in job.name:
+        inclusiveJob = info.get_sample('DY')
+        print inclusiveJob.name
+        inclusive = ROOT.TFile.Open(pathIN+inclusiveJob.get_path,'read')
+        inclusive.cd()
+        obj = ROOT.TObject
+        for key in ROOT.gDirectory.GetListOfKeys():
+            input.cd()
+            obj = key.ReadObj()
+            if obj.GetName() == job.tree:
+                continue
+            output.cd()
+            obj.Write(key.GetName())
+        inclusive.Close()
+    else:
+        obj = ROOT.TObject
+        for key in ROOT.gDirectory.GetListOfKeys():
+            input.cd()
+            obj = key.ReadObj()
+            if obj.GetName() == job.tree:
+                continue
+            output.cd()
+            obj.Write(key.GetName())
         
     input.cd()
     tree = input.Get(job.tree)
@@ -153,15 +165,15 @@ for job in info:
         
     hJ0 = ROOT.TLorentzVector()
     hJ1 = ROOT.TLorentzVector()
-    hFJ0 = ROOT.TLorentzVector()
-    hFJ1 = ROOT.TLorentzVector()
+    #hFJ0 = ROOT.TLorentzVector()
+    #hFJ1 = ROOT.TLorentzVector()
         
     regWeight = config.get("Regression","regWeight")
     regDict = eval(config.get("Regression","regDict"))
     regVars = eval(config.get("Regression","regVars"))
-    regWeightFilterJets = config.get("Regression","regWeightFilterJets")
-    regDictFilterJets = eval(config.get("Regression","regDictFilterJets"))
-    regVarsFilterJets = eval(config.get("Regression","regVarsFilterJets"))
+    #regWeightFilterJets = config.get("Regression","regWeightFilterJets")
+    #regDictFilterJets = eval(config.get("Regression","regDictFilterJets"))
+    #regVarsFilterJets = eval(config.get("Regression","regVarsFilterJets"))
           
     #Regression branches
     applyRegression = True
@@ -169,8 +181,8 @@ for job in info:
     hJet_e = array('f',[0]*2)
     newtree.Branch( 'H', H , 'HiggsFlag/I:mass/F:pt/F:eta/F:phi/F:dR/F:dPhi/F:dEta/F' )
     newtree.Branch( 'HNoReg', HNoReg , 'HiggsFlag/I:mass/F:pt/F:eta/F:phi/F:dR/F:dPhi/F:dEta/F' )
-    FatHReg = array('f',[0]*2)
-    newtree.Branch('FatHReg',FatHReg,'filteredmass:filteredpt/F')
+    #FatHReg = array('f',[0]*2)
+    #newtree.Branch('FatHReg',FatHReg,'filteredmass:filteredpt/F')
     Event = array('f',[0])
     METet = array('f',[0])
     rho25 = array('f',[0])
@@ -230,15 +242,15 @@ for job in info:
     readerJet0.BookMVA( "jet0Regression", regWeight )
     readerJet1.BookMVA( "jet1Regression", regWeight )
     
-    readerFJ0 = ROOT.TMVA.Reader("!Color:!Silent" )
-    readerFJ1 = ROOT.TMVA.Reader("!Color:!Silent" )
-    theFormsFJ = {}
-    theVars0FJ = {}
-    theVars1FJ = {}
-    addVarsToReader(readerFJ0,regDictFilterJets,regVarsFilterJets,theVars0FJ,theFormsFJ,0,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray)    
-    addVarsToReader(readerFJ1,regDictFilterJets,regVarsFilterJets,theVars1FJ,theFormsFJ,1,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray)    
-    readerFJ0.BookMVA( "jet0RegressionFJ", regWeightFilterJets )
-    readerFJ1.BookMVA( "jet1RegressionFJ", regWeightFilterJets )
+    #readerFJ0 = ROOT.TMVA.Reader("!Color:!Silent" )
+    #readerFJ1 = ROOT.TMVA.Reader("!Color:!Silent" )
+    #theFormsFJ = {}
+    #theVars0FJ = {}
+    #theVars1FJ = {}
+    #addVarsToReader(readerFJ0,regDictFilterJets,regVarsFilterJets,theVars0FJ,theFormsFJ,0,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray)    
+    #addVarsToReader(readerFJ1,regDictFilterJets,regVarsFilterJets,theVars1FJ,theFormsFJ,1,hJet_MET_dPhiArray,METet,rho25,hJet_MtArray,hJet_EtArray,hJet_ptRawArray)    
+    #readerFJ0.BookMVA( "jet0RegressionFJ", regWeightFilterJets )
+    #readerFJ1.BookMVA( "jet1RegressionFJ", regWeightFilterJets )
     
         
     #Add training Flag
@@ -322,10 +334,13 @@ for job in info:
         H_JES = array('f',[0]*4)
         newtree.Branch('H_JES',H_JES,'mass_up:mass_down:pt_up:pt_down/F')
         lheWeight = array('f',[0])
-        if job.type != 'DY':
-            newtree.Branch('lheWeight',lheWeight,'lheWeight/F')
+        newtree.Branch('lheWeight',lheWeight,'lheWeight/F')
+        theBinForms = {}
+        if lhe_weight_map and 'DY' in job.name:
+            for bin in lhe_weight_map:
+                theBinForms[bin] = ROOT.TTreeFormula("Bin_formula_%s"%(bin),bin,tree)
+        else:
             lheWeight[0] = 1.
-        
         
         #iter=0
         
@@ -335,9 +350,18 @@ for job in info:
 
             if job.type != 'DATA' and TrainFlag:
                 EventForTraining[0]=int(not TFlag.EvalInstance())
+            if lhe_weight_map and 'DY' in job.name:
+                match_bin = None
+                for bin in lhe_weight_map:
+                    if theBinForms[bin].EvalInstance() > 0.:
+                        match_bin = bin
+                if match_bin:
+                    lheWeight[0] = lhe_weight_map[match_bin]
+                else:
+                    lheWeight[0] = 1.
 
             #Has fat higgs
-            fatHiggsFlag=fFatHFlag.EvalInstance()*fFatHnFilterJets.EvalInstance()
+            #fatHiggsFlag=fFatHFlag.EvalInstance()*fFatHnFilterJets.EvalInstance()
 
             #get
             hJet_pt = tree.hJet_pt
@@ -357,15 +381,15 @@ for job in info:
             hJet_JECUnc0 = tree.hJet_JECUnc[0]
             hJet_JECUnc1 = tree.hJet_JECUnc[1]
             #Filterjets
-            if fatHiggsFlag:
-                fathFilterJets_pt0 = tree.fathFilterJets_pt[0]
-                fathFilterJets_pt1 = tree.fathFilterJets_pt[1]
-                fathFilterJets_eta0 = tree.fathFilterJets_eta[0]
-                fathFilterJets_eta1 = tree.fathFilterJets_eta[1]
-                fathFilterJets_phi0 = tree.fathFilterJets_phi[0]
-                fathFilterJets_phi1 = tree.fathFilterJets_phi[1]
-                fathFilterJets_e0 = tree.fathFilterJets_e[0]
-                fathFilterJets_e1 = tree.fathFilterJets_e[1]
+            #if fatHiggsFlag:
+            #    fathFilterJets_pt0 = tree.fathFilterJets_pt[0]
+            #    fathFilterJets_pt1 = tree.fathFilterJets_pt[1]
+            #    fathFilterJets_eta0 = tree.fathFilterJets_eta[0]
+            #    fathFilterJets_eta1 = tree.fathFilterJets_eta[1]
+            #    fathFilterJets_phi0 = tree.fathFilterJets_phi[0]
+            #    fathFilterJets_phi1 = tree.fathFilterJets_phi[1]
+            #    fathFilterJets_e0 = tree.fathFilterJets_e[0]
+            #    fathFilterJets_e1 = tree.fathFilterJets_e[1]
 
             Event[0]=fEvent.EvalInstance()
             METet[0]=fMETet.EvalInstance()
@@ -375,10 +399,10 @@ for job in info:
                 if not (value == 'Jet_MET_dPhi' or value == 'METet' or value == "rho25" or value == "Jet_et" or value == 'Jet_mt' or value == 'Jet_ptRaw'):
                     theVars0[key][0] = theForms["form_reg_%s_0" %(key)].EvalInstance()
                     theVars1[key][0] = theForms["form_reg_%s_1" %(key)].EvalInstance()
-            for key, value in regDictFilterJets.items():
-                if not (value == 'Jet_MET_dPhi' or value == 'METet' or value == "rho25" or value == "Jet_et" or value == 'Jet_mt' or value == 'Jet_ptRaw'):
-                    theVars0FJ[key][0] = theFormsFJ["form_reg_%s_0" %(key)].EvalInstance()
-                    theVars1FJ[key][0] = theFormsFJ["form_reg_%s_1" %(key)].EvalInstance()
+            #for key, value in regDictFilterJets.items():
+            #    if not (value == 'Jet_MET_dPhi' or value == 'METet' or value == "rho25" or value == "Jet_et" or value == 'Jet_mt' or value == 'Jet_ptRaw'):
+            #        theVars0FJ[key][0] = theFormsFJ["form_reg_%s_0" %(key)].EvalInstance()
+            #        theVars1FJ[key][0] = theFormsFJ["form_reg_%s_1" %(key)].EvalInstance()
             hJet_MET_dPhi[0] = deltaPhi(METphi[0],hJet_phi0)
             hJet_MET_dPhi[1] = deltaPhi(METphi[0],hJet_phi1)
             hJet_MET_dPhiArray[0][0] = deltaPhi(METphi[0],hJet_phi0)
@@ -450,22 +474,22 @@ for job in info:
                     print 'rE0 %.2f' %(rE0)
                     print 'rE1 %.2f' %(rE1)
                     print 'Mass %.2f' %(H.mass)
-                if fatHiggsFlag:
-                    hFJ0.SetPtEtaPhiE(fathFilterJets_pt0,fathFilterJets_eta0,fathFilterJets_phi0,fathFilterJets_e0)
-                    hFJ1.SetPtEtaPhiE(fathFilterJets_pt1,fathFilterJets_eta1,fathFilterJets_phi1,fathFilterJets_e1)
-                    rFJPt0 = max(0.0001,readerFJ0.EvaluateRegression( "jet0RegressionFJ" )[0])
-                    rFJPt1 = max(0.0001,readerFJ1.EvaluateRegression( "jet1RegressionFJ" )[0])
-                    fathFilterJets_regWeight[0] = rPt0/fathFilterJets_pt0
-                    fathFilterJets_regWeight[1] = rPt1/fathFilterJets_pt1
-                    rFJE0 = fathFilterJets_e0*fathFilterJets_regWeight[0]
-                    rFJE1 = fathFilterJets_e1*fathFilterJets_regWeight[1]
-                    hFJ0.SetPtEtaPhiE(rFJPt0,fathFilterJets_eta0,fathFilterJets_phi0,rFJE0)
-                    hFJ1.SetPtEtaPhiE(rFJPt1,fathFilterJets_eta1,fathFilterJets_phi1,rFJE1)
-                    FatHReg[0] = (hFJ0+hFJ1).M()
-                    FatHReg[1] = (hFJ0+hFJ1).Pt()
-                else:
-                    FatHReg[0] = 0.
-                    FatHReg[1] = 0.
+                #if fatHiggsFlag:
+                    #hFJ0.SetPtEtaPhiE(fathFilterJets_pt0,fathFilterJets_eta0,fathFilterJets_phi0,fathFilterJets_e0)
+                    #hFJ1.SetPtEtaPhiE(fathFilterJets_pt1,fathFilterJets_eta1,fathFilterJets_phi1,fathFilterJets_e1)
+                    #rFJPt0 = max(0.0001,readerFJ0.EvaluateRegression( "jet0RegressionFJ" )[0])
+                    #rFJPt1 = max(0.0001,readerFJ1.EvaluateRegression( "jet1RegressionFJ" )[0])
+                    #fathFilterJets_regWeight[0] = rPt0/fathFilterJets_pt0
+                    #fathFilterJets_regWeight[1] = rPt1/fathFilterJets_pt1
+                    #rFJE0 = fathFilterJets_e0*fathFilterJets_regWeight[0]
+                    #rFJE1 = fathFilterJets_e1*fathFilterJets_regWeight[1]
+                    #hFJ0.SetPtEtaPhiE(rFJPt0,fathFilterJets_eta0,fathFilterJets_phi0,rFJE0)
+                    #hFJ1.SetPtEtaPhiE(rFJPt1,fathFilterJets_eta1,fathFilterJets_phi1,rFJE1)
+                    #FatHReg[0] = (hFJ0+hFJ1).M()
+                    #FatHReg[1] = (hFJ0+hFJ1).Pt()
+                #else:
+                    #FatHReg[0] = 0.
+                    #FatHReg[1] = 0.
 
                     #print rFJPt0
                     #print rFJPt1
