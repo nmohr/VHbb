@@ -16,7 +16,13 @@ argv = sys.argv
 parser = OptionParser()
 
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
-                              help="configuration defining the plots to make")
+                              help="configuration defining bins")
+parser.add_option("-A", "--apply", dest="apply", default=False, action="store_true",
+                              help="configuration defining the")
+parser.add_option("-W", "--weight", dest="weights", default=True, action="store_false",
+                              help="Calculate the weights")
+parser.add_option("-V", "--validate", dest="validate", default=True, action="store_false",
+                              help="Make validation plot the weights")
 (opts, args) = parser.parse_args(argv)
 if opts.config =="":
     opts.config = "config"
@@ -27,13 +33,13 @@ print opts.config
 config = BetterConfigParser()
 config.read(opts.config)
 prefix = config.get('LHEWeights','prefix')
-newprefix = config.get('LHEWeights','newprefix')
+newpostfix = config.get('LHEWeights','newpostfix')
 inclusive = config.get('LHEWeights','inclusive')
 files = eval(config.get('LHEWeights','fileList'))
 lheBin = eval(config.get('LHEWeights','lheBin'))
 fileList = []
 for file in files:
-    new_entry = [prefix+file,files[file],[]]
+    new_entry = [prefix+file+'.root',files[file],[]]
     if file == inclusive:
         fileList.insert(0, new_entry)
     else:
@@ -46,7 +52,7 @@ def get_weights(fileList,lheBin):
         #file.append( 1 )
         #continue
         print file
-        infile = ROOT.TFile(file[0],"READ")
+        infile = ROOT.TFile.Open(file[0],"READ")
         tree = infile.Get('tree')
         for bin in lheBin:
             file[2].append( float(tree.GetEntries(bin)) )
@@ -84,12 +90,12 @@ def get_weights(fileList,lheBin):
     return weight_map
 
 
-def apply_weights(fileList,weight_map,inclusive,newprefix):    
+def apply_weights(fileList,weight_map,inclusive,newpostfix):    
     #now add the branch with the weight normalized to the inclusive
     for file in fileList:
-        outfile = ROOT.TFile(newprefix+file[0],'RECREATE')
-        infile = ROOT.TFile(file[0],"READ")
-        histoInfile = ROOT.TFile(inclusive,"READ")
+        outfile = ROOT.TFile.Open(file[0].replace('.root',newpostfix),'RECREATE')
+        infile = ROOT.TFile.Open(file[0],"READ")
+        histoInfile = ROOT.TFile.Open(inclusive,"READ")
         histoInfile.cd()
         obj = ROOT.TObject
         for key in ROOT.gDirectory.GetListOfKeys():
@@ -132,14 +138,14 @@ def apply_weights(fileList,weight_map,inclusive,newprefix):
         del tree
         del newtree
 
-def do_validation(fileList,inclusive,newprefix):
+def do_validation(fileList,inclusive,newpostfix):
     histo = ROOT.TH1F("lheV_pt","lheV_pt",300,0,300)
     histo1 = ROOT.TH1F("lheV_ptInc","lheV_ptInc",300,0,300)
 
     for file in fileList: 
-        h_name=((newprefix+file[0]).split("."))[-2]
+        h_name=file[0]
         print h_name
-        tfile = ROOT.TFile.Open(newprefix+file[0],"read")
+        tfile = ROOT.TFile.Open(file[0].replace('.root',newpostfix),"read")
         tree = tfile.Get("tree")
         h_tmp = ROOT.TH1F(h_name,h_name,300,0,300)
         ROOT.gDirectory.ls()
@@ -148,8 +154,10 @@ def do_validation(fileList,inclusive,newprefix):
             h_tmp1 = ROOT.TH1F(h_name+'Inc',h_name+'Inc',300,0,300)
             tree.Draw("lheV_pt>>"+str(h_name+'Inc'),"(lheV_pt < 300.)","goff")
             histo1.Add(h_tmp1)
-
         histo.Add(h_tmp)
+        tfile.Close()
+        del tree
+
 
     canvas = ROOT.TCanvas("lheV_pt","lheV_pt",600,600)
     ROOT.gPad.SetLogy()
@@ -160,10 +168,15 @@ def do_validation(fileList,inclusive,newprefix):
     histo1.SetLineColor(ROOT.kRed)
     canvas.Print("validation_lheV_pt.pdf","pdf")
 
-weight_map = get_weights(fileList,lheBin)
-config.set('LHEWeights', 'weights_per_bin', '%s' %weight_map)
-f = open('lheWeights', 'w')
-config.write(f)
-f.close()
-apply_weights(fileList,weight_map,prefix+inclusive,newprefix)
-do_validation(fileList,inclusive,newprefix)
+if opts.weights:
+    weight_map = get_weights(fileList,lheBin)
+    config.set('LHEWeights', 'weights_per_bin', '%s' %weight_map)
+    f = open('8TeVconfig/lhe_weights', 'w')
+    config.write(f)
+    f.close()
+else:
+    weight_map = config.get('LHEWeights', 'weights_per_bin')
+if opts.apply:
+    apply_weights(fileList,weight_map,prefix+inclusive,newpostfix)
+if opts.validate:
+    do_validation(fileList,inclusive,newpostfix)

@@ -54,7 +54,7 @@ if [ $task = "prep" ]; then
     ./prepare_environment_with_config.py -S $sample -C ${energy}config/samples_nosplit.cfg -C ${energy}config/paths
 fi
 if [ $task = "sys" ]; then
-    ./write_regression_systematics.py -S $sample -C ${energy}config/general -C ${energy}config/paths
+    ./write_regression_systematics.py -S $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/lhe_weights
 fi
 if [ $task = "eval" ]; then
     ./evaluateMVA.py -D $MVAList -S $sample -C ${energy}config/general -C ${energy}config/paths -C ${energy}config/cuts -C ${energy}config/training
