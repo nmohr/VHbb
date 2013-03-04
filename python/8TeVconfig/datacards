@@ -19,11 +19,11 @@ rebin_active = True
 sys_BDT: ['JER','JES','beff','bmis','beff1']
 sys_Mjj: ['JER','JES','beff','bmis','beff1']
 sys_factor = {'JER':1.0,'JES':1.0,'beff':1.0,'bmis':1.0,'beff1':1.0}
-sys_affecting = {'JER':['ZH','DYlight','DYb','VV','TT','ST','ZH125','ZZ-bb'],'JES':['ZH','DYlight','DYb','VV','TT','ST','ZH125','ZZ-bb'],'beff':['DYlight','DYb','VV','TT','ST','ZZ-bb'],'beff1':['ZH','ZH125'],'bmis':['ZH','DYlight','DYb','VV','TT','ST','ZH125','ZZ-bb']}
+sys_affecting = {'JER':['ZH','DYlight','DY2b','DY1b','VV','TT','ST','ZH125','ZZ-bb'],'JES':['ZH','DYlight','DY2b','DY1b','VV','TT','ST','ZH125','ZZ-bb'],'beff':['DYlight','DY2b','DY1b','VV','TT','ST','ZZ-bb'],'beff1':['ZH','ZH125'],'bmis':['ZH','DYlight','DY2b','DY1b','VV','TT','ST','ZH125','ZZ-bb']}
 #Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
 sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?','beff1':'csv>csv?'}
 #sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal','beff1':'nominal'}
-sys_cut_include: ['ZH', 'DYlight','DYb','VV','TT','ST','ZZ-bb']
+sys_cut_include: ['ZH', 'DYlight','DY1b','DY2b','VV','TT','ST','ZZ-bb']
 #UEPS
 weightF_sys: True
 #Example of sample systematic, in this case the ZZ sample is replaced by WZ
@@ -46,14 +46,17 @@ add_signal_as_bkg: None
 blind: False
 # toy Data
 toy: False
-
-
+rescaleSqrtN: True
+# # no stat shapes at all:
+ignore_stats: False
+#
+#
 
 # Samples
 #--------------------------------------
 #SETUP DATACARD (1st Signal, afterwards BKG)
+setup: ['ZH', 'DYlight','DY1b','DY2b','VV','TT','ST','ZZ-bb']
 #setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
-setup: ['ZH', 'DYlight','DYb','VV','ZZ-bb','TT','ST']
 #Lists from general config
 #BKG = [<!Samples|allBKG!>]
 BKG = [<!Samples|allBKG_ZZsplit!>]
@@ -64,7 +67,7 @@ Group = <!Samples|Group!>
 # Naming
 #--------------------------------------
 # naming of processes
-Dict: {'ZH':'ZH','DYlight':'ZjLF','DYb':'ZjHF','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs','ZH125':'H125'}
+Dict: {'ZH':'ZH','DYlight':'Z0b','DY1b':'Z1b','DY2b':'Z2b','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs','ZH125':'H125'}
 # naming of systematics
 systematicsnaming={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff_b_SIG','stats': 'CMS_vhbb_stats','weightF_sys':'UEPS','model':'CMS_vhbb_model'}
 
@@ -75,7 +78,7 @@ systematicsnaming={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_v
 
 #List: RTight_ZH125_EE_8TeV_may,RMed_ZH125_EE_8TeV_may,RTight_ZH125_MM_8TeV_may,RMed_ZH125_MM_8TeV_may,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
 #List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
-#List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
+List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
 
 #ALl BDTs
 #List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTight_ZH110_MM_8TeV_oct,RMed_ZH110_MM_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTight_ZH115_MM_8TeV_oct,RMed_ZH115_MM_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTight_ZH120_MM_8TeV_oct,RMed_ZH120_MM_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTight_ZH130_MM_8TeV_oct,RMed_ZH130_MM_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTight_ZH135_MM_8TeV_oct,RMed_ZH135_MM_8TeV_oct
@@ -121,22 +124,15 @@ systematicsnaming={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_v
 #List: Mjj_HdR14_ZH125,Mjj_HdR16_ZH125,Mjj_HdR18_ZH125,Mjj_HdR20_ZH125
 
 #List: Mjj_pt70_ZH125,Mjj_pt70150_ZH125,Mjj_pt150_ZH125
-#List: Mjj_pt70_ZH125_EE,Mjj_pt70150_ZH125_EE,Mjj_pt150_ZH125_EE,Mjj_pt70_ZH125_MM,Mjj_pt70150_ZH125_MM,Mjj_pt150_ZH125_MM
-#List: Mjj_pt70_ZH125_MM,Mjj_pt70150_ZH125_MM,Mjj_pt150_ZH125_MM
 
-#List: RTight_VV_EE_8TeV,RTight_VV_MM_8TeV,RMed_VV_EE_8TeV,RMed_VV_MM_8TeV,RTight_VV_FJ_EE_8TeV,RTight_VV_FJ_MM_8TeV,RMed_VV_FJ_EE_8TeV,RMed_VV_FJ_MM_8TeV
-
-#List: TT_RMed_VV_EE_8TeV_oct,TT_RMed_VV_MM_8TeV_oct,TT_RTight_VV_EE_8TeV_oct,TT_RTight_VV_MM_8TeV_oct,Zbb_RMed_VV_EE_8TeV_oct,Zbb_RMed_VV_MM_8TeV_oct,Zbb_RTight_VV_EE_8TeV_oct,Zbb_RTight_VV_MM_8TeV_oct,ZLight_HighPt_RTight_VV_EE_8TeV_oct,ZLight_HighPt_RTight_VV_MM_8TeV_oct,ZLight_LowPt_RMed_VV_EE_8TeV_oct,ZLight_LowPt_RMed_VV_MM_8TeV_oct
-List: TT_RMed_VV_EE_8TeV_oct,TT_RTight_VV_EE_8TeV_oct
-#List: TT_RTight_VV_EE_8TeV_oct_8TeV
 [Datacard]
 
 # Datacards setup
 
 InUse: ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_ZjLF_Zll_SF_8TeV','CMS_vhbb_ZjHF_Zll_SF_8TeV','CMS_vhbb_TT_Zll_SF_8TeV']
 
-InUse_HighPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPt_8TeV','CMS_vhbb_ZjHF_Zll_exHighPt_8TeV','CMS_vhbb_TT_Zll_exHighPt_8TeV']
-InUse_LowPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exLowPt_8TeV','CMS_vhbb_ZjHF_Zll_exLowPt_8TeV','CMS_vhbb_TT_Zll_exLowPt_8TeV']
+InUse_HighPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPt_8TeV','CMS_vhbb_ZjHF_Zll_exHighPt_8TeV','CMS_vhbb_TT_Zll_exHighPt_8TeV','CMS_vhbb_Z1b2b_antiCorrHighPt_Zll_8TeV']
+InUse_LowPt: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exLowPt_8TeV','CMS_vhbb_ZjHF_Zll_exLowPt_8TeV','CMS_vhbb_TT_Zll_exLowPt_8TeV','CMS_vhbb_Z1b2b_antiCorrLowPt_Zll_8TeV']
 InUse_HighPtLooseBTag: <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_TT_Zll_exHighPtLoooseBTag_8TeV']
 
 lumi_7TeV: {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022}
@@ -167,12 +163,12 @@ CMS_vhbb_trigger_MET: {'type':'lnN'}
 CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV: {'type':'lnN', 'DYlight':1.20}
 CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV: {'type':'lnN', 'DYb':1.20}
 CMS_vhbb_TT_Zll_exHighPtLoooseBTag_8TeV: {'type':'lnN', 'TT':1.20}
-CMS_vhbb_ZjLF_Zll_exHighPt_8TeV: {'type':'lnN', 'DYlight':1.05}
-CMS_vhbb_ZjHF_Zll_exHighPt_8TeV: {'type':'lnN', 'DYb':1.05}
-CMS_vhbb_TT_Zll_exHighPt_8TeV: {'type':'lnN', 'TT':1.05}
-CMS_vhbb_ZjLF_Zll_exLowPt_8TeV: {'type':'lnN', 'DYlight':1.05}
-CMS_vhbb_ZjHF_Zll_exLowPt_8TeV: {'type':'lnN', 'DYb':1.05}
-CMS_vhbb_TT_Zll_exLowPt_8TeV: {'type':'lnN', 'TT':1.05}
+CMS_vhbb_ZjLF_Zll_exHighPt_8TeV: {'type':'lnN', 'DYlight':1.02}
+CMS_vhbb_ZjHF_Zll_exHighPt_8TeV: {'type':'lnN', 'DY1b':1.02, 'DY2b':1.02}
+CMS_vhbb_TT_Zll_exHighPt_8TeV: {'type':'lnN', 'TT':1.02}
+CMS_vhbb_ZjLF_Zll_exLowPt_8TeV: {'type':'lnN', 'DYlight':1.02}
+CMS_vhbb_ZjHF_Zll_exLowPt_8TeV: {'type':'lnN', 'DY1b':1.02, 'DY2b':1.02}
+CMS_vhbb_TT_Zll_exLowPt_8TeV: {'type':'lnN', 'TT':1.02}
 
 CMS_vhbb_ZjLF_Zll_SF_7TeV: {'type':'lnN', 'DYlight':1.198 ,'DYb':0.875 ,'TT':1.003}
 CMS_vhbb_ZjHF_Zll_SF_7TeV: {'type':'lnN', 'DYlight':0.873 ,'DYb':1.202 ,'TT':0.957}
@@ -182,9 +178,12 @@ CMS_vhbb_TT_Zll_SF_7TeV: {'type':'lnN',  'DYlight':1.002 ,'DYb':0.974 ,'TT':1.12
 #CMS_vhbb_ZjHF_SF_8TeV: {'type':'lnN', 'DYlight':0.942 ,'DYb':1.082 ,'TT':0.986}
 #CMS_vhbb_TT_SF_8TeV: {'type':'lnN',  'DYlight':0.998 ,'DYb':0.986 ,'TT':1.081}
 
-CMS_vhbb_ZjLF_Zll_SF_8TeV: {'type':'lnN', 'DYlight':1.036,'DYb':0.976,'TT':1.001}
-CMS_vhbb_ZjHF_Zll_SF_8TeV: {'type':'lnN', 'DYlight':0.953,'DYb':1.070,'TT':0.985}
-CMS_vhbb_TT_Zll_SF_8TeV: {'type':'lnN', 'DYlight':1.001,'DYb':0.992,'TT':1.038} 
+CMS_vhbb_ZjLF_Zll_SF_8TeV: {'type':'lnN', 'DYlight':1.036,'DY1b':0.976,'DY2b':0.976,'TT':1.001}
+CMS_vhbb_ZjHF_Zll_SF_8TeV: {'type':'lnN', 'DYlight':0.953,'DY1b':1.070,'DY2b':1.070,'TT':0.985}
+CMS_vhbb_TT_Zll_SF_8TeV: {'type':'lnN', 'DYlight':1.001,'DY1b':0.992,'DY2b':0.992, 'TT':1.038} 
+
+CMS_vhbb_Z1b2b_antiCorrHighPt_Zll_8TeV: {'type':'lnN', 'DY1b':0.87, 'DY2b':1.15}
+CMS_vhbb_Z1b2b_antiCorrLowPt_Zll_8TeV: {'type':'lnN', 'DY1b':0.87, 'DY2b':1.15}
 
 
 [Limit]

@@ -1,7 +1,6 @@
 [Plot_general]
 
 #TT Merged
-<<<<<<< plots
 #samples: Zudsg,Zudsg1J,Zudsg2J,Zudsg3J,Zudsg4J,ZudsgHT200400,ZudsgHT400,Zudsg5070,Zudsg70100,Zudsg100,Zcc,Zcc1J,Zcc2J,Zcc3J,Zcc4J,ZccHT200400,ZccHT400,Zcc5070,Zcc70100,Zcc100,Zbb,Zbb1J,Zbb2J,Zbb3J,Zbb4J,ZbbHT200400,ZbbHT400,Zbb5070,Zbb70100,Zbb100,ZZ,WW,WZ,TT,ST_s,ST_t,ST_tW,STbar_s,STbar_t,STbar_tW,ZH125 
 
 samples: [<!Samples|allBKG!>,'ZH125']
@@ -10,11 +9,11 @@ samples: [<!Samples|allBKG!>,'ZH125']
 #Groups for adding samples together
 #Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH', 'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight','ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zudsg180':'DYlight','Zcc':'DYc','Zcc1J':'DYc','Zcc2J':'DYc','Zcc3J':'DYc','Zcc4J':'DYc','ZccHT200400':'DYc','ZccHT400':'DYc','Zcc5070':'DYc','Zcc70100':'DYc','Zcc100':'DYc','Zcc180':'DYc','Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb','ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb70100':'DYb','Zbb100':'DYb','Zbb180':'DYb','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','TT':'TT','TT_FullLept':'TT','TT_SemiLept':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST','Zee':'Data','Zmm':'Data','ZZ-bb':'VV'}
 
-Group: <!Samples|Group_falvoursplit!>
+Group: <!Samples|Group!>
 
 #how and which groups in the plot
-setup: ZH,VV,DYb,DYc,DYlight,TT,ST
-setupLog: ZH,DYb,DYc,DYlight,TT,ST,VV
+setup: ZH,VV,DY2b,DY1b,DYc,DYlight,TT,ST
+setupLog: ZH,DY2b,DY1b,DYc,DYlight,TT,ST,VV
 #setupLog: DYb,DYc,DYlight,TT,ST,VV,ZH
 
 #Mjj
@@ -23,8 +22,8 @@ setupLog: ZH,DYb,DYc,DYlight,TT,ST,VV
 
 
 #colors
-colorDict: {'DYlight':401,'DYc':41,'DYb':5,'TT':596,'ST':602,'VV':17,'ZH':2,'DYlc':401}
-typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DYb':'Z + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','ZH':'ZH','Overlay':'ZH (125 GeV)'}
+colorDict: {'DYlight':401,'DYc':41,'DY2b':5,'DY1b':5,'TT':596,'ST':602,'VV':17,'ZH':2,'DYlc':401}
+typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','TT':'t#bar{t}','ST':'Single top','VV':'VV','ZH':'ZH','Overlay':'ZH (125 GeV)'}
 
 addOverFlow = True
 
