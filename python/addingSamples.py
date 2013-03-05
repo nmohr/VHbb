@@ -95,7 +95,7 @@ def apply_weights(fileList,weight_map,inclusive,newpostfix):
     for file in fileList:
         outfile = ROOT.TFile.Open(file[0].replace('.root',newpostfix),'RECREATE')
         infile = ROOT.TFile.Open(file[0],"READ")
-        histoInfile = ROOT.TFile.Open(inclusive,"READ")
+        histoInfile = ROOT.TFile.Open(inclusive+'.root',"READ")
         histoInfile.cd()
         obj = ROOT.TObject
         for key in ROOT.gDirectory.GetListOfKeys():
@@ -175,10 +175,13 @@ if opts.weights:
     weight_map = get_weights(fileList,lheBin)
     config.set('LHEWeights', 'weights_per_bin', '%s' %weight_map)
     f = open('8TeVconfig/lhe_weights', 'w')
+    for section in config.sections():
+        if not section == 'LHEWeights':
+            config.remove_section(section)
     config.write(f)
     f.close()
 elif opts.apply:
-    weight_map = config.get('LHEWeights', 'weights_per_bin')
+    weight_map = eval(config.get('LHEWeights', 'weights_per_bin'))
 if opts.apply:
     apply_weights(fileList,weight_map,prefix+inclusive,newpostfix)
 if opts.validate:
