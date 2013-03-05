@@ -1,6 +1,6 @@
-#!/afs/cern.ch/cms/slc5_amd64_gcc434/cms/cmssw/CMSSW_4_2_8/external/slc5_amd64_gcc434/bin/python2.6
+#!/usr/bin/env python
 
-import sys,ROOT
+import sys,hashlib,ROOT
 ROOT.gROOT.SetBatch(True)
 from array import array
 from optparse import OptionParser
@@ -141,14 +141,17 @@ def apply_weights(fileList,weight_map,inclusive,newpostfix):
 def do_validation(fileList,inclusive,newpostfix):
     histo = ROOT.TH1F("lheV_pt","lheV_pt",300,0,300)
     histo1 = ROOT.TH1F("lheV_ptInc","lheV_ptInc",300,0,300)
+    histo.SetDirectory(0)
+    histo1.SetDirectory(0)
 
     for file in fileList: 
-        h_name=file[0]
+        h_name=str(hashlib.sha224(file[0]).hexdigest())
+        print file[0]
         print h_name
         tfile = ROOT.TFile.Open(file[0].replace('.root',newpostfix),"read")
         tree = tfile.Get("tree")
         h_tmp = ROOT.TH1F(h_name,h_name,300,0,300)
-        ROOT.gDirectory.ls()
+        #ROOT.gDirectory.ls()
         tree.Draw("lheV_pt>>"+str(h_name),"(lheWeight)*(lheV_pt < 300.)","goff")
         if inclusive in file[0]:
             h_tmp1 = ROOT.TH1F(h_name+'Inc',h_name+'Inc',300,0,300)
@@ -163,8 +166,8 @@ def do_validation(fileList,inclusive,newpostfix):
     ROOT.gPad.SetLogy()
     histo.Draw()
     histo1.Draw('SAME')
-    print histo.Integral(180,300)
-    print histo1.Integral(180,300)
+    print histo.Integral(100,300)
+    print histo1.Integral(100,300)
     histo1.SetLineColor(ROOT.kRed)
     canvas.Print("validation_lheV_pt.pdf","pdf")
 
@@ -174,7 +177,7 @@ if opts.weights:
     f = open('8TeVconfig/lhe_weights', 'w')
     config.write(f)
     f.close()
-else:
+elif opts.apply:
     weight_map = config.get('LHEWeights', 'weights_per_bin')
 if opts.apply:
     apply_weights(fileList,weight_map,prefix+inclusive,newpostfix)
