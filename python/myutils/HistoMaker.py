@@ -72,7 +72,7 @@ class HistoMaker:
                 else:
                     full=False
             elif job.type == 'DATA':
-                if options['blind']:
+                if eval(options['blind']):
                     if treeVar == 'H.mass':
                         CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<90. || '+treeVar + '>150.' , "goff,e")
                     else:

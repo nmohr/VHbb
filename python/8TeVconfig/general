@@ -177,13 +177,20 @@ beff1_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv_downBC4p[0],hJet_
 
 [Samples]
 
-DYudsg: 'Zudsg','Zudsg1J','Zudsg2J','Zudsg3J','Zudsg4J','ZudsgHT200400','ZudsgHT400','Zudsg5070','Zudsg70100','Zudsg100','Zudsg180'
-DYc:    'Zcc',  'Zcc1J',  'Zcc2J',  'Zcc3J',  'Zcc4J',  'ZccHT200400',  'ZccHT400',  'Zcc5070',  'Zcc70100',  'Zcc100',  'Zcc180'
-DY1b:    'Z1b',  'Z1b1J',  'Z1b2J',  'Z1b3J',  'Z1b4J',  'Z1bHT200400',  'Z1bHT400',  'Z1b5070',  'Z1b70100',  'Z1b100',  'Z1b180'
-DY2b:    'Z2b',  'Z2b1J',  'Z2b2J',  'Z2b3J',  'Z2b4J',  'Z2bHT200400',  'Z2bHT400',  'Z2b5070',  'Z2b70100',  'Z2b100',  'Z2b180'
-Diboson:'ZZ','WW','WZ'
+DYudsg: 'Zudsg','Zudsg1J','Zudsg2J','Zudsg3J','Zudsg4J','ZudsgHT200400','ZudsgHT400','Zudsg5070','Zudsg70100','Zudsg100','Zudsg180','Zudsg100ext'
+DYc:    'Zcc',  'Zcc1J',  'Zcc2J',  'Zcc3J',  'Zcc4J',  'ZccHT200400',  'ZccHT400',  'Zcc5070',  'Zcc70100',  'Zcc100',  'Zcc180'  ,'Zcc100ext'  
+DY1b:   'Z1b',  'Z1b1J',  'Z1b2J',  'Z1b3J',  'Z1b4J',  'Z1bHT200400',  'Z1bHT400',  'Z1b5070',  'Z1b70100',  'Z1b100',  'Z1b180'  ,'Z1b100ext'  
+DY2b:   'Z2b',  'Z2b1J',  'Z2b2J',  'Z2b3J',  'Z2b4J',  'Z2bHT200400',  'Z2bHT400',  'Z2b5070',  'Z2b70100',  'Z2b100',  'Z2b180'  ,'Z2b100ext'  
+#'Zudsg5070ext',
+#'Zcc5070ext',  
+#'Z1b5070ext',  
+#'Z2b5070ext',  
+Diboson:'ZZ','WZ','WW'
+#Diboson:'ZZ','WW','WZ'
 Diboson_split: 'ZZ-light','ZZ-bb','WZ','WW'
-Top:    'TT_FullLept','TT_SemiLept'
+# incl TTbar sample:
+Top:    'TT2'
+#Top:    'TT_FullLept','TT_SemiLept'
 s_Top:  'ST_s','ST_t','ST_tW','STbar_s','STbar_t','STbar_tW'
 DrellYan: <!Samples|DYudsg!>,<!Samples|DYc!>,<!Samples|DY1b!>,<!Samples|DY2b!>
 
@@ -197,27 +204,27 @@ Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135'
         'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight',\
         'ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg5070ext':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zudsg100ext':'DYlight','Zudsg180':'DYlight',\
         'Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc3J':'DYlight','Zcc4J':'DYlight',\
-        'ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zcc180':'DYlight',\
+        'ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc5070ext':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zcc100ext':'DYlight','Zcc180':'DYlight',\
         'Z1b':'DY1b','Z1b1J':'DY1b','Z1b2J':'DY1b','Z1b3J':'DY1b','Z1b4J':'DY1b',\
         'Z2b':'DY2b','Z2b1J':'DY2b','Z2b2J':'DY2b','Z2b3J':'DY2b','Z2b4J':'DY2b',\
-        'Z1bHT200400':'DY1b','Z1bHT400':'DY1b','Z1b5070':'DY1b','Z1b70100':'DY1b','Z1b100':'DY1b','Z1b180':'DY1b',\
-        'Z2bHT200400':'DY2b','Z2bHT400':'DY2b','Z2b5070':'DY2b','Z2b70100':'DY2b','Z2b100':'DY2b','Z2b180':'DY2b',\
+        'Z1bHT200400':'DY1b','Z1bHT400':'DY1b','Z1b5070':'DY1b','Z1b5070ext':'DY1b','Z1b70100':'DY1b','Z1b100':'DY1b','Z1b100ext':'DY1b','Z1b180':'DY1b',\
+        'Z2bHT200400':'DY2b','Z2bHT400':'DY2b','Z2b5070':'DY2b','Z2b5070ext':'DY2b','Z2b70100':'DY2b','Z2b100':'DY2b','Z2b100ext':'DY2b','Z2b180':'DY2b',\
         'ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','ZZ-bb':'VV',\
-        'TT':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST',\
+        'TT':'TT,','TT1':'TT','TT2':'TT','TT_FullLept':'TT','TT_SemiLept':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST',\
         'Zee':'Data','Zmm':'Data',\
         'AltZZ':'AltVV','AltWZ':'AltVV',\
         'AltZZ-light':'AltVV','AltZZ-bb':'AltZZ-bb'}
-Group_falvoursplit: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH',\
-        'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight',\
-        'ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg5070ext':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zudsg100ext':'DYlight','Zudsg180':'DYlight',\
-        'Zcc':'DYc','Zcc1J':'DYc','Zcc2J':'DYc','Zcc3J':'DYc','Zcc4J':'DYc',\
-        'ZccHT200400':'DYc','ZccHT400':'DYc','Zcc5070':'DYc','Zcc5070ext':'DYc','Zcc70100':'DYc','Zcc100':'DYc','Zcc100ext':'DYc','Zcc180':'DYc',\
-        'Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb',\
-        'ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb5070ext':'DYb','Zbb70100':'DYb','Zbb100':'DYb','Zbb100ext':'DYb','Zbb180':'DYb',\
-        'ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','ZZ-bb':'VV',\
-        'TT_FullLept':'TT','TT_SemiLept':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST',\
-        'Zee':'Data','Zmm':'Data',\
-        'AltZZ':'AltVV','AltWZ':'AltVV'}
+#Group_falvoursplit: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH',\
+#        'Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight',\
+#        'ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg5070ext':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zudsg100ext':'DYlight','Zudsg180':'DYlight',\
+#        'Zcc':'DYc','Zcc1J':'DYc','Zcc2J':'DYc','Zcc3J':'DYc','Zcc4J':'DYc',\
+#        'ZccHT200400':'DYc','ZccHT400':'DYc','Zcc5070':'DYc','Zcc5070ext':'DYc','Zcc70100':'DYc','Zcc100':'DYc','Zcc100ext':'DYc','Zcc180':'DYc',\
+#        'Zbb':'DYb','Zbb1J':'DYb','Zbb2J':'DYb','Zbb3J':'DYb','Zbb4J':'DYb',\
+#        'ZbbHT200400':'DYb','ZbbHT400':'DYb','Zbb5070':'DYb','Zbb5070ext':'DYb','Zbb70100':'DYb','Zbb100':'DYb','Zbb100ext':'DYb','Zbb180':'DYb',\
+#        'ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','ZZ-bb':'VV',\
+#        'TT':'TT,','TT1':'TT','TT2':'TT','TT_FullLept':'TT','TT_SemiLept':'TT','ST_s':'ST','ST_t':'ST','ST_tW':'ST','STbar_s':'ST','STbar_t':'ST','STbar_tW':'ST',\
+#        'Zee':'Data','Zmm':'Data',\
+#        'AltZZ':'AltVV','AltWZ':'AltVV'}
 
 [Weights]
 #5fb:
@@ -226,6 +233,7 @@ Group_falvoursplit: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130'
 #weightF_sys_DOWN: (PUweightM*weightTrig2012AB*lheWeight)
 
 weightF: (PUweight*weightTrig2012*lheWeight)
+#weightF: (weightTrig2012*lheWeight)
 weightF_sys_UP: (PUweightP*weightTrig2012*lheWeight)
 weightF_sys_DOWN: (PUweightM*weightTrig2012*lheWeight)
 
