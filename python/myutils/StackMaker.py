@@ -16,8 +16,8 @@ class StackMaker:
         if config.has_option('plotDef:%s'%var,'log') and not self.log:
             self.log = eval(config.get('plotDef:%s'%var,'log'))
         self.blind = eval(config.get(section,'blind'))
-        if self.blind: blindopt='True'
-        else: blindopt = 'False'
+        #if self.blind: blindopt='True'
+        #else: blindopt = 'False'
         if setup is None:
             self.setup=config.get('Plot_general','setup')
             if self.log:
