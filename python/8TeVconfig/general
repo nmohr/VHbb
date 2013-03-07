@@ -177,6 +177,11 @@ beff1_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv_downBC4p[0],hJet_
 
 [Samples]
 
+DYudsg_nolhe: 'Zudsg','Zudsg5070','Zudsg70100','Zudsg100ext'
+DYc_nolhe:    'Zcc',  'Zcc5070',  'Zcc70100',  'Zcc100ext'  
+DY1b_nolhe:   'Z1b',  'Z1b5070',  'Z1b70100',  'Z1b100ext'  
+DY2b_nolhe:   'Z2b',  'Z2b5070',  'Z2b70100',  'Z2b100ext'  
+
 DYudsg: 'Zudsg','Zudsg1J','Zudsg2J','Zudsg3J','Zudsg4J','ZudsgHT200400','ZudsgHT400','Zudsg5070','Zudsg70100','Zudsg100','Zudsg180','Zudsg100ext'
 DYc:    'Zcc',  'Zcc1J',  'Zcc2J',  'Zcc3J',  'Zcc4J',  'ZccHT200400',  'ZccHT400',  'Zcc5070',  'Zcc70100',  'Zcc100',  'Zcc180'  ,'Zcc100ext'  
 DY1b:   'Z1b',  'Z1b1J',  'Z1b2J',  'Z1b3J',  'Z1b4J',  'Z1bHT200400',  'Z1bHT400',  'Z1b5070',  'Z1b70100',  'Z1b100',  'Z1b180'  ,'Z1b100ext'  
@@ -185,17 +190,19 @@ DY2b:   'Z2b',  'Z2b1J',  'Z2b2J',  'Z2b3J',  'Z2b4J',  'Z2bHT200400',  'Z2bHT40
 #'Zcc5070ext',  
 #'Z1b5070ext',  
 #'Z2b5070ext',  
-Diboson:'ZZ','WZ','WW'
-#Diboson:'ZZ','WW','WZ'
+Diboson:'ZZ','WW','WZ'
 Diboson_split: 'ZZ-light','ZZ-bb','WZ','WW'
 # incl TTbar sample:
-Top:    'TT2'
-#Top:    'TT_FullLept','TT_SemiLept'
+#Top:    'TT2'
+Top:    'TT_FullLept','TT_SemiLept'
 s_Top:  'ST_s','ST_t','ST_tW','STbar_s','STbar_t','STbar_tW'
 DrellYan: <!Samples|DYudsg!>,<!Samples|DYc!>,<!Samples|DY1b!>,<!Samples|DY2b!>
+DrellYan_nolhe: <!Samples|DYudsg_nolhe!>,<!Samples|DYc_nolhe!>,<!Samples|DY1b_nolhe!>,<!Samples|DY2b_nolhe!>
 
 allSIG: 'ZH110','ZH115','ZH120','ZH125','ZH130','ZH135'
 allBKG: <!Samples|DrellYan!>,<!Samples|Diboson!>,<!Samples|Top!>,<!Samples|s_Top!>
+allBKG_nolhe: <!Samples|DrellYan_nolhe!>,<!Samples|Diboson!>,<!Samples|Top!>,<!Samples|s_Top!>
+
 allBKG_ZZsplit: <!Samples|DrellYan!>,<!Samples|Diboson_split!>,<!Samples|Top!>,<!Samples|s_Top!>
 #allBKG: <!Samples|Diboson!>,<!Samples|Top!>,<!Samples|s_Top!>
 BKG_VV_training: <!Samples|DrellYan!>,<!Samples|Top!>,<!Samples|s_Top!>,'WW','WZ'
@@ -232,6 +239,8 @@ Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135'
 #weightF_sys_UP: (PUweightP*weightTrig2012AB*lheWeight)
 #weightF_sys_DOWN: (PUweightM*weightTrig2012AB*lheWeight)
 
+#nolhe
+#weightF: (PUweight*weightTrig2012)
 weightF: (PUweight*weightTrig2012*lheWeight)
 #weightF: (weightTrig2012*lheWeight)
 weightF_sys_UP: (PUweightP*weightTrig2012*lheWeight)
