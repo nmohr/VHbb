@@ -43,25 +43,19 @@ signal_inject: None
 # add signal als BKG, e.g. ZH125 (working?)
 add_signal_as_bkg: None
 # blind Data
-blind: False
+blind: True
 # toy Data
 toy: False
-rescaleSqrtN: True
-# # no stat shapes at all:
-ignore_stats: False
-#
-#
 
 # Samples
 #--------------------------------------
 #SETUP DATACARD (1st Signal, afterwards BKG)
-setup: ['ZH', 'DYlight','DY1b','DY2b','VV','TT','ST','ZZ-bb']
+setup: ['ZH', 'DYlight','DY1b','DY2b','VV','TT','ST']
 #setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
 #Lists from general config
 #BKG = [<!Samples|allBKG!>]
-BKG = [<!Samples|allBKG_ZZsplit!>]
+BKG = [<!Samples|allBKG!>]
 Group = <!Samples|Group!>
-
 
 
 # Naming
@@ -78,10 +72,10 @@ systematicsnaming={'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_v
 
 #List: RTight_ZH125_EE_8TeV_may,RMed_ZH125_EE_8TeV_may,RTight_ZH125_MM_8TeV_may,RMed_ZH125_MM_8TeV_may,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
 #List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
-List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
+#List: RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct
 
 #ALl BDTs
-#List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTight_ZH110_MM_8TeV_oct,RMed_ZH110_MM_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTight_ZH115_MM_8TeV_oct,RMed_ZH115_MM_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTight_ZH120_MM_8TeV_oct,RMed_ZH120_MM_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTight_ZH130_MM_8TeV_oct,RMed_ZH130_MM_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTight_ZH135_MM_8TeV_oct,RMed_ZH135_MM_8TeV_oct
+List: RTight_ZH110_EE_8TeV_oct,RMed_ZH110_EE_8TeV_oct,RTight_ZH110_MM_8TeV_oct,RMed_ZH110_MM_8TeV_oct,RTight_ZH115_EE_8TeV_oct,RMed_ZH115_EE_8TeV_oct,RTight_ZH115_MM_8TeV_oct,RMed_ZH115_MM_8TeV_oct,RTight_ZH120_EE_8TeV_oct,RMed_ZH120_EE_8TeV_oct,RTight_ZH120_MM_8TeV_oct,RMed_ZH120_MM_8TeV_oct,RTight_ZH125_EE_8TeV_oct,RMed_ZH125_EE_8TeV_oct,RTight_ZH125_MM_8TeV_oct,RMed_ZH125_MM_8TeV_oct,RTight_ZH130_EE_8TeV_oct,RMed_ZH130_EE_8TeV_oct,RTight_ZH130_MM_8TeV_oct,RMed_ZH130_MM_8TeV_oct,RTight_ZH135_EE_8TeV_oct,RMed_ZH135_EE_8TeV_oct,RTight_ZH135_MM_8TeV_oct,RMed_ZH135_MM_8TeV_oct,RTight_ZH140_EE_8TeV_oct,RMed_ZH140_EE_8TeV_oct,RTight_ZH140_MM_8TeV_oct,RMed_ZH140_MM_8TeV_oct,RTight_ZH145_EE_8TeV_oct,RMed_ZH145_EE_8TeV_oct,RTight_ZH145_MM_8TeV_oct,RMed_ZH145_MM_8TeV_oct,RTight_ZH150_EE_8TeV_oct,RMed_ZH150_EE_8TeV_oct,RTight_ZH150_MM_8TeV_oct,RMed_ZH150_MM_8TeV_oct
 
 #List: HighPt_ZH125_ExpertRegion0_EE_8TeV_nov,HighPt_ZH125_ExpertRegion1_EE_8TeV_nov,HighPt_ZH125_ExpertRegion2_EE_8TeV_nov,HighPt_ZH125_ExpertRegion3_EE_8TeV_nov,HighPt_ZH125_ExpertRegion0_MM_8TeV_nov,HighPt_ZH125_ExpertRegion1_MM_8TeV_nov,HighPt_ZH125_ExpertRegion2_MM_8TeV_nov,HighPt_ZH125_ExpertRegion3_MM_8TeV_nov
 #,HighPt_ZH125_ExpertRegionX_EE_8TeV_nov,HighPt_ZH125_ExpertRegionX_MM_8TeV_nov
@@ -147,6 +141,8 @@ QCDscale_QCD: {'type':'lnN', 'QCD':1.30}
 CMS_vhbb_boost_EWK: {'type':'lnN', 'ZH':1.05,'ZH125':1.05}
 CMS_vhbb_boost_QCD: {'type':'lnN', 'ZH':1.10,'ZH125':1.10}
 CMS_vhbb_ST: {'type':'lnN', 'ST':1.29}
+
+#CMS_vhbb_ZH: {'type':lnN, 'ZH':1.40}
 CMS_vhbb_VV: {'type':'lnN', 'VV':1.30, 'ZZ-bb':1.30}
 CMS_vhbb_ZjLF_ex: {'type':'lnN', 'DYlight':1.05}
 CMS_vhbb_ZjHF_ex: {'type':'lnN', 'DYb':1.05}
@@ -357,6 +353,9 @@ RTight_ZH120_EE_8TeV_oct: RTight_ZH120_oct.nominal,<!LimitGeneral|BDToutname!>,<
 RTight_ZH125_EE_8TeV_oct: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH125,ZeeHighPt_8TeV,BDT
 RTight_ZH130_EE_8TeV_oct: RTight_ZH130_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH130,ZeeHighPt_8TeV,BDT
 RTight_ZH135_EE_8TeV_oct: RTight_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH135,ZeeHighPt_8TeV,BDT
+RTight_ZH140_EE_8TeV_oct: RTight_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M140_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH140,ZeeHighPt_8TeV,BDT
+RTight_ZH145_EE_8TeV_oct: RTight_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M145_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH145,ZeeHighPt_8TeV,BDT
+RTight_ZH150_EE_8TeV_oct: RTight_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M150_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH150,ZeeHighPt_8TeV,BDT
 
 RTightLooseBTag_ZH110_EE_8TeV_oct: RTightLooseBTag_ZH110_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M110_ZeeHighPtLooseBTag_8TeV,RTightLooseBTag_EE,RTightLooseBTag_EE,ZH110,ZeeHighPtLooseBTag_8TeV,BDT
 RTightLooseBTag_ZH115_EE_8TeV_oct: RTightLooseBTag_ZH115_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M115_ZeeHighPtLooseBTag_8TeV,RTightLooseBTag_EE,RTightLooseBTag_EE,ZH115,ZeeHighPtLooseBTag_8TeV,BDT
@@ -371,6 +370,9 @@ RMed_ZH120_EE_8TeV_oct: RMed_ZH120_oct.nominal,<!LimitGeneral|BDToutname!>,<!Lim
 RMed_ZH125_EE_8TeV_oct: RMed_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLowPt_8TeV,BDT
 RMed_ZH130_EE_8TeV_oct: RMed_ZH130_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH130,ZeeLowPt_8TeV,BDT
 RMed_ZH135_EE_8TeV_oct: RMed_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH135,ZeeLowPt_8TeV,BDT
+RMed_ZH140_EE_8TeV_oct: RMed_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M140_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH140,ZeeLowPt_8TeV,BDT
+RMed_ZH145_EE_8TeV_oct: RMed_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M145_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH145,ZeeLowPt_8TeV,BDT
+RMed_ZH150_EE_8TeV_oct: RMed_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M150_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH150,ZeeLowPt_8TeV,BDT
 
 RTight_ZH110_MM_8TeV_oct: RTight_ZH110_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M110_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH110,ZmmHighPt_8TeV,BDT
 RTight_ZH115_MM_8TeV_oct: RTight_ZH115_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M115_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH115,ZmmHighPt_8TeV,BDT
@@ -378,6 +380,9 @@ RTight_ZH120_MM_8TeV_oct: RTight_ZH120_oct.nominal,<!LimitGeneral|BDToutname!>,<
 RTight_ZH125_MM_8TeV_oct: RTight_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH125,ZmmHighPt_8TeV,BDT
 RTight_ZH130_MM_8TeV_oct: RTight_ZH130_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH130,ZmmHighPt_8TeV,BDT
 RTight_ZH135_MM_8TeV_oct: RTight_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH135,ZmmHighPt_8TeV,BDT
+RTight_ZH140_MM_8TeV_oct: RTight_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M140_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH140,ZmmHighPt_8TeV,BDT
+RTight_ZH145_MM_8TeV_oct: RTight_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M145_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH145,ZmmHighPt_8TeV,BDT
+RTight_ZH150_MM_8TeV_oct: RTight_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M150_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH150,ZmmHighPt_8TeV,BDT
 
 RTightLooseBTag_ZH110_MM_8TeV_oct: RTightLooseBTag_ZH110_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M110_ZmmHighPtLooseBTag_8TeV,RTightLooseBTag_MM,RTightLooseBTag_MM,ZH110,ZmmHighPtLooseBTag_8TeV,BDT
 RTightLooseBTag_ZH115_MM_8TeV_oct: RTightLooseBTag_ZH115_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M115_ZmmHighPtLooseBTag_8TeV,RTightLooseBTag_MM,RTightLooseBTag_MM,ZH115,ZmmHighPtLooseBTag_8TeV,BDT
@@ -392,6 +397,9 @@ RMed_ZH120_MM_8TeV_oct: RMed_ZH120_oct.nominal,<!LimitGeneral|BDToutname!>,<!Lim
 RMed_ZH125_MM_8TeV_oct: RMed_ZH125_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLowPt_8TeV,BDT
 RMed_ZH130_MM_8TeV_oct: RMed_ZH130_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH130,ZmmLowPt_8TeV,BDT
 RMed_ZH135_MM_8TeV_oct: RMed_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLowPt_8TeV,BDT
+RMed_ZH140_MM_8TeV_oct: RMed_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M140_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH140,ZmmLowPt_8TeV,BDT
+RMed_ZH145_MM_8TeV_oct: RMed_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M145_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH145,ZmmLowPt_8TeV,BDT
+RMed_ZH150_MM_8TeV_oct: RMed_ZH135_oct.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M150_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH150,ZmmLowPt_8TeV,BDT
 
 #individual BKGd trainings:
 #HighPt_ZH125_ExpertRegion0_EE_8TeV_nov: TT_HighPt_ZH125_nov.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_expert0_M125_ZeeHighPt_8TeV,HighPt_ExpertRegion0_EE,HighPt_ExpertRegion0_EE,ZH125,ZeeHighPt_8TeV,BDT
