@@ -25,6 +25,8 @@ class HistoMaker:
         self.mybinning = None
         self.GroupDict=GroupDict
         self.calc_rebin_flag = False
+        VHbbNameSpace=config.get('VHbbNameSpace','library')
+        ROOT.gSystem.Load(VHbbNameSpace)
 
     def get_histos_from_tree(self,job):
         if self.lumi == 0: 
