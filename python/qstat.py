@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 import os,sys
 from time import sleep
+p = sys.argv
+p[0] = 'qstat'
+pj = ' '.join(p)
 class progbar:
     def __init__(self,width):
         self.width=width
@@ -11,7 +14,7 @@ class progbar:
         sys.stdout.write("\033[1;42m \033[1;m")
         sys.stdout.flush()
 def getnum():
-    q=os.popen('qstat')
+    q=os.popen(pj)
     num=len(q.readlines())
     if num > 2: return num-2
     else: return 0
