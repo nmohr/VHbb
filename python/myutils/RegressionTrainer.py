@@ -37,7 +37,7 @@ class RegressionTrainer():
         fnameOutput='training_Reg_%s.root' %(self.__title)
         output = ROOT.TFile.Open(fnameOutput, "RECREATE")
 
-        factory = ROOT.TMVA.Factory('MVA', output, '!V:!Silent:Color:DrawProgressBar:Transformations=I:AnalysisType=Regression')
+        factory = ROOT.TMVA.Factory('MVA', output, '!V:!Silent:!Color:!DrawProgressBar:Transformations=I:AnalysisType=Regression')
         #factory.SetSignalWeightExpression( self.__weight )
         #set input trees
         for i, signal in enumerate(signals):
