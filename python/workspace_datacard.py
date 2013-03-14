@@ -65,12 +65,17 @@ else:
 #find out if BDT or MJJ:
 bdt = False
 mjj = False
+cr = False
 if str(anType) == 'BDT':
     bdt = True
     systematics = eval(config.get('LimitGeneral','sys_BDT'))
 elif str(anType) == 'Mjj':
     mjj = True
     systematics = eval(config.get('LimitGeneral','sys_Mjj'))
+elif str(anType) == 'cr':
+    cr = True
+    systematics = eval(config.get('LimitGeneral','sys_cr'))
+
 sys_cut_suffix=eval(config.get('LimitGeneral','sys_cut_suffix'))
 systematicsnaming = eval(config.get('LimitGeneral','systematicsnaming'))
 sys_factor_dict = eval(config.get('LimitGeneral','sys_factor'))
@@ -88,8 +93,13 @@ TrainFlag = eval(config.get('Analysis','TrainFlag'))
 toy=eval(config.get('LimitGeneral','toy'))
 # blind data option:
 blind=eval(config.get('LimitGeneral','blind'))
+#on control region cr never blind. Overwrite whatever is in the config
+if str(anType) == 'cr':
+    if blind:
+        print '@WARNING: Changing blind to false since you are running for control region.'
+    blind = False
 if blind: 
-    printc('red','', 'I AM BLINDED!')
+    printc('red','', 'I AM BLINDED!')    
 #get List of backgrounds in use:
 backgrounds = eval(config.get('LimitGeneral','BKG'))
 #Groups for adding samples together
@@ -100,6 +110,10 @@ Dict= eval(config.get('LimitGeneral','Dict'))
 binstat = eval(config.get('LimitGeneral','binstat'))
 # Use the rebinning:
 rebin_active=eval(config.get('LimitGeneral','rebin_active'))
+if str(anType) == 'cr':
+    if rebin_active:
+        print '@WARNING: Changing rebin_active to false since you are running for control region.'
+    rebin_active = False
 # ignore stat shapes
 ignore_stats = eval(config.get('LimitGeneral','ignore_stats'))
 #max_rel = float(config.get('LimitGeneral','rebin_max_rel'))
@@ -147,6 +161,7 @@ all_samples = info.get_samples(signals+backgrounds+additionals)
 signal_samples = info.get_samples(signals) 
 background_samples = info.get_samples(backgrounds) 
 data_sample_names=[]
+
 for item in datas:
     if 'Zee' in item: data_sample_names.append('Zee')
     if 'Zmm' in item: data_sample_names.append('Zmm')
@@ -192,6 +207,11 @@ for syst in systematics:
                 _treevar = 'H_%s.mass_%s'%(sys,Q.lower())
             else:
                 _treevar = treevar
+        elif cr == True:
+            if sys == 'beff' or sys == 'bmis' or sys == 'beff1':
+                _treevar = treevar.replace('csv','%s%s'%(sys,Q.lower()) )
+            else:
+                _treevar = treevar            
         #append
         appendList()
 
