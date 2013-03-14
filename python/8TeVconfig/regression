@@ -1,13 +1,14 @@
 [TrainRegression]
-name = Mar1
-signals = ZH110,ZH115,ZH125,ZH130,ZH135,ZH140,ZH145
+name = Mar13
+signals = ZH110,ZH115,ZH120,ZH125,ZH130,ZH135
 #signals = ZH125
-options = !H:!V:NTrees=2000::BoostType=Grad:Shrinkage=0.1:SeparationType=RegressionVariance:UseBaggedGrad:GradBaggingFraction=0.5:nCuts=200:MaxDepth=3:NNodesMax=15
+options = !H:!V:NTrees=2000::BoostType=Grad:Shrinkage=0.1:SeparationType=RegressionVariance:UseBaggedGrad:GradBaggingFraction=0.7:nCuts=20:MaxDepth=3:NNodesMax=15
 
-#VHbb::evalJERBias(hJet_ptRaw,hJet_genPt,hJet_eta)
-vars = hJet_pt rho25 hJet_JECUnc VHbb::evalEt(hJet_pt,hJet_eta,hJet_phi,hJet_e) VHbb::evalMt(hJet_pt,hJet_eta,hJet_phi,hJet_e) hJet_ptLeadTrack max(0,(hJet_SoftLeptptRel*(hJet_SoftLeptIdlooseMu==1||hJet_SoftLeptId95==1))) max(0,(hJet_SoftLeptdR*(hJet_SoftLeptIdlooseMu==1||hJet_SoftLeptId95==1))) max(0,(hJet_SoftLeptPt*(hJet_SoftLeptIdlooseMu==1||hJet_SoftLeptId95==1))) hJet_cef hJet_nconstituents max(0,hJet_vtxPt) max(0,hJet_vtxMass) max(0,hJet_vtx3dL) max(0,hJet_vtx3deL) METnoPU.et VHbb::deltaPhi(METnoPU.phi,hJet_phi)
+#
+#hJet_JECUnc
+vars = hJet_pt VHbb::evalJERBias(hJet_ptRaw,hJet_genPt,hJet_eta) hJet_JECUnc VHbb::evalEt(hJet_pt,hJet_eta,hJet_phi,hJet_e) VHbb::evalMt(hJet_pt,hJet_eta,hJet_phi,hJet_e) hJet_ptLeadTrack max(0,(hJet_SoftLeptptRel*(hJet_SoftLeptIdlooseMu==1||hJet_SoftLeptId95==1))) max(0,(hJet_SoftLeptdR*(hJet_SoftLeptIdlooseMu==1||hJet_SoftLeptId95==1))) max(0,(hJet_SoftLeptPt*(hJet_SoftLeptIdlooseMu==1||hJet_SoftLeptId95==1))) hJet_cef hJet_nconstituents max(0,hJet_vtxPt) max(0,hJet_vtxMass) max(0,hJet_vtx3dL) max(0,hJet_vtx3deL) METnoPU.et VHbb::deltaPhi(METnoPU.phi,hJet_phi)
 
-cut = hJet_pt[0] > 18. & abs(hJet_eta[0]) < 2.4 & hJet_pt[1] > 18. & abs(hJet_eta[1]) < 2.4 & hJet_genPt[0] > 0.01 & hJet_genPt[1] > 0.01 & hJet_csv[0] > 0. & hJet_csv[0] > 0. & hJet_chf[0] > 0. & hJet_chf[0] > 0.
+cut = abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hJet_genPt[0] > 0. & hJet_genPt[1] > 0. & hJet_csv[0] > 0. & hJet_csv[1] > 0. & hJet_chf[0] > 0. & hJet_chf[1] > 0.
 
 trainCut = EVENT.event%8==0
 testCut = EVENT.event%8!=0 & EVENT.event%5==0
