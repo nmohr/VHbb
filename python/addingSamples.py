@@ -62,7 +62,9 @@ def get_weights(fileList,lheBin):
         del tree
 
     CountIncl = fileList[0][3]
+    xSecIncl = fileList[0][1]
     print fileList
+    print 'Inclusive cross-section %.2f pb' %xSecIncl
 
     #total -> total numer of events in each lheBin
     print 'Calculating total'
@@ -79,7 +81,7 @@ def get_weights(fileList,lheBin):
         #print fileList
         if total[bin] > 0.:
             #the first is always the one with the highest N in the bin: 
-            weight.append( (fileList[0][1]/fileList[0][3]) * (CountIncl/2950.0) * fileList[0][2][bin]/total[bin] )
+            weight.append( (fileList[0][1]/fileList[0][3]) * (CountIncl/xSecIncl) * fileList[0][2][bin]/total[bin] )
         else:
             weight.append(1.)
 
