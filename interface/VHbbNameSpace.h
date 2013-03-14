@@ -1,8 +1,14 @@
 #include "TLorentzVector.h"
 #include "TVector3.h"
+#include "TVector2.h"
 #include "TMath.h"
+/*#if !defined(__CINT__) && !defined(__MAKECINT__)
+#include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
+#include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
+#endif*/
 
 namespace VHbb {
+  
 
   double deltaPhi(double phi1,double phi2)
   {
@@ -165,13 +171,47 @@ namespace VHbb {
         return phi2;
 }
 
+TVector2 metType1Reg(double met, double metphi, double corr1, double corr2, double pt1, double eta1, double phi1, double e1, double pt2, double eta2, double phi2, double e2)
+{
+    double metx = met * cos(metphi);
+    double mety = met * sin(metphi);
+    TLorentzVector j1;
+    TLorentzVector j2;
+    j1.SetPtEtaPhiE(pt1,eta1,phi1, e1 );
+    j2.SetPtEtaPhiE(pt2,eta2,phi2, e2 );
+    metx += j1.Px()*(1-corr1);
+    metx += j2.Px()*(1-corr2);
+    mety += j1.Py()*(1-corr1);
+    mety += j2.Py()*(1-corr2);
+    TVector2 corrMET(metx, mety);
+     return corrMET;
+}
+
+double metType1Phi(double met, double metphi, double corr1, double corr2, double pt1, double eta1, double phi1, double e1, double pt2, double eta2, double phi2, double e2){
+    return metType1Reg(met, metphi, corr1, corr2, pt1, eta1, phi1, e1, pt2, eta2, phi2, e2).Phi();
+
+}
+double metType1Et(double met, double metphi, double corr1, double corr2, double pt1, double eta1, double phi1, double e1, double pt2, double eta2, double phi2, double e2){
+    return metType1Reg(met, metphi, corr1, corr2, pt1, eta1, phi1, e1, pt2, eta2, phi2, e2).Mod();
+
+}
+
+
+   double met_MPF(double met, double metphi, double pt, double phi)
+{
+    return 1.+met*pt*std::cos( deltaPhi(metphi,phi) ) / (pt*pt);
+
+}
+
 double resolutionBias(double eta)
 {
 // return 0;//Nominal!
- if(eta< 1.1) return 0.05;
- if(eta< 2.5) return 0.10;
- if(eta< 5) return 0.30;
- return 0;
+  if(eta< 0.5) return 0.052;
+  if(eta< 1.1) return 0.057;
+  if(eta< 1.7) return 0.096;
+  if(eta< 2.3) return 0.134;
+  if(eta< 5) return 0.28;
+  return 0;
 }
 
 double evalJERBias( double ptreco, double ptgen, double eta1){
@@ -180,7 +220,8 @@ double evalJERBias( double ptreco, double ptgen, double eta1){
   if ((fabs(ptreco - ptgen)/ ptreco)<0.5) { //Limit the effect to the core 
      cor = (ptreco +resolutionBias(eta) *(ptreco-ptgen))/ptreco;   
   }
-  return ptreco*cor;
+  if (ptgen > 0.) return ptreco*cor;
+  else return ptreco;
 }
 
 double evalEt( double pt, double eta, double phi, double e){
@@ -196,6 +237,18 @@ double evalMt( double pt, double eta, double phi, double e){
   return j.Mt(); 
 
 }
+/*double evalJECUnc( double pt, double eta){
+// Total uncertainty for reference
+JetCorrectionUncertainty *total = new JetCorrectionUncertainty("/shome/nmohr/CMSSW_5_2_6_patch1/src/UserCode/VHbb/data/START53_V15MC_Uncertainty_AK5PFchs.txt");
+
+total->setJetPt(pt);
+total->setJetEta(eta);
+double uncert =  total->getUncertainty(true);
+delete total;
+return uncert;
+}*/
+
+
 
 }
 
