@@ -27,9 +27,17 @@ MassVeto= (H.mass < 90. | H.mass > 150.)
 pullAngle = deltaPullAngle < 10. & deltaPullAngle2 < 10.
 rTight = V.pt > 100.
 rTight2 = V.pt > 150.
+
+rTight_150 = V.pt > 150.
+rTight_240 = V.pt > 240.
+
 #rMed = V.pt > 10.
 rMed = V.pt > 50. & V.pt < 100.
 rMed2 = V.pt > 100. & V.pt < 150.
+
+rMed_150 = V.pt > 100. & V.pt < 150.
+rMed_240 = V.pt > 100. & V.pt < 150.
+
 rLow2 = V.pt > 50.& V.pt < 100.
 upperHMass = H.mass < 250.
 looseHMass = H.mass > 80. & H.mass < 150.
@@ -67,6 +75,13 @@ mjjMedPt_opt = <!ZHbb|preselection!> & <!ZHbb|rMed2!> & <!ZHbb|ccBtag!> & <!ZHbb
 RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!>
 RTight = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> 
 RTightLooseBTag = <!ZHbb|30jets!> & <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> & <!ZHbb|looseBTag!>
+
+RMed_150 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed_150!> & <!ZHbb|looseHMass!>
+RTight_150 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight_150!> & <!ZHbb|upperHMass!> 
+
+RMed_240 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed_240!> & <!ZHbb|looseHMass!>
+RTight_240 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight_240!> & <!ZHbb|upperHMass!> 
+
 HighPt = <!Cuts|RTight!>
 LowPt = <!Cuts|RMed!>
 HighPtLooseBTag = <!Cuts|RTightLooseBTag!>
@@ -92,6 +107,23 @@ HighPt_ExpertRegion1_MM: <!Cuts|RTight!> & TT_HighPt_ZH125_nov.nominal > 0.28 & 
 HighPt_ExpertRegion2_MM: <!Cuts|RTight!> & TT_HighPt_ZH125_nov.nominal > 0.28 & DY_HighPt_ZH125_nov.nominal > -0.1 & VV_HighPt_ZH125_nov.nominal <= 0.28 & <!ZHmmbb|addCuts!>
 HighPt_ExpertRegion3_MM: <!Cuts|RTight!> & TT_HighPt_ZH125_nov.nominal > 0.28 & DY_HighPt_ZH125_nov.nominal > -0.1 & VV_HighPt_ZH125_nov.nominal > 0.28 & <!ZHmmbb|addCuts!>
 
+
+##### REGION FOR SCALE FACTOR FIT #######
+RTight_TTbar_fit = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!>
+RMed_TTbar_fit = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!>
+RTight_DYJets_fit = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|vetoHMass!>
+# For RMed_DYJets_fit region: btag extrapolation from loose (in the fit region) to custom (in the signal region)
+RMed_DYJets_fit = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|vetoHMass!> 
+# Electron - Muons splitting
+RTight_TTbar_fit_EE = <!Cuts|RTight_TTbar_fit!> & <!ZHeebb|addCuts!>
+RTight_TTbar_fit_MM = <!Cuts|RTight_TTbar_fit!> & <!ZHmmbb|addCuts!>
+RMed_TTbar_fit_EE = <!Cuts|RMed_TTbar_fit!> & <!ZHeebb|addCuts!>
+RMed_TTbar_fit_MM = <!Cuts|RMed_TTbar_fit!> & <!ZHmmbb|addCuts!>
+RTight_DYJets_fit_EE = <!Cuts|RTight_DYJets_fit!> & <!ZHeebb|addCuts!>
+RTight_DYJets_fit_MM = <!Cuts|RTight_DYJets_fit!> & <!ZHmmbb|addCuts!>
+RMed_DYJets_fit_EE = <!Cuts|RMed_DYJets_fit!> & <!ZHeebb|addCuts!>
+RMed_DYJets_fit_MM = <!Cuts|RMed_DYJets_fit!> & <!ZHmmbb|addCuts!>
+###########
 
 #control regions
 ZLight: <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & V.pt > 50.
@@ -141,6 +173,14 @@ triggerMM = (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || t
 #lepton individual
 RTight_EE: Vtype==1  & <!Cuts|RTight!>
 RTight_MM: Vtype==0 & <!Cuts|RTight!>
+
+RTight_150_EE: Vtype==1  & <!Cuts|RTight_150!>
+RTight_150_MM: Vtype==0 & <!Cuts|RTight_150!>
+
+RTight_240_EE: Vtype==1  & <!Cuts|RTight_240!>
+RTight_240_MM: Vtype==0 & <!Cuts|RTight_240!>
+
+
 # changed for BDTselect plots
 HighPt_Zee = <!Cuts|RTight_EE!>
 # & RTight_ZH125_oct.nominal > 0.6
@@ -148,6 +188,14 @@ HighPt_Zmm = <!Cuts|RTight_MM!>
 # & RTight_ZH125_oct.nominal > 0.6
 RMed_EE: Vtype==1 & <!Cuts|RMed!>
 RMed_MM: Vtype==0 & <!Cuts|RMed!>
+
+RMed_150_EE: Vtype==1  & <!Cuts|RMed_150!>
+RMed_150_MM: Vtype==0 & <!Cuts|RMed_150!>
+
+RMed_240_EE: Vtype==1  & <!Cuts|RMed_240!>
+RMed_240_MM: Vtype==0 & <!Cuts|RMed_240!>
+
+
 LowPt_Zee = <!Cuts|RMed_EE!>
 LowPt_Zmm = <!Cuts|RMed_MM!>
 RTightLooseBTag_EE: Vtype==1 & <!Cuts|RTightLooseBTag!>
