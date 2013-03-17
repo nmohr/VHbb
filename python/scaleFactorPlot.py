@@ -183,34 +183,74 @@ if options.plotfile:
     canvas.SaveAs(options.plotfile)
 
 
-########### PIER ###############
+########### SCALE FACTOR PLOT ###############
+## If you fit scale factors this part of   ##
+## will create a plt reading from the      ##
+## nuisances. All the nuisance cointaning  ##
+## "SF" in their name will be plotted      ##
+#############################################
+
 import numpy
 if options.plotsf:
     n=0
     labels=[]
-    v_s=[]
-    v_b=[]
-    rho=[]
-    sys=[]
-    x_position=[]
-    y_position=[]
+    v_s=[] # dX/sigma_in values
+    v_b=[] # sigma_out/sigma_in values
+    rho=[] # rho
+    sys=[] # systematics. Not properly filled yet
+    x_position=[] # x position in the plot, basically the SF value
+    y_position=[] # y position in the plot. @TO IMPLEMENT: According to the number of entries per background the spacing is different.
+    # loop on all the nuisances
     for name in names:
+        # take only the nuisances which have SF in their name
         if ('SF' in name ):
             print name
             labels.append(name)
             n+=1
-            v = table[name]
+            # Take the values
+            # The usual order is: dX/sigma_in for background only - sigma_out/sigma_in for background only - dX/sigma_in for background+signal - sigma_out/sigma_in for background+signal - rho
+            v = table[name] 
+            # forget about the flag
             v = [ re.sub('!','',i) for i in v ]
             if pmsub  != None: v = [ re.sub(pmsub[0],  pmsub[1],  i) for i in v ]
             if sigsub != None: v = [ re.sub(sigsub[0], sigsub[1], i) for i in v ]
-#            if (name,'b') in isFlagged: v[-3] = highlighters[isFlagged[(name,'b')]] % v[-3]
-#            if (name,'s') in isFlagged: v[-2] = highlighters[isFlagged[(name,'s')]] % v[-2]
             v_b.append(v[0].split(','))
             v_s.append(v[1].split(','))
             rho.append(v[2].split(','))
             x_position.append(0.)
-            y_position.append(n+0.5)
-            sys.append(0.1)
+            y_position.append(n-1.)
+            sys.append(0.1) # need to decide how to quote the systematics and where to take them from
+
+    # count the number of different channels
+    channels = [0.,0.,0.]
+    print labels
+    for label in labels:
+        if label.find('Zll') > 0. : channels[0] = 1.
+        if label.find('Wln') > 0. : channels[1] = 1.
+        if label.find('Znn') > 0. : channels[2] = 1.
+    # calculate the shift on the y position
+    shift=0.
+    for channel in channels: shift+=channel;
+    print shift
+    shift=1./(shift+1)
+    print shift
+    #shift the elements in the array
+    for i in range(0,len(y_position)): y_position[i]+=shift
+    print y_position
+    # clean the label
+    labels = [re.sub('CMS_vhbb_','',label) for label in labels ]
+    try:
+        labels = [re.sub('_Zll_SF_8TeV','',label) for label in labels ]
+        labels = [re.sub('_Wln_SF_8TeV','',label) for label in labels ]
+        labels = [re.sub('_Znn_SF_8TeV','',label) for label in labels ]
+    except:
+        print '@WARNING: No usual naming for datacard scale factors nuisances'
+        print labels
+
+#CMS_vhbb_TT_Zll_SF_8TeV                       ! +0.56, 0.13!     ! +0.54, 0.13!       -0.00
+#CMS_vhbb_ZjHF_Zll_SF_8TeV                        +1.79, 1.14        +1.80, 1.13       +0.00
+#CMS_vhbb_ZjLF_Zll_SF_8TeV                     ! +3.51, 0.94!     ! +3.42, 0.95!       -0.00
+
     print n
     print labels
     print v_s
@@ -218,17 +258,19 @@ if options.plotsf:
     print rho
     sf=[]
     sf_e=[]
-    initial_uncertainty=0.2
+    initial_uncertainty=0.2 # initial uncertainty. @TO FIX: this can go in a config or as input arg
     for i in v_b:
         try:
-            sf.append(1+initial_uncertainty*eval(i[0]))
-            sf_e.append(initial_uncertainty*eval(i[1]))
+            sf.append(1+initial_uncertainty*eval(i[0])) # calculate the actual value for the scale factors
+            sf_e.append(initial_uncertainty*eval(i[1])) # calculate the actula value for the uncertainties
         except:
             print 'Problem evaluating the SF or the SF errors'
     print sf
     print sf_e
     c = ROOT.TCanvas("c","c",600,600)
 
+
+    label_dictionary = {"TT":"t#bar{t}","ZjHF":"Z+b#bar{b}","ZjLF":"Z+udscg"}
 #labels = ["W+udscg","W+b#bar{b}","Z+udscg","Z+b#bar{b}","t#bar{t}"]
     #d = numpy.array([0.94, 1.72, 1.10,1.08,1.01])
     d = numpy.array(sf)
@@ -240,11 +282,11 @@ if options.plotsf:
     p = numpy.array(y_position)
     zero = numpy.array(x_position)
 
-    h2 = ROOT.TH2F("h2","",1,0.7,2.2,5,0,5)
+    h2 = ROOT.TH2F("h2","",1,0.7,2.2,n,0,n)
     h2.GetXaxis().SetTitle("Scale factor")
     
     for i in range(n):
-        h2.GetYaxis().SetBinLabel(i+1,labels[i])
+        h2.GetYaxis().SetBinLabel(i+1,label_dictionary[labels[i]])
 
     g = ROOT.TGraphErrors(n,d,p,e,zero)
     g.SetFillColor(0)
@@ -270,23 +312,23 @@ if options.plotsf:
     globalFitBand.SetFillColor(65);
     globalFitBand.SetLineStyle(0);
     #globalFitBand.Draw("same");
-    globalFitLine = ROOT.TLine(1.0, 0., 1.0, 5.);
+    globalFitLine = ROOT.TLine(1.0, 0., 1.0, n);
     globalFitLine.SetLineWidth(2);
     globalFitLine.SetLineColor(214);#214
     globalFitLine.Draw("same");
     
     #l2 = ROOT.TLegend(0.5, 0.82,0.92,0.95)
-    l2 = ROOT.TLegend(0.55, 0.65,0.80,0.87)
+    l2 = ROOT.TLegend(0.55, 0.85,0.85,0.87)
     l2.SetLineWidth(2)
     l2.SetBorderSize(0)
     l2.SetFillColor(0)
     l2.SetFillStyle(4000)
     l2.SetTextFont(62)
-    l2.AddEntry(g,"Scale factor","p")
-    l2.AddEntry(g,"Statistical","l")
-    l2.AddEntry(g2,"Systematics","l")
+    l2.AddEntry(g,"SF","p")
+    l2.AddEntry(g,"Stat.","l")
+    l2.AddEntry(g2,"Syst.","l")
     l2.SetTextSize(0.035)
-    #l2.SetNColumns(2)
+    l2.SetNColumns(3)
     l2.Draw("same")
     
     g.Draw("P same")
