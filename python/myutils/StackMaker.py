@@ -54,6 +54,10 @@ class StackMaker:
             cut = None
         if config.has_option(section, 'Datacut'):
             cut=config.get(section, 'Datacut')
+        if config.has_option(section, 'doFit'):
+            self.doFit=eval(config.get(section, 'doFit'))
+        else:
+            self.doFit = False
 
         self.colorDict=eval(config.get('Plot_general','colorDict'))
         self.typLegendDict=eval(config.get('Plot_general','typLegendDict'))
@@ -261,7 +265,7 @@ class StackMaker:
         l.Draw()
 
         tPrel = self.myText("CMS Preliminary",0.17,0.88,1.04)
-        tLumi = self.myText("#sqrt{s} =  %s, L = %s fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.83)
+        tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.83)
         tAddFlag = self.myText(addFlag,0.17,0.78)
 
         unten.cd()
@@ -288,7 +292,13 @@ class StackMaker:
         ratioError.SetFillColor(ROOT.kGray+3)
         ratioError.SetFillStyle(3013)
         ratio.Draw("E1")
-
+        if self.doFit:
+            fitData = ROOT.TF1("fData", "gaus",0.7, 1.3)
+            fitMC = ROOT.TF1("fMC", "gaus",0.7, 1.3)
+            print 'Fit on data'
+            d1.Fit(fitData,"R")
+            print 'Fit on simulation'
+            allMC.Fit(fitMC,"R")
 
 
         if not self.AddErrors == None:
