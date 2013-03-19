@@ -2,6 +2,172 @@
 import re
 from sys import argv, stdout, stderr, exit
 from optparse import OptionParser
+from HiggsAnalysis.CombinedLimit.DatacardParser import *
+from HiggsAnalysis.CombinedLimit.ShapeTools     import *
+from copy import copy,deepcopy
+
+
+
+def removeDouble(seq):
+    seen = set()
+    seen_add = seen.add
+    return [ x for x in seq if x not in seen and not seen_add(x)]
+
+
+def getInputSigma(options):
+    opts = copy(options)
+#    options = copy(opts)
+#    options.dataname = "data_obs"
+#    options.mass = 0
+#    options.format = "%8.3f +/- %6.3f"
+#    options.channel = opts.bins
+
+#    options.norm = False
+
+#    options.bin = True # fake that is a binary output, so that we parse shape lines
+#    options.out = "tmp.root"
+#    options.fileName = args[0]
+#    options.cexpr = False
+#    options.fixpars = False
+#    options.libs = []
+#    options.verbose = 0
+#    options.poisson = 0
+
+#    options.noJMax = None
+#    theBinning = ROOT.RooFit.Binning(Stack.nBins,Stack.xMin,Stack.xMax)
+    
+    file = open(opts.dc, "r")
+#    os.chdir(os.path.dirname(opts.dc))
+    opts.bin = True
+    opts.noJMax = None
+    opts.nuisancesToExclude = []
+    opts.stat = False
+    opts.excludeSyst = ['SF']
+    DC = parseCard(file, opts)
+
+    theSyst = {}
+    nuiVar = {}
+#    if not opts.bin in DC.bins: raise RuntimeError, "Cannot open find %s in bins %s of %s" % (opts.bin,DC.bins,opts.dc)
+    b = DC.bins[0]
+    exps = {}
+    expNui = {}
+    for (p,e) in DC.exp[b].items(): # so that we get only self.DC.processes contributing to this bin
+        exps[p] = [ e, [] ]
+        expNui[p] = [ e, [] ]
+#    print DC.systs
+    for (lsyst,nofloat,pdf,pdfargs,errline) in DC.systs:
+        if pdf in ('param', 'flatParam'): continue
+        # begin skip systematics
+        skipme = False
+        for xs in opts.excludeSyst:
+            if not re.search(xs, lsyst): 
+                skipme = True
+        if skipme: continue
+        # end skip systematics
+        counter = 0
+        for p in DC.exp[b].keys(): # so that we get only self.DC.processes contributing to this bin
+            if errline[b][p] == 0: continue
+            if p == 'QCD': continue
+            if pdf == 'gmN':
+                exps[p][1].append(1/sqrt(pdfargs[0]+1));
+            elif pdf == 'gmM':
+                exps[p][1].append(errline[b][p]);
+            elif type(errline[b][p]) == list: 
+                kmax = max(errline[b][p][0], errline[b][p][1], 1.0/errline[b][p][0], 1.0/errline[b][p][1]);
+                exps[p][1].append(kmax-1.);
+            elif pdf == 'lnN':
+                exps[p][1].append(max(errline[b][p], 1.0/errline[b][p])-1.);
+#    print exps
+    return exps
+#                if not nuiVar.has_key('%s_%s'%(opts.fit,lsyst)):
+#                    nui = 0.
+#                else:
+#                    nui= nuiVar['%s_%s'%(opts.fit,lsyst)]
+#                expNui[p][1].append(abs(1-errline[b][p])*nui);
+
+
+
+
+def getGraph(channel,labels,shift,v_b,input_sigma,x_position,y_position,nuisances):
+    print 'Channel' +  channel
+    sf=[]
+    sf_e=[]
+#    correspondency_dictionary = {"TT":"TT","s_Top":"s_Top","Zj0b":"Z0b","Zj1b":"Z1b","Zj2b":"Z2b","Wj0b":"Wj0b","Wj1b":"Wj1b","Wj2b":"Wj2b","Zj1HF":"Z1b","Zj2HF":"Z2b","ZjLF":"Z0b"}
+    correspondency_dictionary = {"TT":"TT","s_Top":"s_Top","Zj0b":"Zj0b","Zj1b":"Zj1b","Zj2b":"Zj2b","Wj0b":"Wj0b","Wj1b":"Wj1b","Wj2b":"Wj2b","Zj1HF":"Z1b","Zj2HF":"Z2b","ZjLF":"Z0b","s_Top":"s_Top"}
+#    print input_sigma
+#    print input_sigma['TT'][1][0]
+#    initial_uncertainty=0.2 # initial uncertainty. @TO FIX: this can go in a config or as input arg
+    count=0
+    print labels
+    channels = ['high','High','low','Low','Med','med']
+    for i in v_b:
+        print 'Nuisances ' + nuisances[count]
+        for h in channels:
+            if h in channel and h in re.sub('M','m',re.sub('L','l',re.sub('H','h',nuisances[count]))):
+                print count
+                try:
+                    print 'Label : ' + str(labels[count])
+                    print 'Relative SF : ' + i[0]
+                    print 'Relative Error : ' + i[1]
+                    print 'Correspondance : ' + str(correspondency_dictionary[labels[count]])
+                    print 'Input sigma list : ' + str(input_sigma[correspondency_dictionary[labels[count]]])
+                    print 'Input sigma value : ' + str(input_sigma[correspondency_dictionary[labels[count]]][1][0])
+                    sf.append(1+input_sigma[correspondency_dictionary[labels[count]]][1][0]*eval(i[0])) # calculate the actual value for the scale factors
+                    sf_e.append(input_sigma[correspondency_dictionary[labels[count]]][1][0]*eval(i[1])) # calculate the actula value for the uncertainties
+                    print sf
+                    print sf_e
+                except:
+                    print 'Problem evaluating the SF or the SF errors'
+#        elif( any(lowPt) in channel and any(lowPt) in nuisances[count]):
+#            print count
+#            try:
+#                print labels[count]
+#                print i
+#                sf.append(1+input_sigma[correspondency_dictionary[labels[count]]][1][0]*eval(i[0])) # calculate the actual value for the scale factors
+#                sf_e.append(input_sigma[correspondency_dictionary[labels[count]]][1][0]*eval(i[1])) # calculate the actula value for the uncertainties
+#                print sf
+#            except:
+#                print 'Problem evaluating the SF or the SF errors'
+#        else:
+#            try:
+#                print labels[count]
+#                print correspondency_dictionary[labels[count]]
+#                print input_sigma[correspondency_dictionary[labels[count]]]
+#                print input_sigma[correspondency_dictionary[labels[count]]][1][0]
+#                sf.append(1+input_sigma[correspondency_dictionary[labels[count]]][1][0]*eval(i[0])) # calculate the actual value for the scale factors
+#                sf_e.append(input_sigma[correspondency_dictionary[labels[count]]][1][0]*eval(i[1])) # calculate the actula value for the uncertainties
+#            except:
+#                print 'Problem evaluating the SF or the SF errors'
+        count+=1
+    print sf
+    print sf_e
+
+    d = numpy.array(sf) # store scale factors in array
+    e = numpy.array(sf_e) # store scale factors errors in array
+    p = numpy.array(y_position)
+    zero = numpy.array(x_position)
+
+#    for i in range(len(labels)):
+#        print 'CMSSW_vhbb_'+labels[i]+'_Zll_SF_8TeV '+ str(d[i]) + ' +/- ' + str(e[i])
+
+    markerStyle = 20
+    if ('high' in channel or 'High' in channel ):
+        markerStyle = 21
+    if ('med' in channel or 'Med' in channel ):
+        markerStyle = 22
+
+    for i in range(len(p)): p[i] = p[i]+shift
+    print 'POSITIONS: '
+    print p
+    g = ROOT.TGraphErrors(n,d,p,e,zero)
+    g.SetFillColor(0)
+    g.SetLineColor(2)
+    g.SetLineWidth(3)
+    g.SetMarkerStyle(markerStyle)
+    return g
+
+
+
 
 # import ROOT with a fix to get batch mode (http://root.cern.ch/phpBB3/viewtopic.php?t=3198)
 hasHelp = False
@@ -27,6 +193,7 @@ parser.add_option("-p", "--poi",      dest="poi",    default="r",    type="strin
 parser.add_option("-f", "--format",   dest="format", default="text", type="string",  help="Output format ('text', 'latex', 'twiki'")
 parser.add_option("-g", "--histogram", dest="plotfile", default=None, type="string", help="If true, plot the pulls of the nuisances to the given file.")
 parser.add_option("--sf", "--scale-factor", dest="plotsf", default=None, type="string", help="If true, plot the scale factors in a histograms.")
+parser.add_option("-D", "--datacard", dest="dc", default="", help="Datacard to be plotted")
 
 (options, args) = parser.parse_args()
 if len(args) == 0:
@@ -71,6 +238,10 @@ for i in range(fpf_s.getSize()):
                 if fit_name == 'b':
                     pulls.append(valShift)
                 sigShift = nuis_x.getError()/sigma_p
+#                print name
+#                print nuis_x.getError()
+#                print nuis_p.getVal()
+#                print sigShift
                 if options.abs:
                     row[-1] += " (%+4.2fsig, %4.2f)" % (valShift, sigShift)
                 else:
@@ -191,7 +362,7 @@ if options.plotfile:
 #############################################
 
 import numpy
-if options.plotsf:
+if options.plotsf and options.dc:
     n=0
     labels=[]
     v_s=[] # dX/sigma_in values
@@ -200,18 +371,19 @@ if options.plotsf:
     sys=[] # systematics. Not properly filled yet
     x_position=[] # x position in the plot, basically the SF value
     y_position=[] # y position in the plot. @TO IMPLEMENT: According to the number of entries per background the spacing is different.
-    # loop on all the nuisances
+    #!! loop on all the nuisances
     for name in names:
-        # take only the nuisances which have SF in their name
+        #!! take only the nuisances which have SF in their name
         if ('SF' in name ):
             print name
             labels.append(name)
             n+=1
-            # Take the values
-            # The usual order is: dX/sigma_in for background only - sigma_out/sigma_in for background only - dX/sigma_in for background+signal - sigma_out/sigma_in for background+signal - rho
+            #!! take the values
+            #!! the usual order is: dX/sigma_in for background only - sigma_out/sigma_in for background only - dX/sigma_in for background+signal - sigma_out/sigma_in for background+signal - rho
             v = table[name] 
-            # forget about the flag
+            #!! forget about the flag
             v = [ re.sub('!','',i) for i in v ]
+            v = [ re.sub('\*','',i) for i in v ]
             if pmsub  != None: v = [ re.sub(pmsub[0],  pmsub[1],  i) for i in v ]
             if sigsub != None: v = [ re.sub(sigsub[0], sigsub[1], i) for i in v ]
             v_b.append(v[0].split(','))
@@ -219,30 +391,66 @@ if options.plotsf:
             rho.append(v[2].split(','))
             x_position.append(0.)
             y_position.append(n-1.)
-            sys.append(0.1) # need to decide how to quote the systematics and where to take them from
+            sys.append(0.1) #@TO FIX: need to decide how to quote the systematics and where to take them from
 
     # count the number of different channels
-    channels = [0.,0.,0.]
+    channels = [0.,0.,0.,0.,0.]
+    ch={'Zll':0.,'Zll low Pt':0.,'Zll high Pt':0.,'Wln':0.,'Wln low Pt':0.,'Wln high Pt':0.,'Znn':0.,'Znn low Pt':0.,'Znn high Pt':0.,'Znn med Pt':0.}
     print labels
     for label in labels:
-        if label.find('Zll') > 0. : channels[0] = 1.
-        if label.find('Wln') > 0. : channels[1] = 1.
-        if label.find('Znn') > 0. : channels[2] = 1.
+        #!! create channel list and labels for legend
+        if label.find('Zll') > 0. :
+            if label.find('lowPt') > 0.:
+                ch['Zll low Pt'] = 1.
+            elif label.find('highPt') > 0.:
+                ch['Zll high Pt'] = 1.
+            else:
+                ch['Zll'] = 1.
+        if label.find('Wln') > 0. :
+            if label.find('lowPt') > 0.:
+                ch['Wln low Pt'] = 1.
+            elif label.find('highPt') > 0.:
+                ch['Wln high Pt'] = 1.
+            else:
+                ch['Wln'] = 1.
+        if label.find('Znunu') > 0. :
+            if label.find('LowPt') > 0.:
+                ch['Znunu low Pt'] = 1.
+            elif label.find('MedPt') > 0.:
+                ch['Znunu med Pt'] = 1.
+            elif label.find('HighPt') > 0.:
+                ch['Znunu high Pt'] = 1.
+            else:
+                ch['Znunu'] = 1.
+
     # calculate the shift on the y position
     shift=0.
-    for channel in channels: shift+=channel;
-    print shift
+    for channel,active in ch.iteritems(): shift+=active;
     shift=1./(shift+1)
-    print shift
+
     #shift the elements in the array
-    for i in range(0,len(y_position)): y_position[i]+=shift
+#    for i in range(0,len(y_position)): y_position[i]+=shift
+
+    print 'Y_POSITION' 
     print y_position
-    # clean the label
+    # clean the labels
+    nuisances = labels
     labels = [re.sub('CMS_vhbb_','',label) for label in labels ]
     try:
-        labels = [re.sub('_Zll_SF_8TeV','',label) for label in labels ]
-        labels = [re.sub('_Wln_SF_8TeV','',label) for label in labels ]
-        labels = [re.sub('_Znn_SF_8TeV','',label) for label in labels ]
+        labels = [re.sub('_Zll_SF_','',label) for label in labels ]
+        labels = [re.sub('_Wln_SF_','',label) for label in labels ]
+        labels = [re.sub('_SF_Znunu','',label) for label in labels ]
+        labels = [re.sub('lowPt_8TeV','',label) for label in labels ]
+        labels = [re.sub('highPt_8TeV','',label) for label in labels ]
+        labels = [re.sub('medPt_8TeV','',label) for label in labels ]
+        labels = [re.sub('_Zll_lowPt_SF_8TeV','',label) for label in labels ]
+        labels = [re.sub('_Zll_highPt_SF_8TeV','',label) for label in labels ]
+        labels = [re.sub('LowPt_8TeV','',label) for label in labels ]
+        labels = [re.sub('MedPt_8TeV','',label) for label in labels ]
+        labels = [re.sub('HighPt_8TeV','',label) for label in labels ]
+        labels = [re.sub('8TeV','',label) for label in labels ]
+        labels = [re.sub('8TeV','',label) for label in labels ]
+        
     except:
         print '@WARNING: No usual naming for datacard scale factors nuisances'
         print labels
@@ -256,49 +464,42 @@ if options.plotsf:
     print v_s
     print v_b
     print rho
-    sf=[]
-    sf_e=[]
-    initial_uncertainty=0.2 # initial uncertainty. @TO FIX: this can go in a config or as input arg
-    for i in v_b:
-        try:
-            sf.append(1+initial_uncertainty*eval(i[0])) # calculate the actual value for the scale factors
-            sf_e.append(initial_uncertainty*eval(i[1])) # calculate the actula value for the uncertainties
-        except:
-            print 'Problem evaluating the SF or the SF errors'
-    print sf
-    print sf_e
+
+    label_dictionary = {"TT":"t#bar{t}","ZjHF":"Z+bX","ZjLF":"Z+udscg","Zj1HF":"Z+b","Zj2HF":"Z+b#bar{b}","Wj0b":"W+light","Wj1b":"W+b","Wj2b":"W+b#bar{b}","Zj0b":"Z+light","Zj1b":"Z+b","Zj2b":"Z+b#bar{b}","s_Top":"t"}
     c = ROOT.TCanvas("c","c",600,600)
 
+    input_sigma = getInputSigma(options)
+    print 'Input sigma'
+    print input_sigma
 
-    label_dictionary = {"TT":"t#bar{t}","ZjHF":"Z+b#bar{b}","ZjLF":"Z+udscg"}
-#labels = ["W+udscg","W+b#bar{b}","Z+udscg","Z+b#bar{b}","t#bar{t}"]
-    #d = numpy.array([0.94, 1.72, 1.10,1.08,1.01])
-    d = numpy.array(sf)
-    #e = numpy.array([0.02,0.16,0.02,0.04,0.02])
-    e = numpy.array(sf_e)
-    #for the moment just random systematics
-    sys_e = numpy.array(sys)
-    #TO FIX: Y position of the point. 
-    p = numpy.array(y_position)
-    zero = numpy.array(x_position)
+    graphs={}
+    j=1
+    for channel,active in ch.iteritems():
+        print channel
+        print active
+        if active > 0.:
+            graphs[channel] = getGraph(channel,labels,j*shift,v_b,input_sigma,x_position,y_position,nuisances) # create the graph with the scale factors
+            j+=1
+            
+    print graphs
 
-    h2 = ROOT.TH2F("h2","",1,0.7,2.2,n,0,n)
+    labels = removeDouble(labels)
+    n= len(labels)
+    h2 = ROOT.TH2F("h2","",1,0.,2.5,n,0,n) # x min - max values. 
     h2.GetXaxis().SetTitle("Scale factor")
     
     for i in range(n):
         h2.GetYaxis().SetBinLabel(i+1,label_dictionary[labels[i]])
 
-    g = ROOT.TGraphErrors(n,d,p,e,zero)
-    g.SetFillColor(0)
-    g.SetLineColor(2)
-    g.SetLineWidth(3)
-    g.SetMarkerStyle(21)
-
-    g2 = ROOT.TGraphErrors(n,d,p,sys_e,zero)
-    g2.SetFillColor(0)
-    #g2.SetLineColor(2);
-    g2.SetLineWidth(3);
-    g2.SetMarkerStyle(21);
+    
+    drawSys=False
+    if(drawSys):
+        #for the moment just random systematics
+        sys_e = numpy.array(sys)
+        #!! Create the graph for the systematics, if any. It will show only error brackets, no points
+        g2 = ROOT.TGraphErrors(n,d,p,sys_e,zero)
+        g2.SetFillColor(0)
+        g2.SetLineWidth(3);
     
     h2.Draw(); ROOT.gStyle.SetOptStat(0);
     h2.GetXaxis().SetTitleSize(0.04);
@@ -316,24 +517,30 @@ if options.plotsf:
     globalFitLine.SetLineWidth(2);
     globalFitLine.SetLineColor(214);#214
     globalFitLine.Draw("same");
-    
-    #l2 = ROOT.TLegend(0.5, 0.82,0.92,0.95)
-    l2 = ROOT.TLegend(0.55, 0.85,0.85,0.87)
+
+    #!! Legend
+    l2 = ROOT.TLegend(0.60, 0.85,0.80,0.67)
     l2.SetLineWidth(2)
     l2.SetBorderSize(0)
     l2.SetFillColor(0)
     l2.SetFillStyle(4000)
     l2.SetTextFont(62)
-    l2.AddEntry(g,"SF","p")
-    l2.AddEntry(g,"Stat.","l")
-    l2.AddEntry(g2,"Syst.","l")
+    for channel,g in graphs.iteritems():
+        print channel
+        l2.AddEntry(g,channel,"pl")
+    #l2.AddEntry(g,"Stat.","l")
+    if(drawSys) : l2.AddEntry(g2,"Syst.","l")
     l2.SetTextSize(0.035)
-    l2.SetNColumns(3)
+#    l2.SetNColumns(3)
     l2.Draw("same")
-    
-    g.Draw("P same")
-    g2.Draw("[] same")
+
+    for channel,g in graphs.iteritems(): print channel; g.Draw("P same")
+    if(drawSys) : g2.Draw("[] same")
     ROOT.gPad.SetLeftMargin(0.2)
     ROOT.gPad.Update()
     c.Print("histo.pdf")
+
+
+
+
 
