@@ -105,7 +105,7 @@ if [ $task = "sys" ]; then
     ./write_regression_systematics.py --samples $sample --config ${energy}config/${configList}
 fi
 if [ $task = "eval" ]; then
-echo    ./evaluateMVA.py --discr $MVAList --samples $sample --config ${energy}config/${configList}
+    ./evaluateMVA.py --discr $MVAList --samples $sample --config ${energy}config/${configList}
 fi
 if [ $task = "syseval" ]; then
     ./write_regression_systematics.py --samples $sample --config ${energy}config/${configList}
