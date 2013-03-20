@@ -1,37 +1,59 @@
+[Configuration]
+#!! List of the config you want to use
+#!! The number of config has to be exaclty 7
+#!! The list only support spaces between configs
+List = paths general cuts training datacard plots lhe_weight
+
 [Directories]
 
-#just a variable
-Dname: afterHCP
-#Working Directory
-Wdir: /shome/nmohr/
-samplepath = gsidcap://t3se01.psi.ch:22128//pnfs/psi.ch/cms/trivcat/store/HBB_EDMNtuple/V42/Oct22/
-tmpSamples: <!Directories|samplepath!>/envW/sys/MVAout/tmp/
+#!! just a variable
+Dname: finalPaper_v2.3
+#!! Working Directory
+Wdir: /shome/bortigno/
+samplepath = gsidcap://t3se01.psi.ch:22128//pnfs/psi.ch/cms/trivcat/store/HBB_EDMNtuple/V42/Mar13/
+#!! tmp2.2.3 post-higgsreview
+t3Private = gsidcap://t3se01.psi.ch:22128//pnfs/psi.ch/cms/trivcat/store/user/bortigno/tmp2.3.0/
+scratch = /scratch/bortigno/
 
-#The directory with the code
-vhbbpath= <!Directories|Wdir!>/CMSSW_5_2_6_patch1/src/UserCode/VHbb/
+#!! The directory with the code
+vhbbpath= <!Directories|Wdir!>/VHbbAnalysis/<!Directories|Dname!>/
 
-#specifies the .cfg files with the Samples information
+#!! specifies the .cfg files with the Samples information
 samplesinfo: <!Directories|vhbbpath!>/python/8TeVconfig/samples_nosplit.cfg
 
-#where you want to store the logfiles from job submissions
-logpath= <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/LOG/
+#!! where you want to store the logfiles from job submissions
+logpath= <!Directories|vhbbpath!>/LOG/
 
-#from which samples to plot and where to save the plots
+#!! from which samples to plot and where to save the plots
 plottingSamples: <!Directories|MVAout!>
-plotpath: <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/Stacks_expertAllnominal/
+plotpath: <!Directories|vhbbpath!>/Stacks_expertAllnominal_v2.3.0/
+plot_dc_path: <!Directories|vhbbpath!>/Stacks_fromDC_Allnominal_v2.3.0/
 
-#from which samples to make the DCs and where to save the DCs
+#!! cahed files
+tmpSamples=<!Directories|t3Private!>/
+
+#!! from which samples to make the DCs and where to save the DCs
 dcSamples: <!Directories|MVAout!>
-limits: <!Directories|Wdir!>/VHbb/<!Directories|Dname!>/Limit_expertAllnominal/
+#limits: <!Directories|vhbbpath!>/Limit_expertAllnominal_controlRegions_pure_highlow/
+limits: <!Directories|vhbbpath!>/Limit_expertAllnominal/
 
-#From where to take the raw samples and where to put the prepared trees:
+#!! From where to take the raw samples and where to put the prepared trees:
 PREPin: <!Directories|samplepath!>
-PREPout: <!Directories|samplepath!>/envW/
+PREPout: <!Directories|vhbbpath!>/env/
+#PREPout: <!Directories|scratch!>/
 
-#On which samples to apply the regression and write the sys and where to write the resulting trees:
-SYSin: <!Directories|samplepath!>/envW/
-SYSout: <!Directories|samplepath!>/envW/sys/
+#!! On which samples to apply the regression and write the sys and where to write the resulting trees:
+SYSin: <!Directories|samplepath!>/env/
+#SYSout: <!Directories|samplepath!>/env/sys/
+SYSout: <!Directories|samplepath!>/env/sysAllSyst/
 
-#On which samples to evaluate the MVA on and where to write the resulting trees:
-MVAin: <!Directories|samplepath!>/envW/sys/
-MVAout: <!Directories|samplepath!>/envW/sys/MVAout/
+#!! On which samples to evaluate the MVA on and where to write the resulting trees:
+MVAin: <!Directories|SYSout!>/
+MVAout: <!Directories|MVAin!>/LHCPMVAout_v2.3.0/
+
+#!! to fix corruption problem use scratch
+#MVAout: <!Directories|scratch!>/
+
+#!! On which samples to evaluate the MVAon and where to write the resulting trees:
+SPLITin: <!Directories|samplepath!>/env/sys/
+SPLITout: <!Directories|SYSout!>/split/

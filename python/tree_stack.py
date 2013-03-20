@@ -11,7 +11,7 @@ ROOT.gROOT.SetBatch(True)
 #CONFIGURE
 argv = sys.argv
 parser = OptionParser()
-parser.add_option("-R", "--reg", dest="region", default="",
+parser.add_option("-R", "--region", dest="region", default="",
                       help="region to plot")
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
                       help="configuration file")

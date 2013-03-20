@@ -22,7 +22,7 @@ parser.add_option("-S","--setting", dest="MVAsettings", default='',
 parser.add_option("-N","--name", dest="set_name", default='',
                       help="Parameter setting name. Output files will have this name")
 parser.add_option("-L","--local",dest="local", default=True,
-                      help="True to run it locally. Default=False -> Run on batch system using config")
+                      help="True to run it locally. False to run on batch system using config")
 
 (opts, args) = parser.parse_args(argv)
 if opts.config =="":

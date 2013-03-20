@@ -12,7 +12,7 @@ from myutils import BetterConfigParser, Sample, progbar, printc, ParseInfo, Rebi
 #--CONFIGURE---------------------------------------------------------------------
 argv = sys.argv
 parser = OptionParser()
-parser.add_option("-V", "--var", dest="variable", default="",
+parser.add_option("-V", "--variable", dest="variable", default="",
                       help="variable for shape analysis")
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
                       help="configuration file")
