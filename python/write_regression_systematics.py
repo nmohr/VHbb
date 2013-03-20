@@ -391,7 +391,7 @@ for job in info:
     for entry in range(0,nEntries):
             tree.GetEntry(entry)
 
-            if job.type != 'DATA' and TrainFlag:
+            if job.type != 'DATA':
                 EventForTraining[0]=int(not TFlag.EvalInstance())
             if lhe_weight_map and 'DY' in job.name:
                 match_bin = None
