@@ -231,14 +231,17 @@ print ks_signal
 print '@LOG: Kolmogorov test on background'
 print ks_bkg
 
-#update the database
+#!! update the database
 import sqlite3 as lite
 con = lite.connect(MVAdir+'Trainings.db',timeout=10000) #timeout in milliseconds. default 5 sec
 with con: # here DB is locked
 	cur = con.cursor()
 	cur.execute("create table if not exists trainings (Roc_integral real, Separation real, Significance real, Ks_signal real, Ks_background real, Roc_integral_train real, Separation_train real, MVASettings text)");
 	cur.execute("insert into trainings values(?,?,?,?,?,?,?,?)",(roc_integral_test,separation_test,significance,ks_signal,ks_bkg,roc_integral_train,separation_train,MVAsettings));
-#here is unlocked
+#!! here is unlocked
+
+#!! Close the output file to avoid memory leak
+output.Close()
 
 
 #WRITE INFOFILE
