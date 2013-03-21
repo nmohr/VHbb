@@ -137,7 +137,7 @@ if [ $task = "mva_opt" ]; then
     echo "BDT factory settings"
     echo $additional_arg
     echo "Runnning"
-    ./train.py --name ${sample} --training ${job_id} --config ${energy}config/${configList} --samples ${additional_arg} --local False
+    ./train.py --name ${sample} --training ${job_id} --config ${energy}config/${configList} --setting ${additional_arg} --local False
 fi
 
 rm -rf $TMPDIR
