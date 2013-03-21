@@ -41,13 +41,13 @@ en = opts.tag
 
 #create the list with the samples to run over
 samplesList=opts.samples.split(",")
-
 timestamp = time.asctime().replace(' ','_').replace(':','-')
 
-configs = ['%sconfig/general'%(en),'%sconfig/paths'%(en),'%sconfig/plots'%(en),'%sconfig/training'%(en),'%sconfig/datacards'%(en),'%sconfig/cuts'%(en)]
-
+# the list of the config is taken from the path config
 pathconfig = BetterConfigParser()
 pathconfig.read('%sconfig/paths'%(en))
+_configs = pathconfig.get('Configuration','List').split(" ")
+configs = [ '%sconfig/'%(en) + c for c in _configs  ]
 
 if not opts.ftag == '':
     tagDir = pathconfig.get('Directories','tagDir')
@@ -83,22 +83,42 @@ print configs
 config = BetterConfigParser()
 config.read(configs)
 
-btagLibrary = config.get('BTagReshaping','library')
-submitDir = os.getcwd()
-os.chdir(os.path.dirname(btagLibrary))
-if not os.path.exists(btagLibrary):
-    ROOT.gROOT.LoadMacro('%s+'%btagLibrary.replace('_h.so','.h')) 
-shutil.copyfile(os.path.basename(btagLibrary),'/scratch/%s/%s'%(getpass.getuser(),os.path.basename(btagLibrary)))
-shutil.copyfile('/scratch/%s/%s'%(getpass.getuser(),os.path.basename(btagLibrary)),btagLibrary)
-os.chdir(submitDir)
+
+def compile_macro(config,macro):
+    """
+    Creates the library from a macro using CINT compiling it in scratch to avoid
+    problems with the linking in the working nodes.
+    Args:
+        config: configuration file where the macro path is specified
+        macro: macro name to be compiled
+    Returns:
+        nothing
+    """
+    submitDir = os.getcwd()
+    _macro=macro+'.h'
+    library = config.get(macro,'library')
+    libDir=os.path.dirname(library)
+    os.chdir(libDir)
+    if not os.path.exists(library):
+        print '@INFO: Compiling ' + _macro
+        scratchDir='/scratch/%s/'%(getpass.getuser())
+        shutil.copyfile(libDir+'/'+_macro,'/scratch/%s/%s'%(getpass.getuser(),_macro))
+        os.chdir(scratchDir)
+        ROOT.gROOT.ProcessLine('.L %s+'%(scratchDir+_macro))
+        shutil.copyfile('/scratch/%s/%s'%(getpass.getuser(),os.path.basename(library)),library)
+    os.chdir(submitDir)
+        
+compile_macro(config,'BTagReshaping')
+compile_macro(config,'VHbbNameSpace')
+
 logPath = config.get("Directories","logpath")
 logo = open('%s/data/submit.txt' %config.get('Directories','vhbbpath')).readlines()
 counter = 0
 
 #check if the logPath exist. If not exit
 if( not os.path.isdir(logPath) ):
-    print 'ERROR: ' + logPath + ': dir not found.'
-    print 'ERROR: Create it before submitting '
+    print '@ERROR : ' + logPath + ': dir not found.'
+    print '@ERROR : Create it before submitting '
     print 'Exit'
     sys.exit(-1)
     
