@@ -248,6 +248,18 @@ delete total;
 return uncert;
 }*/
 
+double ptWeightDY( double lheV_pt)
+{
+    double SF = 1.;
+    if (50. < lheV_pt && lheV_pt < 100.){
+        SF = 0.873885+0.00175853*lheV_pt;
+    }
+    else if (lheV_pt > 100){
+        SF = 1.10651-0.000705265*lheV_pt;
+    }
+    return SF;
+}
+
 
 
 }
