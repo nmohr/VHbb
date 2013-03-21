@@ -1,0 +1,36 @@
+#!! -------------------------
+#!! Limit definitions
+#!! -------------------------
+[Limit]
+
+#Tight EE
+RTight_ZH110_EE_8TeV: RTight_ZH110_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M110_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH110,ZeeHighPt_8TeV,BDT
+RTight_ZH115_EE_8TeV: RTight_ZH115_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M115_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH115,ZeeHighPt_8TeV,BDT
+RTight_ZH120_EE_8TeV: RTight_ZH120_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M120_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH120,ZeeHighPt_8TeV,BDT
+RTight_ZH125_EE_8TeV: RTight_ZH125_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH125,ZeeHighPt_8TeV,BDT
+RTight_ZH130_EE_8TeV: RTight_ZH130_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH130,ZeeHighPt_8TeV,BDT
+RTight_ZH135_EE_8TeV: RTight_ZH135_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH135,ZeeHighPt_8TeV,BDT
+
+#Tight MM
+RTight_ZH110_MM_8TeV: RTight_ZH110_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M110_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH110,ZmmHighPt_8TeV,BDT
+RTight_ZH115_MM_8TeV: RTight_ZH115_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M115_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH115,ZmmHighPt_8TeV,BDT
+RTight_ZH120_MM_8TeV: RTight_ZH120_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M120_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH120,ZmmHighPt_8TeV,BDT
+RTight_ZH125_MM_8TeV: RTight_ZH125_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH125,ZmmHighPt_8TeV,BDT
+RTight_ZH130_MM_8TeV: RTight_ZH130_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH130,ZmmHighPt_8TeV,BDT
+RTight_ZH135_MM_8TeV: RTight_ZH135_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH135,ZmmHighPt_8TeV,BDT
+
+#Med EE
+RMed_ZH110_EE_8TeV: RMed_ZH110_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M110_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH110,ZeeLowPt_8TeV,BDT
+RMed_ZH115_EE_8TeV: RMed_ZH115_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M115_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH115,ZeeLowPt_8TeV,BDT
+RMed_ZH120_EE_8TeV: RMed_ZH120_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M120_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH120,ZeeLowPt_8TeV,BDT
+RMed_ZH125_EE_8TeV: RMed_ZH125_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLowPt_8TeV,BDT
+RMed_ZH130_EE_8TeV: RMed_ZH130_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH130,ZeeLowPt_8TeV,BDT
+RMed_ZH135_EE_8TeV: RMed_ZH135_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH135,ZeeLowPt_8TeV,BDT
+
+#Med MM
+RMed_ZH110_MM_8TeV: RMed_ZH110_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M110_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH110,ZmmLowPt_8TeV,BDT
+RMed_ZH115_MM_8TeV: RMed_ZH115_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M115_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH115,ZmmLowPt_8TeV,BDT
+RMed_ZH120_MM_8TeV: RMed_ZH120_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M120_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH120,ZmmLowPt_8TeV,BDT
+RMed_ZH125_MM_8TeV: RMed_ZH125_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLowPt_8TeV,BDT
+RMed_ZH130_MM_8TeV: RMed_ZH130_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH130,ZmmLowPt_8TeV,BDT
+RMed_ZH135_MM_8TeV: RMed_ZH135_may_4.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLowPt_8TeV,BDT

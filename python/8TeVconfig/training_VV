@@ -1,0 +1,17 @@
+#--ZZ-bb training
+[RTight_VV_feb]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['ZZ-bb']
+backgrounds: [<!Samples|BKG_VV_training!>]
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RMed_VV_feb]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+signals: ['ZZ-bb']
+backgrounds: [<!Samples|BKG_VV_training!>]
+treeVarSet: treeVarsICHEP
+treeCut: RMed_VV
+#---------------

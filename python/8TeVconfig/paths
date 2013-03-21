@@ -17,10 +17,8 @@ scratch = /scratch/bortigno/
 
 #!! The directory with the code
 vhbbpath= <!Directories|Wdir!>/VHbbAnalysis/<!Directories|Dname!>/
-
 #!! specifies the .cfg files with the Samples information
 samplesinfo: <!Directories|vhbbpath!>/python/8TeVconfig/samples_nosplit.cfg
-
 #!! where you want to store the logfiles from job submissions
 logpath= <!Directories|vhbbpath!>/LOG/
 

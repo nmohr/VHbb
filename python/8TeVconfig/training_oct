@@ -1,0 +1,145 @@
+# oct'12 8TeV Training
+
+[RTight_ZH110_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['ZH110']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RTight_ZH115_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['ZH115']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RTight_ZH120_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['ZH120']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RTight_ZH125_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RTight_ZH130_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['ZH130']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RTight_ZH135_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['ZH135']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RMed_ZH110_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+signals: ['ZH110']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RMed_ZH115_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+signals: ['ZH115']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RMed_ZH120_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+signals: ['ZH120']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RMed_ZH125_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RMed_ZH130_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+signals: ['ZH130']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RMed_ZH135_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+signals: ['ZH135']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RTightLooseBTag_ZH110_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
+signals: ['ZH110']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTightLooseBTag
+
+[RTightLooseBTag_ZH115_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
+signals: ['ZH115']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTightLooseBTag
+
+[RTightLooseBTag_ZH120_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
+signals: ['ZH120']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTightLooseBTag
+
+[RTightLooseBTag_ZH125_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTightLooseBTag
+
+[RTightLooseBTag_ZH130_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
+signals: ['ZH130']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTightLooseBTag
+
+[RTightLooseBTag_ZH135_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsLooseBtag!>
+signals: ['ZH135']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTightLooseBTag

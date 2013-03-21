@@ -1,0 +1,201 @@
+#### TEST - CHANGE Pt CUt ############
+
+[RTight_120_ZH125_janAngularOnly]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsAngularOnly
+treeCut: RTight_120
+
+[RMed_120_ZH125_janAngularOnly]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsAngularOnly
+treeCut: RMed_120
+
+[RLoose_ZH125_janAngularOnly]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsAngularOnly
+treeCut: RLoose
+
+
+
+# AFTER HCP test trainings
+
+[RMed_ZH125_jan]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RMed
+
+[RTight_ZH125_jan]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RMed_ZH125_janLikelihood]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsLikelihood
+treeCut: RMed
+
+[RTight_ZH125_janLikelihood]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsLikelihood
+treeCut: RTight
+
+[RMed_ZH125_janAngularVars]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsAngular
+treeCut: RMed
+
+[RTight_ZH125_janAngularVars]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsAngular
+treeCut: RTight
+
+
+[RTight_ZH125_janLikelihoodOnly]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsLikelihoodOnly
+treeCut: RTight
+
+
+[RTight_ZH125_jan_bestRanked]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVars_bestRanked
+treeCut: RTight
+
+
+
+[RTight_ZH125_jan_fatH]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVars_fatH
+treeCut: RTight
+
+[RTight_ZH125_jan_isr]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVars_isr
+treeCut: RTight
+
+[RTight_ZH125_jan_leptons]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVars_leptons
+treeCut: RTight
+
+
+#overtraining tests
+
+[RTight_ZH125_jan_overtrain]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight_overtrain!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsICHEP
+treeCut: RTight
+
+[RTight_ZH125_janLikelihood_overtrain]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight_overtrain!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsLikelihood
+treeCut: RTight
+
+[RTight_ZH125_janAngularVars_overtrain]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight_overtrain!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsAngular
+treeCut: RTight
+
+[RTight_ZH125_janAngularOnly_overtrain]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight_overtrain!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsAngularOnly
+treeCut: RTight
+
+[RTight_ZH125_janLikelihoodOnly_overtrain]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight_overtrain!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsLikelihoodOnly
+treeCut: RTight
+
+[RTight_ZH125_jan_bestRanked_overtrain]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight_overtrain!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVars_bestRanked
+treeCut: RTight
+
+
+# BDT PARAMETERS OPTIMISATION
+
+[RTight_ZH125_optimisation]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+path: <!Directories|samplepath!>/envW/sys/
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+#treeVarSet: treeVars_bestRanked # the variables are selected in the train_optimisation.py code
+#treeCut: RTight # the cuts can not be changed here. If you want to go tighter you need to modify the code train_optimisation.py
