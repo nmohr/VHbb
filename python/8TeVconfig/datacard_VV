@@ -1,10 +1,15 @@
 #!! Datacard samples setup (1st Signal, afterwards BKG)
+#if BDT
 setup: ['ZH', 'DYlight','DY1b','DY2b','VV','TT','ST']
-#setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
+#if Mjj
+#setup: ['ZH', 'DYlight','DYb','VV','TT']
 #!! Lists from general config
 BKG = [<!Samples|allBKG!>]
+#if BDT
 Group = <!Samples|Group!>
-
+#if Mjj
+#Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135':'ZH','Zudsg':'DYlight','Zudsg1J':'DYlight','Zudsg2J':'DYlight','Zudsg3J':'DYlight','Zudsg4J':'DYlight','ZudsgHT200400':'DYlight','ZudsgHT400':'DYlight','Zudsg5070':'DYlight','Zudsg5070ext':'DYlight','Zudsg70100':'DYlight','Zudsg100':'DYlight','Zudsg100ext':'DYlight','Zudsg180':'DYlight','Zcc':'DYlight','Zcc1J':'DYlight','Zcc2J':'DYlight','Zcc3J':'DYlight','Zcc4J':'DYlight','ZccHT200400':'DYlight','ZccHT400':'DYlight','Zcc5070':'DYlight','Zcc5070ext':'DYlight','Zcc70100':'DYlight','Zcc100':'DYlight','Zcc100ext':'DYlight','Zcc180':'DYlight','Z1b':'DY1b','Z1b1J':'DY1b','Z1b2J':'DY1b','Z1b3J':'DY1b','Z1b4J':'DY1b','Z2b':'DY2b','Z2b1J':'DY2b','Z2b2J':'DY2b','Z2b3J':'DY2b','Z2b4J':'DY2b','Z1bHT200400':'DY1b','Z1bHT400':'DY1b','Z1b5070':'DY1b','Z1b5070ext':'DY1b','Z1b70100':'DY1b','Z1b100':'DY1b','Z1b100ext':'DY1b','Z1b180':'DY1b','Z2bHT200400':'DY2b','Z2bHT400':'DY2b','Z2b5070':'DY2b','Z2b5070ext':'DY2b','Z2b70100':'DY2b','Z2b100':'DY2b','Z2b100ext':'DY2b','Z2b180':'DY2b','ZZ-light':'VV','WW':'VV','WZ':'VV','ZZ':'VV','ZZ-bb':'ZZbb','TT':'TT,','TT1':'TT','TT2':'TT','TT_FullLept':'TT','TT_SemiLept':'TT','ST_s':'TT','ST_t':'TT','ST_tW':'TT','STbar_s':'TT','STbar_t':'TT','STbar_tW':'TT','TT_Hadronic':'TT','Zee':'Data','Zmm':'Data','AltZZ':'AltVV','AltWZ':'AltVV','AltZZ-light':'AltVV','AltZZ-bb':'AltZZ-bb'}
+#
 #!! --------------------------------------
 #!! Naming
 #!! --------------------------------------
@@ -26,7 +31,7 @@ List = RTight_ZH125_EE_8TeV_janAngularOnly,RMed_ZH125_EE_8TeV_janAngularOnly,RTi
 #!! --------------------------------------
 [Datacard]
 
-InUse = ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_ZjLF_Zll_SF_8TeV','CMS_vhbb_ZjHF_Zll_SF_8TeV','CMS_vhbb_TT_Zll_SF_8TeV']
+InUse = ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_ZjLF_Zll_SF_8TeV','CMS_vhbb_ZjHF_Zll_SF_8TeV','CMS_vhbb_TT_Zll_SF_8TeV','CMS_vhbb_ZH']
 
 InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPt_8TeV','CMS_vhbb_ZjHF_Zll_exHighPt_8TeV','CMS_vhbb_TT_Zll_exHighPt_8TeV','CMS_vhbb_Z1b2b_antiCorrHighPt_Zll_8TeV']
 InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exLowPt_8TeV','CMS_vhbb_ZjHF_Zll_exLowPt_8TeV','CMS_vhbb_TT_Zll_exLowPt_8TeV','CMS_vhbb_Z1b2b_antiCorrLowPt_Zll_8TeV']
@@ -45,7 +50,7 @@ CMS_vhbb_boost_EWK = {'type':'lnN', 'ZH':1.05,'ZH125':1.05}
 CMS_vhbb_boost_QCD = {'type':'lnN', 'ZH':1.10,'ZH125':1.10}
 CMS_vhbb_ST = {'type':'lnN', 'ST':1.29}
 
-#CMS_vhbb_ZH = {'type':lnN, 'ZH':1.40}
+CMS_vhbb_ZH = {'type':'lnN', 'ZH':1.40}
 CMS_vhbb_VV = {'type':'lnN', 'VV':1.30, 'ZZ-bb':1.30}
 CMS_vhbb_ZjLF_ex = {'type':'lnN', 'DYlight':1.05}
 CMS_vhbb_ZjHF_ex = {'type':'lnN', 'DYb':1.05}
