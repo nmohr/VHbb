@@ -162,6 +162,10 @@ if opts.task == 'plot':
     for item in Plot_vars:
         submit(item,repDict)
 
+if opts.task == 'trainReg':
+    repDict['queue'] = 'all.q'
+    submit('trainReg',repDict)
+
 
 elif opts.task == 'dc':
     repDict['queue'] = 'short.q'
