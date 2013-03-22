@@ -12,8 +12,8 @@ samples: [<!Samples|allBKG!>]
 Group: <!Samples|Group!>
 
 #how and which groups in the plot
-setup: ZH,VV,DY2b,DY1b,DYlight,TT,ST
-setupLog: ZH,DY2b,DY1b,DYlight,TT,ST,VV
+setup: ZH,VVb,VVlight,DY2b,DY1b,DYlight,TT,ST
+setupLog: ZH,DY2b,DY1b,DYlight,TT,ST,VVlight,VVb
 #setupLog: DYb,DYc,DYlight,TT,ST,VV,ZH
 
 #Mjj
@@ -22,8 +22,8 @@ setupLog: ZH,DY2b,DY1b,DYlight,TT,ST,VV
 
 
 #colors
-colorDict: {'DYlight':401,'DYc':402,'DY2b':5,'DY1b':41,'TT':596,'ST':602,'VV':17,'ZH':2,'DYlc':401}
-typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','TT':'t#bar{t}','ST':'Single top','VV':'VV','ZH':'ZH','Overlay':'ZH (125 GeV)'}
+colorDict: {'DYlight':401,'DYc':402,'DY2b':5,'DY1b':41,'TT':596,'ST':602,'VVlight':17,'VVb':18,'ZH':2,'DYlc':401}
+typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','TT':'t#bar{t}','ST':'Single top','VV':'VV','VVlight':'VV(udscg)','VVb':'VV(b)','ZH':'ZH','Overlay':'ZH (125 GeV)'}
 
 addOverFlow = True
 
