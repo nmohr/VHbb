@@ -84,7 +84,7 @@ print config.get('Configuration','List')
 EOF`
 required_number_of_configs=7                                             # set the number of required cconfig
 input_configs_array=( $input_configs )                                   # create an array to count the number of elements
-if [ ${#input_configs_array[*]} -ne $required_number_of_configs ]        # check if the list contains the right number of configs
+if [ ${#input_configs_array[*]} -lt $required_number_of_configs ]        # check if the list contains the right number of configs
     then 
     echo "@ERROR : The number of the elements in the config list is not correct"
     exit
