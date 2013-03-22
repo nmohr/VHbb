@@ -89,7 +89,7 @@ class TreeCache:
             cut += '& (%s)' %(sample.subcut)
         ROOT.gROOT.cd()
         cuttedTree=tree.CopyTree(cut)
-        cuttedTree.SetDirectory(0)
+        #cuttedTree.SetDirectory(0)
         input.Close()
         del input
         del tree
@@ -126,8 +126,7 @@ class TreeCache:
     @staticmethod
     def file_exists(file):
         if 'gsidcap://t3se01.psi.ch:22128' in file:
-            srmPath = 'srm://t3se01.psi.ch:8443/srm/managerv2?SFN='
-            command = 'lcg-ls %s' %file.replace('gsidcap://t3se01.psi.ch:22128/','%s/'%srmPath)
+            command = 'ls %s' %file.replace('gsidcap://t3se01.psi.ch:22128/','')
             p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,shell=True)
             line = p.stdout.readline()
             return not 'No such file or directory' in line
