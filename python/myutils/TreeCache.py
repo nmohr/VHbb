@@ -129,8 +129,10 @@ class TreeCache:
     @staticmethod
     def file_exists(file):
         if 'gsidcap://t3se01.psi.ch:22128' in file:
-            fName = file.replace('gsidcap://t3se01.psi.ch:22128/','')
+            srmPath = 'srm://t3se01.psi.ch:8443/srm/managerv2?SFN='
+            command = 'lcg-ls %s' %file.replace('gsidcap://t3se01.psi.ch:22128/','%s/'%srmPath)
+            p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,shell=True)
+            line = p.stdout.readline()
+            return not 'No such file or directory' in line
         else:
-            fName = file
-        return os.path.exists(fName)
-
+            return os.path.exists(file)
