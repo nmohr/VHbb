@@ -7,14 +7,24 @@ from math import sqrt
 import math
 from HiggsAnalysis.CombinedLimit.DatacardParser import *
 from HiggsAnalysis.CombinedLimit.ShapeTools     import *
-import ROOT 
+
+# import ROOT with a fix to get batch mode (http://root.cern.ch/phpBB3/viewtopic.php?t=3198)
+hasHelp = False
+argv = sys.argv
+for X in ("-h", "-?", "--help"):
+    if X in argv:
+        hasHelp = True
+        argv.remove(X)
+argv.append( '-b-' )
+import ROOT
 from myutils import StackMaker, BetterConfigParser
 
 ROOT.gROOT.SetBatch(True)
 ROOT.gSystem.Load("libHiggsAnalysisCombinedLimit.so")
+argv.remove( '-b-' )
+if hasHelp: argv.append("-h")
 
 #CONFIGURE
-argv = sys.argv
 parser = OptionParser()
 parser.add_option("-D", "--datacard", dest="dc", default="",
                       help="Datacard to be plotted")
@@ -26,6 +36,9 @@ parser.add_option("-F", "--fitresult", dest="fit", default="s",
                       help="Fit result to be used, 's' (signal+background)  or 'b' (background only), default is 's'")
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
                       help="configuration file")
+parser.add_option("-V", "--variable", dest="var", default="",
+                      help="variable to be fitted")
+
 (opts, args) = parser.parse_args(argv)
 
 def readBestFit(theFile):
@@ -107,6 +120,7 @@ def getBestFitShapes(procs,theShapes,shapeNui,theBestFit,DC,setup,opts,Dict):
 def drawFromDC():
     config = BetterConfigParser()
     config.read(opts.config)
+    print opts.config
     dataname = ''
     if 'Zmm' in opts.bin: dataname = 'Zmm'
     elif 'Zee' in opts.bin: dataname = 'Zee'
@@ -114,15 +128,20 @@ def drawFromDC():
     elif 'Wenu' in opts.bin: dataname = 'Wen'
     elif 'Znunu' in opts.bin: dataname = 'Znn'
 
-    var = 'BDT'
-    if dataname == 'Zmm' or dataname == 'Zee': var = 'BDT_Zll' 
-    elif dataname == 'Wmn' or dataname == 'Wen': var = 'BDT_Wln' 
-    elif dataname == 'Znn': 
-        if 'HighPt' in opts.bin: var = 'BDT_ZnnHighPt' 
-        if 'LowPt' in opts.bin: var = 'BDT_ZnnLowPt' 
-        if 'LowCSV' in opts.bin: var = 'BDT_ZnnLowCSV' 
-    if dataname == '' or var == 'BDT': raise RuntimeError, "Did not recognise mode or var from %s" % opts.bin
-    
+    print 'Variable printing'
+    print opts.var
+    if(opts.var == ''):
+        var = 'BDT'
+        if dataname == 'Zmm' or dataname == 'Zee': var = 'BDT_Zll' 
+        elif dataname == 'Wmn' or dataname == 'Wen': var = 'BDT_Wln' 
+        elif dataname == 'Znn': 
+            if 'HighPt' in opts.bin: var = 'BDT_ZnnHighPt' 
+            if 'LowPt' in opts.bin: var = 'BDT_ZnnLowPt' 
+            if 'LowCSV' in opts.bin: var = 'BDT_ZnnLowCSV' 
+        if dataname == '' or var == 'BDT': raise RuntimeError, "Did not recognise mode or var from %s" % opts.bin
+    else:
+        var = opts.var
+        
     region = 'BDT'
     ws_var = config.get('plotDef:%s'%var,'relPath')
     ws_var = ROOT.RooRealVar(ws_var,ws_var,-1.,1.)
@@ -141,9 +160,13 @@ def drawFromDC():
 
     setup = config.get('Plot_general','setup').split(',')
     if dataname == 'Zmm' or dataname == 'Zee': 
-        setup.remove('Wb')
-        setup.remove('Wlight')
-        setup.remove('WH')
+        try:
+            setup.remove('Wb')
+            setup.remove('Wlight')
+            setup.remove('WH')
+        except:
+            print '@INFO: Wb / Wligh / WH not present in the datacard'
+
     Dict = eval(config.get('LimitGeneral','Dict'))
     lumi = eval(config.get('Plot_general','lumi'))
     
