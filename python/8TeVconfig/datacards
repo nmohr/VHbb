@@ -83,8 +83,8 @@ systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS
 #!! to be processed in batch mode
 #!! --------------------------------------
 
+#List = RMed_120_ZH125_MM_8TeV_janAngularOnly,RMed_120_ZH125_EE_8TeV_janAngularOnly,RTight_120_ZH125_MM_8TeV_janAngularOnly,RTight_120_ZH125_EE_8TeV_janAngularOnly,RLoose_ZH125_MM_8TeV_janAngularOnly,RLoose_ZH125_EE_8TeV_janAngularOnly
 List = RTight_ZH125_EE_8TeV_janAngularOnly,RMed_ZH125_EE_8TeV_janAngularOnly,RTight_ZH125_MM_8TeV_janAngularOnly,RMed_ZH125_MM_8TeV_janAngularOnly
-#,RTight_TTbar_ZH125_EE_8TeV_janAngularOnly,RTight_TTbar_ZH125_MM_8TeV_janAngularOnly,RMed_TTbar_ZH125_EE_8TeV_janAngularOnly,RMed_TTbar_ZH125_MM_8TeV_janAngularOnly
 
 #!! --------------------------------------
 #!! Datacards specif setup
@@ -182,6 +182,19 @@ RMed_ZH145_MM_8TeV_janAngularOnly: RMed_ZH145_janAngularOnly.nominal,<!LimitGene
 RMed_ZH145_EE_8TeV_janAngularOnly: RMed_ZH145_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M145_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH145,ZeeLowPt_8TeV,BDT
 RMed_ZH150_MM_8TeV_janAngularOnly: RMed_ZH150_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M150_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH150,ZmmLowPt_8TeV,BDT
 RMed_ZH150_EE_8TeV_janAngularOnly: RMed_ZH150_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M150_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH150,ZeeLowPt_8TeV,BDT
+
+
+#RTight_120_jan
+RTight_120_ZH125_MM_8TeV_janAngularOnly: RTight_120_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmHighPt_8TeV,RTight_120_MM,RTight_120_MM,ZH125,ZmmHighPt_8TeV,BDT
+RTight_120_ZH125_EE_8TeV_janAngularOnly: RTight_120_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZeeHighPt_8TeV,RTight_120_EE,RTight_120_EE,ZH125,ZeeHighPt_8TeV,BDT
+
+#RMed_120_janAngularOnly
+RMed_120_ZH125_MM_8TeV_janAngularOnly: RMed_120_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmLowPt_8TeV,RMed_120_MM,RMed_120_MM,ZH125,ZmmLowPt_8TeV,BDT
+RMed_120_ZH125_EE_8TeV_janAngularOnly: RMed_120_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZeeLowPt_8TeV,RMed_120_EE,RMed_120_EE,ZH125,ZeeLowPt_8TeV,BDT
+
+#RLoose ( 0 - 50 )
+RLoose_ZH125_MM_8TeV_janAngularOnly: RLoose_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmVLowPt_8TeV,RLoose_MM,RLoose_MM,ZH125,ZmmVLowPt_8TeV,BDT
+RLoose_ZH125_EE_8TeV_janAngularOnly: RLoose_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZeeVLowPt_8TeV,RLoose_EE,RLoose_EE,ZH125,ZeeVLowPt_8TeV,BDT
 
 
 [RMed_ZH150_EE_8TeV_janAngularOnly]
