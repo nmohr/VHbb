@@ -14,12 +14,12 @@ BDTrange = BDT output,10,-1,1
 BDToutname = CMS_vhbb_BDT_Zll_8TeV
 Mjjrange = 17,0.,255.
 #!! control region variables examples
-METrange = MET.et,10,0,100
+METrange = MET.et,20,0,100
 btagrange = csv,20,0,1
 
 #!! Rebinning procedure for the BDT. Only suitable for BDT
 #!! For Mjj or for control region put False.
-rebin_active = True
+rebin_active = False
 #Mjj-> False
 
 #!! --------------------------------------
@@ -56,7 +56,7 @@ signal_inject: None
 #!! add signal als BKG, e.g. ZH125 (working?)
 add_signal_as_bkg: None
 #!! blind Data
-blind: True
+blind: False
 #!! toy Data
 toy: False
 
@@ -182,9 +182,9 @@ RTight_TTbar_ZH125_MM_8TeV_janAngularOnly: MET.et,<!LimitGeneral|BDToutname!>,<!
 RTight_TTbar_ZH125_EE_8TeV_janAngularOnly: MET.et,<!LimitGeneral|BDToutname!>,<!LimitGeneral|METrange!>,BDT_M125_ZeeHighPt_TTbar_janAngularOnly_8TeV,RTight_TTbar_fit_EE,RTight_TTbar_fit_EE,ZH125,ZeeHighPt_8TeV,cr
 
 #!! LowPt
-RMed_TTbar_ZH125_8TeV_janAngularOnly: MET.et,<!LimitGeneral|BDToutname!>,<!LimitGeneral|METrange!>,BDT_M125_ZLowPt_TTbar_janAngularOnly_8TeV,RMed_TTbar_fit,RMed_TTbar_fit,ZH125,ZHightPt_8TeV,cr
+RMed_TTbar_ZH125_8TeV_janAngularOnly: MET.et,<!LimitGeneral|BDToutname!>,<!LimitGeneral|METrange!>,BDT_M125_ZLowPt_TTbar_janAngularOnly_8TeV,RMed_TTbar_fit,RMed_TTbar_fit,ZH125,ZLowtPt_8TeV,cr
 #!! electrons and muons
-RMed_TTbar_ZH125_MM_8TeV_janAngularOnly: MET.et,<!LimitGeneral|BDToutname!>,<!LimitGeneral|METrange!>,BDT_M125_ZmmLowPt_TTbar_janAngularOnly_8TeV,RMed_TTbar_fit_MM,RMed_TTbar_fit_MM,ZH125,ZmmHightPt_8TeV,cr
+RMed_TTbar_ZH125_MM_8TeV_janAngularOnly: MET.et,<!LimitGeneral|BDToutname!>,<!LimitGeneral|METrange!>,BDT_M125_ZmmLowPt_TTbar_janAngularOnly_8TeV,RMed_TTbar_fit_MM,RMed_TTbar_fit_MM,ZH125,ZmmLowtPt_8TeV,cr
 RMed_TTbar_ZH125_EE_8TeV_janAngularOnly: MET.et,<!LimitGeneral|BDToutname!>,<!LimitGeneral|METrange!>,BDT_M125_ZeeLowPt_TTbar_janAngularOnly_8TeV,RMed_TTbar_fit_EE,RMed_TTbar_fit_EE,ZH125,ZeeLowPt_8TeV,cr
 
 #!! DYJets (Hmass sideband + btag extrapolation for the LowPt)
