@@ -119,6 +119,9 @@ def doPlot():
             Stacks[v].overlay = Overlaylist[v]
         Stacks[v].lumi = lumi
         Stacks[v].doPlot()
+        Stacks[v].normalize = True
+        Stacks[v].options['pdfName'] = Stacks[v].options['pdfName'].replace('.pdf','_norm.pdf')
+        Stacks[v].doPlot()
         print 'i am done!\n'
 #----------------------------------------------------
 doPlot()
