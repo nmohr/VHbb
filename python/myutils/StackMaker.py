@@ -25,7 +25,11 @@ class StackMaker:
             self.setup=self.setup.split(',')
         else:
             self.setup=setup
-        #if not SignalRegion: self.setup.remove('ZH')
+        if not SignalRegion: 
+            if 'ZH' in setup:
+                self.setup.remove('ZH')
+            if 'WH' in setup:
+                self.setup.remove('WH')
         self.rebin = 1
         if config.has_option(section,'rebin'):
             self.rebin = eval(config.get(section,'rebin'))
