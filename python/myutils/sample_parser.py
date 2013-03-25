@@ -60,7 +60,6 @@ class ParseInfo:
                 if('.root' in line):
                         truncated_line = line[line.rfind('/')+1:]
                         _p = findnth(truncated_line,'.',2)
-                        #print truncated_line[_p+1:]
                         self.__fileslist.append(truncated_line[_p+1:truncated_line.rfind('.')])
 
         print '@DEBUG: ' + str(self.__fileslist)
@@ -70,8 +69,8 @@ class ParseInfo:
         if( not test_samples(run_on_fileList,self.__fileslist,config.sections()) ): # stop if it finds None as sample
                 sys.exit('@ERROR: Sample == None. Check RunOnFileList flag in section General, the sample_config of the sample directory.')
 
-        for _listed_file,_config_entry in map(None,self.__fileslist,config.sections()): # loop in both, fileList and config
-            if( run_on_fileList ): # check the option to know whether to run in fileList mode or in config mode
+        for _listed_file,_config_entry in map(None,self.__fileslist,config.sections()):
+            if( run_on_fileList ): 
                 _sample = _listed_file
                 self._list = self.__fileslist
             else:
@@ -82,16 +81,8 @@ class ParseInfo:
             if not config.has_option(sample,'infile'): continue
             infile = _sample
             sampleName = config.get(sample,'sampleName')
-            print _sample
             
-            check_correspondency(sample,self._list,config)
-
-#               if ( run_on_file_list and any( sample in file for file in config.sections() ) ) or ( !run_on_file_list and any (sample in file for file in self.__fileList) ):
-#                   print 'Sample %s is present'%(sampleName)
-#               else:
-#                   warnings.warn('Sample %s is NOT! present'%(sampleName))
-#                   warnings.warn("File %s not present"%(infile))
-                    
+            check_correspondency(sample,self._list,config)                    
             
             #Initialize samplecalss element
             sampleType = config.get(sample,'sampleType')
@@ -147,11 +138,9 @@ class ParseInfo:
                     return None
     
     def get_samples(self, samplenames):
-        print '### GET SAMPLES ###'
         samples = []
         thenames = []
         #for splitted samples use the identifier. There is always only one. if list, they are all true
-        print(self.checkSplittedSampleName(samplenames[0]))
         if (self.checkSplittedSampleName(samplenames[0])):
                 for sample in self._samplelist:
                         if (sample.subsample): continue #avoid multiple submissions from subsamples
@@ -172,10 +161,8 @@ class ParseInfo:
 
     #it checks whether filename is a splitted sample or is a pure samples and returns the file name without the _#
     def checkSplittedSample(self, filename):
-            print '### CHECKSPLITTEDSAMPLE ###'
             try:
                     isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
-                    print isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
                     print '@DEBUG: fileName in CHECKSPLITTEDSAMPLE : ' + filename
                     print '@DEBUG: return in CHECKSPLITTEDSAMPLE : ' + filename[:filename.rfind('_')]
                     return filename[:filename.rfind('_')]
