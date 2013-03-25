@@ -8,7 +8,7 @@ S'RTight_ZH135_janAngularOnly'
 p3
 sS'weightfilepath'
 p4
-S'/shome/bortigno//VHbbAnalysis/finalPaper_v2//data/'
+S'/shome/bortigno//VHbbAnalysis/finalPaper_v2.3//data/'
 p5
 sS'spectators'
 p6
@@ -54,7 +54,7 @@ aS'angleLZ'
 p27
 aS'angleZZS'
 p28
-aS'HVMass'
+aS'HVMass_Reg'
 p29
 asS'MVAsettings'
 p30
@@ -73,14 +73,14 @@ S'MVA'
 p37
 sS'factorysettings'
 p38
-S'!V:!Silent:Color:!DrawProgressBar:AnalysisType=Classification:Transformations=I'
+S'!V:Silent:Color:!DrawProgressBar:AnalysisType=Classification:Transformations=I'
 p39
 sS'bkgs'
 p40
 (lp41
 sS'path'
 p42
-S'gsidcap://t3se01.psi.ch:22128//pnfs/psi.ch/cms/trivcat/store/HBB_EDMNtuple/V42/Oct22//envW/sys/'
+S'gsidcap://t3se01.psi.ch:22128//pnfs/psi.ch/cms/trivcat/store/HBB_EDMNtuple/V42/Mar13//env/sysAllSyst/'
 p43
 sS'varset'
 p44
