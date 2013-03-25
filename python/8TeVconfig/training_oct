@@ -1,4 +1,36 @@
 # oct'12 8TeV Training
+#
+# MVA definitions
+[MVAGeneral]
+type = BDT
+SettingsTight = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+SettingsLooseBtag = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+SettingsMed = !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+backgrounds8TeV: [<!Samples|allBKG!>] 
+#
+#
+[factory]
+factoryname: MVA
+factorysettings: !V:!Silent:Color:DrawProgressBar:AnalysisType=Classification:Transformations=I
+
+[MVALists]
+List_for_submitscript: RTight_ZH110_oct,RTight_ZH115_oct,RTight_ZH120_oct,RTight_ZH125_oct,RTight_ZH130_oct,RTight_ZH135_oct,RMed_ZH110_oct,RMed_ZH115_oct,RMed_ZH120_oct,RMed_ZH125_oct,RMed_ZH130_oct,RMed_ZH135_oct,RTightLooseBTag_ZH110_oct,RTightLooseBTag_ZH115_oct,RTightLooseBTag_ZH120_oct,RTightLooseBTag_ZH125_oct,RTightLooseBTag_ZH130_oct,RTightLooseBTag_ZH135_oct,RTight_ZZbb_oct4,RMed_ZZbb_oct
+
+[RTight_ZZbb_oct4]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['VVb']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsSystMass
+treeCut: RTight
+
+[RMed_ZZbb_oct]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['VVb']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsSystMass
+treeCut: RMed
 
 [RTight_ZH110_oct]
 MVAtype: <!MVAGeneral|type!>
