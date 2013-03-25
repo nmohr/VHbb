@@ -31,7 +31,7 @@ factorysettings = !V:Silent:Color:!DrawProgressBar:AnalysisType=Classification:T
 
 [MVALists]
 #!! list to be trained and evaluated
-List_for_submitscript: RLoose_ZH125_janAngularOnly,RMed_ZH125_janAngularOnly,RTight_ZH125_janAngularOnly,RMed_120_ZH125_janAngularOnly,RTight_120_ZH125_janAngularOnly
+List_for_submitscript: RTight_ZH110_janAngularOnly,RTight_ZH115_janAngularOnly,RTight_ZH120_janAngularOnly,RTight_ZH125_janAngularOnly,RTight_ZH130_janAngularOnly,RTight_ZH135_janAngularOnly,RTight_ZH140_janAngularOnly,RTight_ZH145_janAngularOnly,RTight_ZH150_janAngularOnly,RMed_ZH110_janAngularOnly,RMed_ZH115_janAngularOnly,RMed_ZH120_janAngularOnly,RMed_ZH125_janAngularOnly,RMed_ZH130_janAngularOnly,RMed_ZH135_janAngularOnly,RMed_ZH140_janAngularOnly,RMed_ZH145_janAngularOnly,RMed_ZH150_janAngularOnly,RTight_ZZbb_oct_noang4,RMed_ZZbb_oct_noang
 
 #!! individual BKGds training
 [TT_HighPt_ZH125_nov]
@@ -61,6 +61,23 @@ treeCut: RTight_andDY
 #!! ---------------------------------------------
 #!! LHCP - ICHEP VARIABLES + ANGULAR VARIABLES
 #!! ---------------------------------------------
+#!! ZZbb training
+[RTight_ZZbb_oct_noang4]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['VVb']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsSystMass
+treeCut: RTight
+
+[RMed_ZZbb_oct_noang]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['VVb']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsSystMass
+treeCut: RMed
+
 
 #!! RTight
 
