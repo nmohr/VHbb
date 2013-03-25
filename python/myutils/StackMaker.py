@@ -26,9 +26,9 @@ class StackMaker:
         else:
             self.setup=setup
         if not SignalRegion: 
-            if 'ZH' in setup:
+            if 'ZH' in self.setup:
                 self.setup.remove('ZH')
-            if 'WH' in setup:
+            if 'WH' in self.setup:
                 self.setup.remove('WH')
         self.rebin = 1
         if config.has_option(section,'rebin'):
