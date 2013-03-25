@@ -289,38 +289,16 @@ ATLAS_Mjj_pt200_Zmm =    <!Cuts|ATLAS_Mjj_pt200!>    & <!ZHmmbb|addCuts!>
 #!! ------------
 #!! new Mjj 
 #!! ------------
-Mjj_pt70 =    <!Cuts|Mjj_selection!>               & V.pt <= 70. & H.dR > 1.2
+Mjj_selection: <!ZHbb|preselection!> & <!ZHbb|ccBtag!> & <!ZHbb|zWindow!> & MET.et < 60. & <!ZHbb|upperHMass!>
+Mjj_pt70 = <!Cuts|Mjj_selection!> & V.pt <= 70. & H.dR > 1.2
 Mjj_pt70150 = <!Cuts|Mjj_selection!> & V.pt > 70.  & V.pt <= 150.
-Mjj_pt150 =   <!Cuts|Mjj_selection!> & V.pt > 150. & H.dR < 1.6
-
-Mjj_HdR00 = <!Cuts|Mjj_pt70!> & H.dR < 0.0
-Mjj_HdR02 = <!Cuts|Mjj_pt70!> & H.dR < 0.2
-Mjj_HdR04 = <!Cuts|Mjj_pt70!> & H.dR < 0.4
-Mjj_HdR06 = <!Cuts|Mjj_pt70!> & H.dR < 0.6
-Mjj_HdR08 = <!Cuts|Mjj_pt70!> & H.dR < 0.8
-Mjj_HdR10 = <!Cuts|Mjj_pt70!> & H.dR < 1.0
-Mjj_HdR12 = <!Cuts|Mjj_pt70!> & H.dR < 1.2
-Mjj_HdR14 = <!Cuts|Mjj_pt70!> & H.dR < 1.4
-Mjj_HdR16 = <!Cuts|Mjj_pt70!> & H.dR < 1.6
-Mjj_HdR18 = <!Cuts|Mjj_pt70!> & H.dR < 1.8
-Mjj_HdR20 = <!Cuts|Mjj_pt70!> & H.dR < 2.0
-
-#Mjj_pt50 =  <!Cuts|Mjj_selection!> & V.pt > 50.
-#Mjj_pt60 =  <!Cuts|Mjj_selection!> & V.pt > 60.
-#Mjj_pt70 =  <!Cuts|Mjj_selection!> & V.pt > 70.
-#Mjj_pt80 =  <!Cuts|Mjj_selection!> & V.pt > 80.
-#Mjj_pt90 =  <!Cuts|Mjj_selection!> & V.pt > 90.
-#Mjj_pt100 = <!Cuts|Mjj_selection!> & V.pt > 100.
-#Mjj_pt110 = <!Cuts|Mjj_selection!> & V.pt > 110.
-#Mjj_pt120 = <!Cuts|Mjj_selection!> & V.pt > 120.
-#Mjj_pt130 = <!Cuts|Mjj_selection!> & V.pt > 130.
-#Mjj_pt140 = <!Cuts|Mjj_selection!> & V.pt > 140.
-#Mjj_pt150 = <!Cuts|Mjj_selection!> & V.pt > 150.
-#Mjj_pt160 = <!Cuts|Mjj_selection!> & V.pt < 160.
-#Mjj_pt170 = <!Cuts|Mjj_selection!> & V.pt < 170.
-#Mjj_pt180 = <!Cuts|Mjj_selection!> & V.pt < 180.
-#Mjj_pt190 = <!Cuts|Mjj_selection!> & V.pt < 190.
-#Mjj_pt200 = <!Cuts|Mjj_selection!> & V.pt < 200.
+Mjj_pt150 = <!Cuts|Mjj_selection!> & V.pt > 150. & H.dR < 1.6
+Mjj_pt70_Zee =    <!Cuts|Mjj_pt70!>  & <!ZHeebb|addCuts!>
+Mjj_pt70_Zmm =    <!Cuts|Mjj_pt70!>  & <!ZHmmbb|addCuts!>
+Mjj_pt70150_Zee =    <!Cuts|Mjj_pt70150!>  & <!ZHeebb|addCuts!>
+Mjj_pt70150_Zmm =    <!Cuts|Mjj_pt70150!>  & <!ZHmmbb|addCuts!>
+Mjj_pt150_Zee =    <!Cuts|Mjj_pt150!>  & <!ZHeebb|addCuts!>
+Mjj_pt150_Zmm =    <!Cuts|Mjj_pt150!>  & <!ZHmmbb|addCuts!>
 
 #!! ---------------------
 #!! Triggers
