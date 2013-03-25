@@ -79,6 +79,19 @@ bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFDown[0],hJet_csvFD
 beff1_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv_upBC4p[0],hJet_csv_upBC4p[1]) min(hJet_csv_upBC4p[0],hJet_csv_upBC4p[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2 angleHB angleLZ angleZZS HVMass_Reg
 beff1_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv_downBC4p[0],hJet_csv_downBC4p[1]) min(hJet_csv_downBC4p[0],hJet_csv_downBC4p[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2 angleHB angleLZ angleZZS HVMass_Reg
 
+[treeVarsSystMass]
+Nominal: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2 HVMass_Reg
+JER_up: H_JER.mass_up H_JER.pt_up HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt_JER_up[0] hJet_pt_JER_up[1] deltaPullAngle deltaPullAngle2 HVMass_JER_up
+JER_down: H_JER.mass_down H_JER.pt_down HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt_JER_down[0] hJet_pt_JER_down[1] deltaPullAngle deltaPullAngle2 HVMass_JER_down
+JES_up: H_JES.mass_up H_JES.pt_up HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt_JES_up[0] hJet_pt_JES_up[1] deltaPullAngle deltaPullAngle2 HVMass_JES_up
+JES_down: H_JES.mass_down H_JES.pt_down HVdPhi V.mass V.pt H.dEta max(hJet_csv[0],hJet_csv[1]) min(hJet_csv[0],hJet_csv[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt_JES_down[0] hJet_pt_JES_down[1] deltaPullAngle deltaPullAngle2 HVMass_JES_down
+beff_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvUp[0],hJet_csvUp[1]) min(hJet_csvUp[0],hJet_csvUp[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2 HVMass_Reg
+beff_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvDown[0],hJet_csvDown[1]) min(hJet_csvDown[0],hJet_csvDown[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2 HVMass_Reg
+bmis_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFUp[0],hJet_csvFUp[1]) min(hJet_csvFUp[0],hJet_csvFUp[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2 HVMass_Reg
+bmis_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csvFDown[0],hJet_csvFDown[1]) min(hJet_csvFDown[0],hJet_csvFDown[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2 HVMass_Reg
+beff1_up: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv_upBC4p[0],hJet_csv_upBC4p[1]) min(hJet_csv_upBC4p[0],hJet_csv_upBC4p[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2 HVMass_Reg
+beff1_down: H.mass H.pt HVdPhi V.mass V.pt H.dEta max(hJet_csv_downBC4p[0],hJet_csv_downBC4p[1]) min(hJet_csv_downBC4p[0],hJet_csv_downBC4p[1]) Sum$(aJet_pt>20.&abs(aJet_eta)<2.4) H.dR hJet_pt[0] hJet_pt[1] deltaPullAngle deltaPullAngle2 HVMass_Reg
+
 
 ###########################################################################################
 # other things:
