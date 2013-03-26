@@ -52,6 +52,8 @@ def doPlot():
     data = config.get(section,'Datas')
 
     mc=eval(config.get('Plot_general','samples'))
+    if SignalRegion:
+        mc.append(config.get(section,'Signal'))
 
     datasamples = info.get_samples(data)
     mcsamples = info.get_samples(mc)
