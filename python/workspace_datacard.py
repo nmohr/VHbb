@@ -89,6 +89,10 @@ TrainFlag = eval(config.get('Analysis','TrainFlag'))
 toy=eval(config.get('LimitGeneral','toy'))
 # blind data option:
 blind=eval(config.get('LimitGeneral','blind'))
+# additional blinding cut:
+addBlindingCut = None
+if config.has_option('LimitGeneral','addBlindingCut'):
+    addBlindingCut = config.get('LimitGeneral','addBlindingCut')
 #on control region cr never blind. Overwrite whatever is in the config
 if str(anType) == 'cr':
     if blind:
@@ -223,6 +227,11 @@ if nData > 1:
 mc_hMaker.lumi = lumi
 data_hMaker.lumi = lumi
 
+if addBlindingCut:
+    for i in range(len(mc_hMaker.optionsList)):
+        mc_hMaker.optionsList[i]['cut'] += ' & %s' %addBlindingCut
+    for i in range(len(data_hMaker.optionsList)):
+        data_hMaker.optionsList[i]['cut'] += ' & %s' %addBlindingCut
 
 if rebin_active:
     mc_hMaker.calc_rebin(background_samples)
