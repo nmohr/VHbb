@@ -1,5 +1,71 @@
+#!! ----------------------------------------------------
+#!! LIMIT
+#!! config to configure datacard and workspace writing
+#!! ----------------------------------------------------
+
+[Plot_general]
+addOverFlow = True
+
+[LimitGeneral]
+#!! --------------------------------------
+#!! Binning:
+#!! --------------------------------------
+BDTrange = BDT output,10,-1,1
+BDToutname = CMS_vhbb_BDT_Zll_8TeV
+Mjjrange = 17,0.,255.
+Mjjoutname = CMS_vhbb_Mjj_Zll_8TeV
+#!! control region variables examples
+METrange = MET.et,10,0,100
+btagrange = csv,20,0,1
+
+#!! Rebinning procedure for the BDT. Only suitable for BDT
+#!! For Mjj or for control region put False.
+rebin_active = False
+#Mjj-> False
+
+#!! --------------------------------------
+#!! Systematics
+#!! --------------------------------------
+sys_BDT = ['JER','JES','beff','bmis']
+sys_Mjj = ['JER','JES','beff','bmis']
+#!! systematics for the control region fit
+sys_cr = ['beff','bmis','beff1']
+#!! configuration of systematics effects and behaviour
+sys_factor = {'JER':1.0,'JES':1.0,'beff':1.0,'bmis':1.0,'beff1':1.0}
+sys_affecting = {'JER':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb'],'JES':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb'],'beff':['ZH','ZH125','DYlight','DY2b','DY1b','VVlight','TT','ST','VVb'],'beff1':['ZH','ZH125'],'bmis':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb']}
+#!! Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
+sys_cut_suffix = {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?','beff1':'csv>csv?'}
+#sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal','beff1':'nominal'}
+sys_cut_include = ['ZH','VV','TT','ST','ZZ-bb']
+#!! UEPS
+weightF_sys = True
+#!! Example of sample systematic, in this case the ZZ sample is replaced by WZ
+#addSample_sys = {'ZZ-light':'AltZZ-light','ZZ-bb':'AltZZ-bb','WZ':'AltWZ'}
+
+
+#!! --------------------------------------
+#!! Options
+#!! --------------------------------------
+#!! bin-by-bin statistics, not available!
+binstat: False
+#!! rescale stat shapes by sqrtN
+rescaleSqrtN: False
+#!! no stat shapes at all:
+ignore_stats: True
+#!! inject signal, e.g. ZH125 (working?)
+signal_inject: None
+#!! add signal als BKG, e.g. ZH125 (working?)
+add_signal_as_bkg: None
+#!! blind Data
+blind: True
+#!! toy Data
+toy: False
+
+#!! --------------------------------------
+#!! Samples
+#!! --------------------------------------
 #!! Datacard samples setup (1st Signal, afterwards BKG)
-setup: ['ZH', 'DYlight','DY1b','DY2b','VV','TT','ST']
+setup: ['ZH', 'DYlight','DY1b','DY2b','VVlight','VVb','TT','ST']
 #setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
 #!! Lists from general config
 BKG = [<!Samples|allBKG!>]
@@ -9,7 +75,7 @@ Group = <!Samples|Group!>
 #!! Naming
 #!! --------------------------------------
 #!! naming of processes
-Dict = {'ZH':'ZH','DYlight':'Z0b','DY1b':'Z1b','DY2b':'Z2b','TT':'TT','ST':'s_Top','VV':'VV','ZZ-bb':'ZZbb','Data':'data_obs','ZH125':'H125'}
+Dict = {'ZH':'ZH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','TT':'TT','ST':'s_Top','VVb':'VVHF','VVlight':'VVLF','Data':'data_obs','ZH125':'H125'}
 #!! naming of systematics
 systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff_b_SIG','stats': 'CMS_vhbb_stats','weightF_sys':'UEPS','model':'CMS_vhbb_model'}
 
@@ -18,45 +84,40 @@ systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS
 #!! to be processed in batch mode
 #!! --------------------------------------
 
-List = RTight_ZH125_EE_8TeV_janAngularOnly,RMed_ZH125_EE_8TeV_janAngularOnly,RTight_ZH125_MM_8TeV_janAngularOnly,RMed_ZH125_MM_8TeV_janAngularOnly
-#,RTight_TTbar_ZH125_EE_8TeV_janAngularOnly,RTight_TTbar_ZH125_MM_8TeV_janAngularOnly,RMed_TTbar_ZH125_EE_8TeV_janAngularOnly,RMed_TTbar_ZH125_MM_8TeV_janAngularOnly
+List = Mjj_pt70_ZH125_EE,Mjj_pt70_ZH125_MM,Mjj_pt70150_ZH125_EE,Mjj_pt70150_ZH125_MM,Mjj_pt150_ZH125_EE,Mjj_pt150_ZH125_MM 
 
 #!! --------------------------------------
 #!! Datacards specif setup
 #!! --------------------------------------
 [Datacard]
 
-InUse = ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_ZjLF_Zll_SF_8TeV','CMS_vhbb_ZjHF_Zll_SF_8TeV','CMS_vhbb_TT_Zll_SF_8TeV']
+InUse = ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_Zj2b_Zll_SF_8TeV','CMS_vhbb_Zj1b_Zll_SF_8TeV','CMS_vhbb_Zj0b_Zll_SF_8TeV','CMS_vhbb_TT_Zll_SF_8TeV']
 
-InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPt_8TeV','CMS_vhbb_ZjHF_Zll_exHighPt_8TeV','CMS_vhbb_TT_Zll_exHighPt_8TeV','CMS_vhbb_Z1b2b_antiCorrHighPt_Zll_8TeV']
-InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exLowPt_8TeV','CMS_vhbb_ZjHF_Zll_exLowPt_8TeV','CMS_vhbb_TT_Zll_exLowPt_8TeV','CMS_vhbb_Z1b2b_antiCorrLowPt_Zll_8TeV']
+InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPt_8TeV','CMS_vhbb_ZjHF_Zll_exHighPt_8TeV','CMS_vhbb_TT_Zll_exHighPt_8TeV']
+InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exLowPt_8TeV','CMS_vhbb_ZjHF_Zll_exLowPt_8TeV','CMS_vhbb_TT_Zll_exLowPt_8TeV']
 InUse_HighPtLooseBTag = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_TT_Zll_exHighPtLoooseBTag_8TeV']
 
-lumi_7TeV = {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022}
-lumi_8TeV = {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05,'ZZ-bb':1.05}
+lumi_7TeV = {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022,'VVlight':1.022,'VVb':1.022}
+lumi_8TeV = {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05,'VVlight':1.05,'VVb':1.05}
 
-pdf_qqbar = {'type':'lnN', 'ZH':1.01,'VV':1.01,'ZZ-bb':1.01}
+pdf_qqbar = {'type':'lnN', 'ZH':1.01,'VVlight':1.01,'VVb':1.01}
 pdf_gg = {'type':'lnN', 'ST':1.01,'QCD':1.01}
 QCDscale_VH = {'type':'lnN', 'ZH':1.04}
 QCDscale_ttbar = {'type':'lnN', 'ST':1.06}
-QCDscale_VV = {'type':'lnN', 'VV':1.04, 'ZZ-bb':1.04} 
+QCDscale_VV = {'type':'lnN', 'VVlight':1.04, 'VVb':1.04} 
 QCDscale_QCD = {'type':'lnN', 'QCD':1.30}
 CMS_vhbb_boost_EWK = {'type':'lnN', 'ZH':1.05,'ZH125':1.05}
 CMS_vhbb_boost_QCD = {'type':'lnN', 'ZH':1.10,'ZH125':1.10}
-CMS_vhbb_ST = {'type':'lnN', 'ST':1.29}
+CMS_vhbb_ST = {'type':'lnN', 'ST':1.15}
 
-#CMS_vhbb_ZH = {'type':lnN, 'ZH':1.40}
-CMS_vhbb_VV = {'type':'lnN', 'VV':1.30, 'ZZ-bb':1.30}
+CMS_vhbb_VV = {'type':'lnN', 'VVlight':1.15, 'VVb':1.15}
 CMS_vhbb_ZjLF_ex = {'type':'lnN', 'DYlight':1.05}
 CMS_vhbb_ZjHF_ex = {'type':'lnN', 'DYb':1.05}
 CMS_vhbb_TT_ex = {'type':'lnN', 'TT':1.05}
-#CMS_vhbb_ZjLF_ex_8TeV = {'type':'lnN', 'DYlight':1.05}
-#CMS_vhbb_ZjHF_ex_8TeV = {'type':'lnN', 'DYb':1.05}
-#CMS_vhbb_TT_ex_8TeV = {'type':'lnN', 'TT':1.05}
-CMS_eff_e = {'type':'lnN', 'ZH':1.04,'ZH125':1.04,'ST':1.04,'VV':1.04,'QCD':1.04,'ZZ-bb':1.04}
-CMS_trigger_e = {'type':'lnN','ZH':1.02,'ZH125':1.02,'ST':1.02,'VV':1.02 ,'ZZ-bb':1.02}
-CMS_eff_m = {'type':'lnN',  'ZH':1.04,'ZH125':1.04,'ST':1.04,'VV':1.04,'QCD':1.04,'ZZ-bb':1.04}
-CMS_trigger_m = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'ST':1.01,'VV':1.01,'ZZ-bb':1.01 }
+CMS_eff_e = {'type':'lnN', 'ZH':1.04,'ZH125':1.04,'ST':1.04,'VVlight':1.04,'QCD':1.04,'VVb':1.04}
+CMS_trigger_e = {'type':'lnN','ZH':1.02,'ZH125':1.02,'ST':1.02,'VVlight':1.02 ,'VVb':1.02}
+CMS_eff_m = {'type':'lnN',  'ZH':1.04,'ZH125':1.04,'ST':1.04,'VVlight':1.04,'QCD':1.04,'VVb':1.04}
+CMS_trigger_m = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'ST':1.01,'VVlight':1.01,'VVb':1.01 }
 CMS_vhbb_trigger_MET = {'type':'lnN'}
 
 CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV = {'type':'lnN', 'DYlight':1.20}
@@ -69,97 +130,79 @@ CMS_vhbb_ZjLF_Zll_exLowPt_8TeV = {'type':'lnN', 'DYlight':1.02}
 CMS_vhbb_ZjHF_Zll_exLowPt_8TeV = {'type':'lnN', 'DY1b':1.02, 'DY2b':1.02}
 CMS_vhbb_TT_Zll_exLowPt_8TeV = {'type':'lnN', 'TT':1.02}
 
-CMS_vhbb_ZjLF_Zll_SF_7TeV = {'type':'lnN', 'DYlight':1.198 ,'DYb':0.875 ,'TT':1.003}
-CMS_vhbb_ZjHF_Zll_SF_7TeV = {'type':'lnN', 'DYlight':0.873 ,'DYb':1.202 ,'TT':0.957}
-CMS_vhbb_TT_Zll_SF_7TeV = {'type':'lnN',  'DYlight':1.002 ,'DYb':0.974 ,'TT':1.123}
-
-#CMS_vhbb_ZjLF_SF_8TeV = {'type':'lnN', 'DYlight':1.085 ,'DYb':0.940 ,'TT':0.998}
-#CMS_vhbb_ZjHF_SF_8TeV = {'type':'lnN', 'DYlight':0.942 ,'DYb':1.082 ,'TT':0.986}
-#CMS_vhbb_TT_SF_8TeV = {'type':'lnN',  'DYlight':0.998 ,'DYb':0.986 ,'TT':1.081}
-
-CMS_vhbb_ZjLF_Zll_SF_8TeV = {'type':'lnN', 'DYlight':1.036,'DY1b':0.976,'DY2b':0.976,'TT':1.001}
-CMS_vhbb_ZjHF_Zll_SF_8TeV = {'type':'lnN', 'DYlight':0.953,'DY1b':1.070,'DY2b':1.070,'TT':0.985}
-CMS_vhbb_TT_Zll_SF_8TeV = {'type':'lnN', 'DYlight':1.001,'DY1b':0.992,'DY2b':0.992, 'TT':1.038} 
-
-CMS_vhbb_Z1b2b_antiCorrHighPt_Zll_8TeV = {'type':'lnN', 'DY1b':0.87, 'DY2b':1.15}
-CMS_vhbb_Z1b2b_antiCorrLowPt_Zll_8TeV = {'type':'lnN', 'DY1b':0.87, 'DY2b':1.15}
+#!! splitting 1b / 2b
+CMS_vhbb_Zj0b_Zll_SF_8TeV: {'type':'lnN', 'DYlight':1.036}
+CMS_vhbb_Zj1b_Zll_SF_8TeV: {'type':'lnN', 'DY1b':1.070}
+CMS_vhbb_Zj2b_Zll_SF_8TeV: {'type':'lnN', 'DY2b':1.070}
+CMS_vhbb_TT_Zll_SF_8TeV: {'type':'lnN', 'TT':1.038} 
 
 #!! -------------------------
 #!! Limit definitions
 #!! -------------------------
-[Limit]
 
-#Mjj optimization V.pt:
-#Mjj_pt50_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt50_ZH125,Mjj_pt50,Mjj_pt50,ZH125,Zee,Mjj
-#Mjj_pt60_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt60_ZH125,Mjj_pt60,Mjj_pt60,ZH125,Zee,Mjj
-#Mjj_pt70_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt70_ZH125,Mjj_pt70,Mjj_pt70,ZH125,Zee,Mjj
-#Mjj_pt80_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt80_ZH125,Mjj_pt80,Mjj_pt80,ZH125,Zee,Mjj
-#Mjj_pt90_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt90_ZH125,Mjj_pt90,Mjj_pt90,ZH125,Zee,Mjj
-#Mjj_pt100_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt100_ZH125,Mjj_pt100,Mjj_pt100,ZH125,Zee,Mjj
-#Mjj_pt110_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt110_ZH125,Mjj_pt110,Mjj_pt110,ZH125,Zee,Mjj
-#Mjj_pt120_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt120_ZH125,Mjj_pt120,Mjj_pt120,ZH125,Zee,Mjj
-#Mjj_pt130_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt130_ZH125,Mjj_pt130,Mjj_pt130,ZH125,Zee,Mjj
-#Mjj_pt140_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt140_ZH125,Mjj_pt140,Mjj_pt140,ZH125,Zee,Mjj
-#Mjj_pt150_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt150_ZH125,Mjj_pt150,Mjj_pt150,ZH125,Zee,Mjj
-#Mjj_pt160_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt160_ZH125,Mjj_pt160,Mjj_pt160,ZH125,Zee,Mjj
-#Mjj_pt170_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt170_ZH125,Mjj_pt170,Mjj_pt170,ZH125,Zee,Mjj
-#Mjj_pt180_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt180_ZH125,Mjj_pt180,Mjj_pt180,ZH125,Zee,Mjj
-#Mjj_pt190_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt190_ZH125,Mjj_pt190,Mjj_pt190,ZH125,Zee,Mjj
-#Mjj_pt200_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt200_ZH125,Mjj_pt200,Mjj_pt200,ZH125,Zee,Mjj
+[dc:Mjj_pt70_ZH125_EE]
+var = H.mass
+wsVarName = <!LimitGeneral|Mjjoutname!>
+range = <!LimitGeneral|Mjjrange!>
+dcName = MJJ_M125_ZeeLowPt_8TeV
+cut = Mjj_pt70_Zee
+signal = ZH125
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type = Mjj
 
-#Mjj optimization HdR:
-#Mjj_HdR00_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_HdR00_ZH125,Mjj_HdR00,Mjj_HdR00,ZH125,Zee,Mjj
-#Mjj_HdR02_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_HdR02_ZH125,Mjj_HdR02,Mjj_HdR02,ZH125,Zee,Mjj
-#Mjj_HdR04_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_HdR04_ZH125,Mjj_HdR04,Mjj_HdR04,ZH125,Zee,Mjj
-#Mjj_HdR06_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_HdR06_ZH125,Mjj_HdR06,Mjj_HdR06,ZH125,Zee,Mjj
-#Mjj_HdR08_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_HdR08_ZH125,Mjj_HdR08,Mjj_HdR08,ZH125,Zee,Mjj
-#Mjj_HdR10_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_HdR10_ZH125,Mjj_HdR10,Mjj_HdR10,ZH125,Zee,Mjj
-#Mjj_HdR12_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_HdR12_ZH125,Mjj_HdR12,Mjj_HdR12,ZH125,Zee,Mjj
-#Mjj_HdR14_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_HdR14_ZH125,Mjj_HdR14,Mjj_HdR14,ZH125,Zee,Mjj
-#Mjj_HdR16_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_HdR16_ZH125,Mjj_HdR16,Mjj_HdR16,ZH125,Zee,Mjj
-#Mjj_HdR18_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_HdR18_ZH125,Mjj_HdR18,Mjj_HdR18,ZH125,Zee,Mjj
-#Mjj_HdR20_ZH125: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_HdR20_ZH125,Mjj_HdR20,Mjj_HdR20,ZH125,Zee,Mjj
+[dc:Mjj_pt70_ZH125_MM]
+var = H.mass
+wsVarName = <!LimitGeneral|Mjjoutname!>
+range = <!LimitGeneral|Mjjrange!>
+dcName = MJJ_M125_ZmmLowPt_8TeV
+cut = Mjj_pt70_Zmm
+signal = ZH125
+dcBin = ZmmLowPt_8TeV
+data = Zmm
+type = Mjj
 
-Mjj_pt70_ZH125_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt70_ZH125_Zee,Mjj_pt70_Zee,Mjj_pt70_Zee,ZH125,Zee,Mjj
-Mjj_pt70150_ZH125_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt70150_ZH125_Zee,Mjj_pt70150_Zee,Mjj_pt70150_Zee,ZH125,Zee,Mjj
-Mjj_pt150_ZH125_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt150_ZH125_Zee,Mjj_pt150_Zee,Mjj_pt150_Zee,ZH125,Zee,Mjj
+[dc:Mjj_pt70150_ZH125_EE]
+var = H.mass
+wsVarName = <!LimitGeneral|Mjjoutname!>
+range = <!LimitGeneral|Mjjrange!>
+dcName = MJJ_M125_ZeeMedPt_8TeV
+cut = Mjj_pt70150_Zee
+signal = ZH125
+dcBin = ZeeMedPt_8TeV
+data = Zee
+type = Mjj
 
-Mjj_pt70_ZH125_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt70_ZH125_Zmm,Mjj_pt70_Zmm,Mjj_pt70_Zmm,ZH125,Zmm,Mjj
-Mjj_pt70150_ZH125_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt70150_ZH125_Zmm,Mjj_pt70150_Zmm,Mjj_pt70150_Zmm,ZH125,Zmm,Mjj
-Mjj_pt150_ZH125_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_pt150_ZH125_Zmm,Mjj_pt150_Zmm,Mjj_pt150_Zmm,ZH125,Zmm,Mjj
+[dc:Mjj_pt70150_ZH125_MM]
+var = H.mass
+wsVarName = <!LimitGeneral|Mjjoutname!>
+range = <!LimitGeneral|Mjjrange!>
+dcName = MJJ_M125_ZmmMedPt_8TeV
+cut = Mjj_pt70150_Zmm
+signal = ZH125
+dcBin = ZmmMedPt_8TeV
+data = Zmm
+type = Mjj
 
-#Mjj low EE
-Mjj_lowPt_ZH110_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M110_Zee,LowPt_MJJ_Zee,LowPt_MJJ_Zee,ZH110,Zee,Mjj
-Mjj_lowPt_ZH115_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M115_Zee,LowPt_MJJ_Zee,LowPt_MJJ_Zee,ZH115,Zee,Mjj
-Mjj_lowPt_ZH120_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M120_Zee,LowPt_MJJ_Zee,LowPt_MJJ_Zee,ZH120,Zee,Mjj
-Mjj_lowPt_ZH125_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M125_Zee,LowPt_MJJ_Zee,LowPt_MJJ_Zee,ZH125,Zee,Mjj
-Mjj_lowPt_ZH130_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M130_Zee,LowPt_MJJ_Zee,LowPt_MJJ_Zee,ZH130,Zee,Mjj
-Mjj_lowPt_ZH135_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M135_Zee,LowPt_MJJ_Zee,LowPt_MJJ_Zee,ZH135,Zee,Mjj
+[dc:Mjj_pt150_ZH125_EE]
+var = H.mass
+wsVarName = <!LimitGeneral|Mjjoutname!>
+range = <!LimitGeneral|Mjjrange!>
+dcName = MJJ_M125_ZeeHighPt_8TeV
+cut = Mjj_pt150_Zee
+signal = ZH125
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type = Mjj
 
-#Mjj low MM
-Mjj_lowPt_ZH110_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M110_Zmm,LowPt_MJJ_Zmm,LowPt_MJJ_Zmm,ZH110,Zmm,Mjj
-Mjj_lowPt_ZH115_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M115_Zmm,LowPt_MJJ_Zmm,LowPt_MJJ_Zmm,ZH115,Zmm,Mjj
-Mjj_lowPt_ZH120_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M120_Zmm,LowPt_MJJ_Zmm,LowPt_MJJ_Zmm,ZH120,Zmm,Mjj
-Mjj_lowPt_ZH125_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M125_Zmm,LowPt_MJJ_Zmm,LowPt_MJJ_Zmm,ZH125,Zmm,Mjj
-Mjj_lowPt_ZH130_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M130_Zmm,LowPt_MJJ_Zmm,LowPt_MJJ_Zmm,ZH130,Zmm,Mjj
-Mjj_lowPt_ZH135_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_lowPt_M135_Zmm,LowPt_MJJ_Zmm,LowPt_MJJ_Zmm,ZH135,Zmm,Mjj
+[dc:Mjj_pt150_ZH125_MM]
+var = H.mass
+wsVarName = <!LimitGeneral|Mjjoutname!>
+range = <!LimitGeneral|Mjjrange!>
+dcName = MJJ_M125_ZmmHighPt_8TeV
+cut = Mjj_pt150_Zmm
+signal = ZH125
+dcBin = ZmmHighPt_8TeV
+data = Zmm
+type = Mjj
 
-#Mjj med
-Mjj_medPt_ZH125_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_medPt_M125_Zee,MedPt_MJJ_Zee,MedPt_MJJ_Zee,ZH125,Zee,Mjj
-Mjj_medPt_ZH125_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_medPt_M125_Zmm,MedPt_MJJ_Zmm,MedPt_MJJ_Zmm,ZH125,Zmm,Mjj
-
-#Mjj high EE
-Mjj_highPt_ZH110_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M110_Zee,HighPt_MJJ_Zee,HighPt_MJJ_Zee,ZH110,Zee,Mjj
-Mjj_highPt_ZH115_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M115_Zee,HighPt_MJJ_Zee,HighPt_MJJ_Zee,ZH115,Zee,Mjj
-Mjj_highPt_ZH120_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M120_Zee,HighPt_MJJ_Zee,HighPt_MJJ_Zee,ZH120,Zee,Mjj
-Mjj_highPt_ZH125_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M125_Zee,HighPt_MJJ_Zee,HighPt_MJJ_Zee,ZH125,Zee,Mjj
-Mjj_highPt_ZH130_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M130_Zee,HighPt_MJJ_Zee,HighPt_MJJ_Zee,ZH130,Zee,Mjj
-Mjj_highPt_ZH135_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M135_Zee,HighPt_MJJ_Zee,HighPt_MJJ_Zee,ZH135,Zee,Mjj
-
-#Mjj high MM
-Mjj_highPt_ZH110_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M110_Zmm,HighPt_MJJ_Zmm,HighPt_MJJ_Zmm,ZH110,Zmm,Mjj
-Mjj_highPt_ZH115_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M115_Zmm,HighPt_MJJ_Zmm,HighPt_MJJ_Zmm,ZH115,Zmm,Mjj
-Mjj_highPt_ZH120_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M120_Zmm,HighPt_MJJ_Zmm,HighPt_MJJ_Zmm,ZH120,Zmm,Mjj
-Mjj_highPt_ZH125_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M125_Zmm,HighPt_MJJ_Zmm,HighPt_MJJ_Zmm,ZH125,Zmm,Mjj
-Mjj_highPt_ZH130_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M130_Zmm,HighPt_MJJ_Zmm,HighPt_MJJ_Zmm,ZH130,Zmm,Mjj
-Mjj_highPt_ZH135_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,Mjj_highPt_M135_Zmm,HighPt_MJJ_Zmm,HighPt_MJJ_Zmm,ZH135,Zmm,Mjj
