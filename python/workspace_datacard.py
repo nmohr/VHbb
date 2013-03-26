@@ -7,7 +7,7 @@ from copy import copy, deepcopy
 #suppres the EvalInstace conversion warning bug
 warnings.filterwarnings( action='ignore', category=RuntimeWarning, message='creating converter.*' )
 from optparse import OptionParser
-from myutils import BetterConfigParser, Sample, progbar, printc, ParseInfo, Rebinner, TreeCache, HistoMaker
+from myutils import BetterConfigParser, Sample, progbar, printc, ParseInfo, Rebinner, HistoMaker
 
 #--CONFIGURE---------------------------------------------------------------------
 argv = sys.argv
@@ -38,22 +38,18 @@ try:
 except:
     os.mkdir(outpath)
 # parse histogram config:
-hist_conf=config.get('Limit',var)
-options = hist_conf.split(',')
-if len(options) < 12:
-    raise Exception("You have to choose option[11]: either Mjj or BDT")
-treevar = options[0]
-name = options[1]
-title = options[2]
-nBins = int(options[3])
-xMin = float(options[4])
-xMax = float(options[5])
-ROOToutname = options[6]
-RCut = options[7]
-SCut = options[8]
-signals = options[9].split(' ')
-datas = options[10].split(' ')
-anType = options[11]
+treevar = config.get('dc:%s'%var,'var')
+name = config.get('dc:%s'%var,'wsVarName')
+title = name
+nBins = int(config.get('dc:%s'%var,'range').split(',')[0])
+xMin = float(config.get('dc:%s'%var,'range').split(',')[1])
+xMax = float(config.get('dc:%s'%var,'range').split(',')[2])
+ROOToutname = config.get('dc:%s'%var,'dcName')
+RCut = config.get('dc:%s'%var,'cut')
+signals = config.get('dc:%s'%var,'signal').split(' ')
+datas = config.get('dc:%s'%var,'dcBin')
+Datacardbin=config.get('dc:%s'%var,'dcBin')
+anType = config.get('dc:%s'%var,'type')
 setup=eval(config.get('LimitGeneral','setup'))
 #Systematics:
 if config.has_option('LimitGeneral','addSample_sys'):
@@ -128,13 +124,13 @@ if not add_signal_as_bkg == 'None':
 #Assign Pt region for sys factors
 if 'HighPtLooseBTag' in ROOToutname:
     pt_region = 'HighPtLooseBTag'
-elif 'HighPt' in ROOToutname or 'highPt' in ROOToutname or 'medPt' in ROOToutname:
+elif 'HighPt' in ROOToutname or 'highPt' in ROOToutname or 'MedPt' in ROOToutname:
     pt_region = 'HighPt'
 elif 'LowPt' in ROOToutname or 'lowPt' in ROOToutname:
     pt_region = 'LowPt'
 elif 'ATLAS' in ROOToutname:
     pt_region = 'HighPt'
-elif 'Mjj' in ROOToutname:
+elif 'MJJ' in ROOToutname:
     pt_region = 'HighPt' 
 else:
     print "Unknown Pt region"
@@ -146,13 +142,6 @@ if TrainFlag:
 else: MC_rescale_factor = 1.
 #systematics up/down
 UD = ['Up','Down']
-# rename Bins in DC (?)
-if 'RTight' in RCut:
-    Datacardbin=options[10]
-elif 'RMed' in RCut:
-    Datacardbin=options[10]
-else:
-    Datacardbin=options[10]
 #Parse samples configuration
 info = ParseInfo(samplesinfo,path)
 # get all the treeCut sets
@@ -160,16 +149,8 @@ info = ParseInfo(samplesinfo,path)
 all_samples = info.get_samples(signals+backgrounds+additionals)
 signal_samples = info.get_samples(signals) 
 background_samples = info.get_samples(backgrounds) 
-data_sample_names=[]
-
-for item in datas:
-    if 'Zee' in item: data_sample_names.append('Zee')
-    if 'Zmm' in item: data_sample_names.append('Zmm')
+data_sample_names = config.get('dc:%s'%var,'data').split(' ')
 data_samples = info.get_samples(data_sample_names)
-#cache all samples
-#t_cache = TreeCache(cuts,all_samples,path)
-#cache datas
-#d_cache = TreeCache(trecut,data_samples,path)
 #-------------------------------------------------------------------------------------------------
 
 optionsList=[]
@@ -203,13 +184,13 @@ for syst in systematics:
             _treevar = treevar.replace('.nominal','.%s_%s'%(syst,Q.lower()))
             print _treevar
         elif mjj == True:
-            if sys == 'JER' or sys == 'JES':
-                _treevar = 'H_%s.mass_%s'%(sys,Q.lower())
+            if syst == 'JER' or syst == 'JES':
+                _treevar = 'H_%s.mass_%s'%(syst,Q.lower())
             else:
                 _treevar = treevar
         elif cr == True:
-            if sys == 'beff' or sys == 'bmis' or sys == 'beff1':
-                _treevar = treevar.replace('csv','%s%s'%(sys,Q.lower()) )
+            if syst == 'beff' or syst == 'bmis' or syst == 'beff1':
+                _treevar = treevar.replace(old_str,new_str.replace('?',Q))
             else:
                 _treevar = treevar            
         #append
@@ -495,10 +476,10 @@ for DCtype in ['WS','TH']:
         f.write('\t%s'%what['type'])
         for c in setup:
             if c in what:
-                if item == 'CMS_eff_e' and 'Zmm' in options[10]: f.write('\t-')
-                elif item == 'CMS_eff_m' and 'Zee' in options[10]: f.write('\t-')
-                elif item == 'CMS_trigger_e' and 'Zmm' in options[10]: f.write('\t-')
-                elif item == 'CMS_trigger_m' and 'Zee' in options[10]: f.write('\t-')
+                if item == 'CMS_eff_e' and 'Zmm' in data_sample_names: f.write('\t-')
+                elif item == 'CMS_eff_m' and 'Zee' in data_sample_names: f.write('\t-')
+                elif item == 'CMS_trigger_e' and 'Zmm' in data_sample_names: f.write('\t-')
+                elif item == 'CMS_trigger_m' and 'Zee' in data_sample_names: f.write('\t-')
                 else:
                     f.write('\t%s'%what[c])
             else:
@@ -509,7 +490,7 @@ for DCtype in ['WS','TH']:
         if binstat:
             for c in setup:
                 for bin in range(0,nBins):
-                    f.write('%s_%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], bin, options[10]))
+                    f.write('%s_%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], bin, Datacardbin))
                     for it in range(0,columns):
                         if it == setup.index(c):
                             f.write('\t1.0')
@@ -518,7 +499,7 @@ for DCtype in ['WS','TH']:
                     f.write('\n')
         else:
             for c in setup:
-                f.write('%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], options[10]))
+                f.write('%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], Datacardbin))
                 for it in range(0,columns):
                     if it == setup.index(c):
                         f.write('\t1.0')
