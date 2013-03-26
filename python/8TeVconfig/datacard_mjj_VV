@@ -1,0 +1,216 @@
+#!! ----------------------------------------------------
+#!! LIMIT
+#!! config to configure datacard and workspace writing
+#!! ----------------------------------------------------
+
+[Plot_general]
+addOverFlow = True
+
+[LimitGeneral]
+#!! --------------------------------------
+#!! Binning:
+#!! --------------------------------------
+BDTrange = BDT output,10,-1,1
+BDToutname = CMS_vhbb_BDT_Zll_8TeV
+Mjjrange = 17,0.,255.
+Mjjoutname = CMS_vhbb_MJJ_Zll_8TeV
+#!! control region variables examples
+METrange = MET.et,10,0,100
+btagrange = csv,20,0,1
+
+#!! Rebinning procedure for the BDT. Only suitable for BDT
+#!! For Mjj or for control region put False.
+rebin_active = False
+#Mjj-> False
+
+#!! --------------------------------------
+#!! Systematics
+#!! --------------------------------------
+sys_BDT = ['JER','JES','beff','bmis','beff1']
+sys_Mjj = ['JER','JES','beff','bmis','beff1']
+#!! systematics for the control region fit
+sys_cr = ['beff','bmis','beff1']
+#!! configuration of systematics effects and behaviour
+sys_factor = {'JER':1.0,'JES':1.0,'beff':1.0,'bmis':1.0,'beff1':1.0}
+sys_affecting = {'JER':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb'],'JES':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb'],'beff':['DYlight','DY2b','DY1b','VVlight','TT','ST','VVb'],'beff1':['ZH','ZH125'],'bmis':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb']}
+#!! Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
+sys_cut_suffix = {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?','beff1':'csv>csv?'}
+#sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal','beff1':'nominal'}
+sys_cut_include = ['ZH','VV','TT','ST','ZZ-bb']
+#!! UEPS
+weightF_sys = True
+#!! Example of sample systematic, in this case the ZZ sample is replaced by WZ
+#addSample_sys = {'ZZ-light':'AltZZ-light','ZZ-bb':'AltZZ-bb','WZ':'AltWZ'}
+
+
+#!! --------------------------------------
+#!! Options
+#!! --------------------------------------
+#!! bin-by-bin statistics, not available!
+binstat: False
+#!! rescale stat shapes by sqrtN
+rescaleSqrtN: False
+#!! no stat shapes at all:
+ignore_stats: True
+#!! inject signal, e.g. ZH125 (working?)
+signal_inject: None
+#!! add signal als BKG, e.g. ZH125 (working?)
+add_signal_as_bkg: None
+#!! blind Data
+blind: True
+#!! toy Data
+toy: False
+
+#!! --------------------------------------
+#!! Samples
+#!! --------------------------------------
+#!! Datacard samples setup (1st Signal, afterwards BKG)
+setup: ['VVb', 'DYlight','DY1b','DY2b','VVlight','ZH','TT','ST']
+#setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
+#!! Lists from general config
+BKG = [<!Samples|allBKG!>]
+Group = <!Samples|Group!>
+
+#!! --------------------------------------
+#!! Naming
+#!! --------------------------------------
+#!! naming of processes
+Dict = {'ZH':'ZH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','TT':'TT','ST':'s_Top','VVb':'VVHF','VVlight':'VVLF','Data':'data_obs','ZH125':'H125'}
+#!! naming of systematics
+systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff_b_SIG','stats': 'CMS_vhbb_stats','weightF_sys':'UEPS','model':'CMS_vhbb_model'}
+
+
+#!! --------------------------------------
+#!! to be processed in batch mode
+#!! --------------------------------------
+
+List = Mjj_pt70_ZZbb_EE,Mjj_pt70_ZZbb_MM,Mjj_pt70150_ZZbb_EE,Mjj_pt70150_ZZbb_MM,Mjj_pt150_ZZbb_EE,Mjj_pt150_ZZbb_MM 
+
+#!! --------------------------------------
+#!! Datacards specif setup
+#!! --------------------------------------
+[Datacard]
+
+InUse = ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_Zj2b_Zll_SF_8TeV','CMS_vhbb_Zj1b_Zll_SF_8TeV','CMS_vhbb_Zj0b_Zll_SF_8TeV','CMS_vhbb_TT_Zll_SF_8TeV']
+
+InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPt_8TeV','CMS_vhbb_ZjHF_Zll_exHighPt_8TeV','CMS_vhbb_TT_Zll_exHighPt_8TeV']
+InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exLowPt_8TeV','CMS_vhbb_ZjHF_Zll_exLowPt_8TeV','CMS_vhbb_TT_Zll_exLowPt_8TeV']
+InUse_HighPtLooseBTag = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_TT_Zll_exHighPtLoooseBTag_8TeV']
+
+lumi_7TeV = {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022,'VVlight':1.022,'VVb':1.022}
+lumi_8TeV = {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05,'VVlight':1.05,'VVb':1.05}
+
+pdf_qqbar = {'type':'lnN', 'ZH':1.01,'VVlight':1.01,'VVb':1.01}
+pdf_gg = {'type':'lnN', 'ST':1.01,'QCD':1.01}
+QCDscale_VH = {'type':'lnN', 'ZH':1.04}
+QCDscale_ttbar = {'type':'lnN', 'ST':1.06}
+QCDscale_VV = {'type':'lnN', 'VVlight':1.04, 'VVb':1.04} 
+QCDscale_QCD = {'type':'lnN', 'QCD':1.30}
+CMS_vhbb_boost_EWK = {'type':'lnN', 'ZH':1.05,'ZH125':1.05}
+CMS_vhbb_boost_QCD = {'type':'lnN', 'ZH':1.10,'ZH125':1.10}
+CMS_vhbb_ST = {'type':'lnN', 'ST':1.29}
+
+CMS_vhbb_VV = {'type':'lnN', 'VVlight':1.15, 'VVb':1.15}
+CMS_vhbb_ZjLF_ex = {'type':'lnN', 'DYlight':1.05}
+CMS_vhbb_ZjHF_ex = {'type':'lnN', 'DYb':1.05}
+CMS_vhbb_TT_ex = {'type':'lnN', 'TT':1.05}
+CMS_eff_e = {'type':'lnN', 'ZH':1.04,'ZH125':1.04,'ST':1.04,'VVlight':1.04,'QCD':1.04,'VVb':1.04}
+CMS_trigger_e = {'type':'lnN','ZH':1.02,'ZH125':1.02,'ST':1.02,'VVlight':1.02 ,'VVb':1.02}
+CMS_eff_m = {'type':'lnN',  'ZH':1.04,'ZH125':1.04,'ST':1.04,'VVlight':1.04,'QCD':1.04,'VVb':1.04}
+CMS_trigger_m = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'ST':1.01,'VVlight':1.01,'VVb':1.01 }
+CMS_vhbb_trigger_MET = {'type':'lnN'}
+
+CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV = {'type':'lnN', 'DYlight':1.20}
+CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV = {'type':'lnN', 'DYb':1.20}
+CMS_vhbb_TT_Zll_exHighPtLoooseBTag_8TeV = {'type':'lnN', 'TT':1.20}
+CMS_vhbb_ZjLF_Zll_exHighPt_8TeV = {'type':'lnN', 'DYlight':1.02}
+CMS_vhbb_ZjHF_Zll_exHighPt_8TeV = {'type':'lnN', 'DY1b':1.02, 'DY2b':1.02}
+CMS_vhbb_TT_Zll_exHighPt_8TeV = {'type':'lnN', 'TT':1.02}
+CMS_vhbb_ZjLF_Zll_exLowPt_8TeV = {'type':'lnN', 'DYlight':1.02}
+CMS_vhbb_ZjHF_Zll_exLowPt_8TeV = {'type':'lnN', 'DY1b':1.02, 'DY2b':1.02}
+CMS_vhbb_TT_Zll_exLowPt_8TeV = {'type':'lnN', 'TT':1.02}
+
+#!! splitting 1b / 2b
+CMS_vhbb_Zj0b_Zll_SF_8TeV: {'type':'lnN', 'DYlight':1.036}
+CMS_vhbb_Zj1b_Zll_SF_8TeV: {'type':'lnN', 'DY1b':1.070}
+CMS_vhbb_Zj2b_Zll_SF_8TeV: {'type':'lnN', 'DY2b':1.070}
+CMS_vhbb_TT_Zll_SF_8TeV: {'type':'lnN', 'TT':1.038} 
+
+#!! -------------------------
+#!! Limit definitions
+#!! -------------------------
+[dc:Mjj_pt70_ZZbb_EE]
+var = H.mass
+wsVarName = <!LimitGeneral|Mjjoutname!>
+range = <!LimitGeneral|Mjjrange!>
+dcName = MJJ_ZZbb_ZeeLowPt_8TeV
+cut = Mjj_pt70_Zee
+signal = ZH125
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type = Mjj
+
+[dc:Mjj_pt70_ZZbb_MM]
+var = H.mass
+wsVarName = <!LimitGeneral|Mjjoutname!>
+range = <!LimitGeneral|Mjjrange!>
+dcName = MJJ_ZZbb_ZmmLowPt_8TeV
+cut = Mjj_pt70_Zmm
+signal = ZH125
+dcBin = ZmmLowPt_8TeV
+data = Zmm
+type = Mjj
+
+[dc:Mjj_pt70150_ZZbb_EE]
+var = H.mass
+wsVarName = <!LimitGeneral|Mjjoutname!>
+range = <!LimitGeneral|Mjjrange!>
+dcName = MJJ_ZZbb_ZeeMedPt_8TeV
+cut = Mjj_pt70150_Zee
+signal = ZH125
+dcBin = ZeeMedPt_8TeV
+data = Zee
+type = Mjj
+
+[dc:Mjj_pt70150_ZZbb_MM]
+var = H.mass
+wsVarName = <!LimitGeneral|Mjjoutname!>
+range = <!LimitGeneral|Mjjrange!>
+dcName = MJJ_ZZbb_ZmmMedPt_8TeV
+cut = Mjj_pt70150_Zmm
+signal = ZH125
+dcBin = ZmmMedPt_8TeV
+data = Zmm
+type = Mjj
+
+[dc:Mjj_pt150_ZZbb_EE]
+var = H.mass
+wsVarName = <!LimitGeneral|Mjjoutname!>
+range = <!LimitGeneral|Mjjrange!>
+dcName = MJJ_ZZbb_ZeeHighPt_8TeV
+cut = Mjj_pt150_Zee
+signal = ZH125
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type = Mjj
+
+[dc:Mjj_pt150_ZZbb_MM]
+var = H.mass
+wsVarName = <!LimitGeneral|Mjjoutname!>
+range = <!LimitGeneral|Mjjrange!>
+dcName = MJJ_ZZbb_ZmmHighPt_8TeV
+cut = Mjj_pt150_Zmm
+signal = ZH125
+dcBin = ZmmHighPt_8TeV
+data = Zmm
+type = Mjj
+
+
+Mjj_pt70_ZZbb_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZeeLowPt_8TeV,Mjj_pt70_Zee,Mjj_pt70_Zee,ZH125,Zee,Mjj
+Mjj_pt70150_ZZbb_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZeeMedPt_8TeV,Mjj_pt70150_Zee,Mjj_pt70150_Zee,ZH125,Zee,Mjj
+Mjj_pt150_ZZbb_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZeeHighPt_8TeV,Mjj_pt150_Zee,Mjj_pt150_Zee,ZH125,Zee,Mjj
+
+Mjj_pt70_ZZbb_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZmmLowPt_8TeV,Mjj_pt70_Zmm,Mjj_pt70_Zmm,ZH125,Zmm,Mjj
+Mjj_pt70150_ZZbb_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZmmMedPt_8TeV,Mjj_pt70150_Zmm,Mjj_pt70150_Zmm,ZH125,Zmm,Mjj
+Mjj_pt150_ZZbb_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZmmHighPt_8TeV,Mjj_pt150_Zmm,Mjj_pt150_Zmm,ZH125,Zmm,Mjj
+
