@@ -119,6 +119,11 @@ def doPlot():
             Stacks[v].overlay = Overlaylist[v]
         Stacks[v].lumi = lumi
         Stacks[v].doPlot()
+        Stacks[v].histos = Lhistos[v]
+        Stacks[v].typs = Ltyps[v]
+        Stacks[v].datas = Ldatas[v]
+        Stacks[v].datatyps = Ldatatyps[v]
+        Stacks[v].datanames= Ldatanames[v]
         Stacks[v].normalize = True
         Stacks[v].options['pdfName'] = Stacks[v].options['pdfName'].replace('.pdf','_norm.pdf')
         Stacks[v].doPlot()
