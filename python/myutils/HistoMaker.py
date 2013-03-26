@@ -43,6 +43,7 @@ class HistoMaker:
         addOverFlow=eval(self.config.get('Plot_general','addOverFlow'))
 
         # get all Histos at once
+        CuttedTree = self.tc.get_tree(job,'1')
         for options in self.optionsList:
             name=job.name
             if self.GroupDict is None:
@@ -59,16 +60,15 @@ class HistoMaker:
             xMax=float(options['xMax'])
             weightF=options['weight']
             treeCut='%s'%(options['cut'])
-            CuttedTree = self.tc.get_tree(job,treeCut)
 
             #options
 
             if job.type != 'DATA':
                 if CuttedTree.GetEntries():
                     if 'RTight' in treeVar or 'RMed' in treeVar: 
-                        drawoption = '(%s)*(%s)'%(weightF,BDT_add_cut)
+                        drawoption = '(%s)*(%s & %s)'%(weightF,treeCut,BDT_add_cut)
                     else: 
-                        drawoption = '%s'%(weightF)
+                        drawoption = '(%s)*(%s)'%(weightF,treeCut)
                     CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax), drawoption, "goff,e")
                     full=True
                 else:
@@ -76,12 +76,12 @@ class HistoMaker:
             elif job.type == 'DATA':
                 if options['blind']:
                     if treeVar == 'H.mass':
-                        CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<90. || '+treeVar + '>150.' , "goff,e")
+                        CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<90. || '+treeVar + '>150. & %s' %treeCut, "goff,e")
                     else:
-                        CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<0', "goff,e")
+                        CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<0 & %s'%treeCut, "goff,e")
 
                 else:
-                    CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),'1', "goff,e")
+                    CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),'%s' %treeCut, "goff,e")
                 full = True
             if full:
                 hTree = ROOT.gDirectory.Get(name)
@@ -119,8 +119,8 @@ class HistoMaker:
                 #print 'not rebinning %s'%job.name 
                 gDict[group] = hTree
             hTreeList.append(gDict)
-            CuttedTree.IsA().Destructor(CuttedTree)
-            del CuttedTree
+        CuttedTree.IsA().Destructor(CuttedTree)
+        del CuttedTree
         return hTreeList
        
     @property
