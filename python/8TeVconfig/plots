@@ -214,6 +214,28 @@ nBins: 17
 min: 0
 max: 255.
 
+[Plot:Mjj_pt70_Zee]
+Datas: Zee
+Normalize: False
+vars: Hmass
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: True
+nBins: 17
+min: 0
+max: 255.
+
+[Plot:Mjj_pt70_Zmm]
+Datas: Zmm
+Normalize: False
+vars: Hmass
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: True
+nBins: 17
+min: 0
+max: 255.
+
 [Plot:Mjj_pt70150]
 Datas: Zee Zmm
 Normalize: False
@@ -225,8 +247,53 @@ nBins: 17
 min: 0
 max: 255.
 
+[Plot:Mjj_pt70150_Zee]
+Datas: Zee
+Normalize: False
+vars: Hmass
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: True
+nBins: 17
+min: 0
+max: 255.
+
+[Plot:Mjj_pt70150_Zmm]
+Datas: Zmm
+Normalize: False
+vars: Hmass
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: True
+nBins: 17
+min: 0
+max: 255.
+
+
 [Plot:Mjj_pt150]
 Datas: Zee Zmm
+Normalize: False
+vars: Hmass
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: True
+nBins: 12
+min: 10
+max: 250.
+
+[Plot:Mjj_pt150_Zee]
+Datas: Zee
+Normalize: False
+vars: Hmass
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: True
+nBins: 12
+min: 10
+max: 250.
+
+[Plot:Mjj_pt150_Zmm]
+Datas: Zmm
 Normalize: False
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
