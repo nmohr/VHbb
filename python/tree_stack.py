@@ -42,19 +42,15 @@ info = ParseInfo(samplesinfo,path)
 #----------Histo from trees------------
 def doPlot():
     vars = (config.get(section, 'vars')).split(',')
-
-    if 'ZLight' in region or 'TTbar' in region or 'Zbb' in region: 
-        SignalRegion = False
-    else:
-        SignalRegion = True
-        print 'You are in the Signal Region!'
-
     data = config.get(section,'Datas')
+    mc = eval(config.get('Plot_general','samples'))
 
-    mc=eval(config.get('Plot_general','samples'))
-    if SignalRegion:
+    SignalRegion = False
+    if config.has_option(section,'Signal'):
         mc.append(config.get(section,'Signal'))
-
+        SignalRegions = True
+    else: print '@WARNING: No Signal option specify. Put as False'
+            
     datasamples = info.get_samples(data)
     mcsamples = info.get_samples(mc)
 
