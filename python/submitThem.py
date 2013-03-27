@@ -83,6 +83,21 @@ print configs
 config = BetterConfigParser()
 config.read(configs)
 
+def dump_config(configs,output_file):
+    """
+    Dump all the configs in a output file
+    Args:
+        output_file: the file where the log will be dumped 
+        configs: list of files (string) to be dumped
+    Returns:
+        nothing
+    """
+    outf = open(output_file,'w') 
+    for i in configs:
+        try:
+            f=open(i,'r')
+            outf.write(f.read())
+        except: print '@WARNING: Config' + i + ' not found. It will not be used.'
 
 def compile_macro(config,macro):
     """
@@ -135,6 +150,7 @@ def submit(job,repDict):
         repDict['name'] = '%(job)s_%(en)s%(task)s' %repDict
     command = 'qsub -V -cwd -q %(queue)s -l h_vmem=6G -N %(name)s -o %(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.out -e %(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.err runAll.sh %(job)s %(en)s ' %(repDict) + opts.task + ' ' + repDict['job_id'] + ' ' + repDict['additional']
     print command
+    dump_config(configs,"%(logpath)s/%(timestamp)s_%(job)s_%(en)s_%(task)s.config" %(repDict))
     subprocess.call([command], shell=True)
 
 if opts.task == 'train':
