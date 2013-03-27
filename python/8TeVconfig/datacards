@@ -10,7 +10,7 @@ addOverFlow = True
 #!! --------------------------------------
 #!! Binning:
 #!! --------------------------------------
-BDTrange = BDT output,10,-1,1
+BDTrange = 10,-1,1
 BDToutname = CMS_vhbb_BDT_Zll_8TeV
 Mjjrange = 17,0.,255.
 #!! control region variables examples
@@ -25,17 +25,17 @@ rebin_active = True
 #!! --------------------------------------
 #!! Systematics
 #!! --------------------------------------
-sys_BDT = ['JER','JES','beff','bmis','beff1']
+sys_BDT = ['JER','JES','beff','bmis']
 sys_Mjj = ['JER','JES','beff','bmis','beff1']
 #!! systematics for the control region fit
 sys_cr = ['beff','bmis','beff1']
 #!! configuration of systematics effects and behaviour
 sys_factor = {'JER':1.0,'JES':1.0,'beff':1.0,'bmis':1.0,'beff1':1.0}
-sys_affecting = {'JER':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb'],'JES':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb'],'beff':['DYlight','DY2b','DY1b','VVlight','TT','ST','VVb'],'beff1':['ZH','ZH125'],'bmis':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb']}
+sys_affecting = {'JER':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb'],'JES':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb'],'beff':['ZH','ZH125','DYlight','DY2b','DY1b','VVlight','TT','ST','VVb'],'beff1':['ZH','ZH125'],'bmis':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb']}
 #!! Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
 sys_cut_suffix = {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?','beff1':'csv>csv?'}
 #sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal','beff1':'nominal'}
-sys_cut_include = ['ZH','VV','TT','ST','ZZ-bb']
+sys_cut_include = ['ZH','VVb','ST','VVlight']
 #!! UEPS
 weightF_sys = True
 #!! Example of sample systematic, in this case the ZZ sample is replaced by WZ
@@ -84,7 +84,7 @@ systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS
 #!! --------------------------------------
 
 #List = RMed_120_ZH125_MM_8TeV_janAngularOnly,RMed_120_ZH125_EE_8TeV_janAngularOnly,RTight_120_ZH125_MM_8TeV_janAngularOnly,RTight_120_ZH125_EE_8TeV_janAngularOnly,RLoose_ZH125_MM_8TeV_janAngularOnly,RLoose_ZH125_EE_8TeV_janAngularOnly
-List = RTight_ZH125_EE_8TeV_janAngularOnly,RMed_ZH125_EE_8TeV_janAngularOnly,RTight_ZH125_MM_8TeV_janAngularOnly,RMed_ZH125_MM_8TeV_janAngularOnly
+List = RTight_ZH125_EE_8TeV_janAngularOnly,RMed_ZH125_EE_8TeV_janAngularOnly,RTight_ZH125_MM_8TeV_janAngularOnly,RMed_ZH125_MM_8TeV_janAngularOnly,RTight_ZH130_EE_8TeV_janAngularOnly,RMed_ZH130_EE_8TeV_janAngularOnly,RTight_ZH130_MM_8TeV_janAngularOnly,RMed_ZH130_MM_8TeV_janAngularOnly,RTight_ZH135_EE_8TeV_janAngularOnly,RMed_ZH135_EE_8TeV_janAngularOnly,RTight_ZH135_MM_8TeV_janAngularOnly,RMed_ZH135_MM_8TeV_janAngularOnly,RTight_ZH140_EE_8TeV_janAngularOnly,RMed_ZH140_EE_8TeV_janAngularOnly,RTight_ZH140_MM_8TeV_janAngularOnly,RMed_ZH140_MM_8TeV_janAngularOnly,RTight_ZH145_EE_8TeV_janAngularOnly,RMed_ZH145_EE_8TeV_janAngularOnly,RTight_ZH145_MM_8TeV_janAngularOnly,RMed_ZH145_MM_8TeV_janAngularOnly,RTight_ZH150_EE_8TeV_janAngularOnly,RMed_ZH150_EE_8TeV_janAngularOnly,RTight_ZH150_MM_8TeV_janAngularOnly,RMed_ZH150_MM_8TeV_janAngularOnly,RTight_ZH120_EE_8TeV_janAngularOnly,RMed_ZH120_EE_8TeV_janAngularOnly,RTight_ZH120_MM_8TeV_janAngularOnly,RMed_ZH120_MM_8TeV_janAngularOnly,RTight_ZH115_EE_8TeV_janAngularOnly,RMed_ZH115_EE_8TeV_janAngularOnly,RTight_ZH115_MM_8TeV_janAngularOnly,RMed_ZH115_MM_8TeV_janAngularOnly,RTight_ZH110_EE_8TeV_janAngularOnly,RMed_ZH110_EE_8TeV_janAngularOnly,RTight_ZH110_MM_8TeV_janAngularOnly,RMed_ZH110_MM_8TeV_janAngularOnly
 
 #!! --------------------------------------
 #!! Datacards specif setup
@@ -97,8 +97,8 @@ InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPt_8TeV','CMS_vhbb
 InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exLowPt_8TeV','CMS_vhbb_ZjHF_Zll_exLowPt_8TeV','CMS_vhbb_TT_Zll_exLowPt_8TeV']
 InUse_HighPtLooseBTag = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_TT_Zll_exHighPtLoooseBTag_8TeV']
 
-lumi_7TeV = {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022}
-lumi_8TeV = {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05,'ZZ-bb':1.05}
+lumi_7TeV = {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022,'VVlight':1.022,'VVb':1.022}
+lumi_8TeV = {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05,'VVlight':1.05,'VVb':1.05}
 
 pdf_qqbar = {'type':'lnN', 'ZH':1.01,'VVlight':1.01,'VVb':1.01}
 pdf_gg = {'type':'lnN', 'ST':1.01,'QCD':1.01}
@@ -140,70 +140,401 @@ CMS_vhbb_TT_Zll_SF_8TeV: {'type':'lnN', 'TT':1.038}
 #!! -------------------------
 #!! Limit definitions
 #!! -------------------------
-[Limit]
+[dc:RMed_ZH125_EE_8TeV_janAngularOnly] 
+var = RMed_ZH125_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M125_ZeeLowPt_8TeV
+cut = RMed_EE
+signal = ZH125
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type= BDT
 
-#!! ichep + angular variables
-#!! RTight
-RTight_ZH110_MM_8TeV_janAngularOnly: RTight_ZH110_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M110_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH110,ZmmHighPt_8TeV,BDT
-RTight_ZH110_EE_8TeV_janAngularOnly: RTight_ZH110_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M110_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH110,ZeeHighPt_8TeV,BDT
-RTight_ZH115_MM_8TeV_janAngularOnly: RTight_ZH115_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M115_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH115,ZmmHighPt_8TeV,BDT
-RTight_ZH115_EE_8TeV_janAngularOnly: RTight_ZH115_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M115_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH115,ZeeHighPt_8TeV,BDT
-RTight_ZH120_MM_8TeV_janAngularOnly: RTight_ZH120_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M120_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH120,ZmmHighPt_8TeV,BDT
-RTight_ZH120_EE_8TeV_janAngularOnly: RTight_ZH120_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M120_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH120,ZeeHighPt_8TeV,BDT
-RTight_ZH125_MM_8TeV_janAngularOnly: RTight_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH125,ZmmHighPt_8TeV,BDT
-RTight_ZH125_EE_8TeV_janAngularOnly: RTight_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH125,ZeeHighPt_8TeV,BDT
-RTight_ZH130_MM_8TeV_janAngularOnly: RTight_ZH130_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH130,ZmmHighPt_8TeV,BDT
-RTight_ZH130_EE_8TeV_janAngularOnly: RTight_ZH130_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH130,ZeeHighPt_8TeV,BDT
-RTight_ZH135_MM_8TeV_janAngularOnly: RTight_ZH135_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH135,ZmmHighPt_8TeV,BDT
-RTight_ZH135_EE_8TeV_janAngularOnly: RTight_ZH135_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH135,ZeeHighPt_8TeV,BDT
-RTight_ZH140_MM_8TeV_janAngularOnly: RTight_ZH140_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M140_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH140,ZmmHighPt_8TeV,BDT
-RTight_ZH140_EE_8TeV_janAngularOnly: RTight_ZH140_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M140_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH140,ZeeHighPt_8TeV,BDT
-RTight_ZH145_MM_8TeV_janAngularOnly: RTight_ZH145_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M145_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH145,ZmmHighPt_8TeV,BDT
-RTight_ZH145_EE_8TeV_janAngularOnly: RTight_ZH145_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M145_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH145,ZeeHighPt_8TeV,BDT
-RTight_ZH150_MM_8TeV_janAngularOnly: RTight_ZH150_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M150_ZmmHighPt_8TeV,RTight_MM,RTight_MM,ZH150,ZmmHighPt_8TeV,BDT
-RTight_ZH150_EE_8TeV_janAngularOnly: RTight_ZH150_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M150_ZeeHighPt_8TeV,RTight_EE,RTight_EE,ZH150,ZeeHighPt_8TeV,BDT
+[dc:RMed_ZH125_MM_8TeV_janAngularOnly] 
+var = RMed_ZH125_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M125_ZmmLowPt_8TeV
+cut = RMed_MM
+signal = ZH125
+dcBin = ZmmLowPt_8TeV
+data = Zmm
+type= BDT
 
-#!! RMed
-RMed_ZH110_MM_8TeV_janAngularOnly: RMed_ZH110_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M110_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH110,ZmmLowPt_8TeV,BDT
-RMed_ZH110_EE_8TeV_janAngularOnly: RMed_ZH110_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M110_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH110,ZeeLowPt_8TeV,BDT
-RMed_ZH115_MM_8TeV_janAngularOnly: RMed_ZH115_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M115_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH115,ZmmLowPt_8TeV,BDT
-RMed_ZH115_EE_8TeV_janAngularOnly: RMed_ZH115_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M115_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH115,ZeeLowPt_8TeV,BDT
-RMed_ZH120_MM_8TeV_janAngularOnly: RMed_ZH120_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M120_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH120,ZmmLowPt_8TeV,BDT
-RMed_ZH120_EE_8TeV_janAngularOnly: RMed_ZH120_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M120_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH120,ZeeLowPt_8TeV,BDT
-RMed_ZH125_MM_8TeV_janAngularOnly: RMed_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH125,ZmmLowPt_8TeV,BDT
-RMed_ZH125_EE_8TeV_janAngularOnly: RMed_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH125,ZeeLowPt_8TeV,BDT
-RMed_ZH130_MM_8TeV_janAngularOnly: RMed_ZH130_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH130,ZmmLowPt_8TeV,BDT
-RMed_ZH130_EE_8TeV_janAngularOnly: RMed_ZH130_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M130_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH130,ZeeLowPt_8TeV,BDT
-RMed_ZH135_MM_8TeV_janAngularOnly: RMed_ZH135_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH135,ZmmLowPt_8TeV,BDT
-RMed_ZH135_EE_8TeV_janAngularOnly: RMed_ZH135_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M135_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH135,ZeeLowPt_8TeV,BDT
-RMed_ZH140_MM_8TeV_janAngularOnly: RMed_ZH140_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M140_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH140,ZmmLowPt_8TeV,BDT
-RMed_ZH140_EE_8TeV_janAngularOnly: RMed_ZH140_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M140_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH140,ZeeLowPt_8TeV,BDT
-RMed_ZH145_MM_8TeV_janAngularOnly: RMed_ZH145_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M145_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH145,ZmmLowPt_8TeV,BDT
-RMed_ZH145_EE_8TeV_janAngularOnly: RMed_ZH145_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M145_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH145,ZeeLowPt_8TeV,BDT
-RMed_ZH150_MM_8TeV_janAngularOnly: RMed_ZH150_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M150_ZmmLowPt_8TeV,RMed_MM,RMed_MM,ZH150,ZmmLowPt_8TeV,BDT
-RMed_ZH150_EE_8TeV_janAngularOnly: RMed_ZH150_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M150_ZeeLowPt_8TeV,RMed_EE,RMed_EE,ZH150,ZeeLowPt_8TeV,BDT
+[dc:RTight_ZH125_EE_8TeV_janAngularOnly] 
+var = RTight_ZH125_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M125_ZeeHighPt_8TeV
+cut = RTight_EE
+signal = ZH125
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RTight_ZH125_MM_8TeV_janAngularOnly] 
+var = RTight_ZH125_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M125_ZmmHighPt_8TeV
+cut = RTight_MM
+signal = ZH125
+dcBin = ZmmHighPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RMed_ZH130_EE_8TeV_janAngularOnly] 
+var = RMed_ZH130_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M130_ZeeLowPt_8TeV
+cut = RMed_EE
+signal = ZH130
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RMed_ZH130_MM_8TeV_janAngularOnly] 
+var = RMed_ZH130_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M130_ZmmLowPt_8TeV
+cut = RMed_MM
+signal = ZH130
+dcBin = ZmmLowPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RTight_ZH130_EE_8TeV_janAngularOnly] 
+var = RTight_ZH130_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M130_ZeeHighPt_8TeV
+cut = RTight_EE
+signal = ZH130
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RTight_ZH130_MM_8TeV_janAngularOnly] 
+var = RTight_ZH130_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M130_ZmmHighPt_8TeV
+cut = RTight_MM
+signal = ZH130
+dcBin = ZmmHighPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RMed_ZH135_EE_8TeV_janAngularOnly] 
+var = RMed_ZH135_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M135_ZeeLowPt_8TeV
+cut = RMed_EE
+signal = ZH135
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RMed_ZH135_MM_8TeV_janAngularOnly] 
+var = RMed_ZH135_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M135_ZmmLowPt_8TeV
+cut = RMed_MM
+signal = ZH135
+dcBin = ZmmLowPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RTight_ZH135_EE_8TeV_janAngularOnly] 
+var = RTight_ZH135_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M135_ZeeHighPt_8TeV
+cut = RTight_EE
+signal = ZH135
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RTight_ZH135_MM_8TeV_janAngularOnly] 
+var = RTight_ZH135_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M135_ZmmHighPt_8TeV
+cut = RTight_MM
+signal = ZH135
+dcBin = ZmmHighPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RMed_ZH140_EE_8TeV_janAngularOnly] 
+var = RMed_ZH140_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M140_ZeeLowPt_8TeV
+cut = RMed_EE
+signal = ZH140
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RMed_ZH140_MM_8TeV_janAngularOnly] 
+var = RMed_ZH140_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M140_ZmmLowPt_8TeV
+cut = RMed_MM
+signal = ZH140
+dcBin = ZmmLowPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RTight_ZH140_EE_8TeV_janAngularOnly] 
+var = RTight_ZH140_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M140_ZeeHighPt_8TeV
+cut = RTight_EE
+signal = ZH140
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RTight_ZH140_MM_8TeV_janAngularOnly] 
+var = RTight_ZH140_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M140_ZmmHighPt_8TeV
+cut = RTight_MM
+signal = ZH140
+dcBin = ZmmHighPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RMed_ZH145_EE_8TeV_janAngularOnly] 
+var = RMed_ZH145_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M145_ZeeLowPt_8TeV
+cut = RMed_EE
+signal = ZH145
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RMed_ZH145_MM_8TeV_janAngularOnly] 
+var = RMed_ZH145_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M145_ZmmLowPt_8TeV
+cut = RMed_MM
+signal = ZH145
+dcBin = ZmmLowPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RTight_ZH145_EE_8TeV_janAngularOnly] 
+var = RTight_ZH145_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M145_ZeeHighPt_8TeV
+cut = RTight_EE
+signal = ZH145
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RTight_ZH145_MM_8TeV_janAngularOnly] 
+var = RTight_ZH145_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M145_ZmmHighPt_8TeV
+cut = RTight_MM
+signal = ZH145
+dcBin = ZmmHighPt_8TeV
+data = Zmm
+type= BDT
 
 
-#RTight_120_jan
-RTight_120_ZH125_MM_8TeV_janAngularOnly: RTight_120_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmHighPt_8TeV,RTight_120_MM,RTight_120_MM,ZH125,ZmmHighPt_8TeV,BDT
-RTight_120_ZH125_EE_8TeV_janAngularOnly: RTight_120_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZeeHighPt_8TeV,RTight_120_EE,RTight_120_EE,ZH125,ZeeHighPt_8TeV,BDT
-
-#RMed_120_janAngularOnly
-RMed_120_ZH125_MM_8TeV_janAngularOnly: RMed_120_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmLowPt_8TeV,RMed_120_MM,RMed_120_MM,ZH125,ZmmLowPt_8TeV,BDT
-RMed_120_ZH125_EE_8TeV_janAngularOnly: RMed_120_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZeeLowPt_8TeV,RMed_120_EE,RMed_120_EE,ZH125,ZeeLowPt_8TeV,BDT
-
-#RLoose ( 0 - 50 )
-RLoose_ZH125_MM_8TeV_janAngularOnly: RLoose_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZmmVLowPt_8TeV,RLoose_MM,RLoose_MM,ZH125,ZmmVLowPt_8TeV,BDT
-RLoose_ZH125_EE_8TeV_janAngularOnly: RLoose_ZH125_janAngularOnly.nominal,<!LimitGeneral|BDToutname!>,<!LimitGeneral|BDTrange!>,BDT_M125_ZeeVLowPt_8TeV,RLoose_EE,RLoose_EE,ZH125,ZeeVLowPt_8TeV,BDT
-
-
-[RMed_ZH150_EE_8TeV_janAngularOnly]
+[dc:RMed_ZH150_EE_8TeV_janAngularOnly] 
 var = RMed_ZH150_janAngularOnly.nominal
-varName = <!LimitGeneral|BDToutname!>
-varRange = <!LimitGeneral|BDTrange!>
-name = BDT_M150_ZeeLowPt_8TeV
-cut_mc = RMed_EE
-cut_data = RMed_EE
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M150_ZeeLowPt_8TeV
+cut = RMed_EE
 signal = ZH150
-datacardName = ZeeLowPt_8TeV
-datacardType = BDT
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RMed_ZH150_MM_8TeV_janAngularOnly] 
+var = RMed_ZH150_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M150_ZmmLowPt_8TeV
+cut = RMed_MM
+signal = ZH150
+dcBin = ZmmLowPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RTight_ZH150_EE_8TeV_janAngularOnly] 
+var = RTight_ZH150_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M150_ZeeHighPt_8TeV
+cut = RTight_EE
+signal = ZH150
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RTight_ZH150_MM_8TeV_janAngularOnly] 
+var = RTight_ZH150_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M150_ZmmHighPt_8TeV
+cut = RTight_MM
+signal = ZH150
+dcBin = ZmmHighPt_8TeV
+data = Zmm
+type= BDT
+
+
+[dc:RMed_ZH120_EE_8TeV_janAngularOnly] 
+var = RMed_ZH120_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M120_ZeeLowPt_8TeV
+cut = RMed_EE
+signal = ZH120
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RMed_ZH120_MM_8TeV_janAngularOnly] 
+var = RMed_ZH120_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M120_ZmmLowPt_8TeV
+cut = RMed_MM
+signal = ZH120
+dcBin = ZmmLowPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RTight_ZH120_EE_8TeV_janAngularOnly] 
+var = RTight_ZH120_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M120_ZeeHighPt_8TeV
+cut = RTight_EE
+signal = ZH120
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RTight_ZH120_MM_8TeV_janAngularOnly] 
+var = RTight_ZH120_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M120_ZmmHighPt_8TeV
+cut = RTight_MM
+signal = ZH120
+dcBin = ZmmHighPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RMed_ZH115_EE_8TeV_janAngularOnly] 
+var = RMed_ZH115_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M115_ZeeLowPt_8TeV
+cut = RMed_EE
+signal = ZH115
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RMed_ZH115_MM_8TeV_janAngularOnly] 
+var = RMed_ZH115_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M115_ZmmLowPt_8TeV
+cut = RMed_MM
+signal = ZH115
+dcBin = ZmmLowPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RTight_ZH115_EE_8TeV_janAngularOnly] 
+var = RTight_ZH115_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M115_ZeeHighPt_8TeV
+cut = RTight_EE
+signal = ZH115
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RTight_ZH115_MM_8TeV_janAngularOnly] 
+var = RTight_ZH115_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M115_ZmmHighPt_8TeV
+cut = RTight_MM
+signal = ZH115
+dcBin = ZmmHighPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RMed_ZH110_EE_8TeV_janAngularOnly] 
+var = RMed_ZH110_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M110_ZeeLowPt_8TeV
+cut = RMed_EE
+signal = ZH110
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RMed_ZH110_MM_8TeV_janAngularOnly] 
+var = RMed_ZH110_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M110_ZmmLowPt_8TeV
+cut = RMed_MM
+signal = ZH110
+dcBin = ZmmLowPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RTight_ZH110_EE_8TeV_janAngularOnly] 
+var = RTight_ZH110_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M110_ZeeHighPt_8TeV
+cut = RTight_EE
+signal = ZH110
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RTight_ZH110_MM_8TeV_janAngularOnly] 
+var = RTight_ZH110_janAngularOnly.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M110_ZmmHighPt_8TeV
+cut = RTight_MM
+signal = ZH110
+dcBin = ZmmHighPt_8TeV
+data = Zmm
+type= BDT
+
