@@ -30,7 +30,7 @@ addOverFlow = True
 #!! List of regions to be submitted
 #List: HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,ZLight_HighPt_Zee,ZLight_HighPt_Zmm,ZLight_HighPt,TTbar_Zmm,TTbar_Zee,TTbar,Zbb,Zbb_Zmm,Zbb_Zee,Zbb_BalanceNoReg,Zbb_Balance,VLowPt_Zee,VLowPt_Zmm,VLowPt,RTight_TTbar_fit_EE,RTight_TTbar_fit_MM,RTight_TTbar_fit,Zbb_beforeReg,TTbar_beforeReg,ZLight_HighPt_beforeReg,RTight_DYJets_fit_EE,RTight_DYJets_fit_MM,RTight_DYJets_fit,RMed_DYJets_fit_EE,RMed_DYJets_fit_MM,RMed_DYJets_fit,Zbb_vtx,TTbar_vtx
 
-List: RTight_DYJets_fit_EE,RTight_DYJets_fit_MM,RTight_DYJets_fit,RMed_DYJets_fit_EE,RMed_DYJets_fit_MM,RMed_DYJets_fit,VLowPt_Zee,VLowPt_Zmm,VLowPt
+#List: RTight_DYJets_fit_EE,RTight_DYJets_fit_MM,RTight_DYJets_fit,RMed_DYJets_fit_EE,RMed_DYJets_fit_MM,RMed_DYJets_fit,VLowPt_Zee,VLowPt_Zmm,VLowPt
 
 
 #!! variables definition
@@ -369,6 +369,7 @@ vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
+SignalRegion: True
 
 [Plot:HighPtLooseBTag_Zee]
 Datas: Zee
@@ -378,6 +379,7 @@ vars: <!Plot_general|BDT_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
+SignalRegion: True
 
 [Plot:LowPt_Zee]
 Datas: Zee
@@ -387,6 +389,7 @@ vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
+SignalRegion: True
 
 [Plot:VLowPt_Zee]
 Datas: Zee
@@ -396,6 +399,7 @@ vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
+SignalRegion: True
 
 [Plot:HighPt_Zmm]
 Datas: Zmm
@@ -405,6 +409,7 @@ vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
+SignalRegion: True
 
 [Plot:HighPtLooseBTag_Zmm]
 Datas: Zmm
@@ -414,6 +419,7 @@ vars: <!Plot_general|BDT_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
+SignalRegion: True
 
 [Plot:LowPt_Zmm]
 Datas: Zmm
@@ -423,6 +429,7 @@ vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
+SignalRegion: True
 
 [Plot:VLowPt_Zmm]
 Datas: Zmm
@@ -433,6 +440,7 @@ vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
+SignalRegion: True
 
 
 [Plot:VLowPt]
@@ -443,6 +451,7 @@ vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
+SignalRegion: True
 
 
 [Plot:ZLight_HighPt_Zee]
