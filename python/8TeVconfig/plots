@@ -1,5 +1,6 @@
 [Plot_general]
 
+lumi = 19000.
 #TT Merged
 #samples: Zudsg,Zudsg1J,Zudsg2J,Zudsg3J,Zudsg4J,ZudsgHT200400,ZudsgHT400,Zudsg5070,Zudsg70100,Zudsg100,Zcc,Zcc1J,Zcc2J,Zcc3J,Zcc4J,ZccHT200400,ZccHT400,Zcc5070,Zcc70100,Zcc100,Zbb,Zbb1J,Zbb2J,Zbb3J,Zbb4J,ZbbHT200400,ZbbHT400,Zbb5070,Zbb70100,Zbb100,ZZ,WW,WZ,TT,ST_s,ST_t,ST_tW,STbar_s,STbar_t,STbar_tW,ZH125 
 
@@ -28,30 +29,45 @@ typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':
 addOverFlow = True
 
 #!! List of regions to be submitted
-#List: HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,ZLight_HighPt_Zee,ZLight_HighPt_Zmm,ZLight_HighPt,TTbar_Zmm,TTbar_Zee,TTbar,Zbb,Zbb_Zmm,Zbb_Zee,Zbb_BalanceNoReg,Zbb_Balance,VLowPt_Zee,VLowPt_Zmm,VLowPt,RTight_TTbar_fit_EE,RTight_TTbar_fit_MM,RTight_TTbar_fit,Zbb_beforeReg,TTbar_beforeReg,ZLight_HighPt_beforeReg,RTight_DYJets_fit_EE,RTight_DYJets_fit_MM,RTight_DYJets_fit,RMed_DYJets_fit_EE,RMed_DYJets_fit_MM,RMed_DYJets_fit,Zbb_vtx,TTbar_vtx
+#List: HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,ZLight_HighPt_Zee,ZLight_HighPt_Zmm,ZLight_HighPt,TTbar_Zmm,TTbar_Zee,TTbar,Zbb,Zbb_Zmm,Zbb_Zee,Zbb_BalanceNoReg,Zbb_Balance,VLowPt_Zee,VLowPt_Zmm,VLowPt,RTight_TTbar_fit_EE,RTight_TTbar_fit_MM,RTight_TTbar_fit,Zbb_beforeReg,TTbar_beforeReg,ZLight_HighPt_beforeReg,RTight_DYJets_fit_EE,RTight_DYJets_fit_MM,RTight_DYJets_fit,RMed_DYJets_fit_EE,RMed_DYJets_fit_MM,RMed_DYJets_fit,Zbb_vtx,TTbar_vtx,TTbar_soft,Zbb_soft
+
+#!! Electrons
+#List: HighPt_Zee,LowPt_Zee,ZLight_HighPt_Zee,TTbar_Zee,Zbb_Zee,VLowPt_Zee,RTight_TTbar_fit_EE,RTight_DYJets_fit_EE,RMed_DYJets_fit_EE
+#!! Muons
+#List: HighPt_Zmm,LowPt_Zmm,ZLight_HighPt_Zmm,TTbar_Zmm,Zbb_Zmm,VLowPt_Zmm,RTight_TTbar_fit_MM,RTight_DYJets_fit_MM,RMed_DYJets_fit_MM
 
 #List: RTight_DYJets_fit_EE,RTight_DYJets_fit_MM,RTight_DYJets_fit,RMed_DYJets_fit_EE,RMed_DYJets_fit_MM,RMed_DYJets_fit,VLowPt_Zee,VLowPt_Zmm,VLowPt
+#!! Signal regions
+#!! Electrons
+#List: HighPt_Zee,LowPt_Zee
+#!!Muons
+#List: HighPt_Zmm,LowPt_Zmm
 
+#!! Combined regions
+#List: Zbb,ZLight_HighPt,TTbar,TTbar_vtx,TTbar_soft,Zbb_soft
+
+List = Zbb_Zee,TTbar_unbiased_Zee,ZLight_HighPt_Zee
+#List = Zbb_Zmm,TTbar_unbiased_Zmm,ZLight_HighPt_Zmm
 
 #!! variables definition
-additional_vars: rHVpt,vxMult,Sum,fatHfileteredMass,dR_hJet0_V,dR_hJet1_V,FatH_H_massDiff,hJet0_V_etaDiff,hJet1_V_etaDiff,dR_leptons,dPhi_leptons,fatHfilteredPt,dEta_leptons,minCSVnom,maxCSVnom,SVHdR,SVHdEta,SVHdPhi
+additional_vars: rHVpt,vxMult,Sum,fatHfileteredMass,dR_hJet0_V,dR_hJet1_V,FatH_H_massDiff,hJet0_V_etaDiff,hJet1_V_etaDiff,dR_leptons,dPhi_leptons,fatHfilteredPt,dEta_leptons,minCSVnom,maxCSVnom,minCSVold,maxCSVold,SVHdR,SVHdEta,SVHdPhi
 BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,Sum,angleZZS,angleHB,angleLZ,systemMass
 BDTs: BDT_RMed_janAngularOnly,BDT_RTight_janAngularOnly
 REG_vars: METnoPU,rho25,dPhiJetMet,regWeight,JECUnc,jPtRaw,jE,jCef,jChf,jNCh,jNum,jPtLeadTrack
 REG_vtx: vtxPt,vtxMass,vtx3dL,vtx3deL
 REG_soft: jSoftLeptPtRel,jSoftLeptPt,jSoftLeptdR
 
-BDT_plot_blind: False
+BDT_plot_blind: True
 BDT_plot_log: True
 plot_mass = ZH125
-Normalize = True
+Normalize = False
 
 
 #!! Plot regions definition
 
 [Plot:ZZll]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass,Hpt,Vmass,Vpt,minCSV,maxCSV,hJet0pt,hJet1pt
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -62,7 +78,7 @@ max: 265.
 
 [Plot:ZZll_Zee]
 Datas: Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass,Hpt,Vmass,Vpt,minCSV,maxCSV,hJet0pt,hJet1pt
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -73,7 +89,7 @@ max: 265.
 
 [Plot:ZZll_Zmm]
 Datas: Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass,Hpt,Vmass,Vpt,minCSV,maxCSV,hJet0pt,hJet1pt
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -84,7 +100,7 @@ max: 265.
 
 [Plot:HighPt_ExpertRegion0]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: BDTexpert_TT_HighPt
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
@@ -92,7 +108,7 @@ blind: <!Plot_general|BDT_plot_blind!>
 
 [Plot:HighPt_ExpertRegion1]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: BDTexpert_DY_HighPt
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
@@ -100,7 +116,7 @@ blind: <!Plot_general|BDT_plot_blind!>
 
 [Plot:HighPt_ExpertRegion2]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: BDTexpert_VV_HighPt
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
@@ -108,7 +124,7 @@ blind: <!Plot_general|BDT_plot_blind!>
 
 [Plot:HighPt_ExpertRegion3]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: BDTexpert_VV_HighPt
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
@@ -117,7 +133,7 @@ blind: <!Plot_general|BDT_plot_blind!>
 
 [Plot:ZPeak_Zee]
 Datas: Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Vpt
 #Vmass,vLepton0pt,vLepton1pt
 Signal: <!Plot_general|plot_mass!>
@@ -126,7 +142,7 @@ blind: False
 
 [Plot:ZPeak_Zmm]
 Datas: Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Vpt
 #Vmass,vLepton0pt,vLepton1pt
 Signal: <!Plot_general|plot_mass!>
@@ -135,7 +151,7 @@ blind: False
 
 [Plot:HighPt_MJJ_Zee]
 Datas: Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -146,7 +162,7 @@ max: 255.
 
 [Plot:HighPt_MJJ_Zmm]
 Datas: Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -157,7 +173,7 @@ max: 255.
 
 [Plot:LowPt_MJJ_Zee]
 Datas: Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -168,7 +184,7 @@ max: 255.
 
 [Plot:LowPt_MJJ_Zmm]
 Datas: Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -179,7 +195,7 @@ max: 255.
 
 [Plot:MedPt_MJJ_Zee]
 Datas: Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -190,7 +206,7 @@ max: 255.
 
 [Plot:MedPt_MJJ_Zmm]
 Datas: Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -205,7 +221,7 @@ max: 255.
 
 [Plot:Mjj_pt70]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -216,7 +232,7 @@ max: 255.
 
 [Plot:Mjj_pt70_Zee]
 Datas: Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -227,7 +243,7 @@ max: 255.
 
 [Plot:Mjj_pt70_Zmm]
 Datas: Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -238,7 +254,7 @@ max: 255.
 
 [Plot:Mjj_pt70150]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -249,7 +265,7 @@ max: 255.
 
 [Plot:Mjj_pt70150_Zee]
 Datas: Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -260,7 +276,7 @@ max: 255.
 
 [Plot:Mjj_pt70150_Zmm]
 Datas: Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -272,7 +288,7 @@ max: 255.
 
 [Plot:Mjj_pt150]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -283,7 +299,7 @@ max: 250.
 
 [Plot:Mjj_pt150_Zee]
 Datas: Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -294,7 +310,7 @@ max: 250.
 
 [Plot:Mjj_pt150_Zmm]
 Datas: Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -306,7 +322,7 @@ max: 250.
 
 [Plot:ATLAS_Mjj_pt50_dR]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -317,7 +333,7 @@ max: 240.
 
 [Plot:ATLAS_Mjj_pt50100_dR]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -328,7 +344,7 @@ max: 240.
 
 [Plot:ATLAS_Mjj_pt100150_dR]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -339,7 +355,7 @@ max: 250.
 
 [Plot:ATLAS_Mjj_pt150200_dR]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -350,7 +366,7 @@ max: 190
 
 [Plot:ATLAS_Mjj_pt200_dR]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -359,13 +375,15 @@ nBins: 10
 min: 10
 max: 210
 
+#!! ------------------
+#!! BDT Signal regions
+#!! ------------------
 
 [Plot:HighPt_Zee]
 Datas: Zee
-Normalize: True
-#vars: BDT_RTight_janAngularOnly
-vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
-#vars: <!Plot_general|BDT_vars!>
+Normalize: <!Plot_general|Normalize!>
+vars: BDT_RTight_janAngularOnly
+#vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
@@ -373,7 +391,7 @@ SignalRegion: True
 
 [Plot:HighPtLooseBTag_Zee]
 Datas: Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 #vars: BDT8_RTightLooseBTag
 vars: <!Plot_general|BDT_vars!>
 Signal: <!Plot_general|plot_mass!>
@@ -383,9 +401,9 @@ SignalRegion: True
 
 [Plot:LowPt_Zee]
 Datas: Zee
-Normalize: True
-#vars: BDT_RMed_janAngularOnly
-vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
+Normalize: <!Plot_general|Normalize!>
+vars: BDT_RMed_janAngularOnly
+#vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
@@ -393,7 +411,7 @@ SignalRegion: True
 
 [Plot:VLowPt_Zee]
 Datas: Zee
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 #vars: BDT_RLoose_janAngularOnly,
 vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
@@ -403,9 +421,9 @@ SignalRegion: True
 
 [Plot:HighPt_Zmm]
 Datas: Zmm
-Normalize: True
-#vars: BDT_RTight_janAngularOnly
-vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
+Normalize: <!Plot_general|Normalize!>
+vars: BDT_RTight_janAngularOnly
+#vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
@@ -413,7 +431,7 @@ SignalRegion: True
 
 [Plot:HighPtLooseBTag_Zmm]
 Datas: Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 #vars: BDT8_RTightLooseBTag
 vars: <!Plot_general|BDT_vars!>
 Signal: <!Plot_general|plot_mass!>
@@ -423,9 +441,9 @@ SignalRegion: True
 
 [Plot:LowPt_Zmm]
 Datas: Zmm
-Normalize: True
-#vars: BDT_RMed_janAngularOnly
-vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
+Normalize: <!Plot_general|Normalize!>
+vars: BDT_RMed_janAngularOnly
+#vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
@@ -433,7 +451,7 @@ SignalRegion: True
 
 [Plot:VLowPt_Zmm]
 Datas: Zmm
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 #vars: BDT8_RMed
 #vars: BDT_RLoose_janAngularOnly
 vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
@@ -445,7 +463,7 @@ SignalRegion: True
 
 [Plot:VLowPt]
 Datas: Zee Zmm
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 #vars: BDT_RLoose_janAngularOnly,
 vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
@@ -453,6 +471,10 @@ log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
 SignalRegion: True
 
+
+#!! ---------------
+#!! Control regions
+#!! ---------------
 
 [Plot:ZLight_HighPt_Zee]
 Datas: Zee
@@ -465,7 +487,7 @@ blind: False
 
 [Plot:ZLight_LowPt_Zee]
 Datas: Zee
-Normalize: <!Plot_general|Normalize!> 
+Normalize: <!Plot_general|Normalize!>
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
@@ -483,7 +505,7 @@ blind: False
 
 [Plot:RTight_TTbar_fit_EE]
 Datas: Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 #vars: <!Plot_general|BDT_vars!>
 Signal: <!Plot_general|plot_mass!>
@@ -502,7 +524,7 @@ blind: False
 [Plot:Zbb]
 Datas: Zee Zmm
 Normalize: <!Plot_general|Normalize!>
-vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>,<!Plot_general|REG_vars!>
+vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>,<!Plot_general|REG_vars!>,<!Plot_general|REG_vtx!>,<!Plot_general|REG_soft!>
 Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
@@ -511,43 +533,43 @@ blind: False
 Datas: Zee Zmm
 Normalize: <!Plot_general|Normalize!>
 #vars: <!Plot_general|BDT_vars!>
-vars: <!Plot_general|BDT_vars!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>,<!Plot_general|REG_vars!>
+vars: <!Plot_general|BDT_vars!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>,<!Plot_general|REG_vars!>,<!Plot_general|REG_vtx!>,<!Plot_general|REG_soft!>
 Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
 [Plot:Zbb_vtx]
 Datas: Zee Zmm
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 #vars: <!Plot_general|BDT_vars!>
-vars: <!Plot_general|REG_vtx!>
+vars: <!Plot_general|BDT_vars!>,<!Plot_general|REG_vtx!>
 Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
 [Plot:TTbar_vtx]
 Datas: Zee Zmm
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 #vars: <!Plot_general|BDT_vars!>
-vars: <!Plot_general|BDT_vars!>
+vars: <!Plot_general|BDT_vars!>,<!Plot_general|REG_vtx!>
 Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
 [Plot:Zbb_soft]
 Datas: Zee Zmm
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 #vars: <!Plot_general|BDT_vars!>
-vars: <!Plot_general|REG_soft!>
+vars: <!Plot_general|REG_soft!>,<!Plot_general|REG_vtx!>
 Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
 [Plot:TTbar_soft]
 Datas: Zee Zmm
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 #vars: <!Plot_general|BDT_vars!>
-vars: <!Plot_general|REG_soft!>
+vars: <!Plot_general|REG_soft!>,<!Plot_general|REG_vtx!>
 Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
@@ -581,7 +603,7 @@ blind: False
 
 [Plot:RTight_TTbar_fit_MM]
 Datas: Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 #vars: <!Plot_general|BDT_vars!>
 Signal: <!Plot_general|plot_mass!>
@@ -590,7 +612,7 @@ blind: False
 
 [Plot:RTight_TTbar_fit]
 Datas: Zee Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 #vars: <!Plot_general|BDT_vars!>
 Signal: <!Plot_general|plot_mass!>
@@ -609,7 +631,7 @@ blind: False
 
 [Plot:ZLight_LowPt]
 Datas: Zmm Zee
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -617,7 +639,7 @@ blind: False
 
 [Plot:ZLight_LowPt_beforeReg]
 Datas: Zmm Zee
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass_NoReg,rHVpt_NoReg
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -625,7 +647,7 @@ blind: False
 
 [Plot:ZLight_HighPt]
 Datas: Zmm Zee
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -633,7 +655,7 @@ blind: False
 
 [Plot:ZLight_HighPt_beforeReg]
 Datas: Zmm Zee
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass_NoReg,rHVpt_NoReg
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -641,7 +663,7 @@ blind: False
 
 [Plot:Zbb_beforeReg]
 Datas: Zmm Zee
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass_NoReg,rHVpt_NoReg
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -649,7 +671,7 @@ blind: False
 
 [Plot:TTbar_beforeReg]
 Datas: Zmm Zee
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass_NoReg,rHVpt_NoReg
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -657,7 +679,7 @@ blind: False
 
 [Plot:Zbb_Balance]
 Datas: Zmm Zee
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass,rHVpt
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -665,7 +687,7 @@ blind: False
 
 [Plot:Zbb_BalanceNoReg]
 Datas: Zmm Zee
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 vars: Hmass_NoReg,rHVpt_NoReg
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -675,7 +697,7 @@ blind: False
 
 [Plot:RMed_DYJets_fit_EE]
 Datas: Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -683,7 +705,7 @@ blind: False
 
 [Plot:RMed_DYJets_fit_MM]
 Datas: Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -691,7 +713,7 @@ blind: False
 
 [Plot:RMed_DYJets_fit]
 Datas: Zmm Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -699,7 +721,7 @@ blind: False
 
 [Plot:RTight_DYJets_fit_EE]
 Datas: Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -707,7 +729,7 @@ blind: False
 
 [Plot:RTight_DYJets_fit_MM]
 Datas: Zmm
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -715,7 +737,25 @@ blind: False
 
 [Plot:RTight_DYJets_fit]
 Datas: Zmm Zee
-Normalize: False
+Normalize: <!Plot_general|Normalize!>
+vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: False
+
+
+#!! TTbar unbiased
+[Plot:TTbar_unbiased_Zee]
+Datas: Zee
+Normalize: <!Plot_general|Normalize!>
+vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: False
+
+[Plot:TTbar_unbiased_Zmm]
+Datas: Zmm
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: False
@@ -726,7 +766,7 @@ blind: False
 
 [Plot:Zbb_Zee_fatH]
 Datas: Zee
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDT_vars!>
 #vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
 Signal: <!Plot_general|plot_mass!>
@@ -735,7 +775,7 @@ blind: False
 
 [Plot:Zbb_Zmm_fatH]
 Datas: Zmm
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDT_vars!>
 #vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>
 Signal: <!Plot_general|plot_mass!>
@@ -744,7 +784,7 @@ blind: False
 
 [Plot:Zbb_fatH]
 Datas: Zee Zmm
-Normalize: True
+Normalize: <!Plot_general|Normalize!>
 vars: <!Plot_general|BDT_vars!>
 #vars: Hmass,rHVpt,<!Plot_general|REG_vars!>
 Signal: <!Plot_general|plot_mass!>
