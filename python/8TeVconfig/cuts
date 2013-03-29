@@ -33,6 +33,7 @@ upperHMass = H.mass < 250.
 upperHMass_beforeReg = HNoReg.mass < 250.
 zMassSafety = V.mass > 50.
 
+
 #!! ---------------------------------
 #!! Windows and windows veto
 #!! ---------------------------------
@@ -50,12 +51,12 @@ rMed_240 = V.pt > 100. & V.pt < 150.
 rLow2 = V.pt > 50.& V.pt < 100.
 looseHMass = H.mass > 80. & H.mass < 150.
 looseHMass_beforeReg = HNoReg.mass > 80. & HNoReg.mass < 150.
-
+run_range = (EVENT.run < 207883 || EVENT.run > 208307)
 
 #!! -------------------------------------------
 #!! Preselections (combination of single cuts)
 #!! -------------------------------------------
-preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
+preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0. & <!ZHbb|run_range!>
 preselection_beforeReg = (hJet_pt[0]/hJet_regWeight[0]) > 20. & (hJet_pt[1]*hJet_regWeight[1]) > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
 looseBTag = !(hJet_csv[0] > <!ZHbb|CSVL!> & hJet_csv[1] > <!ZHbb|CSVL!>) & (hJet_csv[0] > <!ZHbb|CSVL!> | hJet_csv[1] > <!ZHbb|CSVL!>)
 vtx = hJet_vtx3dL[0] > 0. & hJet_vtxPt[0] > 0.
@@ -141,6 +142,7 @@ RMed_DYJets_fit_MM = <!Cuts|RMed_DYJets_fit!> & <!ZHmmbb|addCuts!>
 #!! -------------------------
 #!! Control regions
 #!! -------------------------
+TTbar_unbiased = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & MET.et > 60. & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & <!ZHbb|upperHMass!>
 ZLight= <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & V.pt > 50.
 TTbar = <!ZHbb|preselection!> & <!ZHbb|upperHMass!> & <!ZHbb|tcBtag!> & <!ZHbb|zVeto!> & H.pt > 100.
 Zbb = <!ZHbb|preselection!> & <!ZHbb|vetoHMass!> & <!ZHbb|upperHMass!> & <!ZHbb|zWindow!> & <!ZHbb|tcBtag!> & <!ZHbb|max1AddJet!> & <!ZHbb|dPhiVH!> 
@@ -175,6 +177,8 @@ TTbar_vtx = <!Cuts|TTbar!> & <!ZHbb|vtx!>
 TTbar_soft = <!Cuts|TTbar!> & <!ZHbb|soft!>
 Zbb_vtx = <!Cuts|Zbb!> & <!ZHbb|vtx!>
 Zbb_soft = <!Cuts|Zbb!> & <!ZHbb|soft!>
+TTbar_unbiased_Zee = <!Cuts|TTbar_unbiased!> & <!ZHeebb|addCuts!>
+TTbar_unbiased_Zmm = <!Cuts|TTbar_unbiased!> & <!ZHmmbb|addCuts!>
 
 #!! ---------------------------
 #!! Electron muons separation
@@ -189,6 +193,8 @@ RTight_240_EE = Vtype==1  & <!Cuts|RTight_240!>
 RTight_240_MM = Vtype==0 & <!Cuts|RTight_240!>
 RMed_EE = Vtype==1 & <!Cuts|RMed!>
 RMed_MM = Vtype==0 & <!Cuts|RMed!>
+RMed_120_EE = Vtype==1  & <!Cuts|RMed_120!>
+RMed_120_MM = Vtype==0 & <!Cuts|RMed_120!>
 RMed_150_EE = Vtype==1  & <!Cuts|RMed_150!>
 RMed_150_MM = Vtype==0 & <!Cuts|RMed_150!>
 RMed_240_EE = Vtype==1  & <!Cuts|RMed_240!>
