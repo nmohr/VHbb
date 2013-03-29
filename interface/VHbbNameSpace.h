@@ -267,7 +267,7 @@ namespace VHbb {
     return SF>0?SF:0;
   }
 
-<<<<<<< VHbbNameSpace.h
+
   double minCSVold(int EVENT_run, double hJet_csv0, double hJet_csv1, double hJet_csvOld0, double hJet_csvOld1){
 
     if( EVENT_run < 2 )
