@@ -48,8 +48,7 @@ def doPlot():
     SignalRegion = False
     if config.has_option(section,'Signal'):
         mc.append(config.get(section,'Signal'))
-        SignalRegions = True
-    else: print '@WARNING: No Signal option specify. Put as False'
+        SignalRegion = True
             
     datasamples = info.get_samples(data)
     mcsamples = info.get_samples(mc)
