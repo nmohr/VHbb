@@ -87,16 +87,16 @@ mjjMedPt_opt = <!ZHbb|preselection!> & <!ZHbb|rMed2!> & <!ZHbb|ccBtag!> & <!ZHbb
 #!! ----------------
 #!! V.pt regions
 #!! ----------------
-RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!>
+RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!>
 RTight = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!>
 RTightLooseBTag = <!ZHbb|30jets!> & <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> & <!ZHbb|looseBTag!>
 RLoose = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rLoose!>
-RMed_120 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed_120!> & <!ZHbb|looseHMass!>
-RTight_120 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight_120!> & <!ZHbb|upperHMass!> 
-RMed_150 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed_150!> & <!ZHbb|looseHMass!>
-RTight_150 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight_150!> & <!ZHbb|upperHMass!> 
-RMed_240 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed_240!> & <!ZHbb|looseHMass!>
-RTight_240 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight_240!> & <!ZHbb|upperHMass!> 
+RMed_120 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed_120!>
+RTight_120 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight_120!>
+RMed_150 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed_150!> 
+RTight_150 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight_150!>
+RMed_240 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed_240!> 
+RTight_240 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight_240!>
 
 HighPt = <!Cuts|RTight!>
 LowPt = <!Cuts|RMed!>
@@ -124,8 +124,8 @@ HighPt_ExpertRegion3_MM = <!Cuts|RTight!> & TT_HighPt_ZH125_nov.nominal > 0.28 &
 #!! ------------------------------
 #!! Regions for scale factors fit
 #!! ------------------------------
-RTight_TTbar_fit = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!>
-RMed_TTbar_fit = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!>
+RTight_TTbar_fit = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!>
+RMed_TTbar_fit = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!>
 RTight_DYJets_fit = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|vetoHMass!>
 #!! For RMed_DYJets_fit region: btag extrapolation from loose (in the fit region) to custom (in the signal region)
 RMed_DYJets_fit = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|vetoHMass!> 
@@ -179,6 +179,8 @@ Zbb_vtx = <!Cuts|Zbb!> & <!ZHbb|vtx!>
 Zbb_soft = <!Cuts|Zbb!> & <!ZHbb|soft!>
 TTbar_unbiased_Zee = <!Cuts|TTbar_unbiased!> & <!ZHeebb|addCuts!>
 TTbar_unbiased_Zmm = <!Cuts|TTbar_unbiased!> & <!ZHmmbb|addCuts!>
+Zbb_soft_Zee = <!Cuts|Zbb!> & <!ZHbb|soft!> & <!ZHeebb|addCuts!>
+Zbb_soft_Zmm = <!Cuts|Zbb!> & <!ZHbb|soft!> & <!ZHmmbb|addCuts!>
 
 #!! ---------------------------
 #!! Electron muons separation
