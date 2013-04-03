@@ -78,7 +78,7 @@ class HistoMaker:
                     if treeVar == 'H.mass':
                         CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<90. || '+treeVar + '>150. & %s' %treeCut, "goff,e")
                     else:
-                        CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<0 & %s'%treeCut, "goff,e")
+                        CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<-0.2 & %s'%treeCut, "goff,e")
 
                 else:
                     CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),'%s' %treeCut, "goff,e")

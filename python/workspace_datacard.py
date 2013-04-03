@@ -159,7 +159,7 @@ data_samples = info.get_samples(data_sample_names)
 
 optionsList=[]
 
-def appendList(): optionsList.append({'cut':copy(_cut),'var':copy(_treevar),'name':copy(_name),'nBins':nBins,'xMin':xMin,'xMax':xMax,'weight':copy(_weight),'blind':False})
+def appendList(): optionsList.append({'cut':copy(_cut),'var':copy(_treevar),'name':copy(_name),'nBins':nBins,'xMin':xMin,'xMax':xMax,'weight':copy(_weight),'blind':blind})
 
 #nominal
 _cut = treecut
@@ -233,6 +233,7 @@ if addBlindingCut:
     for i in range(len(data_hMaker.optionsList)):
         data_hMaker.optionsList[i]['cut'] += ' & %s' %addBlindingCut
 
+
 if rebin_active:
     mc_hMaker.calc_rebin(background_samples)
     #transfer rebinning info to data maker
@@ -241,9 +242,6 @@ if rebin_active:
     data_hMaker.nBins = copy(mc_hMaker.nBins)
     data_hMaker._rebin = copy(mc_hMaker._rebin)
     data_hMaker.mybinning = deepcopy(mc_hMaker.mybinning)
-
-#mc_hMaker.rebin = False
-#data_hMaker.rebin = False
 
 all_histos = {}
 data_histos = {}
@@ -259,7 +257,6 @@ for job in data_samples:
     data_histos[job.name] = data_hMaker.get_histos_from_tree(job)[0]['DATA']
 
 print '\t> done <\n'
-#blind: 
 
 i=0
 for job in background_samples: 
@@ -399,26 +396,14 @@ for key in final_histos:
             rooDataHist = ROOT.RooDataHist('%s%s%s' %(Dict[job],nameSyst,Q),'%s%s%s'%(Dict[job],nameSyst,Q),obs, hist)
             getattr(WS,'import')(rooDataHist)
 
-if toy:
-    rooDummy = ROOT.RooDataHist('data_obs','data_obs',obs,hDummy)
-    toydata = ROOT.RooHistPdf('data_obs','data_obs',ROOT.RooArgSet(obs),rooDummy)
-    if blind:
-        rooDataSet = toydata.generate(ROOT.RooArgSet(obs),int(hDummy.Integral()))
-    else:
-        rooDataSet = toydata.generate(ROOT.RooArgSet(obs),int(theData.Integral()))
-    rooDataHist = ROOT.RooDataHist('data_obs','data_obs',ROOT.RooArgSet(obs),rooDataSet.reduce(ROOT.RooArgSet(obs)))
-    # for TH?
-
+if toy: 
+    hDummy.SetName('data_obs')
+    hDummy.Write()
+    rooDataHist = ROOT.RooDataHist('data_obs','data_obs',obs, hDummy)
 else:
-    if blind: #not yet realy working...?
-        hDummy.SetName('data_obs')
-        hDummy.Write()
-        rooDataHist = ROOT.RooDataHist('data_obs','data_obs',obs, hDummy)
-
-    else:
-        theData.SetName('data_obs')
-        theData.Write()
-        rooDataHist = ROOT.RooDataHist('data_obs','data_obs',obs, theData)
+    theData.SetName('data_obs')
+    theData.Write()
+    rooDataHist = ROOT.RooDataHist('data_obs','data_obs',obs, theData)
 
 getattr(WS,'import')(rooDataHist)
 
@@ -456,7 +441,7 @@ for DCtype in ['WS','TH']:
     f.write('kmax\t*\tnumber of nuisance parameters (sources of systematical uncertainties)\n\n')
     f.write('shapes * * vhbb_%s_%s.root $CHANNEL%s$PROCESS $CHANNEL%s$PROCESS$SYSTEMATIC\n\n'%(DCtype,ROOToutname,DCprocessseparatordict[DCtype],DCprocessseparatordict[DCtype]))
     f.write('bin\t%s\n\n'%Datacardbin)
-    if blind:
+    if toy:
         f.write('observation\t%s\n\n'%(hDummy.Integral()))
     else:
         f.write('observation\t%s\n\n'%(theData.Integral()))
