@@ -1,39 +1,31 @@
 [Analysis]
 tag = 8TeV
 
-#[Directories]
-#plotpath: ~/VHbb/Oct22/Stacks_Allnominal/
+[Directories]
+plotpath: ~/VHbb/lhcp/Plots/
 
 [Plot_general]
-lumi = 18926.
-#lumi = 12100
+lumi = 19000.
 #how and which groups in the plot
-setup: ZH,VV,DY2b,DY1b,DYlight,TT,ST
-setupLog: ZH,DY2b,DY1b,DYlight,TT,ST,VV
-#!! with VV splitting
-#setup: ZH,DYlight,DY1b,DY2b,VVlight,VVb,TT,ST
-#setupLog: ZH,DYlight,DY1b,DY2b,VVlight,VVb,TT,ST
+setup: ZH,VVb,VVlight,DY2b,DY1b,DYlight,TT,ST
+setupLog: ZH,DY2b,DY1b,DYlight,TT,ST,VVlight,VVb
 
 #colors
-colorDict: {'DYlight':401,'DYc':41,'DY2b':5,'DY1b':41,'Wlight':814,'Wc':41,'Wb':820,'TT':596,'ST':840,'VV':17,'WH':2,'ZH':2,'VH':2,'DYlc':401}
-typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','Wlight':'W+udscg','Wc':'W + c#bar{c}','Wb':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','ZH':'ZH','WH':'WH','VH':'VH','Overlay':'VH (125 GeV)'}
-#!! with VV splitting
-#colorDict: {'DYlight':401,'DYc':402,'DY2b':5,'DY1b':41,'TT':596,'ST':602,'VVlight':17,'VVb':17,'ZH':2,'DYlc':401}
-#typLegendDict: {'DYlight':'Z+udsg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','TT':'t#bar{t}','ST':'Single top','VVlight':'VVLF','VVb':'VVHF','ZH':'ZH','Overlay':'ZH (125 GeV)'}
-
+colorDict: {'DYlight':401,'DYc':41,'DY2b':5,'DY1b':41,'Wlight':814,'Wc':41,'Wb':820,'TT':596,'ST':840,'VVb':17,'VVlight':18,'WH':2,'ZH':2,'VH':2,'DYlc':401}
+typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','Wlight':'W+udscg','Wc':'W + c#bar{c}','Wb':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','VVlight':'VV+udscg','VVb':'VV+b','ZH':'ZH','WH':'WH','VH':'VH','Overlay':'VH (125 GeV)'}
 
 addOverFlow = True
 
 [LimitGeneral]
 
-Dict = {'ZH':'ZH','DYlight':'Z0b','DY1b':'Z1b','DY2b':'Z2b','TT':'TT','ST':'s_Top','VVb':'VVHF','VVlight':'VVLF','VV':'VV','Data':'data_obs','ZH125':'H125'}
+Dict = {'ZH':'ZH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','TT':'TT','ST':'s_Top','VVb':'VVHF','VVlight':'VVLF','VV':'VV','Data':'data_obs','ZH125':'H125'}
 
 
 [Plot:BDT]
 Datas: Zee
 Normalize: False
 Signal: ZH125
-log: False
+log: True
 blind: False
 
 
