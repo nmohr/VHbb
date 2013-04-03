@@ -45,7 +45,7 @@ class TreeCache:
         tmpSource = '%s/tmp_%s.root'%(self.__tmpPath,theHash)
         if self.__doCache and self.file_exists(tmpSource):
             return
-        output = ROOT.TFile.Open(tmpSource,'recreate')
+        output = ROOT.TFile.Open(tmpSource,'create')
         input = ROOT.TFile.Open(source,'read')
         output.cd()
         tree = input.Get(sample.tree)
@@ -72,6 +72,9 @@ class TreeCache:
         input.Close()
         del input
         output.Close()
+#        tmpSourceFile = ROOT.TFile.Open(tmpSource,'read')
+#        if tmpSourceFile.IsZombie():
+#            print("@ERROR: Zombie file")
         del output
 
     def __cache_samples(self):
