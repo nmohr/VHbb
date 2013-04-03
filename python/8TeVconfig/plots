@@ -31,23 +31,16 @@ addOverFlow = True
 #!! List of regions to be submitted
 #List: HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,ZLight_HighPt_Zee,ZLight_HighPt_Zmm,ZLight_HighPt,TTbar_Zmm,TTbar_Zee,TTbar,Zbb,Zbb_Zmm,Zbb_Zee,Zbb_BalanceNoReg,Zbb_Balance,VLowPt_Zee,VLowPt_Zmm,VLowPt,RTight_TTbar_fit_EE,RTight_TTbar_fit_MM,RTight_TTbar_fit,Zbb_beforeReg,TTbar_beforeReg,ZLight_HighPt_beforeReg,RTight_DYJets_fit_EE,RTight_DYJets_fit_MM,RTight_DYJets_fit,RMed_DYJets_fit_EE,RMed_DYJets_fit_MM,RMed_DYJets_fit,Zbb_vtx,TTbar_vtx,TTbar_soft,Zbb_soft
 
-#!! Electrons
-#List: HighPt_Zee,LowPt_Zee,ZLight_HighPt_Zee,TTbar_Zee,Zbb_Zee,VLowPt_Zee,RTight_TTbar_fit_EE,RTight_DYJets_fit_EE,RMed_DYJets_fit_EE
-#!! Muons
-#List: HighPt_Zmm,LowPt_Zmm,ZLight_HighPt_Zmm,TTbar_Zmm,Zbb_Zmm,VLowPt_Zmm,RTight_TTbar_fit_MM,RTight_DYJets_fit_MM,RMed_DYJets_fit_MM
+#!! Splitting electorn/muons/combined following the scale factors
 
-#List: RTight_DYJets_fit_EE,RTight_DYJets_fit_MM,RTight_DYJets_fit,RMed_DYJets_fit_EE,RMed_DYJets_fit_MM,RMed_DYJets_fit,VLowPt_Zee,VLowPt_Zmm,VLowPt
-#!! Signal regions
 #!! Electrons
-#List: HighPt_Zee,LowPt_Zee
-#!!Muons
-#List: HighPt_Zmm,LowPt_Zmm
+#List: HighPt_Zee,LowPt_Zee,ZLight_HighPt_Zee,TTbar_Zee,Zbb_Zee,VLowPt_Zee,RTight_TTbar_fit_EE,RTight_DYJets_fit_EE,RMed_DYJets_fit_EE,Zbb_soft_Zee,Zbb_HighPt_Zee,Zbb_LowPt_Zee,TTbar_unbiased_Zee
+#!! Muons
+#List: HighPt_Zmm,LowPt_Zmm,ZLight_HighPt_Zmm,TTbar_Zmm,Zbb_Zmm,VLowPt_Zmm,RTight_TTbar_fit_MM,RTight_DYJets_fit_MM,RMed_DYJets_fit_MM,Zbb_soft_Zmm,Zbb_HighPt_Zmm,Zbb_LowPt_Zmm,TTbar_unbiased_Zmm
 
 #!! Combined regions
-#List: Zbb,ZLight_HighPt,TTbar,TTbar_vtx,TTbar_soft,Zbb_soft
+List: Zbb,ZLight_HighPt,TTbar,TTbar_vtx,TTbar_soft,Zbb_soft
 
-List = Zbb_Zee,TTbar_unbiased_Zee,ZLight_HighPt_Zee
-#List = Zbb_Zmm,TTbar_unbiased_Zmm,ZLight_HighPt_Zmm
 
 #!! variables definition
 additional_vars: rHVpt,vxMult,Sum,fatHfileteredMass,dR_hJet0_V,dR_hJet1_V,FatH_H_massDiff,hJet0_V_etaDiff,hJet1_V_etaDiff,dR_leptons,dPhi_leptons,fatHfilteredPt,dEta_leptons,minCSVnom,maxCSVnom,minCSVold,maxCSVold,SVHdR,SVHdEta,SVHdPhi
@@ -57,8 +50,8 @@ REG_vars: METnoPU,rho25,dPhiJetMet,regWeight,JECUnc,jPtRaw,jE,jCef,jChf,jNCh,jNu
 REG_vtx: vtxPt,vtxMass,vtx3dL,vtx3deL
 REG_soft: jSoftLeptPtRel,jSoftLeptPt,jSoftLeptdR
 
-BDT_plot_blind: True
-BDT_plot_log: True
+BDT_plot_blind: False
+BDT_plot_log: False
 plot_mass = ZH125
 Normalize = False
 
@@ -382,18 +375,8 @@ max: 210
 [Plot:HighPt_Zee]
 Datas: Zee
 Normalize: <!Plot_general|Normalize!>
-vars: BDT_RTight_janAngularOnly
-#vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
-Signal: <!Plot_general|plot_mass!>
-log: <!Plot_general|BDT_plot_log!>
-blind: <!Plot_general|BDT_plot_blind!>
-SignalRegion: True
-
-[Plot:HighPtLooseBTag_Zee]
-Datas: Zee
-Normalize: <!Plot_general|Normalize!>
-#vars: BDT8_RTightLooseBTag
-vars: <!Plot_general|BDT_vars!>
+#vars: BDT_RTight_janAngularOnly
+vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
@@ -402,17 +385,7 @@ SignalRegion: True
 [Plot:LowPt_Zee]
 Datas: Zee
 Normalize: <!Plot_general|Normalize!>
-vars: BDT_RMed_janAngularOnly
-#vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
-Signal: <!Plot_general|plot_mass!>
-log: <!Plot_general|BDT_plot_log!>
-blind: <!Plot_general|BDT_plot_blind!>
-SignalRegion: True
-
-[Plot:VLowPt_Zee]
-Datas: Zee
-Normalize: <!Plot_general|Normalize!>
-#vars: BDT_RLoose_janAngularOnly,
+#vars: BDT_RMed_janAngularOnly
 vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
@@ -422,18 +395,8 @@ SignalRegion: True
 [Plot:HighPt_Zmm]
 Datas: Zmm
 Normalize: <!Plot_general|Normalize!>
-vars: BDT_RTight_janAngularOnly
-#vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
-Signal: <!Plot_general|plot_mass!>
-log: <!Plot_general|BDT_plot_log!>
-blind: <!Plot_general|BDT_plot_blind!>
-SignalRegion: True
-
-[Plot:HighPtLooseBTag_Zmm]
-Datas: Zmm
-Normalize: <!Plot_general|Normalize!>
-#vars: BDT8_RTightLooseBTag
-vars: <!Plot_general|BDT_vars!>
+#vars: BDT_RTight_janAngularOnly
+vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
@@ -442,8 +405,21 @@ SignalRegion: True
 [Plot:LowPt_Zmm]
 Datas: Zmm
 Normalize: <!Plot_general|Normalize!>
-vars: BDT_RMed_janAngularOnly
-#vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
+#vars: BDT_RMed_janAngularOnly
+vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
+Signal: <!Plot_general|plot_mass!>
+log: <!Plot_general|BDT_plot_log!>
+blind: <!Plot_general|BDT_plot_blind!>
+SignalRegion: True
+
+
+#!! Unofficial signal regions
+
+[Plot:VLowPt_Zee]
+Datas: Zee
+Normalize: <!Plot_general|Normalize!>
+#vars: BDT_RLoose_janAngularOnly,
+vars: <!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
@@ -460,7 +436,6 @@ log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
 SignalRegion: True
 
-
 [Plot:VLowPt]
 Datas: Zee Zmm
 Normalize: <!Plot_general|Normalize!>
@@ -471,10 +446,48 @@ log: <!Plot_general|BDT_plot_log!>
 blind: <!Plot_general|BDT_plot_blind!>
 SignalRegion: True
 
+[Plot:HighPtLooseBTag_Zee]
+Datas: Zee
+Normalize: <!Plot_general|Normalize!>
+#vars: BDT8_RTightLooseBTag
+vars: <!Plot_general|BDT_vars!>
+Signal: <!Plot_general|plot_mass!>
+log: <!Plot_general|BDT_plot_log!>
+blind: <!Plot_general|BDT_plot_blind!>
+SignalRegion: True
+
+[Plot:HighPtLooseBTag_Zmm]
+Datas: Zmm
+Normalize: <!Plot_general|Normalize!>
+#vars: BDT8_RTightLooseBTag
+vars: <!Plot_general|BDT_vars!>
+Signal: <!Plot_general|plot_mass!>
+log: <!Plot_general|BDT_plot_log!>
+blind: <!Plot_general|BDT_plot_blind!>
+SignalRegion: True
+
 
 #!! ---------------
 #!! Control regions
 #!! ---------------
+
+[Plot:Zbb_HighPt_Zee]
+Datas: Zee
+Normalize: <!Plot_general|Normalize!>
+vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
+#vars: <!Plot_general|BDT_vars!>
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: False
+
+[Plot:Zbb_LowPt_Zee]
+Datas: Zee
+Normalize: <!Plot_general|Normalize!>
+#vars: <!Plot_general|BDT_vars!>
+vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: False
 
 [Plot:ZLight_HighPt_Zee]
 Datas: Zee
@@ -556,6 +569,24 @@ Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
 
+[Plot:Zbb_soft_Zee]
+Datas: Zee
+Normalize: <!Plot_general|Normalize!>
+#vars: <!Plot_general|BDT_vars!>
+vars: <!Plot_general|REG_soft!>,<!Plot_general|REG_vtx!>
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: False
+
+[Plot:Zbb_soft_Zmm]
+Datas: Zmm
+Normalize: <!Plot_general|Normalize!>
+#vars: <!Plot_general|BDT_vars!>
+vars: <!Plot_general|REG_soft!>,<!Plot_general|REG_vtx!>
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: False
+
 [Plot:Zbb_soft]
 Datas: Zee Zmm
 Normalize: <!Plot_general|Normalize!>
@@ -570,6 +601,24 @@ Datas: Zee Zmm
 Normalize: <!Plot_general|Normalize!>
 #vars: <!Plot_general|BDT_vars!>
 vars: <!Plot_general|REG_soft!>,<!Plot_general|REG_vtx!>
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: False
+
+[Plot:Zbb_HighPt_Zmm]
+Datas: Zmm
+Normalize: <!Plot_general|Normalize!>
+vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
+#vars: <!Plot_general|BDT_vars!>
+Signal: <!Plot_general|plot_mass!>
+log: False
+blind: False
+
+[Plot:Zbb_LowPt_Zmm]
+Datas: Zmm
+Normalize: <!Plot_general|Normalize!>
+#vars: <!Plot_general|BDT_vars!>
+vars: <!Plot_general|BDTs!>,<!Plot_general|BDT_vars!>,<!Plot_general|additional_vars!>
 Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
@@ -692,6 +741,7 @@ vars: Hmass_NoReg,rHVpt_NoReg
 Signal: <!Plot_general|plot_mass!>
 log: False
 blind: False
+
 
 #!! Sideband region
 
