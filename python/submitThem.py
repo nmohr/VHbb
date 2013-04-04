@@ -184,11 +184,11 @@ if opts.task == 'trainReg':
 
 
 elif opts.task == 'dc':
-    repDict['queue'] = 'short.q'
+    repDict['queue'] = 'all.q'
     for item in DC_vars:
         if 'ZH%s'%opts.mass in item:
             submit(item,repDict) 
-        elif 'ZH' in item and opts.mass == 'all':
+        elif opts.mass == 'all':
             submit(item,repDict)
             
 elif opts.task == 'prep':
@@ -217,6 +217,7 @@ elif opts.task == 'sys' or opts.task == 'syseval':
             submit(sample,repDict)
 
 elif opts.task == 'eval':
+    repDict['queue'] = 'long.q'
     path = config.get("Directories","MVAin")
     samplesinfo = config.get("Directories","samplesinfo")
     info = ParseInfo(samplesinfo,path)
