@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from __future__ import print_function
 import sys
-import os
+import os,subprocess
 import ROOT 
 from array import array
 from math import sqrt
@@ -89,12 +89,13 @@ for mva in MVAinfos:
 
 samples = info.get_samples(namelist)
 print(samples)
+tmpDir = os.environ["TMPDIR"]
 for job in samples:
     #get trees:
     print(INpath+'/'+job.prefix+job.identifier+'.root')
     input = ROOT.TFile.Open(INpath+'/'+job.prefix+job.identifier+'.root','read')
     print(OUTpath+'/'+job.prefix+job.identifier+'.root')
-    outfile = ROOT.TFile.Open(OUTpath+'/'+job.prefix+job.identifier+'.root','recreate')
+    outfile = ROOT.TFile.Open(tmpDir+'/'+job.prefix+job.identifier+'.root','recreate')
     input.cd()
     obj = ROOT.TObject
     for key in ROOT.gDirectory.GetListOfKeys():
@@ -136,5 +137,12 @@ for job in samples:
         newtree.Fill()
     newtree.AutoSave()
     outfile.Close()
+    targetStorage = OUTpath.replace('gsidcap://t3se01.psi.ch:22128/','srm://t3se01.psi.ch:8443/srm/managerv2?SFN=')+'/'+job.prefix+job.identifier+'.root'
+    command = 'lcg-del -b -D srmv2 -l %s' %(targetStorage)
+    print(command)
+    subprocess.call([command], shell=True)
+    command = 'lcg-cp -b -D srmv2 file:///%s %s' %(tmpDir+'/'+job.prefix+job.identifier+'.root',targetStorage)
+    print(command)
+    subprocess.call([command], shell=True)
                 
 print('\n')
