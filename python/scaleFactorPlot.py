@@ -5,8 +5,14 @@ from optparse import OptionParser
 from HiggsAnalysis.CombinedLimit.DatacardParser import *
 from HiggsAnalysis.CombinedLimit.ShapeTools     import *
 from copy import copy,deepcopy
+from numpy import matrix
 
 
+def trunc(f, n):
+    '''Truncates/pads a float f to n decimal places without rounding'''
+    slen = len('%.*f' % (n, f))
+    return str(f)[:slen]
+        
 
 def removeDouble(seq):
     seen = set()
@@ -16,25 +22,6 @@ def removeDouble(seq):
 
 def getInputSigma(options):
     opts = copy(options)
-#    options = copy(opts)
-#    options.dataname = "data_obs"
-#    options.mass = 0
-#    options.format = "%8.3f +/- %6.3f"
-#    options.channel = opts.bins
-
-#    options.norm = False
-
-#    options.bin = True # fake that is a binary output, so that we parse shape lines
-#    options.out = "tmp.root"
-#    options.fileName = args[0]
-#    options.cexpr = False
-#    options.fixpars = False
-#    options.libs = []
-#    options.verbose = 0
-#    options.poisson = 0
-
-#    options.noJMax = None
-#    theBinning = ROOT.RooFit.Binning(Stack.nBins,Stack.xMin,Stack.xMax)
     
     file = open(opts.dc, "r")
 #    os.chdir(os.path.dirname(opts.dc))
@@ -77,29 +64,25 @@ def getInputSigma(options):
                 exps[p][1].append(kmax-1.);
             elif pdf == 'lnN':
                 exps[p][1].append(max(errline[b][p], 1.0/errline[b][p])-1.);
-#    print exps
     return exps
-#                if not nuiVar.has_key('%s_%s'%(opts.fit,lsyst)):
-#                    nui = 0.
-#                else:
-#                    nui= nuiVar['%s_%s'%(opts.fit,lsyst)]
-#                expNui[p][1].append(abs(1-errline[b][p])*nui);
 
 
 
-
-def getGraph(channel,labels,shift,v_b,input_sigma,x_position,y_position,nuisances):
-    print 'Channel' +  channel
+def get_scale_factors(channel,labels,shift,v_b,input_sigma,nuisances):
+    print 'Channel ' +  channel
     sf=[]
     sf_e=[]
-#    correspondency_dictionary = {"TT":"TT","s_Top":"s_Top","Zj0b":"Z0b","Zj1b":"Z1b","Zj2b":"Z2b","Wj0b":"Wj0b","Wj1b":"Wj1b","Wj2b":"Wj2b","Zj1HF":"Z1b","Zj2HF":"Z2b","ZjLF":"Z0b"}
+#   correspondency_dictionary = {"TT":"TT","s_Top":"s_Top","Zj0b":"Z0b","Zj1b":"Z1b","Zj2b":"Z2b","Wj0b":"Wj0b","Wj1b":"Wj1b","Wj2b":"Wj2b","Zj1HF":"Z1b","Zj2HF":"Z2b","ZjLF":"Z0b"}
+#   correspondency_dictionary = {"TT":"TT","s_Top":"s_Top","Zj0b":"Zj0b","Zj1b":"Zj1b","Zj2b":"Zj2b","Wj0b":"Wj0b","Wj1b":"Wj1b","Wj2b":"Wj2b","Zj1HF":"Z1b","Zj2HF":"Z2b","ZjLF":"Z0b","s_Top":"s_Top"}
     correspondency_dictionary = {"TT":"TT","s_Top":"s_Top","Zj0b":"Zj0b","Zj1b":"Zj1b","Zj2b":"Zj2b","Wj0b":"Wj0b","Wj1b":"Wj1b","Wj2b":"Wj2b","Zj1HF":"Z1b","Zj2HF":"Z2b","ZjLF":"Z0b","s_Top":"s_Top"}
 #    print input_sigma
 #    print input_sigma['TT'][1][0]
 #    initial_uncertainty=0.2 # initial uncertainty. @TO FIX: this can go in a config or as input arg
     count=0
     print labels
-    channels = ['high','High','low','Low','Med','med']
+#    channels = ['high','High','low','Low','Med','med']
+#    channels = ['Zee','Zmm']
+    channels = ['Zll']
     for i in v_b:
         print 'Nuisances ' + nuisances[count]
         for h in channels:
@@ -118,30 +101,17 @@ def getGraph(channel,labels,shift,v_b,input_sigma,x_position,y_position,nuisance
                     print sf_e
                 except:
                     print 'Problem evaluating the SF or the SF errors'
-#        elif( any(lowPt) in channel and any(lowPt) in nuisances[count]):
-#            print count
-#            try:
-#                print labels[count]
-#                print i
-#                sf.append(1+input_sigma[correspondency_dictionary[labels[count]]][1][0]*eval(i[0])) # calculate the actual value for the scale factors
-#                sf_e.append(input_sigma[correspondency_dictionary[labels[count]]][1][0]*eval(i[1])) # calculate the actula value for the uncertainties
-#                print sf
-#            except:
-#                print 'Problem evaluating the SF or the SF errors'
-#        else:
-#            try:
-#                print labels[count]
-#                print correspondency_dictionary[labels[count]]
-#                print input_sigma[correspondency_dictionary[labels[count]]]
-#                print input_sigma[correspondency_dictionary[labels[count]]][1][0]
-#                sf.append(1+input_sigma[correspondency_dictionary[labels[count]]][1][0]*eval(i[0])) # calculate the actual value for the scale factors
-#                sf_e.append(input_sigma[correspondency_dictionary[labels[count]]][1][0]*eval(i[1])) # calculate the actula value for the uncertainties
-#            except:
-#                print 'Problem evaluating the SF or the SF errors'
         count+=1
     print sf
     print sf_e
+    return [sf,sf_e]
 
+
+
+def getGraph(channel,labels,shift,v_b,input_sigma,x_position,y_position,nuisances):
+
+    sf = get_scale_factors(channel,labels,shift,v_b,input_sigma,nuisances)[0]
+    sf_e = get_scale_factors(channel,labels,shift,v_b,input_sigma,nuisances)[1]
     d = numpy.array(sf) # store scale factors in array
     e = numpy.array(sf_e) # store scale factors errors in array
     p = numpy.array(y_position)
@@ -155,6 +125,8 @@ def getGraph(channel,labels,shift,v_b,input_sigma,x_position,y_position,nuisance
         markerStyle = 21
     if ('med' in channel or 'Med' in channel ):
         markerStyle = 22
+    if ('Zee' in channel ):
+        markerStyle = 21
 
     for i in range(len(p)): p[i] = p[i]+shift
     print 'POSITIONS: '
@@ -164,6 +136,7 @@ def getGraph(channel,labels,shift,v_b,input_sigma,x_position,y_position,nuisance
     g.SetLineColor(2)
     g.SetLineWidth(3)
     g.SetMarkerStyle(markerStyle)
+    print 'Ok'
     return g
 
 
@@ -214,11 +187,17 @@ table = {}
 fpf_b = fit_b.floatParsFinal()
 fpf_s = fit_s.floatParsFinal()
 pulls = []
+
+correlation_matrix_name=[]
+correlation_matrix=[[]]
+
 for i in range(fpf_s.getSize()):
     nuis_s = fpf_s.at(i)
     name   = nuis_s.GetName();
     nuis_b = fpf_b.find(name)
     nuis_p = prefit.find(name)
+    if( name.find('SF') > 0. ):
+        correlation_matrix_name.append(name)
     row = []
     flag = False;
     mean_p, sigma_p = 0,0
@@ -256,6 +235,28 @@ for i in range(fpf_s.getSize()):
                     flag = True
     row += [ "%+4.2f"  % fit_s.correlation(name, options.poi) ]
     if flag or options.all: table[name] = row
+    # filling correlation table
+    correlation_matrix_line=[]
+    for j in range(fpf_b.getSize()):
+        _nuis_b = fpf_b.at(j)
+        _name   = _nuis_b.GetName();
+        if name.find('SF') > 0 and ( _name.find('SF') > 0 or options.all ) :
+            #          print name + '  __CORR__  ' + _name 
+            #          print fit_b.correlation(name,_name)
+#            print _nuis_b.getError()
+#            print fit_b.correlation(name,_name)*_nuis_b.getError()
+            print name
+            print _name
+            print fit_b.correlation(name,_name)
+            correlation_matrix_line.append(trunc(fit_b.correlation(name,_name),2))
+    if len(correlation_matrix_line) > 0:
+        correlation_matrix.append(correlation_matrix_line)
+
+print correlation_matrix_name
+print correlation_matrix[1]
+print correlation_matrix[2]
+print correlation_matrix[3]
+print correlation_matrix[4]
 
 fmtstring = "%-40s     %15s    %15s  %10s"
 highlight = "*%s*"
@@ -395,10 +396,14 @@ if options.plotsf and options.dc:
 
     # count the number of different channels
     channels = [0.,0.,0.,0.,0.]
-    ch={'Zll':0.,'Zll low Pt':0.,'Zll high Pt':0.,'Wln':0.,'Wln low Pt':0.,'Wln high Pt':0.,'Znn':0.,'Znn low Pt':0.,'Znn high Pt':0.,'Znn med Pt':0.}
+    ch={'Zll':0.,'Zll low Pt':0.,'Zll high Pt':0.,'Wln':0.,'Wln low Pt':0.,'Wln high Pt':0.,'Znn':0.,'Znn low Pt':0.,'Znn high Pt':0.,'Znn med Pt':0.,'Zee':0.,'Zmm':0.}
     print labels
     for label in labels:
         #!! create channel list and labels for legend
+        if label.find('Zee') > 0. :
+                ch['Zee'] = 1.
+        if label.find('Zmm') > 0. :
+                ch['Zmm'] = 1.
         if label.find('Zll') > 0. :
             if label.find('lowPt') > 0.:
                 ch['Zll low Pt'] = 1.
@@ -439,18 +444,21 @@ if options.plotsf and options.dc:
     try:
         labels = [re.sub('_Zll_SF_','',label) for label in labels ]
         labels = [re.sub('_Wln_SF_','',label) for label in labels ]
+        labels = [re.sub('_Zee_SF_','',label) for label in labels ]
+        labels = [re.sub('_Zmm_SF_','',label) for label in labels ]                
         labels = [re.sub('_SF_Znunu','',label) for label in labels ]
         labels = [re.sub('lowPt_8TeV','',label) for label in labels ]
         labels = [re.sub('highPt_8TeV','',label) for label in labels ]
         labels = [re.sub('medPt_8TeV','',label) for label in labels ]
         labels = [re.sub('_Zll_lowPt_SF_8TeV','',label) for label in labels ]
         labels = [re.sub('_Zll_highPt_SF_8TeV','',label) for label in labels ]
+        labels = [re.sub('_LowPt','',label) for label in labels ]
+        labels = [re.sub('_HighPt','',label) for label in labels ]
         labels = [re.sub('LowPt_8TeV','',label) for label in labels ]
         labels = [re.sub('MedPt_8TeV','',label) for label in labels ]
         labels = [re.sub('HighPt_8TeV','',label) for label in labels ]
         labels = [re.sub('8TeV','',label) for label in labels ]
         labels = [re.sub('8TeV','',label) for label in labels ]
-        
     except:
         print '@WARNING: No usual naming for datacard scale factors nuisances'
         print labels
@@ -519,7 +527,7 @@ if options.plotsf and options.dc:
     globalFitLine.Draw("same");
 
     #!! Legend
-    l2 = ROOT.TLegend(0.60, 0.85,0.80,0.67)
+    l2 = ROOT.TLegend(0.70, 0.85,0.85,0.75)
     l2.SetLineWidth(2)
     l2.SetBorderSize(0)
     l2.SetFillColor(0)
@@ -534,7 +542,9 @@ if options.plotsf and options.dc:
 #    l2.SetNColumns(3)
     l2.Draw("same")
 
-    for channel,g in graphs.iteritems(): print channel; g.Draw("P same")
+    for channel,g in graphs.iteritems():
+        print channel
+        g.Draw("P same")
     if(drawSys) : g2.Draw("[] same")
     ROOT.gPad.SetLeftMargin(0.2)
     ROOT.gPad.Update()
