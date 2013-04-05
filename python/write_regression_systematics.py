@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import sys
-import os
+import os,subprocess
 import ROOT 
 import math
 import shutil
@@ -43,6 +43,7 @@ ang_yield=eval(config.get('AngularLike','yields'))
 #path=opts.path
 pathIN = config.get('Directories','SYSin')
 pathOUT = config.get('Directories','SYSout')
+tmpDir = os.environ["TMPDIR"]
 
 print 'INput samples:\t%s'%pathIN
 print 'OUTput samples:\t%s'%pathOUT
@@ -127,8 +128,8 @@ for job in info:
     
     
     print '\t - %s' %(job.name)
-    input = ROOT.TFile.Open(pathIN+job.get_path,'read')
-    output = ROOT.TFile.Open(pathOUT+job.get_path,'recreate')
+    input = ROOT.TFile.Open(pathIN+'/'+job.prefix+job.identifier+'.root','read')
+    output = ROOT.TFile.Open(tmpDir+'/'+job.prefix+job.identifier+'.root','recreate')
 
     input.cd()
     if lhe_weight_map and 'DY' in job.name:
@@ -754,3 +755,10 @@ for job in info:
     print 'Save'
     output.Close()
     print 'Close'
+    targetStorage = pathOUT.replace('gsidcap://t3se01.psi.ch:22128/','srm://t3se01.psi.ch:8443/srm/managerv2?SFN=')+'/'+job.prefix+job.identifier+'.root'
+    command = 'lcg-del -b -D srmv2 -l %s' %(targetStorage)
+    print(command)
+    subprocess.call([command], shell=True)
+    command = 'lcg-cp -b -D srmv2 file:///%s %s' %(tmpDir+'/'+job.prefix+job.identifier+'.root',targetStorage)
+    print(command)
+    subprocess.call([command], shell=True)

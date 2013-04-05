@@ -128,14 +128,11 @@ class ParseInfo:
             if sample.active:
                 yield sample
 
-    #NOT USED. STILL NEEDED?
     def get_sample(self, samplename):
-            if (checkSplittedSampleName(samplename)):
-                    print('@WARNING: Running on splitted samples')
-            for sample in self._samplelist:
-                    if sample.name == samplename:
-                            return sample
-                    return None
+        for sample in self._samplelist:
+            if sample.name == samplename:
+                return sample
+        return None
     
     def get_samples(self, samplenames):
         samples = []
