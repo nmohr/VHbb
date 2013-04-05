@@ -8,7 +8,7 @@ S'RTight_ZH150_janAngularOnly'
 p3
 sS'weightfilepath'
 p4
-S'/shome/bortigno//VHbbAnalysis/finalPaper_v2.3//data/'
+S'/shome/peller//UserCode/VHbb//data/'
 p5
 sS'spectators'
 p6
@@ -58,7 +58,7 @@ aS'HVMass_Reg'
 p29
 asS'MVAsettings'
 p30
-S'!H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning'
+S'!H:!V:NTrees=450:nEventsMin=550:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.15:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning'
 p31
 sS'weightfiles'
 p32
