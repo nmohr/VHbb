@@ -1,11 +1,21 @@
 #!/usr/bin/env python
 import re
 from sys import argv, stdout, stderr, exit
+from myutils import StackMaker
 from optparse import OptionParser
 from HiggsAnalysis.CombinedLimit.DatacardParser import *
 from HiggsAnalysis.CombinedLimit.ShapeTools     import *
 from copy import copy,deepcopy
 from numpy import matrix
+
+
+def conversion_y(y):
+    u = (y-ROOT.gPad.GetY1())/(ROOT.gPad.GetY2()-ROOT.gPad.GetY1())
+    return u;
+
+def conversion_x(x):
+    u = (x-ROOT.gPad.GetX1())/(ROOT.gPad.GetX2()-ROOT.gPad.GetX1())
+    return u;
 
 
 def trunc(f, n):
@@ -481,19 +491,27 @@ if options.plotsf and options.dc:
     print input_sigma
 
     graphs={}
+    latex={}
     j=1
     for channel,active in ch.iteritems():
         print channel
         print active
         if active > 0.:
             graphs[channel] = getGraph(channel,labels,j*shift,v_b,input_sigma,x_position,y_position,nuisances) # create the graph with the scale factors
+            sf = get_scale_factors(channel,labels,shift,v_b,input_sigma,nuisances)[0]
+            sf_e = get_scale_factors(channel,labels,shift,v_b,input_sigma,nuisances)[1]
+            for i in range(0,len(sf)):
+                latex[labels[i]] = [labels[i],sf[i],sf_e[i],y_position[i]+0.35*shift]
+                print "%s %s pm %s" %(labels[i],sf[i],sf_e[i])
             j+=1
             
     print graphs
 
+    xmin = 0.25
+    xmax = 2.5
     labels = removeDouble(labels)
     n= len(labels)
-    h2 = ROOT.TH2F("h2","",1,0.,2.5,n,0,n) # x min - max values. 
+    h2 = ROOT.TH2F("h2","",1,xmin,xmax,n,0,n) # x min - max values. 
     h2.GetXaxis().SetTitle("Scale factor")
     
     for i in range(n):
@@ -527,7 +545,7 @@ if options.plotsf and options.dc:
     globalFitLine.Draw("same");
 
     #!! Legend
-    l2 = ROOT.TLegend(0.70, 0.85,0.85,0.75)
+    l2 = ROOT.TLegend(0.68, 0.80,0.80,0.85)
     l2.SetLineWidth(2)
     l2.SetBorderSize(0)
     l2.SetFillColor(0)
@@ -535,21 +553,25 @@ if options.plotsf and options.dc:
     l2.SetTextFont(62)
     for channel,g in graphs.iteritems():
         print channel
-        l2.AddEntry(g,channel,"pl")
+        l2.AddEntry(g,'ZH, Z#rightarrowl^{+}l^{-}',"pl")
+#        l2.AddEntry(g,channel,"pl")
     #l2.AddEntry(g,"Stat.","l")
     if(drawSys) : l2.AddEntry(g2,"Syst.","l")
     l2.SetTextSize(0.035)
 #    l2.SetNColumns(3)
     l2.Draw("same")
-
     for channel,g in graphs.iteritems():
         print channel
         g.Draw("P same")
+        for label in labels:
+            StackMaker.myText("%.2f #pm %.2f" %(latex[label][1],latex[label][2]),conversion_x(xmin)-0.02,conversion_y(latex[label][3]),0.5)
     if(drawSys) : g2.Draw("[] same")
+    StackMaker.myText("CMS Preliminary",conversion_x(xmin)+0.1,0.95,0.6)
+    StackMaker.myText("#sqrt{s} =  8TeV, L = 19.0 fb^{-1}",conversion_x(xmin)+0.1,0.92,0.6)
+
     ROOT.gPad.SetLeftMargin(0.2)
     ROOT.gPad.Update()
     c.Print("histo.pdf")
-
 
 
 
