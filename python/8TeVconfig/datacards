@@ -40,6 +40,9 @@ sys_cut_include = ['ZH','VVb','ST','VVlight']
 weightF_sys = True
 #!! Example of sample systematic, in this case the ZZ sample is replaced by WZ
 #addSample_sys = {'ZZ-light':'AltZZ-light','ZZ-bb':'AltZZ-bb','WZ':'AltWZ'}
+#addBlindingCut = (H.mass < 90. | H.mass > 145.)
+
+change_shapes: {'VVb':'CMS_vhbb_eff_b_Up*0.5','TT':'CMS_vhbb_fake_b_8TeV_Down*-0.2'}
 
 
 #!! --------------------------------------
@@ -83,7 +86,12 @@ systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS
 #!! to be processed in batch mode
 #!! --------------------------------------
 
-#List = RMed_120_ZH125_MM_8TeV_janAngularOnly,RMed_120_ZH125_EE_8TeV_janAngularOnly,RTight_120_ZH125_MM_8TeV_janAngularOnly,RTight_120_ZH125_EE_8TeV_janAngularOnly,RLoose_ZH125_MM_8TeV_janAngularOnly,RLoose_ZH125_EE_8TeV_janAngularOnly
+#List = RMed_ZH125_EE_8TeV_janAngularOnly,RMed_ZH125_MM_8TeV_janAngularOnly
+
+#List = RTight_ZH125_EE_8TeV_janAngularOnly,RTight_ZH125_MM_8TeV_janAngularOnly,RMed_ZH125_EE_8TeV_janAngularOnly,RMed_ZH125_MM_8TeV_janAngularOnly
+#List = RTight_ZH120_EE_8TeV_janAngularOnly,RTight_ZH120_MM_8TeV_janAngularOnly,RMed_ZH120_EE_8TeV_janAngularOnly,RMed_ZH120_MM_8TeV_janAngularOnly
+#List = RTight_ZH125_EE_8TeV_janAngularOnly_noWeights,RTight_ZH125_MM_8TeV_janAngularOnly_noWeights,RMed_ZH125_EE_8TeV_janAngularOnly_noWeights,RMed_ZH125_MM_8TeV_janAngularOnly_noWeights
+
 List = RTight_ZH125_EE_8TeV_janAngularOnly,RMed_ZH125_EE_8TeV_janAngularOnly,RTight_ZH125_MM_8TeV_janAngularOnly,RMed_ZH125_MM_8TeV_janAngularOnly,RTight_ZH130_EE_8TeV_janAngularOnly,RMed_ZH130_EE_8TeV_janAngularOnly,RTight_ZH130_MM_8TeV_janAngularOnly,RMed_ZH130_MM_8TeV_janAngularOnly,RTight_ZH135_EE_8TeV_janAngularOnly,RMed_ZH135_EE_8TeV_janAngularOnly,RTight_ZH135_MM_8TeV_janAngularOnly,RMed_ZH135_MM_8TeV_janAngularOnly,RTight_ZH140_EE_8TeV_janAngularOnly,RMed_ZH140_EE_8TeV_janAngularOnly,RTight_ZH140_MM_8TeV_janAngularOnly,RMed_ZH140_MM_8TeV_janAngularOnly,RTight_ZH145_EE_8TeV_janAngularOnly,RMed_ZH145_EE_8TeV_janAngularOnly,RTight_ZH145_MM_8TeV_janAngularOnly,RMed_ZH145_MM_8TeV_janAngularOnly,RTight_ZH150_EE_8TeV_janAngularOnly,RMed_ZH150_EE_8TeV_janAngularOnly,RTight_ZH150_MM_8TeV_janAngularOnly,RMed_ZH150_MM_8TeV_janAngularOnly,RTight_ZH120_EE_8TeV_janAngularOnly,RMed_ZH120_EE_8TeV_janAngularOnly,RTight_ZH120_MM_8TeV_janAngularOnly,RMed_ZH120_MM_8TeV_janAngularOnly,RTight_ZH115_EE_8TeV_janAngularOnly,RMed_ZH115_EE_8TeV_janAngularOnly,RTight_ZH115_MM_8TeV_janAngularOnly,RMed_ZH115_MM_8TeV_janAngularOnly,RTight_ZH110_EE_8TeV_janAngularOnly,RMed_ZH110_EE_8TeV_janAngularOnly,RTight_ZH110_MM_8TeV_janAngularOnly,RMed_ZH110_MM_8TeV_janAngularOnly
 
 #!! --------------------------------------
@@ -139,6 +147,52 @@ CMS_vhbb_TT_Zll_SF_8TeV: {'type':'lnN', 'TT':1.05}
 #!! -------------------------
 #!! Limit definitions
 #!! -------------------------
+[dc:RMed_ZH125_EE_8TeV_janAngularOnly_noWeights] 
+var = RMed_ZH125_janAngularOnly_noWeights.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M125_ZeeLowPt_8TeV
+cut = RMed_EE
+signal = ZH125
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RMed_ZH125_MM_8TeV_janAngularOnly_noWeights] 
+var = RMed_ZH125_janAngularOnly_noWeights.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M125_ZmmLowPt_8TeV
+cut = RMed_MM
+signal = ZH125
+dcBin = ZmmLowPt_8TeV
+data = Zmm
+type= BDT
+
+[dc:RTight_ZH125_EE_8TeV_janAngularOnly_noWeights] 
+var = RTight_ZH125_janAngularOnly_noWeights.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M125_ZeeHighPt_8TeV
+cut = RTight_EE
+signal = ZH125
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type= BDT
+
+[dc:RTight_ZH125_MM_8TeV_janAngularOnly_noWeights] 
+var = RTight_ZH125_janAngularOnly_noWeights.nominal
+wsVarName = <!LimitGeneral|BDToutname!>
+range = <!LimitGeneral|BDTrange!>
+dcName = BDT_M125_ZmmHighPt_8TeV
+cut = RTight_MM
+signal = ZH125
+dcBin = ZmmHighPt_8TeV
+data = Zmm
+type= BDT
+
+#------
+
 [dc:RMed_ZH125_EE_8TeV_janAngularOnly] 
 var = RMed_ZH125_janAngularOnly.nominal
 wsVarName = <!LimitGeneral|BDToutname!>
