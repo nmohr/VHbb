@@ -12,6 +12,8 @@ addOverFlow = True
 #!! --------------------------------------
 BDTrange = 20,-1,1
 BDToutname = CMS_vhbb_BDT_Zll_8TeV
+BDTrangeLowPt = 15,-1,1
+BDToutnameLowPt = CMS_vhbb_BDT_Zll_LowPt_8TeV
 Mjjrange = 17,0.,255.
 #!! control region variables examples
 METrange = MET.et,10,0,100
@@ -37,12 +39,12 @@ sys_cut_suffix = {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>
 #sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal','beff1':'nominal'}
 sys_cut_include = ['ZH','VVb','ST','VVlight']
 #!! UEPS
-weightF_sys = True
+weightF_sys = ['weightF_sys','weightF_QCD']
 #!! Example of sample systematic, in this case the ZZ sample is replaced by WZ
 #addSample_sys = {'ZZ-light':'AltZZ-light','ZZ-bb':'AltZZ-bb','WZ':'AltWZ'}
 #addBlindingCut = (H.mass < 90. | H.mass > 145.)
 
-change_shapes: {'VVb':'CMS_vhbb_eff_b_Up*0.5','TT':'CMS_vhbb_fake_b_8TeV_Down*-0.2'}
+#change_shapes: {'TT':'CMS_vhbb_fake_b_8TeV_Down*-0.05','TT':'CMS_vhbb_fake_b_8TeV_Up*0.03','TT':'CMS_vhbb_eff_b_Down*-0.02','TT':'CMS_vhbb_eff_b_Up*0.03','DY1b':'CMS_vhbb_fake_b_8TeV_Down*-0.05','DY1b':'CMS_vhbb_fake_b_8TeV_Up*0.03','DY1b':'CMS_vhbb_eff_b_Down*-0.02','DY1b':'CMS_vhbb_eff_b_Up*0.03','DY2b':'CMS_vhbb_fake_b_8TeV_Down*-0.05','DY2b':'CMS_vhbb_fake_b_8TeV_Up*0.03','DY2b':'CMS_vhbb_eff_b_Down*-0.02','DY2b':'CMS_vhbb_eff_b_Up*0.03','DYlight':'CMS_vhbb_fake_b_8TeV_Down*-0.05','DYlight':'CMS_vhbb_fake_b_8TeV_Up*0.03'}
 
 
 #!! --------------------------------------
@@ -79,7 +81,7 @@ Group = <!Samples|Group!>
 #!! naming of processes
 Dict = {'ZH':'ZH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','TT':'TT','ST':'s_Top','VVb':'VVHF','VVlight':'VVLF','Data':'data_obs','ZH125':'H125'}
 #!! naming of systematics
-systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff_b_SIG','stats': 'CMS_vhbb_stats','weightF_sys':'UEPS','model':'CMS_vhbb_model'}
+systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff_b_SIG','stats': 'CMS_vhbb_stats','weightF_sys':'UEPS','weightF_QCD':'CMS_vhbb_boost_QCD','model':'CMS_vhbb_model'}
 
 
 #!! --------------------------------------
@@ -99,11 +101,11 @@ List = RTight_ZH125_EE_8TeV_janAngularOnly,RMed_ZH125_EE_8TeV_janAngularOnly,RTi
 #!! --------------------------------------
 [Datacard]
 
-InUse = ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_vhbb_Zj2b_Zll_SF_8TeV','CMS_vhbb_Zj1b_Zll_SF_8TeV','CMS_vhbb_Zj0b_Zll_SF_8TeV','CMS_vhbb_TT_Zll_SF_8TeV']
+InUse = ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_vhbb_Zj2b_Zll_SF_8TeV','CMS_vhbb_Zj1b_Zll_SF_8TeV','CMS_vhbb_Zj0b_Zll_SF_8TeV','CMS_vhbb_TT_Zll_SF_8TeV']
 
-InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPt_8TeV','CMS_vhbb_ZjHF_Zll_exHighPt_8TeV','CMS_vhbb_TT_Zll_exHighPt_8TeV']
-InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exLowPt_8TeV','CMS_vhbb_ZjHF_Zll_exLowPt_8TeV','CMS_vhbb_TT_Zll_exLowPt_8TeV']
-InUse_HighPtLooseBTag = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_TT_Zll_exHighPtLoooseBTag_8TeV']
+InUse_HighPt = <!Datacard|InUse!> 
+InUse_LowPt = <!Datacard|InUse!> 
+InUse_HighPtLooseBTag = <!Datacard|InUse!> 
 
 lumi_7TeV = {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022,'VVlight':1.022,'VVb':1.022}
 lumi_8TeV = {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05,'VVlight':1.05,'VVb':1.05}
@@ -122,10 +124,14 @@ CMS_vhbb_VV = {'type':'lnN', 'VVlight':1.15, 'VVb':1.15}
 CMS_vhbb_ZjLF_ex = {'type':'lnN', 'DYlight':1.05}
 CMS_vhbb_ZjHF_ex = {'type':'lnN', 'DYb':1.05}
 CMS_vhbb_TT_ex = {'type':'lnN', 'TT':1.05}
-CMS_eff_e = {'type':'lnN', 'ZH':1.04,'ZH125':1.04,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04,'ST':1.04,'VVlight':1.04,'QCD':1.04,'VVb':1.04}
-CMS_trigger_e = {'type':'lnN','ZH':1.02,'ZH125':1.02,'ST':1.02,'VVlight':1.02 ,'VVb':1.02}
-CMS_eff_m = {'type':'lnN',  'ZH':1.04,'ZH125':1.04,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04,'ST':1.04,'VVlight':1.04,'QCD':1.04,'VVb':1.04}
-CMS_trigger_m = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'ST':1.01,'VVlight':1.01,'VVb':1.01 }
+CMS_eff_e = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
+CMS_trigger_e = {'type':'lnN','ZH':1.02,'ZH125':1.02,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04,'ST':1.02,'VVlight':1.02 ,'VVb':1.02}
+CMS_eff_e_ = {'type':'lnN', 'ZH':1.04,'ZH125':1.04,'ST':1.04,'VVlight':1.04,'QCD':1.04,'VVb':1.04}
+CMS_trigger_e_ = {'type':'lnN','ZH':1.02,'ZH125':1.02,'ST':1.02,'VVlight':1.02 ,'VVb':1.02}
+CMS_eff_m = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
+CMS_trigger_m = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04,'ST':1.01,'VVlight':1.01,'VVb':1.01 }
+CMS_eff_m_ = {'type':'lnN',  'ZH':1.04,'ZH125':1.04,'ST':1.04,'VVlight':1.04,'QCD':1.04,'VVb':1.04}
+CMS_trigger_m_ = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'ST':1.01,'VVlight':1.01,'VVb':1.01 }
 
 CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV = {'type':'lnN', 'DYlight':1.20}
 CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV = {'type':'lnN', 'DYb':1.20}
@@ -195,8 +201,8 @@ type= BDT
 
 [dc:RMed_ZH125_EE_8TeV_janAngularOnly] 
 var = RMed_ZH125_janAngularOnly.nominal
-wsVarName = <!LimitGeneral|BDToutname!>
-range = <!LimitGeneral|BDTrange!>
+wsVarName = <!LimitGeneral|BDToutnameLowPt!>
+range = <!LimitGeneral|BDTrangeLowPt!>
 dcName = BDT_M125_ZeeLowPt_8TeV
 cut = RMed_EE
 signal = ZH125
@@ -206,8 +212,8 @@ type= BDT
 
 [dc:RMed_ZH125_MM_8TeV_janAngularOnly] 
 var = RMed_ZH125_janAngularOnly.nominal
-wsVarName = <!LimitGeneral|BDToutname!>
-range = <!LimitGeneral|BDTrange!>
+wsVarName = <!LimitGeneral|BDToutnameLowPt!>
+range = <!LimitGeneral|BDTrangeLowPt!>
 dcName = BDT_M125_ZmmLowPt_8TeV
 cut = RMed_MM
 signal = ZH125
