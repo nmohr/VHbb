@@ -144,7 +144,7 @@ class HistoMaker:
         elif not self._rebin and not self.value:
             return False
 
-    def calc_rebin(self, bg_list, nBins_start=1000, tolerance=0.35):
+    def calc_rebin(self, bg_list, nBins_start=1000, tolerance=0.25):
         self.calc_rebin_flag = True
         self.norebin_nBins = copy(self.nBins)
         self.rebin_nBins = nBins_start
