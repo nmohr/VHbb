@@ -76,9 +76,9 @@ class HistoMaker:
             elif job.type == 'DATA':
                 if options['blind']:
                     if treeVar == 'H.mass':
-                        CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<90. || '+treeVar + '>150. & %s' %treeCut, "goff,e")
+                        CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),' (%(var)s <90. || %(var)s > 150.) & %(cut)s' %options, "goff,e")
                     else:
-                        CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),treeVar+'<-0.2 & %s'%treeCut, "goff,e")
+                        CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),'%(var)s < 0. & %(cut)s'%options, "goff,e")
 
                 else:
                     CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax),'%s' %treeCut, "goff,e")
@@ -144,7 +144,7 @@ class HistoMaker:
         elif not self._rebin and not self.value:
             return False
 
-    def calc_rebin(self, bg_list, nBins_start=1000, tolerance=0.35):
+    def calc_rebin(self, bg_list, nBins_start=1000, tolerance=0.25):
         self.calc_rebin_flag = True
         self.norebin_nBins = copy(self.nBins)
         self.rebin_nBins = nBins_start

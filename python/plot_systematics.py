@@ -3,7 +3,7 @@ import ROOT
 from ROOT import TFile
 from optparse import OptionParser
 import sys
-from myutils import BetterConfigParser, tdrStyles, getRatio
+from myutils import BetterConfigParser, TdrStyles, getRatio
 
 ROOT.gROOT.SetBatch(True)
 
@@ -17,32 +17,32 @@ config.read(opts.config)
 
 
 #---------- yes, this is not in the config yet---------
-#mode = 'BDT'
-#xMin=-1
-#xMax=1
-#masses = ['125']
-#Abins = ['HighPt','LowPt','HighPtLooseBTag']
-#channels= ['Zee','Zmm']
-#------------------------------------------------------
-#---------- Mjj ---------------------------------------
-mode = 'Mjj'
-xMin=0
-xMax=255
+mode = 'BDT'
+xMin=-1
+xMax=1
 masses = ['125']
-Abins = ['highPt','lowPt','medPt']
+Abins = ['HighPt','LowPt']
 channels= ['Zee','Zmm']
 #------------------------------------------------------
+#---------- Mjj ---------------------------------------
+#mode = 'Mjj'
+#xMin=0
+#xMax=255
+#masses = ['125']
+#Abins = ['highPt','lowPt','medPt']
+#channels= ['Zee','Zmm']
+#------------------------------------------------------
 
-path = samplesinfo=config.get('Directories','limits')
-outpath = samplesinfo=config.get('Directories','plotpath')
+path = config.get('Directories','limits')
+outpath = config.get('Directories','plotpath')
 
 setup = eval(config.get('LimitGeneral','setup'))
 Dict = eval(config.get('LimitGeneral','Dict'))
 MCs = [Dict[s] for s in setup]
 
 sys_BDT= eval(config.get('LimitGeneral','sys_BDT'))
-systematicsnaming8TeV = eval(config.get('LimitGeneral','systematicsnaming8TeV'))
-systs=[systematicsnaming8TeV[s] for s in sys_BDT]
+systematicsnaming = eval(config.get('LimitGeneral','systematicsnaming'))
+systs=[systematicsnaming[s] for s in sys_BDT]
 
 if eval(config.get('LimitGeneral','weightF_sys')): systs.append('UEPS')
 
@@ -67,12 +67,14 @@ for mass in masses:
                 input = TFile.Open(path+'/vhbb_TH_Mjj_'+Abin+'_M'+mass+'_'+channel+'.root','read')
 
             for MC in MCs:
+                print MC
                 for syst in systs:
+                    print syst
                 #['CMS_res_j','CMS_scale_j','CMS_eff_b','CMS_fake_b_8TeV','UEPS']:
                 #for syst in ['CMS_vhbb_stats_']:
 
 
-                    tdrStyle()
+                    TdrStyles.tdrStyle()
 
                     c = ROOT.TCanvas('','', 600, 600)
                     c.SetFillStyle(4000)
@@ -96,10 +98,11 @@ for mass in masses:
                     ROOT.gPad.SetTicks(1,1)
 
 
-                    Ntotal=input.Get(MC)
-                    Utotal=input.Get(MC+syst+'Up')
+                    input.cd(channel+Abin+'_8TeV')
+                    Ntotal=ROOT.gDirectory.Get(MC)
+                    Utotal=ROOT.gDirectory.Get(MC+syst+'Up')
                     #Utotal=input.Get(MC+syst+MC+'_'+channel+'Up')
-                    Dtotal=input.Get(MC+syst+'Down')
+                    Dtotal=ROOT.gDirectory.Get(MC+syst+'Down')
                     #Dtotal=input.Get(MC+syst+MC+'_'+channel+'Down')
                     l = ROOT.TLegend(0.17, 0.8, 0.37, 0.65)
                     

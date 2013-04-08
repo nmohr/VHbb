@@ -78,7 +78,7 @@ sys_factor_dict = eval(config.get('LimitGeneral','sys_factor'))
 sys_affecting = eval(config.get('LimitGeneral','sys_affecting'))
 # weightF:
 weightF = config.get('Weights','weightF')
-weightF_sys = eval(config.get('LimitGeneral','weightF_sys'))
+weightF_systematics = eval(config.get('LimitGeneral','weightF_sys'))
 # rescale stat shapes by sqrtN
 rescaleSqrtN=eval(config.get('LimitGeneral','rescaleSqrtN'))
 # get nominal cutstring:
@@ -93,6 +93,11 @@ blind=eval(config.get('LimitGeneral','blind'))
 addBlindingCut = None
 if config.has_option('LimitGeneral','addBlindingCut'):
     addBlindingCut = config.get('LimitGeneral','addBlindingCut')
+#change nominal shapes by syst
+change_shapes = None
+if config.has_option('LimitGeneral','change_shapes'):
+    change_shapes = eval(config.get('LimitGeneral','change_shapes'))
+    print 'changing the shapes'
 #on control region cr never blind. Overwrite whatever is in the config
 if str(anType) == 'cr':
     if blind:
@@ -201,8 +206,8 @@ for syst in systematics:
         appendList()
 
 #UEPS
-if weightF_sys:
-    for _weight in [config.get('Weights','weightF_sys_UP'),config.get('Weights','weightF_sys_DOWN')]:
+for weightF_sys in weightF_systematics:
+    for _weight in [config.get('Weights','%s_UP' %(weightF_sys)),config.get('Weights','%s_DOWN' %(weightF_sys))]:
         _cut = treecut
         _treevar = treevar
         _name = title
@@ -289,13 +294,6 @@ obs = ROOT.RooArgList(disc)
 #
 ROOT.gROOT.SetStyle("Plain")
 
-
-# ToDo:
-#---- get the BKG for the rebinning calculation----
-#Rebinner.calculate_binning(hDummyRB,max_rel)
-#myBinning=Rebinner(int(nBins),array('d',[-1.0]+[hDummyRB.GetBinLowEdge(i) for i in binlist]),rebin_active)
-#--------------------------------------------------
-
 #order and add all together
 final_histos = {}
 
@@ -310,10 +308,17 @@ for syst in systematics:
     for Q in UD:
         final_histos['%s_%s'%(systematicsnaming[syst],Q)] = HistoMaker.orderandadd([all_histos[job.name][ind] for job in all_samples],setup)
         ind+=1
-if weightF_sys: 
+for weightF_sys in weightF_systematics: 
     for Q in UD:
-        final_histos['%s_%s'%(systematicsnaming['weightF_sys'],Q)]= HistoMaker.orderandadd([all_histos[job.name][ind] for job in all_samples],setup)
+        final_histos['%s_%s'%(systematicsnaming[weightF_sys],Q)]= HistoMaker.orderandadd([all_histos[job.name][ind] for job in all_samples],setup)
         ind+=1
+
+if change_shapes:
+    for key in change_shapes:
+        syst,val=change_shapes[key].split('*')
+        final_histos[syst][key].Scale(float(val))
+        print 'scaled %s times %s val'%(syst,val)
+
 
 def get_alternate_shape(hNominal,hAlternate):
     hVar = hAlternate.Clone()
@@ -371,6 +376,8 @@ if not ignore_stats:
                         final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)/total*errorsum))
                     else:
                         final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)))
+
+
 
 #write shapes in WS:
 for key in final_histos:
@@ -501,8 +508,8 @@ for DCtype in ['WS','TH']:
                         f.write('\t-')
                 f.write('\n')
     # UEPS systematics
-    if weightF_sys:
-        f.write('UEPS\tshape')
+    for weightF_sys in weightF_systematics:
+        f.write('%s\tshape' %(systematicsnaming[weightF_sys]))
         for it in range(0,columns): f.write('\t1.0')
         f.write('\n')
     # additional sample systematics

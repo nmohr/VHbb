@@ -49,15 +49,15 @@ rMed_120 = V.pt > 100. & V.pt < 120.
 rMed_150 = V.pt > 100. & V.pt < 150.
 rMed_240 = V.pt > 100. & V.pt < 150.
 rLow2 = V.pt > 50.& V.pt < 100.
-looseHMass = H.mass > 80. & H.mass < 150.
-looseHMass_beforeReg = HNoReg.mass > 80. & HNoReg.mass < 150.
+looseHMass = H.mass > 40. & H.mass < 250.
+looseHMass_beforeReg = HNoReg.mass > 40. & HNoReg.mass < 250.
 run_range = (EVENT.run < 207883 || EVENT.run > 208307)
 
 #!! -------------------------------------------
 #!! Preselections (combination of single cuts)
 #!! -------------------------------------------
 preselection = hJet_pt[0] > 20. & hJet_pt[1] > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0. & <!ZHbb|run_range!>
-preselection_beforeReg = (hJet_pt[0]/hJet_regWeight[0]) > 20. & (hJet_pt[1]*hJet_regWeight[1]) > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.
+preselection_beforeReg = (hJet_pt[0]/hJet_regWeight[0]) > 20. & (hJet_pt[1]*hJet_regWeight[1]) > 20. & abs(hJet_eta[0]) < 2.4 & abs(hJet_eta[1]) < 2.4 & hbhe & hJet_puJetIdL[0] > 0. & hJet_puJetIdL[1] > 0.& <!ZHbb|run_range!>
 looseBTag = !(hJet_csv[0] > <!ZHbb|CSVL!> & hJet_csv[1] > <!ZHbb|CSVL!>) & (hJet_csv[0] > <!ZHbb|CSVL!> | hJet_csv[1] > <!ZHbb|CSVL!>)
 vtx = hJet_vtx3dL[0] > 0. & hJet_vtxPt[0] > 0.
 soft = (hJet_SoftLeptIdlooseMu[0]==1 || hJet_SoftLeptId95[0] == 1) & hJet_SoftLeptdR[0] > 0.
@@ -87,7 +87,7 @@ mjjMedPt_opt = <!ZHbb|preselection!> & <!ZHbb|rMed2!> & <!ZHbb|ccBtag!> & <!ZHbb
 #!! ----------------
 #!! V.pt regions
 #!! ----------------
-RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!>
+RMed = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|looseHMass!>
 RTight = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!>
 RTightLooseBTag = <!ZHbb|30jets!> & <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|upperHMass!> & <!ZHbb|looseBTag!>
 RLoose = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rLoose!>
@@ -155,6 +155,7 @@ ZLight_HighPt = <!Cuts|ZLight!> & <!ZHbb|rTight!>
 ZLight_HighPt_beforeReg = <!Cuts|ZLight_beforeReg!> & <!ZHbb|rTight!>
 TTbar_HighPt = <!Cuts|TTbar!> & <!ZHbb|rTight!>
 Zbb_HighPt = <!Cuts|Zbb!> & <!ZHbb|rTight!>
+ZPeak = <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> 
 ZPeak_Zee = <!ZHbb|zWindow!> & <!ZHeebb|addCuts!> & hJet_pt[0] > 20. & hJet_pt[1] > 20.
 ZPeak_Zmm = <!ZHbb|zWindow!> & <!ZHmmbb|addCuts!> & hJet_pt[0] > 20. & hJet_pt[1] > 20.
 ZLight_LowPt = <!Cuts|ZLight!> & <!ZHbb|rMed!> & H.mass > 50.
