@@ -139,11 +139,10 @@ Group: {'ZH110':'ZH','ZH115':'ZH','ZH120':'ZH','ZH125':'ZH','ZH130':'ZH','ZH135'
 
 #nolhe
 #weightF: (PUweight*weightTrig2012*lheWeight)
-weightF: (PUweight*weightTrig2012*lheWeight*weightSignalQCD*VHbb::ewkAtlas8TeVZllH(genH.pt,genZ.pt)*VHbb::ptWeightDY(lheV_pt))
-#weightF: (PUweight*weightTrig2012*lheWeight*weightSignalQCD*VHbb::ewkAtlas8TeVZllH(10.,lheV_pt))
-weightF_sys_UP: (PUweightP*weightTrig2012*lheWeight*weightSignalQCD*VHbb::ewkAtlas8TeVZllH(genH.pt,genZ.pt)*VHbb::ptWeightDY(lheV_pt))
-#weightF_sys_UP: (PUweightP*weightTrig2012*lheWeight)
-weightF_sys_DOWN: (PUweightM*weightTrig2012*lheWeight*weightSignalQCD*VHbb::ewkAtlas8TeVZllH(genH.pt,genZ.pt)*VHbb::ptWeightDY(lheV_pt))
-#weightF_sys_DOWN: (PUweightM*weightTrig2012*lheWeight)
+weightF: (PUweight*weightTrig2012*lheWeight*weightSignalQCD*VHbb::ewkAtlas8TeVZllH(genH.pt,genZ.pt)*VHbb::ptWeightDY(lheV_pt)*VHbb::mueEff(Vtype))
+weightF_sys_UP: (PUweightP*weightTrig2012*lheWeight*weightSignalQCD*VHbb::ewkAtlas8TeVZllH(genH.pt,genZ.pt)*VHbb::ptWeightDY(lheV_pt)*VHbb::mueEff(Vtype))
+weightF_sys_DOWN: (PUweightM*weightTrig2012*lheWeight*weightSignalQCD*VHbb::ewkAtlas8TeVZllH(genH.pt,genZ.pt)*VHbb::ptWeightDY(lheV_pt)*VHbb::mueEff(Vtype))
+weightF_QCD_UP: (PUweight*weightTrig2012*lheWeight*weightSignalQCD*(1.+(1./weightSignalQCD-1.)*0.5)*VHbb::ewkAtlas8TeVZllH(genH.pt,genZ.pt)*VHbb::ptWeightDY(lheV_pt)*VHbb::mueEff(Vtype))
+weightF_QCD_DOWN: (PUweight*weightTrig2012*lheWeight*weightSignalQCD*(1.-(1./weightSignalQCD-1.)*0.5)*VHbb::ewkAtlas8TeVZllH(genH.pt,genZ.pt)*VHbb::ptWeightDY(lheV_pt)*VHbb::mueEff(Vtype))
 
 #weightF: (PUweight*lheWeight)
