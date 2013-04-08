@@ -73,6 +73,9 @@ elif str(anType) == 'cr':
     systematics = eval(config.get('LimitGeneral','sys_cr'))
 
 sys_cut_suffix=eval(config.get('LimitGeneral','sys_cut_suffix'))
+sys_cut_include=[]
+if config.has_option('LimitGeneral','sys_cut_include'):
+    sys_cut_include=eval(config.get('LimitGeneral','sys_cut_include'))
 systematicsnaming = eval(config.get('LimitGeneral','systematicsnaming'))
 sys_factor_dict = eval(config.get('LimitGeneral','sys_factor'))
 sys_affecting = eval(config.get('LimitGeneral','sys_affecting'))
@@ -255,7 +258,11 @@ print '\n\t...fetching histos...'
 
 for job in all_samples:
     print '\t- %s'%job
-    all_histos[job.name] = mc_hMaker.get_histos_from_tree(job)
+    if not job.name in sys_cut_include:
+        # manual overwrite
+        all_histos[job.name] = mc_hMaker.get_histos_from_tree(job,treecut)
+    else:
+        all_histos[job.name] = mc_hMaker.get_histos_from_tree(job)
 
 for job in data_samples:
     print '\t- %s'%job

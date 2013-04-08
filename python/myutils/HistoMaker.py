@@ -28,7 +28,7 @@ class HistoMaker:
         VHbbNameSpace=config.get('VHbbNameSpace','library')
         ROOT.gSystem.Load(VHbbNameSpace)
 
-    def get_histos_from_tree(self,job):
+    def get_histos_from_tree(self,job,cutOverWrite=None):
         if self.lumi == 0: 
             raise Exception("You're trying to plot with no lumi")
          
@@ -59,7 +59,10 @@ class HistoMaker:
             xMin=float(options['xMin'])
             xMax=float(options['xMax'])
             weightF=options['weight']
-            treeCut='%s'%(options['cut'])
+            if cutOverWrite:
+                treeCut=cutOverWrite
+            else:
+                treeCut='%s'%(options['cut'])
 
             #options
 
@@ -67,6 +70,7 @@ class HistoMaker:
                 if CuttedTree.GetEntries():
                     if 'RTight' in treeVar or 'RMed' in treeVar: 
                         drawoption = '(%s)*(%s & %s)'%(weightF,treeCut,BDT_add_cut)
+                        #print drawoption
                     else: 
                         drawoption = '(%s)*(%s)'%(weightF,treeCut)
                     CuttedTree.Draw('%s>>%s(%s,%s,%s)' %(treeVar,name,nBins,xMin,xMax), drawoption, "goff,e")
