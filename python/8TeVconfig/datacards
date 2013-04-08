@@ -59,7 +59,7 @@ signal_inject: None
 #!! add signal als BKG, e.g. ZH125 (working?)
 add_signal_as_bkg: None
 #!! blind Data
-blind: False
+blind: True
 #!! toy Data
 toy: False
 
