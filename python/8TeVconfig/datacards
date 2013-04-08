@@ -122,13 +122,13 @@ CMS_vhbb_VV = {'type':'lnN', 'VVlight':1.15, 'VVb':1.15}
 CMS_vhbb_ZjLF_ex = {'type':'lnN', 'DYlight':1.05}
 CMS_vhbb_ZjHF_ex = {'type':'lnN', 'DYb':1.05}
 CMS_vhbb_TT_ex = {'type':'lnN', 'TT':1.05}
-CMS_eff_e_ = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
+CMS_eff_e = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
 CMS_trigger_e = {'type':'lnN','ZH':1.02,'ZH125':1.02,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04,'ST':1.02,'VVlight':1.02 ,'VVb':1.02}
-CMS_eff_e = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
+CMS_eff_e_ = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
 CMS_trigger_e_ = {'type':'lnN','ZH':1.02,'ZH125':1.02,'ST':1.02,'VVlight':1.02 ,'VVb':1.02}
-CMS_eff_m_ = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
+CMS_eff_m = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
 CMS_trigger_m = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04,'ST':1.01,'VVlight':1.01,'VVb':1.01 }
-CMS_eff_m = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
+CMS_eff_m_ = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
 CMS_trigger_m_ = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'ST':1.01,'VVlight':1.01,'VVb':1.01 }
 
 CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV = {'type':'lnN', 'DYlight':1.20}
