@@ -7,7 +7,7 @@
 #!! Factory settings
 #!! ------------------
 type = BDT
-SettingsTight = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
+SettingsTight = !H:!V:NTrees=450:nEventsMin=550:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.15:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 SettingsLooseBtag = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 SettingsMed = !H:!V:NTrees=400:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.12:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 SettingsTight_overtrain = !H:!V:NTrees=400:nEventsMin=2:MaxDepth=5:BoostType=Grad:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=100:PruneMethod=CostComplexity:PruneStrength=50:GradBaggingFraction=1.0:Shrinkage=0.1:UseBaggedGrad=True:UseRandomisedTrees=False:UseNvars=30
@@ -16,9 +16,13 @@ SettingsTT = !H:!V:NTrees=300:nEventsMin=300:MaxDepth=2:BoostType=AdaBoost:AdaBo
 SettingsDY = !H:!V:NTrees=400:nEventsMin=500:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 SettingsVV = !H:!V:NTrees=250:nEventsMin=250:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=25:PruneMethod=NoPruning
 
+SettingsTight_VV = !H:!V:NTrees=500:nEventsMin=400:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=20:PruneMethod=CostComplexity:PruneBeforeBoost=False:PruneStrength=3
+SettingsMed_VV = !H:!V:NTrees=500:nEventsMin=500:MaxDepth=2:BoostType=AdaBoost:AdaBoostBeta=0.1:SeparationType=MisClassificationError:nCuts=20:PruneMethod=CostComplexity:PruneBeforeBoost=False:PruneStrength=3
+
 #!! define the backgorund for the training.
 #!! the "Samples" seciton is in the file "general".
 backgrounds8TeV = [<!Samples|allBKG!>] 
+backgrounds_Diboson8TeV = [<!Samples|BKG_VV_training!>] 
 
 
 [factory]
@@ -31,7 +35,7 @@ factorysettings = !V:Silent:Color:!DrawProgressBar:AnalysisType=Classification:T
 
 [MVALists]
 #!! list to be trained and evaluated
-List_for_submitscript: RTight_ZH110_janAngularOnly,RTight_ZH115_janAngularOnly,RTight_ZH120_janAngularOnly,RTight_ZH125_janAngularOnly,RTight_ZH130_janAngularOnly,RTight_ZH135_janAngularOnly,RTight_ZH140_janAngularOnly,RTight_ZH145_janAngularOnly,RTight_ZH150_janAngularOnly,RMed_ZH110_janAngularOnly,RMed_ZH115_janAngularOnly,RMed_ZH120_janAngularOnly,RMed_ZH125_janAngularOnly,RMed_ZH130_janAngularOnly,RMed_ZH135_janAngularOnly,RMed_ZH140_janAngularOnly,RMed_ZH145_janAngularOnly,RMed_ZH150_janAngularOnly,RTight_ZZbb_oct_noang4,RMed_ZZbb_oct_noang
+List_for_submitscript: RTight_ZH110_janAngularOnly,RTight_ZH115_janAngularOnly,RTight_ZH120_janAngularOnly,RTight_ZH125_janAngularOnly,RTight_ZH130_janAngularOnly,RTight_ZH135_janAngularOnly,RTight_ZH140_janAngularOnly,RTight_ZH145_janAngularOnly,RTight_ZH150_janAngularOnly,RMed_ZH110_janAngularOnly,RMed_ZH115_janAngularOnly,RMed_ZH120_janAngularOnly,RMed_ZH125_janAngularOnly,RMed_ZH130_janAngularOnly,RMed_ZH135_janAngularOnly,RMed_ZH140_janAngularOnly,RMed_ZH145_janAngularOnly,RMed_ZH150_janAngularOnly,RTight_VVb_apr_noWeights,RMed_VVb_apr_noWeights
 
 #!! individual BKGds training
 [TT_HighPt_ZH125_nov]
@@ -78,6 +82,40 @@ backgrounds: <!MVAGeneral|backgrounds8TeV!>
 treeVarSet: treeVarsSystMass
 treeCut: RMed
 
+
+# no weights
+
+[RTight_ZH125_janAngularOnly_noWeights]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight!>
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsAngularOnly
+treeCut: RTight
+
+[RMed_ZH125_janAngularOnly_noWeights]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed!>
+signals: ['ZH125']
+backgrounds: <!MVAGeneral|backgrounds8TeV!>
+treeVarSet: treeVarsAngularOnly
+treeCut: RMed
+
+[RTight_VVb_apr_noWeights]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsTight_VV!>
+signals: ['AltZZb','AltWZb','ZZb','WZb']
+backgrounds: <!MVAGeneral|backgrounds_Diboson8TeV!>
+treeVarSet: treeVarsAngularOnly 
+treeCut: RTight
+
+[RMed_VVb_apr_noWeights]
+MVAtype: <!MVAGeneral|type!>
+MVAsettings: <!MVAGeneral|SettingsMed_VV!>
+signals: ['AltZZb','AltWZb','ZZb','WZb']
+backgrounds: <!MVAGeneral|backgrounds_Diboson8TeV!>
+treeVarSet: treeVarsAngularOnly
+treeCut: RMed
 
 #!! RTight
 
