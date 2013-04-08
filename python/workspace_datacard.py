@@ -316,8 +316,8 @@ for weightF_sys in weightF_systematics:
 if change_shapes:
     for key in change_shapes:
         syst,val=change_shapes[key].split('*')
-        final_histos['nominal'][key].Add(final_histos[syst][key],float(val))
-        print 'added %s times %s to %s'%(val,syst,key)
+        final_histos[syst][key].Scale(float(val))
+        print 'scaled %s times %s val'%(syst,val)
 
 
 def get_alternate_shape(hNominal,hAlternate):
