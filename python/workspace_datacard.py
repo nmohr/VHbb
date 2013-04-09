@@ -362,28 +362,39 @@ if addSample_sys:
 
 if not ignore_stats:
     #make statistical shapes:
-    for Q in UD:
-        final_histos['%s_%s'%(systematicsnaming['stats'],Q)] = {}
-    for job,hist in final_histos['nominal'].items():
-        errorsum=0
-        for j in range(hist.GetNbinsX()+1):
-            errorsum=errorsum+(hist.GetBinError(j))**2
-        errorsum=sqrt(errorsum)
-        total=hist.Integral()
+    if not binstat:
         for Q in UD:
-            final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job] = hist.Clone()
+            final_histos['%s_%s'%(systematicsnaming['stats'],Q)] = {}
+        for job,hist in final_histos['nominal'].items():
+            errorsum=0
             for j in range(hist.GetNbinsX()+1):
-                if Q == 'Up':
-                    if rescaleSqrtN and total:
-                        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)+hist.GetBinError(j)/total*errorsum))
-                    else:
-                        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)+hist.GetBinError(j)))
-                if Q == 'Down':
-                    if rescaleSqrtN and total:
-                        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)/total*errorsum))
-                    else:
-                        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)))
-
+                errorsum=errorsum+(hist.GetBinError(j))**2
+            errorsum=sqrt(errorsum)
+            total=hist.Integral()
+            for Q in UD:
+                final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job] = hist.Clone()
+                for j in range(hist.GetNbinsX()+1):
+                    if Q == 'Up':
+                        if rescaleSqrtN and total:
+                            final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)+hist.GetBinError(j)/total*errorsum))
+                        else:
+                            final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)+hist.GetBinError(j)))
+                    if Q == 'Down':
+                        if rescaleSqrtN and total:
+                            final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)/total*errorsum))
+                        else:
+                            final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)))
+    else:
+        for bin in range(0,nBins):
+            for Q in UD:
+                final_histos['%s_bin%s_%s'%(systematicsnaming['stats'],bin,Q)] = {}
+            for job,hist in final_histos['nominal'].items():
+                for Q in UD:
+                    final_histos['%s_bin%s_%s'%(systematicsnaming['stats'],bin,Q)][job] = hist.Clone()
+                    if Q == 'Up':
+                        final_histos['%s_bin%s_%s'%(systematicsnaming['stats'],bin,Q)][job].SetBinContent(bin,max(0,hist.GetBinContent(bin)+hist.GetBinError(bin)))
+                    if Q == 'Down':
+                        final_histos['%s_bin%s_%s'%(systematicsnaming['stats'],bin,Q)][job].SetBinContent(bin,max(0,hist.GetBinContent(bin)-hist.GetBinError(bin)))
 
 
 #write shapes in WS:
@@ -498,7 +509,7 @@ for DCtype in ['WS','TH']:
         if binstat:
             for c in setup:
                 for bin in range(0,nBins):
-                    f.write('%s_%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], bin, Datacardbin))
+                    f.write('%s_bin%s_%s_%s\tshape'%(systematicsnaming['stats'],bin,Dict[c],Datacardbin))
                     for it in range(0,columns):
                         if it == setup.index(c):
                             f.write('\t1.0')
@@ -507,7 +518,7 @@ for DCtype in ['WS','TH']:
                     f.write('\n')
         else:
             for c in setup:
-                f.write('%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], Datacardbin))
+                f.write('%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c],Datacardbin))
                 for it in range(0,columns):
                     if it == setup.index(c):
                         f.write('\t1.0')

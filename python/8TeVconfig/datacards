@@ -48,7 +48,7 @@ weightF_sys = ['weightF_sys','weightF_QCD']
 #!! --------------------------------------
 #!! Options
 #!! --------------------------------------
-#!! bin-by-bin statistics, not available!
+#!! bin-by-bin statistics (sqrtN doesn't apply)
 binstat: False
 #!! rescale stat shapes by sqrtN
 rescaleSqrtN: True
