@@ -258,7 +258,7 @@ print '\n\t...fetching histos...'
 
 for job in all_samples:
     print '\t- %s'%job
-    if not job.name in sys_cut_include:
+    if not GroupDict[job.name] in sys_cut_include:
         # manual overwrite
         all_histos[job.name] = mc_hMaker.get_histos_from_tree(job,treecut)
     else:
