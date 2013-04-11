@@ -300,7 +300,7 @@ ATLAS_Mjj_pt200_Zmm =    <!Cuts|ATLAS_Mjj_pt200!>    & <!ZHmmbb|addCuts!>
 #!! ------------
 #!! new Mjj 
 #!! ------------
-Mjj_selection: <!ZHbb|preselection!> & <!ZHbb|mcBtag!> & <!ZHbb|zWindow!> & MET.et < 60. & <!ZHbb|upperHMass!>
+Mjj_selection: <!ZHbb|preselection!> & <!ZHbb|mcBtag!> & <!ZHbb|zWindow!> & MET.et < 60. & <!ZHbb|looseHMass!>
 #Mjj_pt70 = <!Cuts|Mjj_selection!> & V.pt <= 70. & H.dR > 1.2
 #Mjj_pt70150 = <!Cuts|Mjj_selection!> & V.pt > 70.  & V.pt <= 150.
 #Mjj_pt150 = <!Cuts|Mjj_selection!> & V.pt > 150. & H.dR < 1.6
