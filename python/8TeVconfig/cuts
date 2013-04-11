@@ -1,6 +1,5 @@
 # TreeCuts:
 [ZHbb]
-
 #!! --------------------------------
 #!! Variables and values definition
 #!! --------------------------------
@@ -34,7 +33,7 @@ dPhiVH = abs( HVdPhi ) > 2.9
 upperHMass = H.mass < 250.
 upperHMass_beforeReg = HNoReg.mass < 250.
 zMassSafety = V.mass > 50.
-
+trigger = ( Vtype==1 & (triggerFlags[5]>0 || triggerFlags[6]>0) ) || ( Vtype==0 & ( triggerFlags[22]>0 || triggerFlags[23]>0 || triggerFlags[14]>0 ||triggerFlags[21]>0 ) )
 
 #!! ---------------------------------
 #!! Windows and windows veto
@@ -42,6 +41,7 @@ zMassSafety = V.mass > 50.
 zWindow = V.mass > 75. & V.mass < 105
 zWindow2 = V.mass > 82. & V.mass < 100.
 zVeto =  (V.mass > 105 | V.mass < 75.)
+zVetoSmall =  (V.mass > 100 | V.mass < 80.)
 vetoHMass_beforeReg = (HNoReg.mass < 90. | HNoReg.mass > 145.)
 vetoHMass = (H.mass < 90. | H.mass > 145.)
 MassVeto= (H.mass < 90. | H.mass > 150.)
@@ -128,9 +128,16 @@ HighPt_ExpertRegion3_MM = <!Cuts|RTight!> & TT_HighPt_ZH125_nov.nominal > 0.28 &
 #!! ------------------------------
 RTight_TTbar_fit = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!>
 RMed_TTbar_fit = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!>
+RTight_TTbarOpen_fit = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVetoSmall!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!>
+RMed_TTbarOpen_fit = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVetoSmall!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!>
+
 RTight_DYJets_fit = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|vetoHMass!>
 #!! For RMed_DYJets_fit region: btag extrapolation from loose (in the fit region) to custom (in the signal region)
 RMed_DYJets_fit = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|vetoHMass!> 
+#!! Sum high / low pt
+DYJets_fit = <!Cuts|RTight_DYJets_fit!> || <!Cuts|RMed_DYJets_fit!>
+TTbar_fit = <!Cuts|RTight_TTbar_fit!> || <!Cuts|RMed_TTbar_fit!>
+ZLight_fit = <!Cuts|ZLight_HighPt!> || <!Cuts|ZLight_LowPt!>
 #!! Electron - Muons splitting
 RTight_TTbar_fit_EE = <!Cuts|RTight_TTbar_fit!> & <!ZHeebb|addCuts!>
 RTight_TTbar_fit_MM = <!Cuts|RTight_TTbar_fit!> & <!ZHmmbb|addCuts!>
@@ -140,10 +147,15 @@ RTight_DYJets_fit_EE = <!Cuts|RTight_DYJets_fit!> & <!ZHeebb|addCuts!>
 RTight_DYJets_fit_MM = <!Cuts|RTight_DYJets_fit!> & <!ZHmmbb|addCuts!>
 RMed_DYJets_fit_EE = <!Cuts|RMed_DYJets_fit!> & <!ZHeebb|addCuts!>
 RMed_DYJets_fit_MM = <!Cuts|RMed_DYJets_fit!> & <!ZHmmbb|addCuts!>
+RTight_TTbarOpen_fit_EE = <!Cuts|RTight_TTbarOpen_fit!> & <!ZHeebb|addCuts!>
+RTight_TTbarOpen_fit_MM = <!Cuts|RTight_TTbarOpen_fit!> & <!ZHmmbb|addCuts!>
+RMed_TTbarOpen_fit_EE = <!Cuts|RMed_TTbarOpen_fit!> & <!ZHeebb|addCuts!>
+RMed_TTbarOpen_fit_MM = <!Cuts|RMed_TTbarOpen_fit!> & <!ZHmmbb|addCuts!>
 
 #!! -------------------------
 #!! Control regions
 #!! -------------------------
+#!!Standard control regions
 TTbar_unbiased = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & MET.et > 60. & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & <!ZHbb|upperHMass!>
 ZLight= <!ZHbb|preselection!> & <!ZHbb|noAddJet!> & <!ZHbb|zWindow!> & <!ZHbb|ntBtag!> & <!ZHbb|upperHMass!> & <!ZHbb|twoCSV0!> & <!ZHbb|dPhiVH!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & V.pt > 50.
 TTbar = <!ZHbb|preselection!> & <!ZHbb|upperHMass!> & <!ZHbb|tcBtag!> & <!ZHbb|zVeto!> & H.pt > 100.
@@ -180,10 +192,28 @@ TTbar_vtx = <!Cuts|TTbar!> & <!ZHbb|vtx!>
 TTbar_soft = <!Cuts|TTbar!> & <!ZHbb|soft!>
 Zbb_vtx = <!Cuts|Zbb!> & <!ZHbb|vtx!>
 Zbb_soft = <!Cuts|Zbb!> & <!ZHbb|soft!>
-TTbar_unbiased_Zee = <!Cuts|TTbar_unbiased!> & <!ZHeebb|addCuts!>
-TTbar_unbiased_Zmm = <!Cuts|TTbar_unbiased!> & <!ZHmmbb|addCuts!>
-Zbb_soft_Zee = <!Cuts|Zbb!> & <!ZHbb|soft!> & <!ZHeebb|addCuts!>
-Zbb_soft_Zmm = <!Cuts|Zbb!> & <!ZHbb|soft!> & <!ZHmmbb|addCuts!>
+#!! IVF regions: Additional cut on the number of inclusive secondary vertices
+RTight_TTbar_fit_SV = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & nSvs==2
+RMed_TTbar_fit_SV = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & nSvs==2
+RTight_DYJets_fit_SV = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|vetoHMass!> & nSvs==2
+RMed_DYJets_fit_SV = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|vetoHMass!> & nSvs==2
+
+RTight_DYJets_fit_SV_gs = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|vetoHMass!> & nSvs==2 & SVH.dPhi < 1.0
+RMed_DYJets_fit_SV_gs = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|vetoHMass!> & nSvs==2 & SVH.dPhi < 1.0
+
+RTight_DYJets_fit_SV_dR1 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|vetoHMass!> & nSvs==2 & SVH.dPhi > 1.0
+RMed_DYJets_fit_SV_dR1 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|vetoHMass!> & nSvs==2 & SVH.dPhi > 1.0
+RTight_DYJets_fit_SV_dR5 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|vetoHMass!> & nSvs==2 & SVH.dPhi > 0.5
+RMed_DYJets_fit_SV_dR5 = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rMed!> & <!ZHbb|vetoHMass!> & nSvs==2 & SVH.dPhi > 0.5
+
+RTight_Z1b_SV = <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|vetoHMass!> & nSvs==2
+RTight_Z1b_SV_gs = <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|vetoHMass!> & nSvs==2 & SVH.dPhi < 1.0
+RTight_Z1b_SV_dR1 = <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|vetoHMass!> & nSvs==2 & SVH.dPhi > 1.0
+RTight_Z1b_SV_dR5 = <!ZHbb|preselection!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|rTight!> & <!ZHbb|vetoHMass!> & nSvs==2 & SVH.dPhi > 0.5
+#!! Inclusive in Vpt
+TTbar_fit_SV = <!ZHbb|zMassSafety!> & <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zVeto!> & <!ZHbb|pullAngle!> & nSvs==2
+DYJets_fit_SV = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!> & <!ZHbb|zWindow!> & <!ZHbb|pullAngle!> & <!ZHbb|vetoHMass!> & nSvs==2
+
 
 #!! ---------------------------
 #!! Electron muons separation
@@ -221,9 +251,29 @@ HighPtLooseBTag_EE = Vtype==1 & <!Cuts|RTightLooseBTag!>
 HighPtLooseBTag_MM = Vtype==0 & <!Cuts|RTightLooseBTag!>
 HighPtLooseBTag_Zee = <!Cuts|RTightLooseBTag_EE!>
 HighPtLooseBTag_Zmm = <!Cuts|RTightLooseBTag_MM!>
+TTbar_unbiased_Zee = <!Cuts|TTbar_unbiased!> & <!ZHeebb|addCuts!>
+TTbar_unbiased_Zmm = <!Cuts|TTbar_unbiased!> & <!ZHmmbb|addCuts!>
+Zbb_soft_Zee = <!Cuts|Zbb!> & <!ZHbb|soft!> & <!ZHeebb|addCuts!>
+Zbb_soft_Zmm = <!Cuts|Zbb!> & <!ZHbb|soft!> & <!ZHmmbb|addCuts!>
 #!! Very loose pt region ( 0-50 )
 VLowPt_Zee = <!Cuts|RLoose_EE!>
 VLowPt_Zmm = <!Cuts|RLoose_MM!>
+#!! IVF regions
+RTight_TTbar_fit_SV_EE = <!Cuts|RTight_TTbar_fit_SV!> & <!ZHeebb|addCuts!>
+RTight_TTbar_fit_SV_MM = <!Cuts|RTight_TTbar_fit_SV!> & <!ZHmmbb|addCuts!>
+RMed_TTbar_fit_SV_EE = <!Cuts|RMed_TTbar_fit_SV!> & <!ZHeebb|addCuts!>
+RMed_TTbar_fit_SV_MM = <!Cuts|RMed_TTbar_fit_SV!> & <!ZHmmbb|addCuts!>
+RTight_DYJets_fit_SV_EE = <!Cuts|RTight_DYJets_fit_SV!> & <!ZHeebb|addCuts!>
+RTight_DYJets_fit_SV_MM = <!Cuts|RTight_DYJets_fit_SV!> & <!ZHmmbb|addCuts!>
+RMed_DYJets_fit_SV_EE = <!Cuts|RMed_DYJets_fit_SV!> & <!ZHeebb|addCuts!>
+RMed_DYJets_fit_SV_MM = <!Cuts|RMed_DYJets_fit_SV!> & <!ZHmmbb|addCuts!>
+TTbar_fit_SV_EE = <!Cuts|TTbar_fit_SV!> & <!ZHeebb|addCuts!>
+TTbar_fit_SV_MM = <!Cuts|TTbar_fit_SV!> & <!ZHmmbb|addCuts!>
+DYJets_fit_SV_EE = <!Cuts|DYJets_fit_SV!> & <!ZHeebb|addCuts!>
+DYJets_fit_SV_MM = <!Cuts|DYJets_fit_SV!> & <!ZHmmbb|addCuts!>
+RTight_Z1b_SV_EE = <!Cuts|RTight_Z1b_SV!> & <!ZHeebb|addCuts!>
+RTight_Z1b_SV_MM = <!Cuts|RTight_Z1b_SV!> & <!ZHmmbb|addCuts!>
+
 
 #!! --------------------------
 #!! VV regions
