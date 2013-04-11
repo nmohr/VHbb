@@ -137,8 +137,10 @@ if not add_signal_as_bkg == 'None':
 #Assign Pt region for sys factors
 if 'HighPtLooseBTag' in ROOToutname:
     pt_region = 'HighPtLooseBTag'
-elif 'HighPt' in ROOToutname or 'highPt' in ROOToutname or 'MedPt' in ROOToutname:
+elif 'HighPt' in ROOToutname or 'highPt' in ROOToutname:
     pt_region = 'HighPt'
+elif 'MedPt' in ROOToutname:
+    pt_region = 'MedPt'
 elif 'LowPt' in ROOToutname or 'lowPt' in ROOToutname:
     pt_region = 'LowPt'
 elif 'ATLAS' in ROOToutname:
@@ -219,7 +221,6 @@ for weightF_sys in weightF_systematics:
 
 #for option in optionsList:
 #    print option['cut']
-
 
 mc_hMaker = HistoMaker(all_samples,path,config,optionsList,GroupDict)
 data_hMaker = HistoMaker(data_samples,path,config,[optionsList[0]])
