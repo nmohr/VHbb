@@ -73,12 +73,15 @@ elif str(anType) == 'cr':
     systematics = eval(config.get('LimitGeneral','sys_cr'))
 
 sys_cut_suffix=eval(config.get('LimitGeneral','sys_cut_suffix'))
+sys_cut_include=[]
+if config.has_option('LimitGeneral','sys_cut_include'):
+    sys_cut_include=eval(config.get('LimitGeneral','sys_cut_include'))
 systematicsnaming = eval(config.get('LimitGeneral','systematicsnaming'))
 sys_factor_dict = eval(config.get('LimitGeneral','sys_factor'))
 sys_affecting = eval(config.get('LimitGeneral','sys_affecting'))
 # weightF:
 weightF = config.get('Weights','weightF')
-weightF_sys = eval(config.get('LimitGeneral','weightF_sys'))
+weightF_systematics = eval(config.get('LimitGeneral','weightF_sys'))
 # rescale stat shapes by sqrtN
 rescaleSqrtN=eval(config.get('LimitGeneral','rescaleSqrtN'))
 # get nominal cutstring:
@@ -93,6 +96,12 @@ blind=eval(config.get('LimitGeneral','blind'))
 addBlindingCut = None
 if config.has_option('LimitGeneral','addBlindingCut'):
     addBlindingCut = config.get('LimitGeneral','addBlindingCut')
+    print 'adding add. blinding cut'
+#change nominal shapes by syst
+change_shapes = None
+if config.has_option('LimitGeneral','change_shapes'):
+    change_shapes = eval(config.get('LimitGeneral','change_shapes'))
+    print 'changing the shapes'
 #on control region cr never blind. Overwrite whatever is in the config
 if str(anType) == 'cr':
     if blind:
@@ -128,8 +137,10 @@ if not add_signal_as_bkg == 'None':
 #Assign Pt region for sys factors
 if 'HighPtLooseBTag' in ROOToutname:
     pt_region = 'HighPtLooseBTag'
-elif 'HighPt' in ROOToutname or 'highPt' in ROOToutname or 'MedPt' in ROOToutname:
+elif 'HighPt' in ROOToutname or 'highPt' in ROOToutname:
     pt_region = 'HighPt'
+elif 'MedPt' in ROOToutname:
+    pt_region = 'MedPt'
 elif 'LowPt' in ROOToutname or 'lowPt' in ROOToutname:
     pt_region = 'LowPt'
 elif 'ATLAS' in ROOToutname:
@@ -201,8 +212,8 @@ for syst in systematics:
         appendList()
 
 #UEPS
-if weightF_sys:
-    for _weight in [config.get('Weights','weightF_sys_UP'),config.get('Weights','weightF_sys_DOWN')]:
+for weightF_sys in weightF_systematics:
+    for _weight in [config.get('Weights','%s_UP' %(weightF_sys)),config.get('Weights','%s_DOWN' %(weightF_sys))]:
         _cut = treecut
         _treevar = treevar
         _name = title
@@ -210,7 +221,6 @@ if weightF_sys:
 
 #for option in optionsList:
 #    print option['cut']
-
 
 mc_hMaker = HistoMaker(all_samples,path,config,optionsList,GroupDict)
 data_hMaker = HistoMaker(data_samples,path,config,[optionsList[0]])
@@ -250,7 +260,14 @@ print '\n\t...fetching histos...'
 
 for job in all_samples:
     print '\t- %s'%job
-    all_histos[job.name] = mc_hMaker.get_histos_from_tree(job)
+    if not GroupDict[job.name] in sys_cut_include:
+        # manual overwrite
+        if addBlindingCut:
+            all_histos[job.name] = mc_hMaker.get_histos_from_tree(job,treecut+'& %s'%addBlindingCut)
+        else:
+            all_histos[job.name] = mc_hMaker.get_histos_from_tree(job,treecut)
+    else:
+        all_histos[job.name] = mc_hMaker.get_histos_from_tree(job)
 
 for job in data_samples:
     print '\t- %s'%job
@@ -289,13 +306,6 @@ obs = ROOT.RooArgList(disc)
 #
 ROOT.gROOT.SetStyle("Plain")
 
-
-# ToDo:
-#---- get the BKG for the rebinning calculation----
-#Rebinner.calculate_binning(hDummyRB,max_rel)
-#myBinning=Rebinner(int(nBins),array('d',[-1.0]+[hDummyRB.GetBinLowEdge(i) for i in binlist]),rebin_active)
-#--------------------------------------------------
-
 #order and add all together
 final_histos = {}
 
@@ -310,10 +320,17 @@ for syst in systematics:
     for Q in UD:
         final_histos['%s_%s'%(systematicsnaming[syst],Q)] = HistoMaker.orderandadd([all_histos[job.name][ind] for job in all_samples],setup)
         ind+=1
-if weightF_sys: 
+for weightF_sys in weightF_systematics: 
     for Q in UD:
-        final_histos['%s_%s'%(systematicsnaming['weightF_sys'],Q)]= HistoMaker.orderandadd([all_histos[job.name][ind] for job in all_samples],setup)
+        final_histos['%s_%s'%(systematicsnaming[weightF_sys],Q)]= HistoMaker.orderandadd([all_histos[job.name][ind] for job in all_samples],setup)
         ind+=1
+
+if change_shapes:
+    for key in change_shapes:
+        syst,val=change_shapes[key].split('*')
+        final_histos[syst][key].Scale(float(val))
+        print 'scaled %s times %s val'%(syst,val)
+
 
 def get_alternate_shape(hNominal,hAlternate):
     hVar = hAlternate.Clone()
@@ -350,27 +367,40 @@ if addSample_sys:
 
 if not ignore_stats:
     #make statistical shapes:
-    for Q in UD:
-        final_histos['%s_%s'%(systematicsnaming['stats'],Q)] = {}
-    for job,hist in final_histos['nominal'].items():
-        errorsum=0
-        for j in range(hist.GetNbinsX()+1):
-            errorsum=errorsum+(hist.GetBinError(j))**2
-        errorsum=sqrt(errorsum)
-        total=hist.Integral()
+    if not binstat:
         for Q in UD:
-            final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job] = hist.Clone()
+            final_histos['%s_%s'%(systematicsnaming['stats'],Q)] = {}
+        for job,hist in final_histos['nominal'].items():
+            errorsum=0
             for j in range(hist.GetNbinsX()+1):
-                if Q == 'Up':
-                    if rescaleSqrtN and total:
-                        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)+hist.GetBinError(j)/total*errorsum))
-                    else:
-                        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)+hist.GetBinError(j)))
-                if Q == 'Down':
-                    if rescaleSqrtN and total:
-                        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)/total*errorsum))
-                    else:
-                        final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)))
+                errorsum=errorsum+(hist.GetBinError(j))**2
+            errorsum=sqrt(errorsum)
+            total=hist.Integral()
+            for Q in UD:
+                final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job] = hist.Clone()
+                for j in range(hist.GetNbinsX()+1):
+                    if Q == 'Up':
+                        if rescaleSqrtN and total:
+                            final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)+hist.GetBinError(j)/total*errorsum))
+                        else:
+                            final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)+hist.GetBinError(j)))
+                    if Q == 'Down':
+                        if rescaleSqrtN and total:
+                            final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)/total*errorsum))
+                        else:
+                            final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)))
+    else:
+        for bin in range(0,nBins):
+            for Q in UD:
+                final_histos['%s_bin%s_%s'%(systematicsnaming['stats'],bin,Q)] = {}
+            for job,hist in final_histos['nominal'].items():
+                for Q in UD:
+                    final_histos['%s_bin%s_%s'%(systematicsnaming['stats'],bin,Q)][job] = hist.Clone()
+                    if Q == 'Up':
+                        final_histos['%s_bin%s_%s'%(systematicsnaming['stats'],bin,Q)][job].SetBinContent(bin,max(0,hist.GetBinContent(bin)+hist.GetBinError(bin)))
+                    if Q == 'Down':
+                        final_histos['%s_bin%s_%s'%(systematicsnaming['stats'],bin,Q)][job].SetBinContent(bin,max(0,hist.GetBinContent(bin)-hist.GetBinError(bin)))
+
 
 #write shapes in WS:
 for key in final_histos:
@@ -484,7 +514,7 @@ for DCtype in ['WS','TH']:
         if binstat:
             for c in setup:
                 for bin in range(0,nBins):
-                    f.write('%s_%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], bin, Datacardbin))
+                    f.write('%s_bin%s_%s_%s\tshape'%(systematicsnaming['stats'],bin,Dict[c],Datacardbin))
                     for it in range(0,columns):
                         if it == setup.index(c):
                             f.write('\t1.0')
@@ -493,7 +523,7 @@ for DCtype in ['WS','TH']:
                     f.write('\n')
         else:
             for c in setup:
-                f.write('%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c], Datacardbin))
+                f.write('%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c],Datacardbin))
                 for it in range(0,columns):
                     if it == setup.index(c):
                         f.write('\t1.0')
@@ -501,8 +531,8 @@ for DCtype in ['WS','TH']:
                         f.write('\t-')
                 f.write('\n')
     # UEPS systematics
-    if weightF_sys:
-        f.write('UEPS\tshape')
+    for weightF_sys in weightF_systematics:
+        f.write('%s\tshape' %(systematicsnaming[weightF_sys]))
         for it in range(0,columns): f.write('\t1.0')
         f.write('\n')
     # additional sample systematics

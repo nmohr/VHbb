@@ -15,8 +15,12 @@ BDTrange = BDT output,10,-1,1
 BDToutname = CMS_vhbb_BDT_Zll_8TeV
 Mjjrange = 17,0.,255.
 #!! control region variables examples
-METrange = 20,0,100
+METrange = 40,0,200
 btagrange = 20,0,1
+
+max_btag = max(hJet_csv[0],hJet_csv[1])
+min_btag = min(hJet_csv[0],hJet_csv[1])
+met = MET.et
 
 #!! Rebinning procedure for the BDT. Only suitable for BDT
 #!! For Mjj or for control region put False.
@@ -29,13 +33,14 @@ rebin_active = False
 sys_BDT = ['JER','JES','beff','bmis','beff1']
 sys_Mjj = ['JER','JES','beff','bmis','beff1']
 #!! systematics for the control region fit
-sys_cr = ['JER','JES','beff','bmis','beff1']
+#sys_cr = ['JER','JES','beff','bmis','beff1']
+sys_cr = []
 #!! configuration of systematics effects and behaviour
 sys_factor = {'JER':1.0,'JES':1.0,'beff':1.0,'bmis':1.0,'beff1':1.0}
 sys_affecting = {'JER':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb'],'JES':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb'],'beff':['DYlight','DY2b','DY1b','VVlight','TT','ST','VVb'],'beff1':['ZH','ZH125'],'bmis':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb']}
 #!! Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
-sys_cut_suffix = {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?','beff1':'csv>csv?'}
-#sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal','beff1':'nominal'}
+#sys_cut_suffix = {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?','beff1':'csv>csv?'}
+sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal','beff1':'nominal'}
 sys_cut_include = ['ZH','VV','TT','ST','ZZ-bb']
 #!! UEPS
 weightF_sys = True
@@ -84,6 +89,7 @@ systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS
 #!! to be processed in batch mode
 #!! --------------------------------------
 List = RTight_DYJets_ZH125_MM_8TeV_janAngularOnly,RMed_DYJets_ZH125_MM_8TeV_janAngularOnly,RTight_DYJets_ZH125_EE_8TeV_janAngularOnly,RMed_DYJets_ZH125_EE_8TeV_janAngularOnly,RMed_TTbar_ZH125_MM_8TeV_janAngularOnly,RTight_TTbar_ZH125_MM_8TeV_janAngularOnly,RMed_TTbar_ZH125_EE_8TeV_janAngularOnly,RTight_TTbar_ZH125_EE_8TeV_janAngularOnly,RTight_ZLight_HighPt_ZH125_EE_8TeV_janAngularOnly,RTight_ZLight_HighPt_ZH125_MM_8TeV_janAngularOnly,Zbb_HighPt_ZH125_MM_8TeV_janAngularOnly,Zbb_HighPt_ZH125_EE_8TeV_janAngularOnly,RTight_ZLight_LowPt_ZH125_EE_8TeV_janAngularOnly,RTight_ZLight_LowPt_ZH125_MM_8TeV_janAngularOnly,Zbb_LowPt_ZH125_MM_8TeV_janAngularOnly,Zbb_LowPt_ZH125_EE_8TeV_janAngularOnly
+#List = RMed_TTbarOpen_ZH125_MM_8TeV_janAngularOnly,RTight_TTbarOpen_ZH125_MM_8TeV_janAngularOnly,RMed_TTbarOpen_ZH125_EE_8TeV_janAngularOnly,RTight_TTbarOpen_ZH125_EE_8TeV_janAngularOnly
 
 
 #!! --------------------------------------
@@ -91,44 +97,18 @@ List = RTight_DYJets_ZH125_MM_8TeV_janAngularOnly,RMed_DYJets_ZH125_MM_8TeV_janA
 #!! --------------------------------------
 [Datacard]
 
-InUse = ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK','CMS_vhbb_boost_QCD','CMS_vhbb_ST','CMS_vhbb_VV','CMS_eff_e','CMS_eff_m','CMS_trigger_e','CMS_trigger_m','CMS_vhbb_trigger_MET','CMS_vhbb_Zj2b_Zll_SF_8TeV','CMS_vhbb_Zj1b_Zll_SF_8TeV','CMS_vhbb_Zj0b_Zll_SF_8TeV','CMS_vhbb_TT_Zll_SF_8TeV']
+InUse = ['lumi_8TeV','pdf_qqbar','pdf_gg','CMS_eff_e','CMS_eff_m','CMS_vhbb_Zj2b_Zll_SF_8TeV','CMS_vhbb_Zj1b_Zll_SF_8TeV','CMS_vhbb_Zj0b_Zll_SF_8TeV','CMS_vhbb_TT_Zll_SF_8TeV']
 
-InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPt_8TeV','CMS_vhbb_ZjHF_Zll_exHighPt_8TeV','CMS_vhbb_TT_Zll_exHighPt_8TeV']
-InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exLowPt_8TeV','CMS_vhbb_ZjHF_Zll_exLowPt_8TeV','CMS_vhbb_TT_Zll_exLowPt_8TeV']
-InUse_HighPtLooseBTag = <!Datacard|InUse!> + ['CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV','CMS_vhbb_TT_Zll_exHighPtLoooseBTag_8TeV']
+InUse_HighPt = <!Datacard|InUse!>
+InUse_LowPt = <!Datacard|InUse!>
+InUse_HighPtLooseBTag = <!Datacard|InUse!>
 
 lumi_7TeV = {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022}
 lumi_8TeV = {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05,'ZZ-bb':1.05}
-
 pdf_qqbar = {'type':'lnN', 'ZH':1.01,'VVlight':1.01,'VVb':1.01}
 pdf_gg = {'type':'lnN', 'ST':1.01,'QCD':1.01}
-QCDscale_VH = {'type':'lnN', 'ZH':1.04}
-QCDscale_ttbar = {'type':'lnN', 'ST':1.06}
-QCDscale_VV = {'type':'lnN', 'VVlight':1.04, 'VVb':1.04} 
-QCDscale_QCD = {'type':'lnN', 'QCD':1.30}
-CMS_vhbb_boost_EWK = {'type':'lnN', 'ZH':1.05,'ZH125':1.05}
-CMS_vhbb_boost_QCD = {'type':'lnN', 'ZH':1.10,'ZH125':1.10}
-CMS_vhbb_ST = {'type':'lnN', 'ST':1.29}
-
-CMS_vhbb_VV = {'type':'lnN', 'VVlight':1.15, 'VVb':1.15}
-CMS_vhbb_ZjLF_ex = {'type':'lnN', 'DYlight':1.05}
-CMS_vhbb_ZjHF_ex = {'type':'lnN', 'DYb':1.05}
-CMS_vhbb_TT_ex = {'type':'lnN', 'TT':1.05}
-CMS_eff_e = {'type':'lnN', 'ZH':1.04,'ZH125':1.04,'ST':1.04,'VVlight':1.04,'QCD':1.04,'VVb':1.04}
-CMS_trigger_e = {'type':'lnN','ZH':1.02,'ZH125':1.02,'ST':1.02,'VVlight':1.02 ,'VVb':1.02}
-CMS_eff_m = {'type':'lnN',  'ZH':1.04,'ZH125':1.04,'ST':1.04,'VVlight':1.04,'QCD':1.04,'VVb':1.04}
-CMS_trigger_m = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'ST':1.01,'VVlight':1.01,'VVb':1.01 }
-CMS_vhbb_trigger_MET = {'type':'lnN'}
-
-CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV = {'type':'lnN', 'DYlight':1.20}
-CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV = {'type':'lnN', 'DYb':1.20}
-CMS_vhbb_TT_Zll_exHighPtLoooseBTag_8TeV = {'type':'lnN', 'TT':1.20}
-CMS_vhbb_ZjLF_Zll_exHighPt_8TeV = {'type':'lnN', 'DYlight':1.02}
-CMS_vhbb_ZjHF_Zll_exHighPt_8TeV = {'type':'lnN', 'DY1b':1.02, 'DY2b':1.02}
-CMS_vhbb_TT_Zll_exHighPt_8TeV = {'type':'lnN', 'TT':1.02}
-CMS_vhbb_ZjLF_Zll_exLowPt_8TeV = {'type':'lnN', 'DYlight':1.02}
-CMS_vhbb_ZjHF_Zll_exLowPt_8TeV = {'type':'lnN', 'DY1b':1.02, 'DY2b':1.02}
-CMS_vhbb_TT_Zll_exLowPt_8TeV = {'type':'lnN', 'TT':1.02}
+CMS_eff_e = {'type':'lnN', 'ZH':1.04,'ZH125':1.04,'ST':1.04,'VVlight':1.04,'QCD':1.04,'VVb':1.04,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04}
+CMS_eff_m = {'type':'lnN', 'ZH':1.04,'ZH125':1.04,'ST':1.04,'VVlight':1.04,'QCD':1.04,'VVb':1.04,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04}
 
 #!! splitting 1b / 2b
 CMS_vhbb_Zj0b_Zll_SF_8TeV: {'type':'lnN', 'DYlight':1.2}
@@ -142,32 +122,9 @@ CMS_vhbb_TT_Zll_SF_8TeV: {'type':'lnN', 'TT':1.2}
 #!! -------------------------
 [Limit]
 
-[dc:ZLight_LowPt_RTightLooseBTag_ZH125_MM_8TeV_oct]
-var = RTightLooseBTag_ZH125_oct.nominal
-wsVarName = CMS_vhbb_BDT_Zll_8TeV
-range = 10,-1.0,1.0
-dcName = BDT_M125_ZmmHighPtLooseBTag_8TeV
-cut = ZLight_LowPt_Zmm
-signal = ZH125
-dcBin = ZmmHighPtLooseBTag_8TeV
-data = Zmm
-type = BDT
-
-
-[dc:TT_RTightLooseBTag_ZH125_EE_8TeV_oct]
-var = RTightLooseBTag_ZH125_oct.nominal
-wsVarName = CMS_vhbb_BDT_Zll_8TeV
-range = 10,-1.0,1.0
-dcName = BDT_M125_ZeeHighPtLooseBTag_8TeV
-cut = TTbar_Zee
-signal = ZH125
-dcBin = ZeeHighPtLooseBTag_8TeV
-data = Zee
-type = BDT
-
 
 [dc:RTight_DYJets_ZH125_MM_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZmmHighPt_DYJets_janAngularOnly_8TeV
@@ -179,7 +136,7 @@ type = cr
 
 
 [dc:RTight_ZLight_LowPt_ZH125_MM_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZmmLowPt_ZLight_janAngularOnly_8TeV
@@ -191,7 +148,7 @@ type = cr
 
 
 [dc:RTight_ZLight_ZH125_EE_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZeeHighPt_ZLight_janAngularOnly_8TeV
@@ -215,7 +172,7 @@ type = BDT
 
 
 [dc:RTight_ZLight_HighPt_ZH125_MM_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZmmHighPt_ZLight_janAngularOnly_8TeV
@@ -227,7 +184,7 @@ type = cr
 
 
 [dc:RTight_DYJets_ZH125_EE_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZeeHighPt_DYJets_janAngularOnly_8TeV
@@ -263,7 +220,7 @@ type = BDT
 
 
 [dc:RTight_TTbar_ZH125_8TeV_janAngularOnly]
-var = MET.et
+var = <!LimitGeneral|met!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|METrange!>
 dcName = BDT_M125_ZHighPt_TTbar_janAngularOnly_8TeV
@@ -275,7 +232,7 @@ type = cr
 
 
 [dc:RTight_DYJets_ZH125_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZmmHighPt_DYJets_janAngularOnly_8TeV
@@ -299,7 +256,7 @@ type = BDT
 
 
 [dc:RTight_TTbar_ZH125_MM_8TeV_janAngularOnly]
-var = MET.et
+var = <!LimitGeneral|met!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|METrange!>
 dcName = BDT_M125_ZmmHighPt_TTbar_janAngularOnly_8TeV
@@ -311,7 +268,7 @@ type = cr
 
 
 [dc:RTight_TTbar_ZH125_EE_8TeV_janAngularOnly]
-var = MET.et
+var = <!LimitGeneral|met!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|METrange!>
 dcName = BDT_M125_ZeeHighPt_TTbar_janAngularOnly_8TeV
@@ -321,9 +278,32 @@ dcBin = ZeeHighPt_8TeV
 data = Zee
 type = cr
 
+#!! TTbar with a smaller Zmass window to allow more DYJets contamination
+[dc:RTight_TTbarOpen_ZH125_MM_8TeV_janAngularOnly]
+var = <!LimitGeneral|met!>
+wsVarName = CMS_vhbb_BDT_Zll_8TeV
+range = <!LimitGeneral|METrange!>
+dcName = BDT_M125_ZmmHighPt_TTbarOpen_janAngularOnly_8TeV
+cut = RTight_TTbarOpen_fit_MM
+signal = ZH125
+dcBin = ZmmHightPt_8TeV
+data = Zmm
+type = cr
+
+#!! TTbar with a smaller Zmass window to allow more DYJets contamination
+[dc:RTight_TTbarOpen_ZH125_EE_8TeV_janAngularOnly]
+var = <!LimitGeneral|met!>
+wsVarName = CMS_vhbb_BDT_Zll_8TeV
+range = <!LimitGeneral|METrange!>
+dcName = BDT_M125_ZeeHighPt_TTbarOpen_janAngularOnly_8TeV
+cut = RTight_TTbarOpen_fit_EE
+signal = ZH125
+dcBin = ZeeHighPt_8TeV
+data = Zee
+type = cr
 
 [dc:Zbb_ZH125_EE_8TeV_janAngularOnly]
-var = min(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|min_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZeeLowPt_Zbb_janAngularOnly_8TeV
@@ -335,7 +315,7 @@ type = cr
 
 
 [dc:Zbb_HighPt_ZH125_EE_8TeV_janAngularOnly]
-var = min(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|min_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZeeHighPt_Zbb_janAngularOnly_8TeV
@@ -359,7 +339,7 @@ type = BDT
 
 
 [dc:RTight_ZLight_ZH125_MM_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZmmHighPt_ZLight_janAngularOnly_8TeV
@@ -383,7 +363,7 @@ type = BDT
 
 
 [dc:Zbb_LowPt_ZH125_MM_8TeV_janAngularOnly]
-var = min(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|min_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZmmLowPt_Zbb_janAngularOnly_8TeV
@@ -395,25 +375,13 @@ type = cr
 
 
 [dc:RMed_DYJets_ZH125_MM_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZmmLowPt_DYJets_janAngularOnly_8TeV
 cut = RMed_DYJets_fit_MM
 signal = ZH125
 dcBin = ZmmLowPt_8TeV
-data = Zmm
-type = cr
-
-
-[dc:RMed_TTbar_ZH125_MM_8TeV_janAngularOnly]
-var = MET.et
-wsVarName = CMS_vhbb_BDT_Zll_8TeV
-range = <!LimitGeneral|METrange!>
-dcName = BDT_M125_ZmmLowPt_TTbar_janAngularOnly_8TeV
-cut = RMed_TTbar_fit_MM
-signal = ZH125
-dcBin = ZmmLowtPt_8TeV
 data = Zmm
 type = cr
 
@@ -431,7 +399,7 @@ type = BDT
 
 
 [dc:Zbb_LowPt_ZH125_EE_8TeV_janAngularOnly]
-var = min(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|min_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZeeLowPt_Zbb_janAngularOnly_8TeV
@@ -443,7 +411,7 @@ type = cr
 
 
 [dc:Zbb_ZH125_MM_8TeV_janAngularOnly]
-var = min(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|min_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZmmLowPt_Zbb_janAngularOnly_8TeV
@@ -455,7 +423,7 @@ type = cr
 
 
 [dc:Zbb_HighPt_ZH125_MM_8TeV_janAngularOnly]
-var = min(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|min_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZmmHighPt_Zbb_janAngularOnly_8TeV
@@ -515,7 +483,7 @@ type = BDT
 
 
 [dc:RMed_DYJets_ZH125_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZmmLowPt_DYJets_janAngularOnly_8TeV
@@ -527,7 +495,7 @@ type = cr
 
 
 [dc:RMed_TTbar_ZH125_8TeV_janAngularOnly]
-var = MET.et
+var = <!LimitGeneral|met!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|METrange!>
 dcName = BDT_M125_ZLowPt_TTbar_janAngularOnly_8TeV
@@ -539,7 +507,7 @@ type = cr
 
 
 [dc:RMed_DYJets_ZH125_EE_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZeeLowPt_DYJets_janAngularOnly_8TeV
@@ -551,7 +519,7 @@ type = cr
 
 
 [dc:RTight_ZLight_HighPt_ZH125_EE_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZeeHighPt_ZLight_janAngularOnly_8TeV
@@ -574,8 +542,19 @@ data = Zee
 type = BDT
 
 
+[dc:RMed_TTbar_ZH125_MM_8TeV_janAngularOnly]
+var = <!LimitGeneral|met!>
+wsVarName = CMS_vhbb_BDT_Zll_8TeV
+range = <!LimitGeneral|METrange!>
+dcName = BDT_M125_ZmmLowPt_TTbar_janAngularOnly_8TeV
+cut = RMed_TTbar_fit_MM
+signal = ZH125
+dcBin = ZmmLowtPt_8TeV
+data = Zmm
+type = cr
+
 [dc:RMed_TTbar_ZH125_EE_8TeV_janAngularOnly]
-var = MET.et
+var = <!LimitGeneral|met!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|METrange!>
 dcName = BDT_M125_ZeeLowPt_TTbar_janAngularOnly_8TeV
@@ -585,6 +564,29 @@ dcBin = ZeeLowPt_8TeV
 data = Zee
 type = cr
 
+#!! TTbar with a smaller Zmass window to allow more DYJets contamination
+[dc:RMed_TTbarOpen_ZH125_MM_8TeV_janAngularOnly]
+var = <!LimitGeneral|met!>
+wsVarName = CMS_vhbb_BDT_Zll_8TeV
+range = <!LimitGeneral|METrange!>
+dcName = BDT_M125_ZmmLowPt_TTbarOpen_janAngularOnly_8TeV
+cut = RMed_TTbarOpen_fit_MM
+signal = ZH125
+dcBin = ZmmLowtPt_8TeV
+data = Zmm
+type = cr
+
+#!! TTbar with a smaller Zmass window to allow more DYJets contamination
+[dc:RMed_TTbarOpen_ZH125_EE_8TeV_janAngularOnly]
+var = <!LimitGeneral|met!>
+wsVarName = CMS_vhbb_BDT_Zll_8TeV
+range = <!LimitGeneral|METrange!>
+dcName = BDT_M125_ZeeLowPt_TTbarOpen_janAngularOnly_8TeV
+cut = RMed_TTbarOpen_fit_EE
+signal = ZH125
+dcBin = ZeeLowPt_8TeV
+data = Zee
+type = cr
 
 [dc:ZLight_LowPt_RTight_ZH125_EE_8TeV_oct]
 var = RTight_ZH125_oct.nominal
@@ -623,7 +625,7 @@ type = BDT
 
 
 [dc:Zbb_ZH125_8TeV_janAngularOnly]
-var = min(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|min_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZLowPt_Zbb_janAngularOnly_8TeV
@@ -671,7 +673,7 @@ type = BDT
 
 
 [dc:RTight_ZLight_ZH125_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZHighPt_ZLight_janAngularOnly_8TeV
@@ -719,7 +721,7 @@ type = BDT
 
 
 [dc:RTight_ZLight_LowPt_ZH125_EE_8TeV_janAngularOnly]
-var = max(hJet_csv[0],hJet_csv[1])
+var = <!LimitGeneral|max_btag!>
 wsVarName = CMS_vhbb_BDT_Zll_8TeV
 range = <!LimitGeneral|btagrange!>
 dcName = BDT_M125_ZeeLowPt_ZLight_janAngularOnly_8TeV

@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 import os,sys
 from time import sleep
+import signal
+def signal_handler(signal, frame):
+        print 'ciao!'
+        sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+
 p = sys.argv
 p[0] = 'qstat'
 pj = ' '.join(p)

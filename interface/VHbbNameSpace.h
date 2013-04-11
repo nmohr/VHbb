@@ -271,17 +271,17 @@ namespace VHbb {
   double minCSVold(int EVENT_run, double hJet_csv0, double hJet_csv1, double hJet_csvOld0, double hJet_csvOld1){
 
     if( EVENT_run < 2 )
-      return min(hJet_csvOld0,hJet_csvOld1);
+      return std::min(hJet_csvOld0,hJet_csvOld1);
     else
-      return min(hJet_csv0,hJet_csv1);
+      return std::min(hJet_csv0,hJet_csv1);
   }
 
   double maxCSVold(int EVENT_run, double hJet_csv0, double hJet_csv1, double hJet_csvOld0, double hJet_csvOld1){
 
     if( EVENT_run < 2 )
-      return max(hJet_csvOld0,hJet_csvOld1);
+      return std::max(hJet_csvOld0,hJet_csvOld1);
     else
-      return max(hJet_csv0,hJet_csv1);
+      return std::max(hJet_csv0,hJet_csv1);
   }
 
 
@@ -294,6 +294,12 @@ namespace VHbb {
     if (corrBin > 94) corrBin = 94;
     double SF = 1.+hll8_contents[corrBin];
     return SF;
+  }
+  
+  double mueEff(int Vtype){
+      if (Vtype == 0) return 1.087;
+      if (Vtype == 1) return 0.974;
+      return 1.;
   }
 
 }
