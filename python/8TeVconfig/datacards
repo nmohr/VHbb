@@ -60,7 +60,7 @@ signal_inject: None
 #!! add signal als BKG, e.g. ZH125 (working?)
 add_signal_as_bkg: None
 #!! blind Data
-blind: True
+blind: False
 #!! toy Data
 toy: False
 
@@ -102,8 +102,11 @@ List = RTight_ZH125_EE_8TeV_janAngularOnly,RMed_ZH125_EE_8TeV_janAngularOnly,RTi
 
 InUse = ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK_8TeV','CMS_vhbb_boost_QCD_8TeV','CMS_vhbb_ST','CMS_vhbb_VV','CMS_vhbb_eff_e_8TeV','CMS_vhbb_eff_m_8TeV']
 
-InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_HighPt_8TeV','CMS_vhbb_Zj1b_SF_Zll_HighPt_8TeV','CMS_vhbb_Zj0b_SF_Zll_HighPt_8TeV','CMS_vhbb_TT_SF_Zll_HighPt_8TeV']
-InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_LowPt_8TeV','CMS_vhbb_Zj1b_SF_Zll_LowPt_8TeV','CMS_vhbb_Zj0b_SF_Zll_LowPt_8TeV','CMS_vhbb_TT_SF_Zll_LowPt_8TeV']
+#InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_HighPt_8TeV','CMS_vhbb_Zj1b_SF_Zll_HighPt_8TeV','CMS_vhbb_Zj0b_SF_Zll_HighPt_8TeV','CMS_vhbb_TT_SF_Zll_HighPt_8TeV']
+#InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_LowPt_8TeV','CMS_vhbb_Zj1b_SF_Zll_LowPt_8TeV','CMS_vhbb_Zj0b_SF_Zll_LowPt_8TeV','CMS_vhbb_TT_SF_Zll_LowPt_8TeV']
+
+InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_8TeV','CMS_vhbb_Zj1b_SF_Zll_8TeV','CMS_vhbb_Zj0b_SF_Zll_8TeV','CMS_vhbb_TT_SF_Zll_8TeV']
+InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_8TeV','CMS_vhbb_Zj1b_SF_Zll_8TeV','CMS_vhbb_Zj0b_SF_Zll_8TeV','CMS_vhbb_TT_SF_Zll_8TeV']
 InUse_HighPtLooseBTag = <!Datacard|InUse!> 
 
 lumi_7TeV = {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022,'VVlight':1.022,'VVb':1.022}
@@ -123,13 +126,13 @@ CMS_vhbb_VV = {'type':'lnN', 'VVlight':1.15, 'VVb':1.15}
 CMS_vhbb_ZjLF_ex = {'type':'lnN', 'DYlight':1.05}
 CMS_vhbb_ZjHF_ex = {'type':'lnN', 'DYb':1.05}
 CMS_vhbb_TT_ex = {'type':'lnN', 'TT':1.05}
-CMS_vhbb_eff_e_8TeV = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
+#CMS_vhbb_eff_e_8TeV = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
 CMS_trigger_e = {'type':'lnN','ZH':1.02,'ZH125':1.02,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04,'ST':1.02,'VVlight':1.02 ,'VVb':1.02}
-CMS_eff_e_ = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
+CMS_vhbb_eff_e_8TeV = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
 CMS_trigger_e_ = {'type':'lnN','ZH':1.02,'ZH125':1.02,'ST':1.02,'VVlight':1.02 ,'VVb':1.02}
-CMS_vhbb_eff_m_8TeV = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
+#CMS_vhbb_eff_m_8TeV = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
 CMS_trigger_m = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04,'ST':1.01,'VVlight':1.01,'VVb':1.01 }
-CMS_eff_m_ = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
+CMS_vhbb_eff_m_8TeV = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
 CMS_trigger_m_ = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'ST':1.01,'VVlight':1.01,'VVb':1.01 }
 
 CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV = {'type':'lnN', 'DYlight':1.20}
@@ -143,6 +146,10 @@ CMS_vhbb_ZjHF_Zll_exLowPt_8TeV = {'type':'lnN', 'DY1b':1.02, 'DY2b':1.02}
 CMS_vhbb_TT_Zll_exLowPt_8TeV = {'type':'lnN', 'TT':1.02}
 
 #!! splitting 1b / 2b
+CMS_vhbb_Zj0b_SF_Zll_8TeV: {'type':'lnN', 'DYlight':1.04}
+CMS_vhbb_Zj1b_SF_Zll_8TeV: {'type':'lnN', 'DY1b':1.07}
+CMS_vhbb_Zj2b_SF_Zll_8TeV: {'type':'lnN', 'DY2b':1.10}
+CMS_vhbb_TT_SF_Zll_8TeV: {'type':'lnN', 'TT':1.05} 
 CMS_vhbb_Zj0b_SF_Zll_HighPt_8TeV: {'type':'lnN', 'DYlight':1.04}
 CMS_vhbb_Zj1b_SF_Zll_HighPt_8TeV: {'type':'lnN', 'DY1b':1.07}
 CMS_vhbb_Zj2b_SF_Zll_HighPt_8TeV: {'type':'lnN', 'DY2b':1.10}
