@@ -5,6 +5,7 @@
 #!! Variables and values definition
 #!! --------------------------------
 CSVT = 0.898
+CSVM = 0.679
 CSVC = 0.5
 CSVL = 0.244
 minBtag = min(hJet_csv[0],hJet_csv[1])
@@ -16,6 +17,7 @@ maxBtag = max(hJet_csv[0],hJet_csv[1])
 tcBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 ccBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVC!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 tlBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVT!> & <!ZHbb|minBtag!> > <!ZHbb|CSVL!>
+mcBtag = <!ZHbb|maxBtag!> > <!ZHbb|CSVM!> & <!ZHbb|minBtag!> > <!ZHbb|CSVC!>
 ntBtag = !(hJet_csv[0] > <!ZHbb|CSVT!> | hJet_csv[1] > <!ZHbb|CSVT!>)
 twoCSV0 = hJet_csv[0] > 0. & hJet_csv[1] > 0. 
 30jets = hJet_pt[0] > 30. & hJet_pt[1] > 30.
@@ -298,14 +300,17 @@ ATLAS_Mjj_pt200_Zmm =    <!Cuts|ATLAS_Mjj_pt200!>    & <!ZHmmbb|addCuts!>
 #!! ------------
 #!! new Mjj 
 #!! ------------
-Mjj_selection: <!ZHbb|preselection!> & <!ZHbb|ccBtag!> & <!ZHbb|zWindow!> & MET.et < 60. & <!ZHbb|upperHMass!>
-Mjj_pt70 = <!Cuts|Mjj_selection!> & V.pt <= 70. & H.dR > 1.2
-Mjj_pt70150 = <!Cuts|Mjj_selection!> & V.pt > 70.  & V.pt <= 150.
+Mjj_selection: <!ZHbb|preselection!> & <!ZHbb|mcBtag!> & <!ZHbb|zWindow!> & MET.et < 60. & <!ZHbb|upperHMass!>
+#Mjj_pt70 = <!Cuts|Mjj_selection!> & V.pt <= 70. & H.dR > 1.2
+#Mjj_pt70150 = <!Cuts|Mjj_selection!> & V.pt > 70.  & V.pt <= 150.
+#Mjj_pt150 = <!Cuts|Mjj_selection!> & V.pt > 150. & H.dR < 1.6
+Mjj_pt100 = <!Cuts|Mjj_selection!> & V.pt > 50. & V.pt <= 100.
+Mjj_pt100150 = <!Cuts|Mjj_selection!> & V.pt > 100.  & V.pt <= 150.
 Mjj_pt150 = <!Cuts|Mjj_selection!> & V.pt > 150. & H.dR < 1.6
-Mjj_pt70_Zee =    <!Cuts|Mjj_pt70!>  & <!ZHeebb|addCuts!>
-Mjj_pt70_Zmm =    <!Cuts|Mjj_pt70!>  & <!ZHmmbb|addCuts!>
-Mjj_pt70150_Zee =    <!Cuts|Mjj_pt70150!>  & <!ZHeebb|addCuts!>
-Mjj_pt70150_Zmm =    <!Cuts|Mjj_pt70150!>  & <!ZHmmbb|addCuts!>
+Mjj_pt100_Zee =    <!Cuts|Mjj_pt100!>  & <!ZHeebb|addCuts!>
+Mjj_pt100_Zmm =    <!Cuts|Mjj_pt100!>  & <!ZHmmbb|addCuts!>
+Mjj_pt100150_Zee =    <!Cuts|Mjj_pt100150!>  & <!ZHeebb|addCuts!>
+Mjj_pt100150_Zmm =    <!Cuts|Mjj_pt100150!>  & <!ZHmmbb|addCuts!>
 Mjj_pt150_Zee =    <!Cuts|Mjj_pt150!>  & <!ZHeebb|addCuts!>
 Mjj_pt150_Zmm =    <!Cuts|Mjj_pt150!>  & <!ZHmmbb|addCuts!>
 

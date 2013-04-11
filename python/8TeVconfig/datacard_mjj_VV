@@ -84,7 +84,7 @@ systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS
 #!! to be processed in batch mode
 #!! --------------------------------------
 
-List = Mjj_pt70_ZZbb_EE,Mjj_pt70_ZZbb_MM,Mjj_pt70150_ZZbb_EE,Mjj_pt70150_ZZbb_MM,Mjj_pt150_ZZbb_EE,Mjj_pt150_ZZbb_MM 
+List = Mjj_pt100_ZZbb_EE,Mjj_pt100_ZZbb_MM,Mjj_pt100150_ZZbb_EE,Mjj_pt100150_ZZbb_MM,Mjj_pt150_ZZbb_EE,Mjj_pt150_ZZbb_MM 
 
 #!! --------------------------------------
 #!! Datacards specif setup
@@ -142,45 +142,45 @@ CMS_vhbb_TT_Zll_SF_8TeV: {'type':'lnN', 'TT':1.05}
 #!! -------------------------
 #!! Limit definitions
 #!! -------------------------
-[dc:Mjj_pt70_ZZbb_EE]
+[dc:Mjj_pt100_ZZbb_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_ZZbb_ZeeLowPt_8TeV
-cut = Mjj_pt70_Zee
+cut = Mjj_pt100_Zee
 signal = ZH125
 dcBin = ZeeLowPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70_ZZbb_MM]
+[dc:Mjj_pt100_ZZbb_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_ZZbb_ZmmLowPt_8TeV
-cut = Mjj_pt70_Zmm
+cut = Mjj_pt100_Zmm
 signal = ZH125
 dcBin = ZmmLowPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70150_ZZbb_EE]
+[dc:Mjj_pt100150_ZZbb_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_ZZbb_ZeeMedPt_8TeV
-cut = Mjj_pt70150_Zee
+cut = Mjj_pt100150_Zee
 signal = ZH125
 dcBin = ZeeMedPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70150_ZZbb_MM]
+[dc:Mjj_pt100150_ZZbb_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_ZZbb_ZmmMedPt_8TeV
-cut = Mjj_pt70150_Zmm
+cut = Mjj_pt100150_Zmm
 signal = ZH125
 dcBin = ZmmMedPt_8TeV
 data = Zmm
@@ -209,11 +209,11 @@ data = Zmm
 type = Mjj
 
 
-Mjj_pt70_ZZbb_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZeeLowPt_8TeV,Mjj_pt70_Zee,Mjj_pt70_Zee,ZH125,Zee,Mjj
-Mjj_pt70150_ZZbb_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZeeMedPt_8TeV,Mjj_pt70150_Zee,Mjj_pt70150_Zee,ZH125,Zee,Mjj
+Mjj_pt100_ZZbb_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZeeLowPt_8TeV,Mjj_pt100_Zee,Mjj_pt100_Zee,ZH125,Zee,Mjj
+Mjj_pt100150_ZZbb_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZeeMedPt_8TeV,Mjj_pt100150_Zee,Mjj_pt100150_Zee,ZH125,Zee,Mjj
 Mjj_pt150_ZZbb_EE: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZeeHighPt_8TeV,Mjj_pt150_Zee,Mjj_pt150_Zee,ZH125,Zee,Mjj
 
-Mjj_pt70_ZZbb_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZmmLowPt_8TeV,Mjj_pt70_Zmm,Mjj_pt70_Zmm,ZH125,Zmm,Mjj
-Mjj_pt70150_ZZbb_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZmmMedPt_8TeV,Mjj_pt70150_Zmm,Mjj_pt70150_Zmm,ZH125,Zmm,Mjj
+Mjj_pt100_ZZbb_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZmmLowPt_8TeV,Mjj_pt100_Zmm,Mjj_pt100_Zmm,ZH125,Zmm,Mjj
+Mjj_pt100150_ZZbb_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZmmMedPt_8TeV,Mjj_pt100150_Zmm,Mjj_pt100150_Zmm,ZH125,Zmm,Mjj
 Mjj_pt150_ZZbb_MM: H.mass,Mjj,Mjj,<!LimitGeneral|Mjjrange!>,MJJ_ZZbb_ZmmHighPt_8TeV,Mjj_pt150_Zmm,Mjj_pt150_Zmm,ZH125,Zmm,Mjj
 

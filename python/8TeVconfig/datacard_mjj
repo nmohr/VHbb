@@ -42,7 +42,7 @@ weightF_sys = ['weightF_sys','weightF_QCD']
 #!! Example of sample systematic, in this case the ZZ sample is replaced by WZ
 #addSample_sys = {'ZZ-light':'AltZZ-light','ZZ-bb':'AltZZ-bb','WZ':'AltWZ'}
 #addBlindingCut = (H.mass > 145. || H.mass < 90.)
-
+addBlindingCut = (max(hJet_csv[0],hJet_csv[1])>0.679)
 
 #!! --------------------------------------
 #!! Options
@@ -60,7 +60,7 @@ add_signal_as_bkg: None
 #!! blind Data
 blind: False
 #!! toy Data
-toy: False
+toy: True
 
 #!! --------------------------------------
 #!! Samples
@@ -85,8 +85,8 @@ systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS
 #!! to be processed in batch mode
 #!! --------------------------------------
 
-#List = Mjj_pt70_ZH125_EE,Mjj_pt70_ZH125_MM,Mjj_pt70150_ZH125_EE,Mjj_pt70150_ZH125_MM,Mjj_pt150_ZH125_EE,Mjj_pt150_ZH125_MM 
-List = Mjj_pt70_ZH125_EE,Mjj_pt70_ZH125_MM,Mjj_pt70150_ZH125_EE,Mjj_pt70150_ZH125_MM,Mjj_pt150_ZH125_EE,Mjj_pt150_ZH125_MM,Mjj_pt70_ZH130_EE,Mjj_pt70_ZH130_MM,Mjj_pt70150_ZH130_EE,Mjj_pt70150_ZH130_MM,Mjj_pt150_ZH130_EE,Mjj_pt150_ZH130_MM,Mjj_pt70_ZH135_EE,Mjj_pt70_ZH135_MM,Mjj_pt70150_ZH135_EE,Mjj_pt70150_ZH135_MM,Mjj_pt150_ZH135_EE,Mjj_pt150_ZH135_MM,Mjj_pt70_ZH140_EE,Mjj_pt70_ZH140_MM,Mjj_pt70150_ZH140_EE,Mjj_pt70150_ZH140_MM,Mjj_pt150_ZH140_EE,Mjj_pt150_ZH140_MM,Mjj_pt70_ZH145_EE,Mjj_pt70_ZH145_MM,Mjj_pt70150_ZH145_EE,Mjj_pt70150_ZH145_MM,Mjj_pt150_ZH145_EE,Mjj_pt150_ZH145_MM,Mjj_pt70_ZH150_EE,Mjj_pt70_ZH150_MM,Mjj_pt70150_ZH150_EE,Mjj_pt70150_ZH150_MM,Mjj_pt150_ZH150_EE,Mjj_pt150_ZH150_MM,Mjj_pt70_ZH120_EE,Mjj_pt70_ZH120_MM,Mjj_pt70150_ZH120_EE,Mjj_pt70150_ZH120_MM,Mjj_pt150_ZH120_EE,Mjj_pt150_ZH120_MM,Mjj_pt70_ZH115_EE,Mjj_pt70_ZH115_MM,Mjj_pt70150_ZH115_EE,Mjj_pt70150_ZH115_MM,Mjj_pt150_ZH115_EE,Mjj_pt150_ZH115_MM,Mjj_pt70_ZH110_EE,Mjj_pt70_ZH110_MM,Mjj_pt70150_ZH110_EE,Mjj_pt70150_ZH110_MM,Mjj_pt150_ZH110_EE,Mjj_pt150_ZH110_MM 
+#List = Mjj_pt100_ZH125_EE,Mjj_pt100_ZH125_MM,Mjj_pt100150_ZH125_EE,Mjj_pt100150_ZH125_MM,Mjj_pt150_ZH125_EE,Mjj_pt150_ZH125_MM 
+List = Mjj_pt100_ZH125_EE,Mjj_pt100_ZH125_MM,Mjj_pt100150_ZH125_EE,Mjj_pt100150_ZH125_MM,Mjj_pt150_ZH125_EE,Mjj_pt150_ZH125_MM,Mjj_pt100_ZH130_EE,Mjj_pt100_ZH130_MM,Mjj_pt100150_ZH130_EE,Mjj_pt100150_ZH130_MM,Mjj_pt150_ZH130_EE,Mjj_pt150_ZH130_MM,Mjj_pt100_ZH135_EE,Mjj_pt100_ZH135_MM,Mjj_pt100150_ZH135_EE,Mjj_pt100150_ZH135_MM,Mjj_pt150_ZH135_EE,Mjj_pt150_ZH135_MM,Mjj_pt100_ZH140_EE,Mjj_pt100_ZH140_MM,Mjj_pt100150_ZH140_EE,Mjj_pt100150_ZH140_MM,Mjj_pt150_ZH140_EE,Mjj_pt150_ZH140_MM,Mjj_pt100_ZH145_EE,Mjj_pt100_ZH145_MM,Mjj_pt100150_ZH145_EE,Mjj_pt100150_ZH145_MM,Mjj_pt150_ZH145_EE,Mjj_pt150_ZH145_MM,Mjj_pt100_ZH150_EE,Mjj_pt100_ZH150_MM,Mjj_pt100150_ZH150_EE,Mjj_pt100150_ZH150_MM,Mjj_pt150_ZH150_EE,Mjj_pt150_ZH150_MM,Mjj_pt100_ZH120_EE,Mjj_pt100_ZH120_MM,Mjj_pt100150_ZH120_EE,Mjj_pt100150_ZH120_MM,Mjj_pt150_ZH120_EE,Mjj_pt150_ZH120_MM,Mjj_pt100_ZH115_EE,Mjj_pt100_ZH115_MM,Mjj_pt100150_ZH115_EE,Mjj_pt100150_ZH115_MM,Mjj_pt150_ZH115_EE,Mjj_pt150_ZH115_MM,Mjj_pt100_ZH110_EE,Mjj_pt100_ZH110_MM,Mjj_pt100150_ZH110_EE,Mjj_pt100150_ZH110_MM,Mjj_pt150_ZH110_EE,Mjj_pt150_ZH110_MM 
 
 #!! --------------------------------------
 #!! Datacards specif setup
@@ -145,45 +145,45 @@ CMS_vhbb_TT_Zll_SF_8TeV: {'type':'lnN', 'TT':1.05}
 #!! Limit definitions
 #!! -------------------------
 
-[dc:Mjj_pt70_ZH125_EE]
+[dc:Mjj_pt100_ZH125_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M125_ZeeLowPt_8TeV
-cut = Mjj_pt70_Zee
+cut = Mjj_pt100_Zee
 signal = ZH125
 dcBin = ZeeLowPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70_ZH125_MM]
+[dc:Mjj_pt100_ZH125_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M125_ZmmLowPt_8TeV
-cut = Mjj_pt70_Zmm
+cut = Mjj_pt100_Zmm
 signal = ZH125
 dcBin = ZmmLowPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70150_ZH125_EE]
+[dc:Mjj_pt100150_ZH125_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M125_ZeeMedPt_8TeV
-cut = Mjj_pt70150_Zee
+cut = Mjj_pt100150_Zee
 signal = ZH125
 dcBin = ZeeMedPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70150_ZH125_MM]
+[dc:Mjj_pt100150_ZH125_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M125_ZmmMedPt_8TeV
-cut = Mjj_pt70150_Zmm
+cut = Mjj_pt100150_Zmm
 signal = ZH125
 dcBin = ZmmMedPt_8TeV
 data = Zmm
@@ -211,45 +211,45 @@ dcBin = ZmmHighPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70_ZH130_EE]
+[dc:Mjj_pt100_ZH130_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M130_ZeeLowPt_8TeV
-cut = Mjj_pt70_Zee
+cut = Mjj_pt100_Zee
 signal = ZH130
 dcBin = ZeeLowPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70_ZH130_MM]
+[dc:Mjj_pt100_ZH130_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M130_ZmmLowPt_8TeV
-cut = Mjj_pt70_Zmm
+cut = Mjj_pt100_Zmm
 signal = ZH130
 dcBin = ZmmLowPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70150_ZH130_EE]
+[dc:Mjj_pt100150_ZH130_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M130_ZeeMedPt_8TeV
-cut = Mjj_pt70150_Zee
+cut = Mjj_pt100150_Zee
 signal = ZH130
 dcBin = ZeeMedPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70150_ZH130_MM]
+[dc:Mjj_pt100150_ZH130_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M130_ZmmMedPt_8TeV
-cut = Mjj_pt70150_Zmm
+cut = Mjj_pt100150_Zmm
 signal = ZH130
 dcBin = ZmmMedPt_8TeV
 data = Zmm
@@ -277,45 +277,45 @@ dcBin = ZmmHighPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70_ZH135_EE]
+[dc:Mjj_pt100_ZH135_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M135_ZeeLowPt_8TeV
-cut = Mjj_pt70_Zee
+cut = Mjj_pt100_Zee
 signal = ZH135
 dcBin = ZeeLowPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70_ZH135_MM]
+[dc:Mjj_pt100_ZH135_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M135_ZmmLowPt_8TeV
-cut = Mjj_pt70_Zmm
+cut = Mjj_pt100_Zmm
 signal = ZH135
 dcBin = ZmmLowPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70150_ZH135_EE]
+[dc:Mjj_pt100150_ZH135_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M135_ZeeMedPt_8TeV
-cut = Mjj_pt70150_Zee
+cut = Mjj_pt100150_Zee
 signal = ZH135
 dcBin = ZeeMedPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70150_ZH135_MM]
+[dc:Mjj_pt100150_ZH135_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M135_ZmmMedPt_8TeV
-cut = Mjj_pt70150_Zmm
+cut = Mjj_pt100150_Zmm
 signal = ZH135
 dcBin = ZmmMedPt_8TeV
 data = Zmm
@@ -343,45 +343,45 @@ dcBin = ZmmHighPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70_ZH140_EE]
+[dc:Mjj_pt100_ZH140_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M140_ZeeLowPt_8TeV
-cut = Mjj_pt70_Zee
+cut = Mjj_pt100_Zee
 signal = ZH140
 dcBin = ZeeLowPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70_ZH140_MM]
+[dc:Mjj_pt100_ZH140_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M140_ZmmLowPt_8TeV
-cut = Mjj_pt70_Zmm
+cut = Mjj_pt100_Zmm
 signal = ZH140
 dcBin = ZmmLowPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70150_ZH140_EE]
+[dc:Mjj_pt100150_ZH140_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M140_ZeeMedPt_8TeV
-cut = Mjj_pt70150_Zee
+cut = Mjj_pt100150_Zee
 signal = ZH140
 dcBin = ZeeMedPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70150_ZH140_MM]
+[dc:Mjj_pt100150_ZH140_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M140_ZmmMedPt_8TeV
-cut = Mjj_pt70150_Zmm
+cut = Mjj_pt100150_Zmm
 signal = ZH140
 dcBin = ZmmMedPt_8TeV
 data = Zmm
@@ -409,45 +409,45 @@ dcBin = ZmmHighPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70_ZH145_EE]
+[dc:Mjj_pt100_ZH145_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M145_ZeeLowPt_8TeV
-cut = Mjj_pt70_Zee
+cut = Mjj_pt100_Zee
 signal = ZH145
 dcBin = ZeeLowPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70_ZH145_MM]
+[dc:Mjj_pt100_ZH145_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M145_ZmmLowPt_8TeV
-cut = Mjj_pt70_Zmm
+cut = Mjj_pt100_Zmm
 signal = ZH145
 dcBin = ZmmLowPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70150_ZH145_EE]
+[dc:Mjj_pt100150_ZH145_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M145_ZeeMedPt_8TeV
-cut = Mjj_pt70150_Zee
+cut = Mjj_pt100150_Zee
 signal = ZH145
 dcBin = ZeeMedPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70150_ZH145_MM]
+[dc:Mjj_pt100150_ZH145_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M145_ZmmMedPt_8TeV
-cut = Mjj_pt70150_Zmm
+cut = Mjj_pt100150_Zmm
 signal = ZH145
 dcBin = ZmmMedPt_8TeV
 data = Zmm
@@ -475,45 +475,45 @@ dcBin = ZmmHighPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70_ZH150_EE]
+[dc:Mjj_pt100_ZH150_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M150_ZeeLowPt_8TeV
-cut = Mjj_pt70_Zee
+cut = Mjj_pt100_Zee
 signal = ZH150
 dcBin = ZeeLowPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70_ZH150_MM]
+[dc:Mjj_pt100_ZH150_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M150_ZmmLowPt_8TeV
-cut = Mjj_pt70_Zmm
+cut = Mjj_pt100_Zmm
 signal = ZH150
 dcBin = ZmmLowPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70150_ZH150_EE]
+[dc:Mjj_pt100150_ZH150_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M150_ZeeMedPt_8TeV
-cut = Mjj_pt70150_Zee
+cut = Mjj_pt100150_Zee
 signal = ZH150
 dcBin = ZeeMedPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70150_ZH150_MM]
+[dc:Mjj_pt100150_ZH150_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M150_ZmmMedPt_8TeV
-cut = Mjj_pt70150_Zmm
+cut = Mjj_pt100150_Zmm
 signal = ZH150
 dcBin = ZmmMedPt_8TeV
 data = Zmm
@@ -541,45 +541,45 @@ dcBin = ZmmHighPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70_ZH120_EE]
+[dc:Mjj_pt100_ZH120_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M120_ZeeLowPt_8TeV
-cut = Mjj_pt70_Zee
+cut = Mjj_pt100_Zee
 signal = ZH120
 dcBin = ZeeLowPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70_ZH120_MM]
+[dc:Mjj_pt100_ZH120_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M120_ZmmLowPt_8TeV
-cut = Mjj_pt70_Zmm
+cut = Mjj_pt100_Zmm
 signal = ZH120
 dcBin = ZmmLowPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70150_ZH120_EE]
+[dc:Mjj_pt100150_ZH120_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M120_ZeeMedPt_8TeV
-cut = Mjj_pt70150_Zee
+cut = Mjj_pt100150_Zee
 signal = ZH120
 dcBin = ZeeMedPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70150_ZH120_MM]
+[dc:Mjj_pt100150_ZH120_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M120_ZmmMedPt_8TeV
-cut = Mjj_pt70150_Zmm
+cut = Mjj_pt100150_Zmm
 signal = ZH120
 dcBin = ZmmMedPt_8TeV
 data = Zmm
@@ -607,45 +607,45 @@ dcBin = ZmmHighPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70_ZH115_EE]
+[dc:Mjj_pt100_ZH115_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M115_ZeeLowPt_8TeV
-cut = Mjj_pt70_Zee
+cut = Mjj_pt100_Zee
 signal = ZH115
 dcBin = ZeeLowPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70_ZH115_MM]
+[dc:Mjj_pt100_ZH115_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M115_ZmmLowPt_8TeV
-cut = Mjj_pt70_Zmm
+cut = Mjj_pt100_Zmm
 signal = ZH115
 dcBin = ZmmLowPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70150_ZH115_EE]
+[dc:Mjj_pt100150_ZH115_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M115_ZeeMedPt_8TeV
-cut = Mjj_pt70150_Zee
+cut = Mjj_pt100150_Zee
 signal = ZH115
 dcBin = ZeeMedPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70150_ZH115_MM]
+[dc:Mjj_pt100150_ZH115_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M115_ZmmMedPt_8TeV
-cut = Mjj_pt70150_Zmm
+cut = Mjj_pt100150_Zmm
 signal = ZH115
 dcBin = ZmmMedPt_8TeV
 data = Zmm
@@ -673,45 +673,45 @@ dcBin = ZmmHighPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70_ZH110_EE]
+[dc:Mjj_pt100_ZH110_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M110_ZeeLowPt_8TeV
-cut = Mjj_pt70_Zee
+cut = Mjj_pt100_Zee
 signal = ZH110
 dcBin = ZeeLowPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70_ZH110_MM]
+[dc:Mjj_pt100_ZH110_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M110_ZmmLowPt_8TeV
-cut = Mjj_pt70_Zmm
+cut = Mjj_pt100_Zmm
 signal = ZH110
 dcBin = ZmmLowPt_8TeV
 data = Zmm
 type = Mjj
 
-[dc:Mjj_pt70150_ZH110_EE]
+[dc:Mjj_pt100150_ZH110_EE]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M110_ZeeMedPt_8TeV
-cut = Mjj_pt70150_Zee
+cut = Mjj_pt100150_Zee
 signal = ZH110
 dcBin = ZeeMedPt_8TeV
 data = Zee
 type = Mjj
 
-[dc:Mjj_pt70150_ZH110_MM]
+[dc:Mjj_pt100150_ZH110_MM]
 var = H.mass
 wsVarName = <!LimitGeneral|Mjjoutname!>
 range = <!LimitGeneral|Mjjrange!>
 dcName = MJJ_M110_ZmmMedPt_8TeV
-cut = Mjj_pt70150_Zmm
+cut = Mjj_pt100150_Zmm
 signal = ZH110
 dcBin = ZmmMedPt_8TeV
 data = Zmm
