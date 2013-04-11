@@ -77,7 +77,7 @@ Group = <!Samples|Group!>
 #!! naming of processes
 Dict = {'ZH':'ZH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','TT':'TT','ST':'s_Top','VVb':'VVHF','VVlight':'VVLF','Data':'data_obs','ZH125':'H125'}
 #!! naming of systematics
-systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff_b_SIG','stats': 'CMS_vhbb_stats','weightF_sys':'UEPS','weightF_QCD':'CMS_vhbb_boost_QCD','model':'CMS_vhbb_model'}
+systematicsnaming = {'JER':'CMS_vhbb_Zll_res_j','JES':'CMS_vhbb_Zll_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff_b_SIG','stats': 'CMS_vhbb_stats','weightF_sys':'UEPS','weightF_QCD':'CMS_vhbb_boost_QCD','model':'CMS_vhbb_model'}
 
 
 #!! --------------------------------------

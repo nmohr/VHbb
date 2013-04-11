@@ -26,8 +26,8 @@ rebin_active = False
 #!! --------------------------------------
 #!! Systematics
 #!! --------------------------------------
-sys_BDT = ['JER','JES','beff','bmis','beff1']
-sys_Mjj = ['JER','JES','beff','bmis','beff1']
+sys_BDT = ['JER','JES','beff','bmis']
+sys_Mjj = ['JER','JES','beff','bmis']
 #!! systematics for the control region fit
 sys_cr = ['beff','bmis','beff1']
 #!! configuration of systematics effects and behaviour
@@ -36,7 +36,7 @@ sys_affecting = {'JER':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125'
 #!! Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
 sys_cut_suffix = {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?','beff1':'csv>csv?'}
 #sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal','beff1':'nominal'}
-sys_cut_include = ['ZH','VV','ST','ZZ-bb']
+sys_cut_include = ['ZH','VVlight','ST','VVb']
 #!! UEPS
 weightF_sys = ['weightF_sys']
 #!! Example of sample systematic, in this case the ZZ sample is replaced by WZ
@@ -78,7 +78,7 @@ Group = <!Samples|Group!>
 #!! naming of processes
 Dict = {'ZH':'ZH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','TT':'TT','ST':'s_Top','VVb':'VVHF','VVlight':'VVLF','Data':'data_obs','ZH125':'H125'}
 #!! naming of systematics
-systematicsnaming = {'JER':'CMS_vhbb_res_j','JES':'CMS_vhbb_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff_b_SIG','stats': 'CMS_vhbb_stats','weightF_sys':'UEPS','weightF_QCD':'CMS_vhbb_boost_QCD','model':'CMS_vhbb_model'}
+systematicsnaming = {'JER':'CMS_vhbb_Zll_res_j','JES':'CMS_vhbb_Zll_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff_b_SIG','stats': 'CMS_vhbb_stats','weightF_sys':'UEPS','weightF_QCD':'CMS_vhbb_boost_QCD','model':'CMS_vhbb_model'}
 
 
 #!! --------------------------------------
