@@ -96,6 +96,7 @@ blind=eval(config.get('LimitGeneral','blind'))
 addBlindingCut = None
 if config.has_option('LimitGeneral','addBlindingCut'):
     addBlindingCut = config.get('LimitGeneral','addBlindingCut')
+    print 'adding add. blinding cut'
 #change nominal shapes by syst
 change_shapes = None
 if config.has_option('LimitGeneral','change_shapes'):
@@ -260,7 +261,10 @@ for job in all_samples:
     print '\t- %s'%job
     if not GroupDict[job.name] in sys_cut_include:
         # manual overwrite
-        all_histos[job.name] = mc_hMaker.get_histos_from_tree(job,treecut)
+        if addBlindingCut:
+            all_histos[job.name] = mc_hMaker.get_histos_from_tree(job,treecut+'& %s'%addBlindingCut)
+        else:
+            all_histos[job.name] = mc_hMaker.get_histos_from_tree(job,treecut)
     else:
         all_histos[job.name] = mc_hMaker.get_histos_from_tree(job)
 
