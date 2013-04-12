@@ -196,7 +196,7 @@ output.Write()
 #training performance parameters
 
 #output.ls()
-output.cd('Method_BDT')
+output.cd('Method_%s'%MVAtype)
 #ROOT.gDirectory.ls()
 ROOT.gDirectory.cd(MVAname)
 
