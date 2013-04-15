@@ -296,9 +296,18 @@ namespace VHbb {
     return SF;
   }
   
-  double mueEff(int Vtype){
-      if (Vtype == 0) return 1.087;
-      if (Vtype == 1) return 0.974;
+  double mueEff(int Vtype, double eta0, double eta1, double pt0, double pt1){
+      if (Vtype == 0) return 1.;
+      if (Vtype == 1) {
+            double corr = 1.0;
+            if (abs(eta0) < 1.3) corr*=0.95;
+            if (abs(eta1) < 1.3) corr*=0.95;
+            if (min(pt0,pt1) < 25.) corr*=0.6;
+            else if (min(pt0,pt1) < 30.) corr*=0.8;
+            // scale to lumi ABC/D
+            corr = 1.-(1.-corr)*6.9/12.1;
+            return corr;
+      }
       return 1.;
   }
 
