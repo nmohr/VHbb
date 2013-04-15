@@ -31,6 +31,11 @@ addOverFlow = True
 #!! List of regions to be submitted
 List: HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,ZLight_HighPt_Zee,ZLight_HighPt_Zmm,ZLight_HighPt,TTbar_Zmm,TTbar_Zee,TTbar,Zbb,Zbb_Zmm,Zbb_Zee,Zbb_BalanceNoReg,Zbb_Balance,VLowPt_Zee,VLowPt_Zmm,VLowPt,RTight_TTbar_fit_EE,RTight_TTbar_fit_MM,RTight_TTbar_fit,Zbb_beforeReg,TTbar_beforeReg,ZLight_HighPt_beforeReg,RTight_DYJets_fit_EE,RTight_DYJets_fit_MM,RTight_DYJets_fit,RMed_DYJets_fit_EE,RMed_DYJets_fit_MM,RMed_DYJets_fit,Zbb_vtx,TTbar_vtx,TTbar_soft,Zbb_soft
 
+#12.1 fb
+#addBlindingCut = EVENT.run < 203002
+#run D
+#addBlindingCut = (EVENT.run > 203002 || EVENT.run == 1)
+
 #!! Splitting electorn/muons/combined following the scale factors
 
 #!! Electrons
@@ -41,6 +46,7 @@ List: HighPt_Zee,HighPt_Zmm,LowPt_Zee,LowPt_Zmm,ZLight_HighPt_Zee,ZLight_HighPt_
 #!! Combined regions
 #List: Zbb,ZLight_HighPt,TTbar,TTbar_vtx,TTbar_soft,Zbb_soft
 
+List: ZLight_HighPt_Zee,ZLight_HighPt_Zmm,TTbar_Zmm,TTbar_Zee,TTbar,Zbb,Zbb_Zmm,Zbb_Zee
 #!! SV plots
 #List: RTight_TTbar_fit_SV,RMed_TTbar_fit_SV,RTight_DYJets_fit_SV,RMed_DYJets_fit_SV,TTbar_fit_SV,DYJets_fit_SV,RTight_Z1b_SV,RTight_TTbar_fit_SV_EE,RTight_TTbar_fit_SV_MM,RMed_TTbar_fit_SV_EE,RMed_TTbar_fit_SV_MM,RTight_DYJets_fit_SV_EE,RTight_DYJets_fit_SV_MM,RMed_DYJets_fit_SV_EE,RMed_DYJets_fit_SV_MM,TTbar_fit_SV_EE,TTbar_fit_SV_MM,DYJets_fit_SV_EE,DYJets_fit_SV_MM,RTight_Z1b_SV_EE,RTight_Z1b_SV_MM,RTight_Z1b_SV_dR1,RTight_Z1b_SV_dR5,RTight_DYJets_fit_SV_dR5,RMed_DYJets_fit_SV_dR5,RTight_DYJets_fit_SV_dR1,RMed_DYJets_fit_SV_gs,RTight_DYJets_fit_SV_gs,RTight_Z1b_SV_gs
 
@@ -52,7 +58,7 @@ leptons_var: vLepton_ptMax,vLepton_ptMin,vLepton_pfCombRelIsoMax,vLepton_pfCombR
 IVF_vars: SVHdR,SVHdPhi,SVHmass,SVHpt,IVF_ptMax,IVF_ptMin
 additional_vars: rHVpt,vxMult,Sum,fatHfileteredMass,dR_hJet0_V,dR_hJet1_V,FatH_H_massDiff,hJet0_V_etaDiff,hJet1_V_etaDiff,dR_leptons,dPhi_leptons,fatHfilteredPt,dEta_leptons,minCSVnom,maxCSVnom,minCSVold,maxCSVold,MET,METnoPU
 BDT_vars: Hmass,Hpt,Vpt,HVdPhi,Vmass,HdR,HdEta,minCSV,maxCSV,hJet0pt,hJet1pt,PullAngle,PullAngle2,Sum,angleZZS,angleHB,angleLZ,systemMass
-BDTs: BDT_RMed_janAngularOnly,BDT_RTight_janAngularOnly
+BDTs: BDT_RMed_janAngularOnly,BDT_RTight_janAngularOnly,BDT_RTight_VVb_apr_noWeights,BDT_RMed_VVb_apr_noWeights
 REG_vars: METnoPU,rho25,dPhiJetMet,regWeight,JECUnc,jPtRaw,jE,jCef,jChf,jNCh,jNum,jPtLeadTrack
 REG_vtx: vtxPt,vtxMass,vtx3dL,vtx3deL
 REG_soft: jSoftLeptPtRel,jSoftLeptPt,jSoftLeptdR

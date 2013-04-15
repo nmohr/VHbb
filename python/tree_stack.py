@@ -29,6 +29,12 @@ config.read(opts.config)
 #path = opts.path
 region = opts.region
 
+# additional blinding cut:
+addBlindingCut = None
+if config.has_option('Plot_general','addBlindingCut'):
+    addBlindingCut = config.get('Plot_general','addBlindingCut')
+    print 'adding add. blinding cut'
+
 #get locations:
 Wdir=config.get('Directories','Wdir')
 samplesinfo=config.get('Directories','samplesinfo')
@@ -87,7 +93,10 @@ def doPlot():
 
     for job in mcsamples:
         #hTempList, typList = Plotter.get_histos_from_tree(job)
-        hDictList = Plotter.get_histos_from_tree(job)
+        if addBlindingCut:
+            hDictList = Plotter.get_histos_from_tree(job,config.get('Cuts',region)+' & ' + addBlindingCut)
+        else:
+            hDictList = Plotter.get_histos_from_tree(job)
         if job.name == mass:
             print job.name
             Overlaylist= deepcopy([hDictList[v].values()[0] for v in range(0,len(vars))])
@@ -97,7 +106,10 @@ def doPlot():
 
     for job in datasamples:
         #hTemp, typ = Plotter.get_histos_from_tree(job)
-        dDictList = Plotter.get_histos_from_tree(job)
+        if addBlindingCut:
+            dDictList = Plotter.get_histos_from_tree(job,config.get('Cuts',region)+' & ' + addBlindingCut)
+        else:
+            dDictList = Plotter.get_histos_from_tree(job)
         for v in range(0,len(vars)):
             Ldatas[v].append(dDictList[v].values()[0])
             Ldatatyps[v].append(dDictList[v].keys()[0])
