@@ -390,10 +390,17 @@ if not ignore_stats:
                         else:
                             final_histos['%s_%s'%(systematicsnaming['stats'],Q)][job].SetBinContent(j,max(0,hist.GetBinContent(j)-hist.GetBinError(j)))
     else:
+        binsBelowThreshold = {}
         for bin in range(0,nBins):
             for Q in UD:
                 final_histos['%s_bin%s_%s'%(systematicsnaming['stats'],bin,Q)] = {}
             for job,hist in final_histos['nominal'].items():
+                binsBelowThreshold[job] = []
+                if hist.GetBinContent(bin) > 0.:
+                    if hist.GetBinError(bin)/sqrt(hist.GetBinContent(bin)) > 0.5 and hist.GetBinContent(bin) >= 1.:
+                        binsBelowThreshold[job].append(bin)
+                    elif hist.GetBinError(bin)/(hist.GetBinContent(bin)) > 0.5 and hist.GetBinContent(bin) < 1.:
+                        binsBelowThreshold[job].append(bin)
                 for Q in UD:
                     final_histos['%s_bin%s_%s'%(systematicsnaming['stats'],bin,Q)][job] = hist.Clone()
                     if Q == 'Up':
@@ -514,13 +521,14 @@ for DCtype in ['WS','TH']:
         if binstat:
             for c in setup:
                 for bin in range(0,nBins):
-                    f.write('%s_bin%s_%s_%s\tshape'%(systematicsnaming['stats'],bin,Dict[c],Datacardbin))
-                    for it in range(0,columns):
-                        if it == setup.index(c):
-                            f.write('\t1.0')
-                        else:
-                            f.write('\t-')
-                    f.write('\n')
+                    if bin in binsBelowThreshold[c]:
+                        f.write('%s_bin%s_%s_%s\tshape'%(systematicsnaming['stats'],bin,Dict[c],Datacardbin))
+                        for it in range(0,columns):
+                            if it == setup.index(c):
+                                f.write('\t1.0')
+                            else:
+                                f.write('\t-')
+                        f.write('\n')
         else:
             for c in setup:
                 f.write('%s_%s_%s\tshape'%(systematicsnaming['stats'],Dict[c],Datacardbin))
