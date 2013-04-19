@@ -138,7 +138,13 @@ RMed_DYJets_fit = <!ZHbb|preselection!> & <!ZHbb|maxBtag!> > <!ZHbb|CSVL!> & <!Z
 DYJets_fit = <!Cuts|RTight_DYJets_fit!> || <!Cuts|RMed_DYJets_fit!>
 TTbar_fit = <!Cuts|RTight_TTbar_fit!> || <!Cuts|RMed_TTbar_fit!>
 ZLight_fit = <!Cuts|ZLight_HighPt!> || <!Cuts|ZLight_LowPt!>
+
 #!! Electron - Muons splitting
+DYJets_fit_EE = (<!Cuts|RTight_DYJets_fit!> || <!Cuts|RMed_DYJets_fit!>) & <!ZHeebb|addCuts!>
+TTbar_fit_EE = (<!Cuts|RTight_TTbar_fit!> || <!Cuts|RMed_TTbar_fit!>) & <!ZHeebb|addCuts!>
+DYJets_fit_MM = (<!Cuts|RTight_DYJets_fit!> || <!Cuts|RMed_DYJets_fit!>) & <!ZHmmbb|addCuts!>
+TTbar_fit_MM = (<!Cuts|RTight_TTbar_fit!> || <!Cuts|RMed_TTbar_fit!>) & <!ZHmmbb|addCuts!>
+
 RTight_TTbar_fit_EE = <!Cuts|RTight_TTbar_fit!> & <!ZHeebb|addCuts!>
 RTight_TTbar_fit_MM = <!Cuts|RTight_TTbar_fit!> & <!ZHmmbb|addCuts!>
 RMed_TTbar_fit_EE = <!Cuts|RMed_TTbar_fit!> & <!ZHeebb|addCuts!>
