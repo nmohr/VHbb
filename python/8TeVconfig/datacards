@@ -50,9 +50,9 @@ weightF_sys = ['weightF_sys']
 #!! Options
 #!! --------------------------------------
 #!! bin-by-bin statistics (sqrtN doesn't apply)
-binstat: False
+binstat: True
 #!! rescale stat shapes by sqrtN
-rescaleSqrtN: True
+rescaleSqrtN: False
 #!! no stat shapes at all:
 ignore_stats: False
 #!! inject signal, e.g. ZH125 (working?)

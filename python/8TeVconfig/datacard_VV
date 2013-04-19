@@ -26,7 +26,7 @@ rebin_active = True
 #!! Systematics
 #!! --------------------------------------
 sys_BDT = ['JER','JES','beff','bmis']
-sys_Mjj = ['JER','JES','beff','bmis','beff1']
+sys_Mjj = ['JER','JES','beff','bmis']
 #!! systematics for the control region fit
 sys_cr = ['beff','bmis','beff1']
 #!! configuration of systematics effects and behaviour
@@ -47,9 +47,9 @@ weightF_sys = ['weightF_sys']
 #!! Options
 #!! --------------------------------------
 #!! bin-by-bin statistics, not available!
-binstat: False
+binstat: True
 #!! rescale stat shapes by sqrtN
-rescaleSqrtN: True
+rescaleSqrtN: False
 #!! no stat shapes at all:
 ignore_stats: False
 #!! inject signal, e.g. ZH125 (working?)

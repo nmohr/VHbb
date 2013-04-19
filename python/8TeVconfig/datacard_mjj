@@ -47,19 +47,19 @@ weightF_sys = ['weightF_sys']
 #!! Options
 #!! --------------------------------------
 #!! bin-by-bin statistics, not available!
-binstat: False
+binstat: True
 #!! rescale stat shapes by sqrtN
 rescaleSqrtN: False
 #!! no stat shapes at all:
-ignore_stats: True
+ignore_stats: False
 #!! inject signal, e.g. ZH125 (working?)
 signal_inject: None
 #!! add signal als BKG, e.g. ZH125 (working?)
 add_signal_as_bkg: None
 #!! blind Data
-blind: False
+blind: True
 #!! toy Data
-toy: True
+toy: False
 
 #!! --------------------------------------
 #!! Samples
