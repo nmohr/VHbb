@@ -507,10 +507,10 @@ for DCtype in ['WS','TH']:
         f.write('\t%s'%what['type'])
         for c in setup:
             if c in what:
-                if item == 'CMS_eff_e' and 'Zmm' in data_sample_names: f.write('\t-')
-                elif item == 'CMS_eff_m' and 'Zee' in data_sample_names: f.write('\t-')
-                elif item == 'CMS_trigger_e' and 'Zmm' in data_sample_names: f.write('\t-')
-                elif item == 'CMS_trigger_m' and 'Zee' in data_sample_names: f.write('\t-')
+                if '_eff_e' in item and 'Zmm' in data_sample_names: f.write('\t-')
+                elif '_eff_m' in item and 'Zee' in data_sample_names: f.write('\t-')
+                elif '_trigger_e' in item and 'Zmm' in data_sample_names: f.write('\t-')
+                elif '_trigger_m' in item and 'Zee' in data_sample_names: f.write('\t-')
                 else:
                     f.write('\t%s'%what[c])
             else:
