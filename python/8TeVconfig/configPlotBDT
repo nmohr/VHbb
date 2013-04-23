@@ -1,0 +1,75 @@
+[Analysis]
+tag = 8TeV
+
+[Directories]
+plotpath: ~/VHbb/lhcp/PrePost/BDT/
+
+[Plot_general]
+lumi = 19000.
+#how and which groups in the plot
+setup: ZH,WH,W2b,W1b,Wlight,DY2b,DY1b,DYlight,TT,ST,QCD,VVlight,VVb
+setupLog: VVb,W2b,W1b,Wlight,DY2b,DY2b,DY1b,DYlight,TT,ST,QCD,VVlight,ZH,WH
+
+#colors
+colorDict: {'DYlight':401,'DYc':41,'DY2b':5,'DY1b':41,'Wlight':814,'W1b':816,'W2b':820,'TT':596,'ST':840,'VVb':922,'VVlight':920,'WH':2,'ZH':2,'VH':2,'DYlc':401,'QCD':616}
+typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','Wlight':'W+udscg','W1b':'W + b','W2b':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','VVlight':'VV(udscg)','VVb':'VZ(bb)','ZH':'ZH','WH':'WH','VH':'VH','QCD':'QCD','Overlay':'VZ(bb)'}
+
+addOverFlow = True
+
+[LimitGeneral]
+
+Dict = {'ZH':'ZH','WH':'WH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','Wlight':'Wj0b','W1b':'Wj1b','W2b':'Wj2b','TT':'TT','ST':'s_Top','VVb':'VVHF','VVlight':'VVLF','VV':'VV','Data':'data_obs','ZH125':'H125','QCD':'QCD'}
+
+[Plot:BDT]
+Datas: Zee
+Normalize: False
+Signal: ZH125
+log: True
+blind: False
+
+
+[plotDef:BDT_Zll]
+relPath = CMS_vhbb_BDT_Zll_8TeV
+xAxis = BDT output
+nBins = 15
+min = -1
+max = 1
+
+[plotDef:BDT_Wtn]
+relPath = BDT
+xAxis = BDT output
+nBins = 15
+min = -1
+max = 1
+
+[plotDef:BDT_Wln]
+relPath = CMS_vhbb_BDT_Wln_8TeV
+xAxis = BDT output
+nBins = 21
+min = -1
+max = 1
+
+[plotDef:BDT_Znn_HighPt]
+relPath = CMS_vhbb_BDT_ZnunuHighPt_8TeV
+#relPath = CMS_vhbb_BDT_ZnunuHighPt_8TeV
+xAxis = BDT output
+nBins = 22
+min = -1.
+max = 1.
+
+[plotDef:BDT_Znn_LowPt]
+relPath = CMS_vhbb_BDT_ZnunuLowPt_8TeV
+#relPath = ZnunuLowPt_8TeV
+xAxis = BDT output
+nBins = 11
+min = -1
+max = 1.
+
+[plotDef:BDT_Znn_MedPt]
+relPath = CMS_vhbb_BDT_ZnunuMedPt_8TeV
+#relPath = ZnunuMedPt_8TeV
+xAxis = BDT output
+nBins = 14
+min = -1.
+max = 1.
+
