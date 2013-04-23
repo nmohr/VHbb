@@ -104,8 +104,10 @@ def getBestFitShapes(procs,theShapes,shapeNui,theBestFit,DC,setup,opts,Dict):
     histos = []
     typs = []
     sigCount = 0
+    signalList = ['ZH','WH']
+    #signalList = ['VVb']
     for s in setup:
-        if 'ZH' == s or 'WH' == s:
+        if s in signalList:
             if sigCount ==0:
                 Overlay=copy(theShapes[Dict[s]])
             else:
@@ -127,6 +129,7 @@ def drawFromDC():
     elif 'Wmunu' in opts.bin: dataname = 'Wmn'
     elif 'Wenu' in opts.bin: dataname = 'Wen'
     elif 'Znunu' in opts.bin: dataname = 'Znn'
+    elif 'Wtn' in opts.bin: dataname = 'Wtn'
 
     print 'Variable printing'
     print opts.var
@@ -161,11 +164,15 @@ def drawFromDC():
     setup = config.get('Plot_general','setup').split(',')
     if dataname == 'Zmm' or dataname == 'Zee': 
         try:
-            setup.remove('Wb')
+            setup.remove('W1b')
+            setup.remove('W2b')
             setup.remove('Wlight')
             setup.remove('WH')
         except:
             print '@INFO: Wb / Wligh / WH not present in the datacard'
+    if not dataname == 'Znn': 
+        setup.remove('QCD')
+    Stack.setup = setup
 
     Dict = eval(config.get('LimitGeneral','Dict'))
     lumi = eval(config.get('Plot_general','lumi'))
@@ -221,7 +228,7 @@ def drawFromDC():
             counter = 0
             for p in DC.exp[b].keys(): # so that we get only self.DC.processes contributing to this bin
                 if errline[b][p] == 0: continue
-                if p == 'QCD': continue
+                if p == 'QCD' and not dataname == 'Znn': continue
                 if pdf == 'gmN':
                     exps[p][1].append(1/sqrt(pdfargs[0]+1));
                 elif pdf == 'gmM':
@@ -268,7 +275,7 @@ def drawFromDC():
                         counter += 1
 
     procs = DC.exp[b].keys(); procs.sort()
-    if 'QCD' in procs:
+    if not dataname == 'Znn' and 'QCD' in procs:
         procs.remove('QCD')
     fmt = ("%%-%ds " % max([len(p) for p in procs]))+"  "+options.format;
     #Compute norm uncertainty and best fit
@@ -290,11 +297,13 @@ def drawFromDC():
     shapesDown = [[] for _ in range(0,len(setup2))]
     
     sigCount = 0
+    signalList = ['ZH','WH']
+    #signalList = ['VVb']
     for p in procs:
         b = opts.bin
         for s in setup:
             if not Dict[s] == p: continue
-            if 'ZH' == s or 'WH' == s:
+            if s in signalList:
                 if sigCount ==0:
                     Overlay=copy(theShapes[Dict[s]])
                 else:
@@ -395,20 +404,23 @@ def drawFromDC():
     datanames=[dataname] 
 
 
-    if blind:
+    if blind and 'BDT' in var:
         for bin in range(10,datas[0].GetNbinsX()+1):
             datas[0].SetBinContent(bin,0)
 
     histos.append(copy(Overlay))
-    if 'ZH' in setup and 'WH' in setup:
+    if 'ZH' in signalList and 'WH' in signalList:
         typs.append('VH')
         Stack.setup.remove('ZH')
-        Stack.setup.remove('WH')
+        if 'WH' in Stack.setup: Stack.setup.remove('WH')
         Stack.setup.insert(0,'VH')
-    elif 'ZH' in setup:
+    elif 'ZH' in signalList:
         typs.append('ZH')
-    elif 'WH' in setup:
+    elif 'WH' in signalList:
         typs.append('WH')
+    elif 'VVb' in signalList:
+        typs.append('VVb')
+    print Stack.setup
 
     Stack.histos = histos
     Stack.typs = typs
