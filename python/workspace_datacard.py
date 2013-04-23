@@ -162,6 +162,7 @@ info = ParseInfo(samplesinfo,path)
 # get all the treeCut sets
 # create different sample Lists
 all_samples = info.get_samples(signals+backgrounds+additionals)
+
 signal_samples = info.get_samples(signals) 
 background_samples = info.get_samples(backgrounds) 
 data_sample_names = config.get('dc:%s'%var,'data').split(' ')
@@ -285,6 +286,22 @@ for job in background_samples:
         hDummy.Add(htree,1) 
     del htree 
     i+=1
+
+if signal_inject:
+    signal_inject = info.get_samples([signal_inject])
+    sig_hMaker = HistoMaker(signal_inject,path,config,optionsList,GroupDict)
+    sig_hMaker.lumi = lumi
+    if rebin_active:
+        sig_hMaker.norebin_nBins = copy(mc_hMaker.norebin_nBins)
+        sig_hMaker.rebin_nBins = copy(mc_hMaker.rebin_nBins)
+        sig_hMaker.nBins = copy(mc_hMaker.nBins)
+        sig_hMaker._rebin = copy(mc_hMaker._rebin)
+        sig_hMaker.mybinning = deepcopy(mc_hMaker.mybinning)
+
+for job in signal_inject: 
+    htree = sig_hMaker.get_histos_from_tree(job)
+    hDummy.Add(htree[0].values()[0],1) 
+    del htree 
 
 nData = 0
 for job in data_histos:
@@ -433,7 +450,7 @@ for key in final_histos:
             rooDataHist = ROOT.RooDataHist('%s%s%s' %(Dict[job],nameSyst,Q),'%s%s%s'%(Dict[job],nameSyst,Q),obs, hist)
             getattr(WS,'import')(rooDataHist)
 
-if toy: 
+if toy or signal_inject: 
     hDummy.SetName('data_obs')
     hDummy.Write()
     rooDataHist = ROOT.RooDataHist('data_obs','data_obs',obs, hDummy)
@@ -478,7 +495,7 @@ for DCtype in ['WS','TH']:
     f.write('kmax\t*\tnumber of nuisance parameters (sources of systematical uncertainties)\n\n')
     f.write('shapes * * vhbb_%s_%s.root $CHANNEL%s$PROCESS $CHANNEL%s$PROCESS$SYSTEMATIC\n\n'%(DCtype,ROOToutname,DCprocessseparatordict[DCtype],DCprocessseparatordict[DCtype]))
     f.write('bin\t%s\n\n'%Datacardbin)
-    if toy:
+    if toy or signal_inject:
         f.write('observation\t%s\n\n'%(hDummy.Integral()))
     else:
         f.write('observation\t%s\n\n'%(theData.Integral()))
