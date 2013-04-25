@@ -1,0 +1,66 @@
+[Analysis]
+tag = 8TeV
+
+[Directories]
+plotpath: /shome/bortigno/VHbbAnalysis/postPreApp/stack_from_dc_mjjUnblind/
+
+[Plot_general]
+lumi = 19000.
+#how and which groups in the plot
+setup: WH,W0b,W1b,W2b,ZH,DY2b,DY1b,DYlight,TT,ST,VVHF,VVLF
+setupLog: WH,W0b,W1b,W2b,ZH,DY2b,DY1b,DYlight,TT,ST,VVHF,VVLF
+
+#colors
+colorDict: {'DYlight':401,'DYc':41,'DY2b':5,'DY1b':41,'W0b':814,'W1b':41,'W2b':820,'TT':596,'ST':840,'VVHF':17,'VVLF':18,'WH':2,'ZH':2,'VH':2,'DYlc':401,'VVb': 17,'VVlight':18,'VV':18}
+typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','W0b':'W+udscg','W1b':'W + b','W2b':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','VVlight':'VV+udscg','VVLF':'VV+udscg','VVb':'VV+b','VVHF':'VV+b','ZH':'ZH','WH':'WH','VH':'VH','Overlay':'VH (125 GeV)'}
+
+addOverFlow = True
+
+[LimitGeneral]
+
+Dict = {'ZH':'ZH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','TT':'TT','ST':'s_Top','VVHF':'VVHF','VVLF':'VVLF','VV':'VV','Data':'data_obs','ZH125':'H125','WH':'WH','W0b':'Wj0b','W1b':'Wj1b','W2b':'Wj2b'}
+
+[Plot:BDT]
+Datas: Zee Zmm
+Normalize: False
+Signal: ZH125
+log: False
+blind: False
+
+#Mjj
+
+[plotDef:Mjj_Zll]
+relPath = CMS_vhbb_MJJ_Zll_8TeV
+xAxis = Mjj
+nBins = 17
+min = 0.
+max = 255.
+
+[plotDef:Mjj_ZnnHighPt]
+relPath = CMS_vhbb_MJJ_ZnunuHighPt_8TeV
+xAxis = Mjj
+nBins = 17
+min = 0.
+max = 255.
+
+[plotDef:Mjj_ZnnLowPt]
+relPath = CMS_vhbb_MJJ_ZnunuLowPt_8TeV
+xAxis = Mjj
+nBins = 17
+min = 0.
+max = 255.
+
+[plotDef:Mjj_ZnnMedPt]
+relPath = CMS_vhbb_MJJ_ZnunuMedPt_8TeV
+xAxis = Mjj
+nBins = 17
+min = 0.
+max = 255.
+
+[plotDef:Mjj_Wln]
+relPath = CMS_vhbb_Mjj_Wln_8TeV
+xAxis = Mjj
+nBins = 17
+min = 0.
+max = 255.
+
