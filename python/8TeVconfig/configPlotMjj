@@ -2,64 +2,70 @@
 tag = 8TeV
 
 [Directories]
-plotpath: /shome/bortigno/VHbbAnalysis/postPreApp/stack_from_dc_mjjUnblind/
+plotpath: ~/VHbb/lhcp/PrePost/MJJ/
 
 [Plot_general]
 lumi = 19000.
 #how and which groups in the plot
-setup: WH,W0b,W1b,W2b,ZH,DY2b,DY1b,DYlight,TT,ST,VVHF,VVLF
-setupLog: WH,W0b,W1b,W2b,ZH,DY2b,DY1b,DYlight,TT,ST,VVHF,VVLF
+setup: ZH,WH,VVb,VVlight,W2b,W1b,Wlight,DY2b,DY1b,DYlight,TT,ST
+setupLog: VVb,W2b,W1b,Wlight,DY2b,DY2b,DY1b,DYlight,TT,ST,VVlight,ZH,WH
 
 #colors
-colorDict: {'DYlight':401,'DYc':41,'DY2b':5,'DY1b':41,'W0b':814,'W1b':41,'W2b':820,'TT':596,'ST':840,'VVHF':17,'VVLF':18,'WH':2,'ZH':2,'VH':2,'DYlc':401,'VVb': 17,'VVlight':18,'VV':18}
-typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','W0b':'W+udscg','W1b':'W + b','W2b':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','VVlight':'VV+udscg','VVLF':'VV+udscg','VVb':'VV+b','VVHF':'VV+b','ZH':'ZH','WH':'WH','VH':'VH','Overlay':'VH (125 GeV)'}
+colorDict: {'DYlight':401,'DYc':41,'DY2b':5,'DY1b':41,'Wlight':814,'W1b':816,'W2b':820,'TT':596,'ST':840,'VVb':922,'VVlight':920,'WH':2,'ZH':2,'VH':2,'DYlc':401,'QCD':616}
+typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','Wlight':'W+udscg','W1b':'W + b','W2b':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','VVlight':'VV(udscg)','VVb':'VZ(bb)','ZH':'ZH','WH':'WH','VH':'VH','QCD':'QCD','Overlay':'VH(bb) 125'}
 
 addOverFlow = True
 
 [LimitGeneral]
 
-Dict = {'ZH':'ZH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','TT':'TT','ST':'s_Top','VVHF':'VVHF','VVLF':'VVLF','VV':'VV','Data':'data_obs','ZH125':'H125','WH':'WH','W0b':'Wj0b','W1b':'Wj1b','W2b':'Wj2b'}
+Dict = {'ZH':'ZH','WH':'WH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','Wlight':'Wj0b','W1b':'Wj1b','W2b':'Wj2b','TT':'TT','ST':'s_Top','VVb':'VVHF','VVlight':'VVLF','VV':'VV','Data':'data_obs','ZH125':'H125','QCD':'QCD'}
+
 
 [Plot:BDT]
-Datas: Zee Zmm
+Datas: Zee
 Normalize: False
 Signal: ZH125
 log: False
-blind: False
+blind: True
 
-#Mjj
-
-[plotDef:Mjj_Zll]
+[plotDef:MJJ_Zll]
 relPath = CMS_vhbb_MJJ_Zll_8TeV
-xAxis = Mjj
+xAxis = M_{b#bar{b}} (GeV)
 nBins = 17
 min = 0.
 max = 255.
 
-[plotDef:Mjj_ZnnHighPt]
+[plotDef:MJJ_Znn_HighPt]
 relPath = CMS_vhbb_MJJ_ZnunuHighPt_8TeV
-xAxis = Mjj
+xAxis = M_{b#bar{b}} (GeV)
 nBins = 17
 min = 0.
 max = 255.
 
-[plotDef:Mjj_ZnnLowPt]
+[plotDef:MJJ_Znn_LowPt]
 relPath = CMS_vhbb_MJJ_ZnunuLowPt_8TeV
-xAxis = Mjj
+xAxis = M_{b#bar{b}} (GeV)
 nBins = 17
 min = 0.
 max = 255.
 
-[plotDef:Mjj_ZnnMedPt]
+[plotDef:MJJ_Znn_MedPt]
 relPath = CMS_vhbb_MJJ_ZnunuMedPt_8TeV
-xAxis = Mjj
+xAxis = M_{b#bar{b}} (GeV)
 nBins = 17
 min = 0.
 max = 255.
 
-[plotDef:Mjj_Wln]
+[plotDef:MJJ_Wln]
 relPath = CMS_vhbb_Mjj_Wln_8TeV
-xAxis = Mjj
+xAxis = M_{b#bar{b}} (GeV)
+nBins = 17
+min = 0.
+max = 255.
+
+[plotDef:MJJ_Wtn]
+relPath = BDT
+xAxis = M_{b#bar{b}} (GeV)
 nBins = 17
 min = 0.
 max = 255.

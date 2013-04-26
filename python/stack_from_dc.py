@@ -170,7 +170,7 @@ def drawFromDC():
             setup.remove('WH')
         except:
             print '@INFO: Wb / Wligh / WH not present in the datacard'
-    if not dataname == 'Znn': 
+    if not dataname == 'Znn' and 'QCD' in setup: 
         setup.remove('QCD')
     Stack.setup = setup
 
@@ -228,7 +228,7 @@ def drawFromDC():
             counter = 0
             for p in DC.exp[b].keys(): # so that we get only self.DC.processes contributing to this bin
                 if errline[b][p] == 0: continue
-                if p == 'QCD' and not dataname == 'Znn': continue
+                if p == 'QCD' and not 'QCD' in setup: continue
                 if pdf == 'gmN':
                     exps[p][1].append(1/sqrt(pdfargs[0]+1));
                 elif pdf == 'gmM':
@@ -275,7 +275,7 @@ def drawFromDC():
                         counter += 1
 
     procs = DC.exp[b].keys(); procs.sort()
-    if not dataname == 'Znn' and 'QCD' in procs:
+    if not 'QCD' in setup and 'QCD' in procs:
         procs.remove('QCD')
     fmt = ("%%-%ds " % max([len(p) for p in procs]))+"  "+options.format;
     #Compute norm uncertainty and best fit
