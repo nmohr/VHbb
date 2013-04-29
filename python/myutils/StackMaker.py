@@ -205,7 +205,7 @@ class StackMaker:
         elif 'Wen' in self.datanames:
                 addFlag = 'W(e#nu)H(b#bar{b})'
         else:
-                addFlag = 'VH combined'
+                addFlag = 'pp #rightarrow VH; H #rightarrow b#bar{b}'
         for i in range(0,len(self.datas)):
             print self.datas[i]
             d1.Add(self.datas[i],1)
@@ -243,9 +243,9 @@ class StackMaker:
         allStack.SetTitle()
         allStack.Draw("hist")
         allStack.GetXaxis().SetTitle('')
-        yTitle = 'weighted Entries'
+        yTitle = 'weighted entries'
         if not '/' in yTitle:
-            yAppend = '%.2f' %(allStack.GetXaxis().GetBinWidth(1)) 
+            yAppend = '%.0f' %(allStack.GetXaxis().GetBinWidth(1)) 
             yTitle = '%s / %s' %(yTitle, yAppend)
         allStack.GetYaxis().SetTitle(yTitle)
         allStack.GetXaxis().SetRangeUser(self.xMin,self.xMax)
@@ -408,6 +408,8 @@ class StackMaker:
             sub_histos[i].SetFillColor(int(self.colorDict[self.typs[i]]))
             sub_histos[i].SetLineColor(1)
             allStack.Add(sub_histos[i])
+            print sub_histos[i].GetName()
+            print sub_histos[i].Integral()
             if not sub_histos[i] in sig_histos:
                 bkgStack.Add(sub_histos[i])
             if sub_histos[i] in sig_histos:
@@ -433,7 +435,7 @@ class StackMaker:
         elif 'Wen' in self.datanames:
                 addFlag = 'W(e#nu)H(b#bar{b})'
         else:
-                addFlag = 'VH combined'
+                addFlag = 'pp #rightarrow VH; H #rightarrow b#bar{b}'
         for i in range(0,len(self.datas)):
             print self.datas[i]
             d1.Add(self.datas[i],1)
@@ -471,17 +473,22 @@ class StackMaker:
         allMC=allStack.GetStack().Last().Clone()
         bkgMC=bkgStack.GetStack().Last().Clone()
 
+        bkgMC_noError = bkgMC.Clone()
+        for bin in range(0,bkgMC_noError.GetNbinsX()):
+            bkgMC_noError.SetBinError(bin,0.)
         sub_d1 = d1.Clone()
-        sub_d1.Add(bkgMC,-1)
+        sub_d1.Sumw2()
+        sub_d1.Add(bkgMC_noError,-1)
         sub_mc = allMC.Clone()
-        sub_mc.Add(bkgMC,-1)
+        sub_mc.Sumw2()
+        sub_mc.Add(bkgMC_noError,-1)
 
         sigStack.SetTitle()
         sigStack.Draw("hist")
         sigStack.GetXaxis().SetTitle('')
         yTitle = 'weighted entries'
         if not '/' in yTitle:
-            yAppend = '%.2f' %(sigStack.GetXaxis().GetBinWidth(1)) 
+            yAppend = '%.0f' %(sigStack.GetXaxis().GetBinWidth(1)) 
             yTitle = '%s / %s' %(yTitle, yAppend)
         sigStack.GetYaxis().SetTitle(yTitle)
         sigStack.GetXaxis().SetRangeUser(self.xMin,self.xMax)
@@ -502,16 +509,16 @@ class StackMaker:
         theNegativeOutline.SetFillColor(0)
         theMCOutline.Draw("hist same")
         theNegativeOutline.Draw("hist same")
-        l.AddEntry(theMCOutline,"MC sub. uncert.","fl")
+        l.AddEntry(theMCOutline,"Sub. MC uncert.","fl")
         
         theErrorGraph = ROOT.TGraphErrors(sigStack.GetStack().Last().Clone())
         theErrorGraph.SetFillColor(ROOT.kGray+3)
         theErrorGraph.SetFillStyle(3013)
         theErrorGraph.Draw('SAME2')
-        l.AddEntry(theErrorGraph,"MC visible uncert.","fl")
+        l.AddEntry(theErrorGraph,"Visible MC uncert.","fl")
 
         Ymax = max(sigStack.GetMaximum(),sub_d1.GetMaximum())*1.7
-        Ymin = max(-sub_mc.GetMinimum(),-sub_d1.GetMinimum())*1.7
+        Ymin = max(-sub_mc.GetMinimum(),-sub_d1.GetMinimum())*2.7
         if self.log:
             sigStack.SetMinimum(0.1)
             Ymax = Ymax*ROOT.TMath.Power(10,1.2*(ROOT.TMath.Log(1.2*(Ymax/0.1))/ROOT.TMath.Log(10)))*(0.2*0.1)
