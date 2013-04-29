@@ -17,6 +17,11 @@ parser.add_option("-M", "--figure_of_merit", dest="fom", default="",
                       help="figure of merit to be used to weight the plots. Possibilities: s/b, s/sqrt(b)")
 parser.add_option("-C", "--config", dest="config", default=[], action="append",
                       help="configuration file")
+parser.add_option("-S", "--subtructed", dest="sub", default="False",
+                      help="subtruction plot")
+parser.add_option("-L", "--rescale", dest="rescale", default="False",
+                      help="rescale by 1/max_weight")
+
 (opts, args) = parser.parse_args(argv)
 if opts.config =="":
         opts.config = "config"
@@ -35,7 +40,7 @@ def get_s_over_b(fName):
     histos = get_th1(fName)
     for histo in histos:
         if 'data' in histo.GetName(): continue
-        for i in range(9,11):
+        for i in range(7,9):
             if 'VH' in histo.GetName():
                 s+=histo.GetBinContent(i)
             else:
@@ -49,7 +54,7 @@ def get_s_over_sb(fName):
     histos = get_th1(fName)
     for histo in histos:
         if 'data' in histo.GetName(): continue
-        for i in range(9,11):
+        for i in range(7,9):
             if 'VH' in histo.GetName():
                 s+=histo.GetBinContent(i)
             else:
@@ -72,62 +77,59 @@ def plot():
 
     stack = StackMaker(config,var,region,signalRegion)
 
-#     fileList = [
-#         '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Wln_ch1_Wenu3_PreFit.root',
-#         '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Zll_ZeeHighPt_PreFit.root',
-#         '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Znn_HighPt_ZnunuHighPt_8TeV_PreFit.root',
-#         '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Wln_ch2_Wmunu3_PreFit.root',
-#         '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Zll_ZmmHighPt_PreFit.root']
 
+    fileList = []
 
-    fileList = [
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Zll_ZmmMedPt_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Zll_ZeeMedPt_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Znn_MedPt_ZnunuMedPt_8TeV_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Wln_ch2_Wmunu2_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Znn_LowPt_ZnunuLowPt_8TeV_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Zll_ZmmLowPt_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Zll_ZeeLowPt_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Wln_ch1_Wenu_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Wln_ch2_Wmunu_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Wln_ch1_WenuHighPt_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Zll_ZeeHighPt_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Znn_HighPt_ZnunuHighPt_8TeV_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Wln_ch2_WmunuHighPt_PostFit_s.root',
-        '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Zll_ZmmHighPt_PostFit_s.root']
-
-
-# #tau
-# /shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Wtn_Wtn_PostFit_s.root
-
-
-# #Med
-# /shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Zll_ZmmMedPt_PostFit_s.root
-# /shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Zll_ZeeMedPt_PostFit_s.root
-# /shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Znn_MedPt_ZnunuMedPt_8TeV_PostFit_s.root
-# /shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Wln_ch2_Wmunu2_PostFit_s.root
-
-# #Low
-
-# /shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Znn_LowPt_ZnunuLowPt_8TeV_PostFit_s.root
-# /shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Zll_ZmmLowPt_PostFit_s.root
-# /shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Zll_ZeeLowPt_PostFit_s.root
-# /shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Wln_ch1_Wenu_PostFit_s.root
-# /shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit/MJJ_Wln_ch2_Wmunu_PostFit_s.root
-
+    #MedPt
+    fileList += [ '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Zll_ZmmMedPt_PostFit_s.root',
+                 '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Zll_ZeeMedPt_PostFit_s.root',
+                 '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Znn_MedPt_ZnunuMedPt_8TeV_PostFit_s.root',
+                 '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Wln_ch2_Wmunu2_PostFit_s.root']
+    #LowPt    
+    fileList += [ '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Znn_LowPt_ZnunuLowPt_8TeV_PostFit_s.root',
+                  '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Zll_ZmmLowPt_PostFit_s.root',
+                  '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Zll_ZeeLowPt_PostFit_s.root',
+                  '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Wln_ch1_Wenu_PostFit_s.root',
+                  '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Wln_ch2_Wmunu_PostFit_s.root']
+    #highPt    
+    fileList += [ '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Wln_ch1_WenuHighPt_PostFit_s.root',
+                  '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Zll_ZeeHighPt_PostFit_s.root',
+                  '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Znn_HighPt_ZnunuHighPt_8TeV_PostFit_s.root',
+                  '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Wln_ch2_WmunuHighPt_PostFit_s.root',
+                  '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Zll_ZmmHighPt_PostFit_s.root',
+                  '/shome/bortigno/VHbbAnalysis/postPreApp//LHCP_PostFit_v0.1/MJJ_Wtn_Wtn_PostFit_s.root']
+        
+    # 7tev
     fileList += ['ZeeLowPt_7TeV.root','ZmmLowPt_7TeV.root','WmnLowPt_7TeV.root','ZnnLowPt_7TeV.root']
     fileList += ['ZeeHighPt_7TeV.root','ZmmHighPt_7TeV.root','WmnHighPt_7TeV.root','ZnnHighPt_7TeV.root']
 
+
     histosL = []
+
+    max_sb = 0
+    max_ssb = 0
+    for file in fileList:
+        if max_sb < get_s_over_b(file):
+            max_sb = get_s_over_b(file)
+        if max_ssb < get_s_over_sb(file):
+            max_ssb = get_s_over_sb(file)
+                        
+    print max_ssb
+    print max_sb
+
     for file in fileList:
         print file
         print get_s_over_b(file)
+        if eval(opts.rescale) == False:
+                max_sb = 1.
+                max_ssb = 1.
         for th1 in get_th1(file):
-            if opts.fom == 's/b':
-                th1.Scale(10*get_s_over_b(file))
-            if opts.fom == 's/s+b':
-                th1.Scale(10*get_s_over_sb(file))
-
+            if 's/b' in opts.fom:
+                th1.Scale(get_s_over_b(file)/max_sb)
+            elif 's/s+b' in opts.fom:
+                th1.Scale(get_s_over_sb(file)/max_ssb)
+            if 'VV' in th1.GetName():
+                    th1.SetName('VV')
             histosL.append(th1)
 
     print 'histoL'
@@ -139,8 +141,8 @@ def plot():
 
     #append the name just once
     for histo in histosL:
-         typsL.append(histo.GetName())
-         if 'data' in histo.GetName():
+        typsL.append(histo.GetName())
+        if 'data' in histo.GetName():
             datasL.append(histo)    
 
     #datasL.append(datas)
@@ -155,14 +157,30 @@ def plot():
     #if signalRegion:
     #    stack.overlay = ['VH','VVHF','VVLF']
 #    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_preFit.pdf')
-    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_combined78tev_postFit_s_over_sb.pdf')
+
+    appendix = ''
+    if(eval(opts.rescale) == True):
+            appendix = '_rescaled_'
+    
+    if 's/s+b' in opts.fom:
+            stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_combined78tev_postFit_s_over_sb'+appendix+'.pdf')
+    elif 's/b' in opts.fom:
+            stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_combined78tev_postFit_s_over_b'+appendix+'.pdf')
+    else:
+            stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_unweighted.pdf')            
+    
 #    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_highPt_7tev.pdf')
 #    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_combined_postFit_s_over_b_Hpt_weight_1.pdf'
     stack.lumi = 19040
-    stack.doPlot()
+ 
+    
+    mjj_sub = eval(opts.sub)
 
-#    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_subtructed.pdf')
-#    stack.doSubPlot(['VH','VVHF','VVLF'])
+    if mjj_sub == False:
+            stack.doPlot()
+    elif mjj_sub == True:
+            stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_subtructed.pdf')
+            stack.doSubPlot(['VH','VV'])
     print 'i am done!\n'
 
 
