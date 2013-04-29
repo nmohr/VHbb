@@ -2,13 +2,17 @@
 tag = 8TeV
 
 [Directories]
-plotpath: /shome/bortigno/VHbbAnalysis/postPreApp/manualStack/
+#plotpath: /shome/bortigno/VHbbAnalysis/postPreApp/manualStack_v0.1/
+plotpath: /shome/bortigno/VHbbAnalysis/postPreApp/manualStack_v0.1/
 
 [Plot_general]
 lumi = 19000.
 #how and which groups in the plot
-setup: VH,VVHF,VVLF,Zj2b,Zj1b,Zj0b,Wj2b,Wj1b,Wj0b,TT,s_Top
-setupLog: VH,VVHF,VVLF,Zj2b,Zj1b,Zj0b,Wj2b,Wj1b,Wj0b,TT,s_Top
+#setup: VH,VVHF,VVLF,Zj2b,Zj1b,Zj0b,Wj2b,Wj1b,Wj0b,TT,s_Top
+#setupLog: VH,VVHF,VVLF,Zj2b,Zj1b,Zj0b,Wj2b,Wj1b,Wj0b,TT,s_Top
+
+setup: VH,VV,Zj2b,Zj1b,Zj0b,Wj2b,Wj1b,Wj0b,TT,s_Top
+setupLog: VH,VV,Zj2b,Zj1b,Zj0b,Wj2b,Wj1b,Wj0b,TT,s_Top
 
 #! test for 7tev only
 #setup: VH,VVHF,Zj2b,Zj0b,Wj2b,Wj0b,TT,s_Top
@@ -23,8 +27,9 @@ addOverFlow = True
 
 [LimitGeneral]
 
-#Dict = {'VH':'VH','ZH':'ZH','Zj0b':'Zj0b','Zj1b':'Zj1b','Zj2b':'Zj2b','TT':'TT','s_Top':'s_Top','VVHF':'VVHF','VVLF':'VVLF','VV':'VV','Data':'data_obs','ZH125':'H125','WH':'WH','Wj0b':'Wj0b','Wj1b':'Wj1b','Wj2b':'Wj2b'}
 Dict = {'VH':'VH','ZH':'ZH','Zj0b':'Zj0b','Zj1b':'Zj1b','Zj2b':'Zj2b','TT':'TT','s_Top':'s_Top','VVHF':'VV','VVLF':'VV','VV':'VV','Data':'data_obs','ZH125':'H125','WH':'WH','Wj0b':'Wj0b','Wj1b':'Wj1b','Wj2b':'Wj2b'}
+
+
 
 #!! for the manual stack
 
@@ -83,4 +88,10 @@ xAxis = Mjj
 nBins = 17
 min = 0.
 max = 255.
+
+
+
+[Samples]
+
+Group = {'VH':'VH','ZH':'ZH','Zj0b':'Zj0b','Zj1b':'Zj1b','Zj2b':'Zj2b','TT':'TT','s_Top':'s_Top','VVHF':'VV','VVLF':'VV','VV':'VV','Data':'data_obs','ZH125':'H125','WH':'WH','Wj0b':'Wj0b','Wj1b':'Wj1b','Wj2b':'Wj2b'}
 

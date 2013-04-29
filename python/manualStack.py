@@ -124,6 +124,7 @@ def plot():
                 max_sb = 1.
                 max_ssb = 1.
         for th1 in get_th1(file):
+            th1.Sumw2()
             if 's/b' in opts.fom:
                 th1.Scale(get_s_over_b(file)/max_sb)
             elif 's/s+b' in opts.fom:
@@ -179,7 +180,7 @@ def plot():
     if mjj_sub == False:
             stack.doPlot()
     elif mjj_sub == True:
-            stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_subtructed.pdf')
+            stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_subtracted.pdf')
             stack.doSubPlot(['VH','VV'])
     print 'i am done!\n'
 
