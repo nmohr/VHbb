@@ -132,6 +132,7 @@ class StackMaker:
         TdrStyles.tdrStyle()
         histo_dict = HistoMaker.orderandadd([{self.typs[i]:self.histos[i]} for i in range(len(self.histos))],self.setup)
         #sort
+        print histo_dict
         self.histos=[histo_dict[key] for key in self.setup]
         self.typs=self.setup
     
@@ -202,8 +203,11 @@ class StackMaker:
         elif 'Wmn' in self.datanames:
 	        addFlag = 'W(#mu#nu)H(b#bar{b})'
         elif 'Wen' in self.datanames:
-	        addFlag = 'W(e#nu)H(b#bar{b})'
+                addFlag = 'W(e#nu)H(b#bar{b})'
+        else:
+                addFlag = 'VH combined'
         for i in range(0,len(self.datas)):
+            print self.datas[i]
             d1.Add(self.datas[i],1)
         print "\033[1;32m\n\tDATA integral = %s\033[1;m"%d1.Integral()
         flow = d1.GetEntries()-d1.Integral()
@@ -239,7 +243,7 @@ class StackMaker:
         allStack.SetTitle()
         allStack.Draw("hist")
         allStack.GetXaxis().SetTitle('')
-        yTitle = 'Entries'
+        yTitle = 'weighted Entries'
         if not '/' in yTitle:
             yAppend = '%.2f' %(allStack.GetXaxis().GetBinWidth(1)) 
             yTitle = '%s / %s' %(yTitle, yAppend)
@@ -270,7 +274,8 @@ class StackMaker:
 
         tPrel = self.myText("CMS Preliminary",0.17,0.88,1.04)
         tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.83)
-        tAddFlag = self.myText(addFlag,0.17,0.78)
+        tLumi = self.myText("#sqrt{s} =  7TeV, L = 5.0 fb^{-1}",0.17,0.78)
+        tAddFlag = self.myText(addFlag,0.17,0.73)
 
         unten.cd()
         ROOT.gPad.SetTicks(1,1)
@@ -339,3 +344,222 @@ class StackMaker:
         name = '%s/%s' %(self.plotDir,self.options['pdfName'])
         c.Print(name)
         self.doCompPlot(allStack,l)
+
+
+    def doSubPlot(self,signal):
+        
+        TdrStyles.tdrStyle()
+        histo_dict = HistoMaker.orderandadd([{self.typs[i]:self.histos[i]} for i in range(len(self.histos))],self.setup)
+        #sort
+        print histo_dict
+        sig_histos=[]
+        sub_histos=[histo_dict[key] for key in self.setup]
+        self.typs=self.setup
+        for key in self.setup:
+            if key in signal:
+                sig_histos.append(histo_dict[key])
+        
+        c = ROOT.TCanvas(self.var,'', 600, 600)
+        c.SetFillStyle(4000)
+        c.SetFrameFillStyle(1000)
+        c.SetFrameFillColor(0)
+
+        main_pad = ROOT.TPad('main_pad','main_pad',0,0.1 ,1.0,1.0)
+#        main_pad.SetBottomMargin(0)
+        main_pad.SetFillStyle(4000)
+        main_pad.SetFrameFillStyle(1000)
+        main_pad.SetFrameFillColor(0)
+
+        main_pad.Draw()
+
+        main_pad.cd()
+        allStack = ROOT.THStack(self.var,'')
+        bkgStack = ROOT.THStack(self.var,'')     
+        sigStack = ROOT.THStack(self.var,'')     
+
+        l = ROOT.TLegend(0.63, 0.55,0.92,0.92)
+        l.SetLineWidth(2)
+        l.SetBorderSize(0)
+        l.SetFillColor(0)
+        l.SetFillStyle(4000)
+        l.SetTextFont(62)
+        l.SetTextSize(0.035)
+        MC_integral=0
+        MC_entries=0
+
+        for histo in sub_histos:
+            MC_integral+=histo.Integral()
+        print "\033[1;32m\n\tMC integral = %s\033[1;m"%MC_integral
+
+
+
+        if not 'DYc' in self.typs: self.typLegendDict.update({'DYlight':self.typLegendDict['DYlc']})
+        print self.typLegendDict
+
+        k=len(sub_histos)
+
+        # debug
+        print sub_histos
+        print sig_histos
+    
+        for j in range(0,k):
+            #print histos[j].GetBinContent(1)
+            i=k-j-1
+            sub_histos[i].SetFillColor(int(self.colorDict[self.typs[i]]))
+            sub_histos[i].SetLineColor(1)
+            allStack.Add(sub_histos[i])
+            if not sub_histos[i] in sig_histos:
+                bkgStack.Add(sub_histos[i])
+            if sub_histos[i] in sig_histos:
+                sigStack.Add(sub_histos[i])
+
+
+        sub_d1 = ROOT.TH1F('subData','subData',self.nBins,self.xMin,self.xMax)
+        sub_mc = ROOT.TH1F('subMC','subMC',self.nBins,self.xMin,self.xMax)
+
+        d1 = ROOT.TH1F('noData','noData',self.nBins,self.xMin,self.xMax)
+        datatitle='Data'
+        addFlag = ''
+        if 'Zee' in self.datanames and 'Zmm' in self.datanames:
+	        addFlag = 'Z(l^{-}l^{+})H(b#bar{b})'
+        elif 'Zee' in self.datanames:
+	        addFlag = 'Z(e^{-}e^{+})H(b#bar{b})'
+        elif 'Zmm' in self.datanames:
+	        addFlag = 'Z(#mu^{-}#mu^{+})H(b#bar{b})'
+        elif 'Znn' in self.datanames:
+	        addFlag = 'Z(#nu#nu)H(b#bar{b})'
+        elif 'Wmn' in self.datanames:
+	        addFlag = 'W(#mu#nu)H(b#bar{b})'
+        elif 'Wen' in self.datanames:
+                addFlag = 'W(e#nu)H(b#bar{b})'
+        else:
+                addFlag = 'VH combined'
+        for i in range(0,len(self.datas)):
+            print self.datas[i]
+            d1.Add(self.datas[i],1)
+        print "\033[1;32m\n\tDATA integral = %s\033[1;m"%d1.Integral()
+        flow = d1.GetEntries()-d1.Integral()
+        if flow > 0:
+            print "\033[1;31m\tU/O flow: %s\033[1;m"%flow
+        
+        if self.overlay:
+            self.overlay.SetLineColor(2)
+            self.overlay.SetLineWidth(2)
+            self.overlay.SetFillColor(0)
+            self.overlay.SetFillStyle(4000)
+            self.overlay.SetNameTitle('Overlay','Overlay')
+
+        l.AddEntry(d1,datatitle,'P')
+#        l.AddEntry(sub_d1,datatitle,'P')
+        for j in range(0,k):
+            if self.typs[j] in signal:
+                l.AddEntry(sub_histos[j],self.typLegendDict[self.typs[j]],'F')
+        if self.overlay:
+            l.AddEntry(self.overlay,self.typLegendDict['Overlay'],'L')
+    
+        if self.normalize:
+            if MC_integral != 0:	stackscale=d1.Integral()/MC_integral
+            if self.overlay:
+                self.overlay.Scale(stackscale)
+            stackhists=allStack.GetHists()
+            for blabla in stackhists:
+        	    if MC_integral != 0: blabla.Scale(stackscale)
+   
+        #if self.SignalRegion:
+        #    allMC=allStack.GetStack().At(allStack.GetStack().GetLast()-1).Clone()
+        #else:
+        allMC=allStack.GetStack().Last().Clone()
+        bkgMC=bkgStack.GetStack().Last().Clone()
+
+        sub_d1 = d1.Clone()
+        sub_d1.Add(bkgMC,-1)
+        sub_mc = allMC.Clone()
+        sub_mc.Add(bkgMC,-1)
+
+        sigStack.SetTitle()
+        sigStack.Draw("hist")
+        sigStack.GetXaxis().SetTitle('')
+        yTitle = 'weighted entries'
+        if not '/' in yTitle:
+            yAppend = '%.2f' %(sigStack.GetXaxis().GetBinWidth(1)) 
+            yTitle = '%s / %s' %(yTitle, yAppend)
+        sigStack.GetYaxis().SetTitle(yTitle)
+        sigStack.GetXaxis().SetRangeUser(self.xMin,self.xMax)
+        sigStack.GetYaxis().SetRangeUser(-2000,20000)
+        sigStack.GetXaxis().SetTitle(self.xAxis)
+
+        theMCOutline = bkgMC.Clone()
+        for i in range(1,theMCOutline.GetNbinsX()+1):
+            theMCOutline.SetBinContent(i,theMCOutline.GetBinError(i))
+        theNegativeOutline = theMCOutline.Clone()
+        theNegativeOutline.Add(theNegativeOutline,-2.)
+
+        theMCOutline.SetLineColor(4)
+        theNegativeOutline.SetLineColor(4)
+        theMCOutline.SetLineWidth(2)
+        theNegativeOutline.SetLineWidth(2)
+        theMCOutline.SetFillColor(0)
+        theNegativeOutline.SetFillColor(0)
+        theMCOutline.Draw("hist same")
+        theNegativeOutline.Draw("hist same")
+        l.AddEntry(theMCOutline,"MC sub. uncert.","fl")
+        
+        theErrorGraph = ROOT.TGraphErrors(sigStack.GetStack().Last().Clone())
+        theErrorGraph.SetFillColor(ROOT.kGray+3)
+        theErrorGraph.SetFillStyle(3013)
+        theErrorGraph.Draw('SAME2')
+        l.AddEntry(theErrorGraph,"MC visible uncert.","fl")
+
+        Ymax = max(sigStack.GetMaximum(),sub_d1.GetMaximum())*1.7
+        Ymin = max(-sub_mc.GetMinimum(),-sub_d1.GetMinimum())*1.7
+        if self.log:
+            sigStack.SetMinimum(0.1)
+            Ymax = Ymax*ROOT.TMath.Power(10,1.2*(ROOT.TMath.Log(1.2*(Ymax/0.1))/ROOT.TMath.Log(10)))*(0.2*0.1)
+            ROOT.gPad.SetLogy()
+        sigStack.SetMaximum(Ymax)
+        sigStack.SetMinimum(-Ymin)
+        c.Update()
+        ROOT.gPad.SetTicks(1,1)
+        #sigStack.Draw("hist")
+        l.SetFillColor(0)
+        l.SetBorderSize(0)
+        
+        if self.overlay:
+            self.overlay.Draw('hist,same')
+        sub_d1.Draw("E,same")
+        l.Draw()
+
+        tPrel = self.myText("CMS Preliminary",0.17,0.88,1.04)
+        tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.83)
+        tLumi = self.myText("#sqrt{s} =  7TeV, L = 5.0 fb^{-1}",0.17,0.78)
+        tAddFlag = self.myText(addFlag,0.17,0.73)
+
+        ROOT.gPad.SetTicks(1,1)
+
+        l2 = ROOT.TLegend(0.5, 0.82,0.92,0.95)
+        l2.SetLineWidth(2)
+        l2.SetBorderSize(0)
+        l2.SetFillColor(0)
+        l2.SetFillStyle(4000)
+        l2.SetTextFont(62)
+        #l2.SetTextSize(0.035)
+        l2.SetNColumns(2)
+
+
+
+        if not self.AddErrors == None:
+            self.AddErrors.SetFillColor(5)
+            self.AddErrors.SetFillStyle(1001)
+            self.AddErrors.Draw('SAME2')
+
+            l2.AddEntry(self.AddErrors,"MC uncert. (stat. + syst.)","f")
+
+            #ksScore = sub_d1.KolmogorovTest( self.AddErrors )
+            #chiScore = sub_d1.Chi2Test( self.AddErrors , "UWCHI2/NDF")
+
+
+        if not os.path.exists(self.plotDir):
+            os.makedirs(os.path.dirname(self.plotDir))
+        name = '%s/%s' %(self.plotDir,self.options['pdfName'])
+        c.Print(name)
+#        self.doCompPlot(sigStack,l)

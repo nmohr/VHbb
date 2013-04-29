@@ -42,6 +42,21 @@ def get_s_over_b(fName):
                 b+=histo.GetBinContent(i)
     return s/b
 
+def get_s_over_sb(fName):
+    #using bin 9, 10, 11
+    s=0
+    b=0
+    histos = get_th1(fName)
+    for histo in histos:
+        if 'data' in histo.GetName(): continue
+        for i in range(9,11):
+            if 'VH' in histo.GetName():
+                s+=histo.GetBinContent(i)
+            else:
+                b+=histo.GetBinContent(i)
+    return s/(s+b)
+
+
 def get_th1(fName):
     infile = ROOT.TFile.Open(fName,'read')
     th1 = []
@@ -110,6 +125,9 @@ def plot():
         for th1 in get_th1(file):
             if opts.fom == 's/b':
                 th1.Scale(10*get_s_over_b(file))
+            if opts.fom == 's/s+b':
+                th1.Scale(10*get_s_over_sb(file))
+
             histosL.append(th1)
 
     print 'histoL'
@@ -121,8 +139,8 @@ def plot():
 
     #append the name just once
     for histo in histosL:
-        typsL.append(histo.GetName())
-        if 'data' in histo.GetName():
+         typsL.append(histo.GetName())
+         if 'data' in histo.GetName():
             datasL.append(histo)    
 
     #datasL.append(datas)
@@ -137,12 +155,14 @@ def plot():
     #if signalRegion:
     #    stack.overlay = ['VH','VVHF','VVLF']
 #    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_preFit.pdf')
-    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_combined78tev_postFit_s_over_b.C')
+    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_combined78tev_postFit_s_over_sb.pdf')
 #    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_highPt_7tev.pdf')
-#    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_combined_postFit_s_over_b_Hpt_weight_1.pdf')
+#    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_combined_postFit_s_over_b_Hpt_weight_1.pdf'
     stack.lumi = 19040
     stack.doPlot()
-    
+
+#    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_subtructed.pdf')
+#    stack.doSubPlot(['VH','VVHF','VVLF'])
     print 'i am done!\n'
 
 
