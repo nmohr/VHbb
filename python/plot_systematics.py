@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 import ROOT 
+ROOT.gROOT.SetBatch(True)
 from ROOT import TFile
 from optparse import OptionParser
 import sys
 from myutils import BetterConfigParser, TdrStyles, getRatio
 
-ROOT.gROOT.SetBatch(True)
 
 argv = sys.argv
 parser = OptionParser()
@@ -156,7 +156,6 @@ for mass in masses:
 
 
 
-
                     ratioU.SetStats(0)
                     ratioU.SetMinimum(0.01)
                     ratioU.SetMaximum(2.49)
@@ -171,6 +170,8 @@ for mass in masses:
                     ratioU.GetXaxis().SetTitle('BDT output')
                     ratioU.GetYaxis().SetTitle('Ratio') 
                     ratioU.Draw("hist")
+                    fitRatioU = ratioU.Fit("pol2","S")
+                    fitRatioU.Draw("SAME")
                     ratioU.SetTitle("")
                     ratioD.SetStats(0)
                     ratioD.GetYaxis().SetRangeUser(0.5,1.5)
@@ -183,6 +184,8 @@ for mass in masses:
                     ratioD.SetLineStyle(3)
                     ratioD.SetLineWidth(2)  
                     ratioD.Draw("hist same")
+                    fitRatioD = ratioD.Fit("pol2","S")
+                    fitRatioD.Draw("SAME")
                     ratioD.SetTitle("")
                     m_one_line = ROOT.TLine(xMin,1,xMax,1)
                     m_one_line.SetLineStyle(7)
@@ -192,7 +195,7 @@ for mass in masses:
 
                     #name = outpath+Abin+'_M'+mass+'_'+channel+'_'+MC+syst+'.png'
                     #c.Print(name)
-                    name = outpath+Abin+'_M'+mass+'_'+channel+'_'+MC+syst+'.pdf'
+                    name = outpath+'systPlot_'+Abin+'_M'+mass+'_'+channel+'_'+MC+syst+'.pdf'
                     c.Print(name)
 
 

@@ -3,7 +3,8 @@ tag = 8TeV
 
 [Directories]
 #plotpath: /shome/bortigno/VHbbAnalysis/postPreApp/manualStack_v0.1/
-plotpath: /shome/bortigno/VHbbAnalysis/postPreApp/manualStack_v0.1/
+#plotpath: /shome/bortigno/VHbbAnalysis/postPreApp/manualStack_v0.5/
+plotpath: ~/VHbb/lhcp/Plots/
 
 [Plot_general]
 lumi = 19000.
@@ -11,8 +12,14 @@ lumi = 19000.
 #setup: VH,VVHF,VVLF,Zj2b,Zj1b,Zj0b,Wj2b,Wj1b,Wj0b,TT,s_Top
 #setupLog: VH,VVHF,VVLF,Zj2b,Zj1b,Zj0b,Wj2b,Wj1b,Wj0b,TT,s_Top
 
-setup: VH,VV,Zj2b,Zj1b,Zj0b,Wj2b,Wj1b,Wj0b,TT,s_Top
-setupLog: VH,VV,Zj2b,Zj1b,Zj0b,Wj2b,Wj1b,Wj0b,TT,s_Top
+#all
+setup: VH,VV,Zj2b,Zj0b,Wj2b,Wj0b,TT,s_Top
+setupLog: VH,VV,Zj2b,Zj0b,Wj2b,Wj0b,TT,s_Top
+
+#Zll only
+#setup: VH,VV,Zj2b,Zj0b,TT,s_Top
+#setupLog: VH,VV,Zj2b,Zj0b,TT,s_Top
+
 
 #! test for 7tev only
 #setup: VH,VVHF,Zj2b,Zj0b,Wj2b,Wj0b,TT,s_Top
@@ -20,8 +27,8 @@ setupLog: VH,VV,Zj2b,Zj1b,Zj0b,Wj2b,Wj1b,Wj0b,TT,s_Top
 
 
 #colors
-colorDict: {'Zj0b':401,'DYc':41,'Zj2b':5,'Zj1b':41,'Wj0b':814,'Wj1b':41,'Wj2b':820,'TT':596,'s_Top':840,'VVHF':17,'VVLF':18,'WH':2,'ZH':2,'VH':2,'DYlc':401,'VVb': 17,'VVlight':18,'VV':18}
-typLegendDict: {'Zj0b':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','Zj2b':'Z + b#bar{b}','Zj1b':'Z + b','Wj0b':'W+udscg','Wj1b':'W + b','Wj2b':'W + b#bar{b}','TT':'t#bar{t}','s_Top':'Single top','VV':'VV','VVlight':'VV+udscg','VVLF':'VZ(q#bar{q})','VVb':'VZ(b#bar{b})','VVHF':'VZ(b#bar{b})','ZH':'ZH','WH':'WH','VH':'VH','Overlay':'VH (125 GeV)'}
+colorDict: {'Zj0b':401,'DYc':41,'Zj2b':5,'Zj1b':41,'Wj0b':814,'Wj1b':41,'Wj2b':820,'TT':596,'s_Top':840,'VVHF':2,'VVLF':920,'WH':2,'ZH':2,'VH':2,'DYlc':401,'VVb': 920,'VVlight':922,'VV':920,'BKG':920}
+typLegendDict: {'Zj0b':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','Zj2b':'Z + b#bar{b}','Zj1b':'Z + b','Wj0b':'W+udscg','Wj1b':'W + b','Wj2b':'W + b#bar{b}','TT':'t#bar{t}','s_Top':'Single top','VV':'VV','VVlight':'VV+udscg','VVLF':'VZ(q#bar{q})','VVb':'VZ(b#bar{b})','VVHF':'VZ(b#bar{b})','ZH':'ZH','WH':'WH','VH':'VH (125 GeV)','Overlay':'VH (125 GeV)','OverlayVH':'VH (125 GeV)','OverlayVV':'VV','BKG':'Background'}
 
 addOverFlow = True
 
@@ -44,6 +51,16 @@ nBins: 17
 min: 0
 max: 255.
 
+[Plot:plot1]
+Datas: data_obs
+Normalize: False
+vars: logSB
+Signal: ZH125
+log: True
+blind: False
+nBins: 16
+min: -4.
+max: 0.
 
 [Plot:BDT]
 Datas: Zee Zmm
@@ -53,6 +70,12 @@ log: False
 blind: False
 
 #Mjj
+[plotDef:logSB]
+relPath = CMS_vhbb_MJJ_Zll_8TeV
+xAxis = log(S/B)
+nBins = 16
+min = -4
+max = 0.
 
 [plotDef:Mjj_Zll]
 relPath = CMS_vhbb_MJJ_Zll_8TeV

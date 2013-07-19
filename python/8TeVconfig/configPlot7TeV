@@ -1,0 +1,56 @@
+[Analysis]
+tag = 8TeV
+
+[Directories]
+plotpath: ~/VHbb/lhcp/PrePost/BDT7TeV/
+
+[Plot_general]
+lumi = 5000.
+#how and which groups in the plot
+setup: WH,W2b,Wlight,DY2b,DYlight,TT,ST,QCD,VV
+setupLog: VV,W2b,Wlight,DY2b,DY2b,DYlight,TT,ST,QCD,WH
+#setup: ZH,DY2b,DYlight,TT,ST,QCD,VV
+#setupLog: VV,DY2b,DY2b,DYlight,TT,ST,QCD,ZH
+
+#colors
+colorDict: {'DYlight':401,'DYc':41,'DY2b':5,'DY1b':41,'Wlight':814,'W1b':816,'W2b':820,'TT':596,'ST':840,'VVb':922,'VVlight':920,'WH':2,'ZH':2,'VH':2,'DYlc':401,'QCD':616,'VV':922}
+typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','Wlight':'W+udscg','W1b':'W + b','W2b':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','VVlight':'VV(udscg)','VVb':'VZ(bb)','ZH':'ZH','WH':'WH','VH':'VH','QCD':'QCD','Overlay':'VZ(bb)'}
+
+addOverFlow = True
+
+[LimitGeneral]
+
+Dict = {'ZH':'ZH','WH':'WH','DYlight':'ZjLF','DY1b':'Zj1b','DY2b':'ZjHF','Wlight':'WjLF','W1b':'Wj1b','W2b':'WjHF','TT':'TT','ST':'s_Top','VVb':'VVHF','VVlight':'VVLF','VV':'VV','Data':'data_obs','ZH125':'H125','QCD':'QCD'}
+
+[Plot:BDT]
+Datas: Zee
+Normalize: False
+Signal: ZH125
+log: True
+blind: False
+
+[plotDef:BDT_Zll]
+relPath = CMS_vhbb_BDT_Zll
+xAxis = BDT output
+nBins = 10
+min = -1
+max = 1
+log = True
+
+[plotDef:BDT_Wln]
+relPath = CMS_vhbb_BDT_Wln
+xAxis = BDT output
+nBins = 25
+min = -1.
+max = 1.
+log = True
+
+[plotDef:BDT_Znn]
+relPath = CMS_vhbb_BDT_Znn
+xAxis = BDT output
+nBins = 20
+min = -1.
+max = 1.
+log = True
+
+

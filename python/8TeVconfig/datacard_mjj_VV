@@ -32,11 +32,11 @@ sys_Mjj = ['JER','JES','beff','bmis']
 sys_cr = ['beff','bmis','beff1']
 #!! configuration of systematics effects and behaviour
 sys_factor = {'JER':1.0,'JES':1.0,'beff':1.0,'bmis':1.0,'beff1':1.0}
-sys_affecting = {'JER':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb'],'JES':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb'],'beff':['DYlight','DY2b','DY1b','VVlight','TT','ST','VVb'],'beff1':['ZH','ZH125'],'bmis':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','VVb']}
+sys_affecting = {'JER':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','WZb','ZZb'],'JES':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','WZb','ZZb'],'beff':['DYlight','DY2b','DY1b','VVlight','TT','ST','ZZb','WZb'],'beff1':['ZH','ZH125'],'bmis':['ZH','DYlight','DY2b','DY1b','VVlight','TT','ST','ZH125','WZb','ZZb']}
 #!! Add a different Cut (syntax: 'oldVar>newVar?' -> '?' will then automatically be replaced with 'Up'/'Down' for the variations)
 sys_cut_suffix = {'JER':'nominal','JES':'nominal','beff':'csv>csv?','bmis':'csv>csvF?','beff1':'csv>csv?'}
 #sys_cut_suffix: {'JER':'nominal','JES':'nominal','beff':'nominal','bmis':'nominal','beff1':'nominal'}
-sys_cut_include = ['ZH','VVlight','ST','VVb']
+sys_cut_include = ['ZH','VVlight','ST','WZb','ZZb']
 #!! UEPS
 weightF_sys = ['weightF_sys']
 #!! Example of sample systematic, in this case the ZZ sample is replaced by WZ
@@ -66,7 +66,7 @@ toy: False
 #!! Samples
 #!! --------------------------------------
 #!! Datacard samples setup (1st Signal, afterwards BKG)
-setup: ['VVb', 'DYlight','DY1b','DY2b','VVlight','ZH','TT','ST']
+setup: ['ZZb','WZb', 'DYlight','DY1b','DY2b','VVlight','ZH','TT','ST']
 #setup: ['ZH', 'DYlight','DYb','VV','TT','ST']
 #!! Lists from general config
 BKG = [<!Samples|allBKG!>]
@@ -76,7 +76,7 @@ Group = <!Samples|Group!>
 #!! Naming
 #!! --------------------------------------
 #!! naming of processes
-Dict = {'ZH':'ZH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','TT':'TT','ST':'s_Top','VVb':'VVHF','VVlight':'VVLF','Data':'data_obs','ZH125':'H125'}
+Dict = {'ZH':'ZH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','TT':'TT','ST':'s_Top','ZZb':'ZZHF','WZb':'WZHF','VVlight':'VVLF','Data':'data_obs','ZH125':'H125'}
 #!! naming of systematics
 systematicsnaming = {'JER':'CMS_vhbb_Zll_res_j','JES':'CMS_vhbb_Zll_scale_j','beff':'CMS_vhbb_eff_b','bmis':'CMS_vhbb_fake_b_8TeV','beff1':'CMS_vhbb_eff_b_SIG','stats': 'CMS_vhbb_stats','weightF_sys':'UEPS','weightF_QCD':'CMS_vhbb_boost_QCD','model':'CMS_vhbb_model'}
 
@@ -94,40 +94,38 @@ List = Mjj_pt100_ZZbb_EE,Mjj_pt100_ZZbb_MM,Mjj_pt100150_ZZbb_EE,Mjj_pt100150_ZZb
 
 InUse = ['lumi_8TeV','pdf_qqbar','pdf_gg','QCDscale_VH','QCDscale_ttbar','QCDscale_VV','QCDscale_QCD','CMS_vhbb_boost_EWK_8TeV','CMS_vhbb_boost_QCD_8TeV','CMS_vhbb_ST','CMS_vhbb_VV','CMS_vhbb_eff_e_8TeV','CMS_vhbb_eff_m_8TeV']
 
-InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_HighPt_8TeV','CMS_vhbb_Zj1b_SF_Zll_HighPt_8TeV','CMS_vhbb_Zj0b_SF_Zll_HighPt_8TeV','CMS_vhbb_TT_SF_Zll_HighPt_8TeV']
-InUse_MedPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_MedPt_8TeV','CMS_vhbb_Zj1b_SF_Zll_MedPt_8TeV','CMS_vhbb_Zj0b_SF_Zll_MedPt_8TeV','CMS_vhbb_TT_SF_Zll_MedPt_8TeV']
-InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_LowPt_8TeV','CMS_vhbb_Zj1b_SF_Zll_LowPt_8TeV','CMS_vhbb_Zj0b_SF_Zll_LowPt_8TeV','CMS_vhbb_TT_SF_Zll_LowPt_8TeV']
+#InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_HighPt_8TeV','CMS_vhbb_Zj1b_SF_Zll_HighPt_8TeV','CMS_vhbb_Zj0b_SF_Zll_HighPt_8TeV','CMS_vhbb_TT_SF_Zll_HighPt_8TeV']
+#InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_LowPt_8TeV','CMS_vhbb_Zj1b_SF_Zll_LowPt_8TeV','CMS_vhbb_Zj0b_SF_Zll_LowPt_8TeV','CMS_vhbb_TT_SF_Zll_LowPt_8TeV']
 
-#InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_8TeV','CMS_vhbb_Zj1b_SF_Zll_8TeV','CMS_vhbb_Zj0b_SF_Zll_8TeV','CMS_vhbb_TT_SF_Zll_8TeV']
-#InUse_MedPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_8TeV','CMS_vhbb_Zj1b_SF_Zll_8TeV','CMS_vhbb_Zj0b_SF_Zll_8TeV','CMS_vhbb_TT_SF_Zll_8TeV']
-#InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_8TeV','CMS_vhbb_Zj1b_SF_Zll_8TeV','CMS_vhbb_Zj0b_SF_Zll_8TeV','CMS_vhbb_TT_SF_Zll_8TeV']
+InUse_HighPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_8TeV','CMS_vhbb_Zj1b_SF_Zll_8TeV','CMS_vhbb_Zj0b_SF_Zll_8TeV','CMS_vhbb_TT_SF_Zll_8TeV']
+InUse_LowPt = <!Datacard|InUse!> + ['CMS_vhbb_Zj2b_SF_Zll_8TeV','CMS_vhbb_Zj1b_SF_Zll_8TeV','CMS_vhbb_Zj0b_SF_Zll_8TeV','CMS_vhbb_TT_SF_Zll_8TeV']
 InUse_HighPtLooseBTag = <!Datacard|InUse!> 
 
-lumi_7TeV = {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022,'VVlight':1.022,'VVb':1.022}
-lumi_8TeV = {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05,'VVlight':1.05,'VVb':1.05}
+lumi_7TeV = {'type':'lnN', 'ZH':1.022,'ST':1.022,'VV':1.022,'VVlight':1.022,'ZZb':1.022,'WZb':1.022}
+lumi_8TeV = {'type':'lnN', 'ZH':1.05,'ST':1.05,'VV':1.05,'VVlight':1.05,'ZZb':1.05,'WZb':1.05}
 
-pdf_qqbar = {'type':'lnN', 'ZH':1.01,'VVlight':1.01,'VVb':1.01}
+pdf_qqbar = {'type':'lnN', 'ZH':1.01,'VVlight':1.01,'ZZb':1.01,'WZb':1.01}
 pdf_gg = {'type':'lnN', 'ST':1.01,'QCD':1.01}
 QCDscale_VH = {'type':'lnN', 'ZH':1.04}
 QCDscale_ttbar = {'type':'lnN', 'ST':1.06}
-QCDscale_VV = {'type':'lnN', 'VVlight':1.04, 'VVb':1.04} 
+QCDscale_VV = {'type':'lnN', 'VVlight':1.04, 'ZZb':1.04, 'WZb':1.04} 
 QCDscale_QCD = {'type':'lnN', 'QCD':1.30}
 CMS_vhbb_boost_EWK_8TeV = {'type':'lnN', 'ZH':1.02,'ZH125':1.02}
 CMS_vhbb_boost_QCD_8TeV = {'type':'lnN', 'ZH':1.05,'ZH125':1.05}
 CMS_vhbb_ST = {'type':'lnN', 'ST':1.15}
 
-CMS_vhbb_VV = {'type':'lnN', 'VVlight':1.15, 'VVb':1.15}
+CMS_vhbb_VV = {'type':'lnN', 'VVlight':1.15, 'ZZb':1.05, 'WZb':1.05}
 CMS_vhbb_ZjLF_ex = {'type':'lnN', 'DYlight':1.05}
 CMS_vhbb_ZjHF_ex = {'type':'lnN', 'DYb':1.05}
 CMS_vhbb_TT_ex = {'type':'lnN', 'TT':1.05}
-#CMS_vhbb_eff_e_8TeV = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
-CMS_trigger_e = {'type':'lnN','ZH':1.02,'ZH125':1.02,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04,'ST':1.02,'VVlight':1.02 ,'VVb':1.02}
-CMS_vhbb_eff_e_8TeV = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
-CMS_trigger_e_ = {'type':'lnN','ZH':1.02,'ZH125':1.02,'ST':1.02,'VVlight':1.02 ,'VVb':1.02}
-#CMS_vhbb_eff_m_8TeV = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
-CMS_trigger_m = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04,'ST':1.01,'VVlight':1.01,'VVb':1.01 }
-CMS_vhbb_eff_m_8TeV = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'VVb':1.05}
-CMS_trigger_m_ = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'ST':1.01,'VVlight':1.01,'VVb':1.01 }
+#CMS_vhbb_eff_e_8TeV = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'ZZb':1.05,'WZb':1.05}
+CMS_trigger_e = {'type':'lnN','ZH':1.02,'ZH125':1.02,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04,'ST':1.02,'VVlight':1.02,'ZZb':1.02 ,'WZb':1.02}
+CMS_vhbb_eff_e_8TeV = {'type':'lnN', 'ZH':1.05,'ZH125':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'ZZb':1.05,'WZb':1.05}
+CMS_trigger_e_ = {'type':'lnN','ZH':1.02,'ZH125':1.02,'ST':1.02,'VVlight':1.02 ,'ZZb':1.02,'WZb':1.02}
+#CMS_vhbb_eff_m_8TeV = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'DYlight':1.05,'DY1b':1.05,'DY2b':1.05,'TT':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'ZZb':1.05,'WZb':1.05}
+CMS_trigger_m = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'DYlight':1.04,'DY1b':1.04,'DY2b':1.04,'TT':1.04,'ST':1.01,'VVlight':1.01,'ZZb':1.01,'WZb':1.01 }
+CMS_vhbb_eff_m_8TeV = {'type':'lnN',  'ZH':1.05,'ZH125':1.05,'ST':1.05,'VVlight':1.05,'QCD':1.05,'ZZb':1.05,'WZb':1.05}
+CMS_trigger_m_ = {'type':'lnN', 'ZH':1.01,'ZH125':1.01,'ST':1.01,'VVlight':1.01,'ZZb':1.01,'WZb':1.01 }
 
 CMS_vhbb_ZjLF_Zll_exHighPtLooseBTag_8TeV = {'type':'lnN', 'DYlight':1.20}
 CMS_vhbb_ZjHF_Zll_exHighPtLooseBTag_8TeV = {'type':'lnN', 'DYb':1.20}

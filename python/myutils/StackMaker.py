@@ -11,13 +11,12 @@ class StackMaker:
         section='Plot:%s'%region
         self.var = var
         self.SignalRegion=SignalRegion
+        self.region = region
         self.normalize = eval(config.get(section,'Normalize'))
         self.log = eval(config.get(section,'log'))
         if config.has_option('plotDef:%s'%var,'log') and not self.log:
             self.log = eval(config.get('plotDef:%s'%var,'log'))
         self.blind = eval(config.get(section,'blind'))
-        #if self.blind: blindopt='True'
-        #else: blindopt = 'False'
         if setup is None:
             self.setup=config.get('Plot_general','setup')
             if self.log:
@@ -158,13 +157,20 @@ class StackMaker:
 
         oben.cd()
         allStack = ROOT.THStack(self.var,'')     
-        l = ROOT.TLegend(0.63, 0.55,0.92,0.92)
+        l = ROOT.TLegend(0.45, 0.6,0.75,0.92)
         l.SetLineWidth(2)
         l.SetBorderSize(0)
         l.SetFillColor(0)
         l.SetFillStyle(4000)
         l.SetTextFont(62)
         l.SetTextSize(0.035)
+        l_2 = ROOT.TLegend(0.68, 0.6,0.92,0.92)
+        l_2.SetLineWidth(2)
+        l_2.SetBorderSize(0)
+        l_2.SetFillColor(0)
+        l_2.SetFillStyle(4000)
+        l_2.SetTextFont(62)
+        l_2.SetTextSize(0.035)
         MC_integral=0
         MC_entries=0
 
@@ -173,9 +179,6 @@ class StackMaker:
         print "\033[1;32m\n\tMC integral = %s\033[1;m"%MC_integral
 
         #ORDER AND ADD TOGETHER
-        #print typs
-        #print setup
-
 
         if not 'DYc' in self.typs: self.typLegendDict.update({'DYlight':self.typLegendDict['DYlc']})
         print self.typLegendDict
@@ -203,9 +206,19 @@ class StackMaker:
         elif 'Wmn' in self.datanames:
 	        addFlag = 'W(#mu#nu)H(b#bar{b})'
         elif 'Wen' in self.datanames:
-                addFlag = 'W(e#nu)H(b#bar{b})'
+	        addFlag = 'W(e#nu)H(b#bar{b})'
+        elif 'Wtn' in self.datanames:
+	        addFlag = 'W(#tau#nu)H(b#bar{b})'
+        addFlag2 = ''
+        if 'TTbar' in self.region:
+	        addFlag2 = 't#bar{t} enriched region'
+        elif 'ZLight' in self.region:
+	        addFlag2 = 'Z+udscg enriched region'
+        elif 'Zbb' in self.region:
+	        addFlag2 = 'Z+b#bar{b} enriched region'
         else:
-                addFlag = 'pp #rightarrow VH; H #rightarrow b#bar{b}'
+            addFlag2 = 'pp #rightarrow VH; H #rightarrow b#bar{b}'
+
         for i in range(0,len(self.datas)):
             print self.datas[i]
             d1.Add(self.datas[i],1)
@@ -214,36 +227,47 @@ class StackMaker:
         if flow > 0:
             print "\033[1;31m\tU/O flow: %s\033[1;m"%flow
 
+        if self.overlay and not isinstance(self.overlay,list):
+            self.overlay = [self.overlay]
         if self.overlay:
-            self.overlay.SetLineColor(2)
-            self.overlay.SetLineWidth(2)
-            self.overlay.SetFillColor(0)
-            self.overlay.SetFillStyle(4000)
-            self.overlay.SetNameTitle('Overlay','Overlay')
+            for _overlay in self.overlay:
+                _overlay.SetLineColor(int(self.colorDict[_overlay.GetName()]))
+                _overlay.SetLineWidth(2)
+                _overlay.SetFillColor(0)
+                _overlay.SetFillStyle(4000)
 
+        numLegend = 2+k
+        if self.overlay:
+            numLegend += len(self.overlay)
         l.AddEntry(d1,datatitle,'P')
         for j in range(0,k):
-            l.AddEntry(self.histos[j],self.typLegendDict[self.typs[j]],'F')
+            if j < numLegend/2.-1:
+                l.AddEntry(self.histos[j],self.typLegendDict[self.typs[j]],'F')
+            else:
+                l_2.AddEntry(self.histos[j],self.typLegendDict[self.typs[j]],'F')
         if self.overlay:
-            l.AddEntry(self.overlay,self.typLegendDict['Overlay'],'L')
+            for _overlay in self.overlay:
+                l_2.AddEntry(_overlay,self.typLegendDict[_overlay.GetName()],'L')
     
         if self.normalize:
             if MC_integral != 0:	stackscale=d1.Integral()/MC_integral
             if self.overlay:
-                self.overlay.Scale(stackscale)
+                for _overlay in self.overlay:
+                    _overlay.Scale(stackscale)
             stackhists=allStack.GetHists()
             for blabla in stackhists:
         	    if MC_integral != 0: blabla.Scale(stackscale)
    
-        #if self.SignalRegion:
-        #    allMC=allStack.GetStack().At(allStack.GetStack().GetLast()-1).Clone()
-        #else:
         allMC=allStack.GetStack().Last().Clone()
 
         allStack.SetTitle()
         allStack.Draw("hist")
         allStack.GetXaxis().SetTitle('')
-        yTitle = 'weighted entries'
+        #yTitle = 's/(s+b) weighted entries'
+        if not d1.GetSumOfWeights() % 1 == 0.0:
+            yTitle = 's/(s+b) weighted entries'
+        else:
+            yTitle = 'Entries'
         if not '/' in yTitle:
             yAppend = '%.0f' %(allStack.GetXaxis().GetBinWidth(1)) 
             yTitle = '%s / %s' %(yTitle, yAppend)
@@ -254,39 +278,44 @@ class StackMaker:
         theErrorGraph.SetFillColor(ROOT.kGray+3)
         theErrorGraph.SetFillStyle(3013)
         theErrorGraph.Draw('SAME2')
-        l.AddEntry(theErrorGraph,"MC uncert. (stat.)","fl")
+        l_2.AddEntry(theErrorGraph,"MC uncert. (stat.)","fl")
         Ymax = max(allStack.GetMaximum(),d1.GetMaximum())*1.7
         if self.log:
             allStack.SetMinimum(0.1)
             Ymax = Ymax*ROOT.TMath.Power(10,1.2*(ROOT.TMath.Log(1.2*(Ymax/0.1))/ROOT.TMath.Log(10)))*(0.2*0.1)
+            #Ymax = Ymax*ROOT.TMath.Power(10,1.3*(ROOT.TMath.Log(1.3*(Ymax/0.1))/ROOT.TMath.Log(10)))*(0.3*0.1)
             ROOT.gPad.SetLogy()
         allStack.SetMaximum(Ymax)
         c.Update()
         ROOT.gPad.SetTicks(1,1)
-        #allStack.Draw("hist")
         l.SetFillColor(0)
         l.SetBorderSize(0)
+        l_2.SetFillColor(0)
+        l_2.SetBorderSize(0)
         
         if self.overlay:
-            self.overlay.Draw('hist,same')
+            for _overlay in self.overlay:
+                _overlay.Draw('hist,same')
         d1.Draw("E,same")
         l.Draw()
+        l_2.Draw()
 
-        tPrel = self.myText("CMS Preliminary",0.17,0.88,1.04)
-        tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.83)
-        tLumi = self.myText("#sqrt{s} =  7TeV, L = 5.0 fb^{-1}",0.17,0.78)
-        tAddFlag = self.myText(addFlag,0.17,0.73)
+        tPrel = self.myText("CMS",0.17,0.88,1.04)
+        tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%('7TeV',(float(5000.)/1000.)),0.17,0.83)
+        tLumi1 = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.78)
+        tAddFlag = self.myText(addFlag,0.17,0.78)
+        if addFlag2:
+            tAddFlag2 = self.myText(addFlag2,0.17,0.73)
 
         unten.cd()
         ROOT.gPad.SetTicks(1,1)
 
-        l2 = ROOT.TLegend(0.5, 0.82,0.92,0.95)
+        l2 = ROOT.TLegend(0.50, 0.82,0.92,0.95)
         l2.SetLineWidth(2)
         l2.SetBorderSize(0)
         l2.SetFillColor(0)
         l2.SetFillStyle(4000)
         l2.SetTextFont(62)
-        #l2.SetTextSize(0.035)
         l2.SetNColumns(2)
 
 
@@ -317,11 +346,8 @@ class StackMaker:
 
             l2.AddEntry(self.AddErrors,"MC uncert. (stat. + syst.)","f")
 
-            #ksScore = d1.KolmogorovTest( self.AddErrors )
-            #chiScore = d1.Chi2Test( self.AddErrors , "UWCHI2/NDF")
 
-
-        l2.AddEntry(ratioError,"MC uncert. (stat.)","f")
+        l2.AddEntry(ratioError,"MC total uncert.","f")
 
         l2.Draw()
 
@@ -333,7 +359,8 @@ class StackMaker:
         m_one_line.Draw("Same")
 
         if not self.blind:
-            tKsChi = self.myText("#chi_{#nu}^{2} = %.3f K_{s} = %.3f"%(chiScore,ksScore),0.17,0.9,1.5)
+            #tKsChi = self.myText("#chi_{#nu}^{2} = %.3f K_{s} = %.3f"%(chiScore,ksScore),0.17,0.9,1.5)
+            tKsChi = self.myText("#chi_{#nu}^{2} = %.3f"%(chiScore),0.17,0.9,1.5)
         t0 = ROOT.TText()
         t0.SetTextSize(ROOT.gStyle.GetLabelSize()*2.4)
         t0.SetTextFont(ROOT.gStyle.GetLabelFont())
@@ -343,8 +370,31 @@ class StackMaker:
             os.makedirs(os.path.dirname(self.plotDir))
         name = '%s/%s' %(self.plotDir,self.options['pdfName'])
         c.Print(name)
-        self.doCompPlot(allStack,l)
-
+        fOut = ROOT.TFile.Open(name.replace('.pdf','.root'),'RECREATE')
+        for theHist in allStack.GetHists():
+            if not self.AddErrors == None and not theHist.GetName() in ['ZH','WH','VH']:
+                #print theHist.GetNbinsX()
+                #print self.AddErrors.GetN()
+                #print error.GetNbinsX()
+                for bin in range(0,theHist.GetNbinsX()):
+                    theRelativeTotalError = self.AddErrors.GetErrorY(bin)
+                    if error.GetBinError(bin+1) > 0.:
+                        theRelativeIncrease = theRelativeTotalError/error.GetBinError(bin+1)
+                    else:
+                        theRelativeIncrease = 1.
+                    #print 'TheTotalRelativeIncrease is: %.2f' %theRelativeIncrease
+                    #print 'TheTotalStatError is: %.2f' %error.GetBinError(bin+1)
+                    #print 'TheTotalError is: %.2f' %theRelativeTotalError
+                    theHist.SetBinError(bin,theHist.GetBinError(bin)*theRelativeIncrease)
+            theHist.SetDirectory(fOut)
+            if theHist.GetName() == 'ZH' or theHist.GetName() == 'WH':
+                theHist.SetName('VH')
+            theHist.Write()
+        d1.SetName('data_obs')
+        d1.SetDirectory(fOut)
+        d1.Write()
+        fOut.Close()
+        #self.doCompPlot(allStack,l)
 
     def doSubPlot(self,signal):
         
@@ -377,7 +427,7 @@ class StackMaker:
         bkgStack = ROOT.THStack(self.var,'')     
         sigStack = ROOT.THStack(self.var,'')     
 
-        l = ROOT.TLegend(0.63, 0.55,0.92,0.92)
+        l = ROOT.TLegend(0.59, 0.55,0.88,0.92)
         l.SetLineWidth(2)
         l.SetBorderSize(0)
         l.SetFillColor(0)
@@ -444,32 +494,31 @@ class StackMaker:
         if flow > 0:
             print "\033[1;31m\tU/O flow: %s\033[1;m"%flow
         
-        if self.overlay:
-            self.overlay.SetLineColor(2)
-            self.overlay.SetLineWidth(2)
-            self.overlay.SetFillColor(0)
-            self.overlay.SetFillStyle(4000)
-            self.overlay.SetNameTitle('Overlay','Overlay')
 
+        numLegend = 1+k
+        if self.overlay:
+            numLegend += len(self.overlay)
         l.AddEntry(d1,datatitle,'P')
 #        l.AddEntry(sub_d1,datatitle,'P')
         for j in range(0,k):
             if self.typs[j] in signal:
-                l.AddEntry(sub_histos[j],self.typLegendDict[self.typs[j]],'F')
+                if j < numLegend/2.:
+                    l.AddEntry(sub_histos[j],self.typLegendDict[self.typs[j]],'F')
+                else:
+                    l_2.AddEntry(sub_histos[j],self.typLegendDict[self.typs[j]],'F')
         if self.overlay:
-            l.AddEntry(self.overlay,self.typLegendDict['Overlay'],'L')
+            for _overlay in self.overlay:
+                l_2.AddEntry(_overlay,self.typLegendDict['Overlay'+_overlay.GetName()],'L')
     
         if self.normalize:
             if MC_integral != 0:	stackscale=d1.Integral()/MC_integral
             if self.overlay:
-                self.overlay.Scale(stackscale)
+                for _overlay in self.overlay:
+                    _overlay.Scale(stackscale)
             stackhists=allStack.GetHists()
             for blabla in stackhists:
         	    if MC_integral != 0: blabla.Scale(stackscale)
    
-        #if self.SignalRegion:
-        #    allMC=allStack.GetStack().At(allStack.GetStack().GetLast()-1).Clone()
-        #else:
         allMC=allStack.GetStack().Last().Clone()
         bkgMC=bkgStack.GetStack().Last().Clone()
 
@@ -486,11 +535,12 @@ class StackMaker:
         sigStack.SetTitle()
         sigStack.Draw("hist")
         sigStack.GetXaxis().SetTitle('')
-        yTitle = 'weighted entries'
+        yTitle = 's/(s+b) weighted entries'
         if not '/' in yTitle:
             yAppend = '%.0f' %(sigStack.GetXaxis().GetBinWidth(1)) 
             yTitle = '%s / %s' %(yTitle, yAppend)
         sigStack.GetYaxis().SetTitle(yTitle)
+        sigStack.GetYaxis().SetTitleOffset(1.3)
         sigStack.GetXaxis().SetRangeUser(self.xMin,self.xMax)
         sigStack.GetYaxis().SetRangeUser(-2000,20000)
         sigStack.GetXaxis().SetTitle(self.xAxis)
@@ -515,7 +565,7 @@ class StackMaker:
         theErrorGraph.SetFillColor(ROOT.kGray+3)
         theErrorGraph.SetFillStyle(3013)
         theErrorGraph.Draw('SAME2')
-        l.AddEntry(theErrorGraph,"Visible MC uncert.","fl")
+        l.AddEntry(theErrorGraph,"VH + VV MC uncert.","fl")
 
         Ymax = max(sigStack.GetMaximum(),sub_d1.GetMaximum())*1.7
         Ymin = max(-sub_mc.GetMinimum(),-sub_d1.GetMinimum())*2.7
@@ -532,11 +582,12 @@ class StackMaker:
         l.SetBorderSize(0)
         
         if self.overlay:
-            self.overlay.Draw('hist,same')
+            for _overlay in self.overlay:
+                _overlay.Draw('hist,same')
         sub_d1.Draw("E,same")
         l.Draw()
 
-        tPrel = self.myText("CMS Preliminary",0.17,0.88,1.04)
+        tPrel = self.myText("CMS",0.17,0.88,1.04)
         tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.83)
         tLumi = self.myText("#sqrt{s} =  7TeV, L = 5.0 fb^{-1}",0.17,0.78)
         tAddFlag = self.myText(addFlag,0.17,0.73)
@@ -561,12 +612,8 @@ class StackMaker:
 
             l2.AddEntry(self.AddErrors,"MC uncert. (stat. + syst.)","f")
 
-            #ksScore = sub_d1.KolmogorovTest( self.AddErrors )
-            #chiScore = sub_d1.Chi2Test( self.AddErrors , "UWCHI2/NDF")
-
 
         if not os.path.exists(self.plotDir):
             os.makedirs(os.path.dirname(self.plotDir))
         name = '%s/%s' %(self.plotDir,self.options['pdfName'])
         c.Print(name)
-#        self.doCompPlot(sigStack,l)

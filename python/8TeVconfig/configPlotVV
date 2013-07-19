@@ -1,0 +1,99 @@
+[Analysis]
+tag = 8TeV
+
+[Directories]
+plotpath: ~/VHbb/lhcp/Plots/
+
+[Plot_general]
+lumi = 19000.
+#how and which groups in the plot
+setup: VVb,ZH,VVlight,DY2b,DY1b,DYlight,TT,ST
+setupLog: VVb,DY2b,DY1b,DYlight,TT,ST,VVlight,ZH
+
+#colors
+colorDict: {'DYlight':401,'DYc':41,'DY2b':5,'DY1b':41,'Wlight':814,'Wc':41,'Wb':820,'TT':596,'ST':840,'VVb':2,'VVlight':18,'WH':5,'ZH':5,'VH':2,'DYlc':401,'DYlc':401}
+typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','Wlight':'W+udscg','Wc':'W + c#bar{c}','Wb':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','VVlight':'VV+udscg','VVb':'VV+b','ZH':'ZH','WH':'WH','VH':'VH','Overlay':'VV+b'}
+
+addOverFlow = True
+
+[LimitGeneral]
+
+Dict = {'ZH':'ZH','DYlight':'Zj0b','DY1b':'Zj1b','DY2b':'Zj2b','TT':'TT','ST':'s_Top','VVb':'VVHF','VVlight':'VVLF','VV':'VV','Data':'data_obs','ZH125':'H125'}
+
+
+[Plot:BDT]
+Datas: Zee
+Normalize: False
+Signal: ZH125
+log: True
+blind: False
+
+[plotDef:MJJ_Zll]
+relPath = CMS_vhbb_Mjj_Zll_8TeV
+xAxis = M_{b#bar{b}} [GeV]
+nBins = 17
+min = 0.
+max = 255.
+
+[plotDef:MJJ_Zll_VV]
+relPath = CMS_vhbb_MJJ_Zll_8TeV
+xAxis = M_{b#bar{b}} [GeV]
+nBins = 17
+min = 0.
+max = 255.
+
+[plotDef:BDT_Zll]
+relPath = CMS_vhbb_BDT_Zll_8TeV
+xAxis = BDT output
+nBins = 15
+min = -1
+max = 1
+
+[plotDef:BDT_Zll_VV]
+relPath = CMS_vhbb_BDT_Zll_8TeV
+xAxis = BDT output
+nBins = 15
+min = -1
+max = 1
+
+[plotDef:BDT_Wln]
+relPath = CMS_vhbb_BDT_Wln_8TeV
+xAxis = BDT output
+nBins = 21
+min = -1
+max = 1
+
+[plotDef:BDT_ZnnHighPt]
+relPath = CMS_vhbb_BDT_ZnunuHighPt_8TeV
+xAxis = BDT output
+nBins = 15
+min = -1.
+max = -0.0625
+
+[plotDef:BDT_ZnnLowPt]
+relPath = CMS_vhbb_BDT_ZnunuLowPt_8TeV
+xAxis = BDT output
+nBins = 8
+min = -1
+max = 1.
+
+[plotDef:BDT_ZnnLowCSV]
+relPath = CMS_vhbb_BDT_ZnunuLowCSV_8TeV
+xAxis = BDT output
+nBins = 7
+min = -1.
+max = 1.
+
+[plotDef:MET]
+relPath = CMS_vhbb_BDT_Zll_8TeV
+xAxis = MET
+nBins = 20
+min = 0
+max = 100
+
+[plotDef:CSV]
+relPath = CMS_vhbb_BDT_Zll_8TeV
+xAxis = CSV
+nBins = 20
+min = 0
+max = 1
