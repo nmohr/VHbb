@@ -66,10 +66,10 @@ def readBestFit(theFile):
         for fit_name, nuis_x in [('b', nuis_b), ('s',nuis_s)]:
             if nuis_p != None:
                 valShift = (nuis_x.getVal() - mean_p)/sigma_p
-                #sigShift = nuis_x.getError()/sigma_p
+                sigShift = nuis_x.getError()/sigma_p
                 print fit_name, name
                 print valShift
-                nuiVariation['%s_%s'%(fit_name,name)] = valShift
+                nuiVariation['%s_%s'%(fit_name,name)] = [valShift,sigShift]
                 #print valShift
     return nuiVariation
 
@@ -213,6 +213,7 @@ def drawFromDC():
         exps = {}
         expNui = {}
         shapeNui = {}
+        reducedShapeNui = {}
         for (p,e) in DC.exp[b].items(): # so that we get only self.DC.processes contributing to this bin
             exps[p] = [ e, [] ]
             expNui[p] = [ e, [] ]
@@ -237,11 +238,13 @@ def drawFromDC():
                     kmax = max(errline[b][p][0], errline[b][p][1], 1.0/errline[b][p][0], 1.0/errline[b][p][1]);
                     exps[p][1].append(kmax-1.);
                 elif pdf == 'lnN':
-                     exps[p][1].append(max(errline[b][p], 1.0/errline[b][p])-1.);
+                     lnNVar = max(errline[b][p], 1.0/errline[b][p])-1.
                      if not nuiVar.has_key('%s_%s'%(opts.fit,lsyst)):
                          nui = 0.
                      else:
-                        nui= nuiVar['%s_%s'%(opts.fit,lsyst)]
+                        nui= nuiVar['%s_%s'%(opts.fit,lsyst)][0]
+                        lnNVar = lnNVar*nuiVar['%s_%s'%(opts.fit,lsyst)][1]
+                     exps[p][1].append(lnNVar)
                      expNui[p][1].append(abs(1-errline[b][p])*nui);
                 elif ("shape" in pdf):
                     #print 'shape %s %s: %s'%(pdf,p,lsyst)
@@ -260,9 +263,12 @@ def drawFromDC():
                     theShapes[p+lsyst+'Down'] = sDown.Clone()
                     if not nuiVar.has_key('%s_%s'%(opts.fit,lsyst)):
                         nui = 0.
+                        reducedNui = 1.
                     else:
-                        nui= nuiVar['%s_%s'%(opts.fit,lsyst)]
+                        nui= nuiVar['%s_%s'%(opts.fit,lsyst)][0]
+                        reducedNui= nuiVar['%s_%s'%(opts.fit,lsyst)][1]
                     shapeNui[p+lsyst] = nui
+                    reducedShapeNui[lsyst] = reducedNui
                     if not 'CMS_vhbb_stat' in lsyst:
                         if counter == 0:
                             theSyst[lsyst] = s0.Clone() 
@@ -277,6 +283,10 @@ def drawFromDC():
     procs = DC.exp[b].keys(); procs.sort()
     if not 'QCD' in setup and 'QCD' in procs:
         procs.remove('QCD')
+    if not 'W2b' in setup and 'WjHF' in procs:
+        procs.remove('WjHF')
+    if not 'Wlight' in setup and 'WjLF' in procs:
+        procs.remove('WjLF')
     fmt = ("%%-%ds " % max([len(p) for p in procs]))+"  "+options.format;
     #Compute norm uncertainty and best fit
     theNormUncert = {}
@@ -333,6 +343,8 @@ def drawFromDC():
             theSystDown = theSyst[lsyst+'Down'].Clone()
             theSystDown.Add(theSyst[lsyst].Clone(),-1.)
             theSystDown.Multiply(theSystDown)
+            theSystUp.Scale(reducedShapeNui[lsyst])
+            theSystDown.Scale(reducedShapeNui[lsyst])
             if counter == 0:
                 theAbsSystUp = theSystUp.Clone()
                 theAbsSystDown = theSystDown.Clone()
@@ -411,7 +423,7 @@ def drawFromDC():
     histos.append(copy(Overlay))
     if 'ZH' in signalList and 'WH' in signalList:
         typs.append('VH')
-        Stack.setup.remove('ZH')
+        if 'ZH' in Stack.setup: Stack.setup.remove('ZH')
         if 'WH' in Stack.setup: Stack.setup.remove('WH')
         Stack.setup.insert(0,'VH')
     elif 'ZH' in signalList:
@@ -427,8 +439,10 @@ def drawFromDC():
     Stack.datas = datas
     Stack.datatyps = datatyps
     Stack.datanames= datanames
-    Stack.overlay = Overlay
+    #Stack.overlay = Overlay
     Stack.AddErrors=Error
+    if dataname == 'Wtn': 
+        lumi = 18300.
     Stack.lumi = lumi
     Stack.doPlot()
 
