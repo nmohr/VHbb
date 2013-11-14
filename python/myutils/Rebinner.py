@@ -34,7 +34,7 @@ class Rebinner:
         binL=1
         rel=1.0
         #---- from right
-        while rel > 0.35:
+        while rel > max_rel:
             TotR+=hDummyRB.GetBinContent(binR)
             ErrorR=sqrt(ErrorR**2+hDummyRB.GetBinError(binR)**2)
             binR-=1
@@ -45,7 +45,7 @@ class Rebinner:
 
         #---- from left
         rel=1.0
-        while rel > 0.35:
+        while rel > max_rel:
             TotL+=hDummyRB.GetBinContent(binL)
             ErrorL=sqrt(ErrorL**2+hDummyRB.GetBinError(binL)**2)
             binL+=1

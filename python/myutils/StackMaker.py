@@ -72,6 +72,7 @@ class StackMaker:
         else:
             self.options['weight'] = None
         self.plotDir = config.get('Directories','plotpath')
+        #self.maxRatioUncert = 1000.5
         self.maxRatioUncert = 0.5
         if self.SignalRegion:
             self.maxRatioUncert = 1000.
@@ -83,6 +84,21 @@ class StackMaker:
         self.histos = None
         self.typs = None
         self.AddErrors = None
+        self.addFlag2 = ''
+        if 'TTbar' in self.region:
+	        self.addFlag2 = 't#bar{t} enriched'
+        elif 'ZLight' in self.region:
+	        self.addFlag2 = 'Z+udscg enriched'
+	        #addFlag2 = 'Z+LF enriched'
+        elif 'Zbb' in self.region:
+	        self.addFlag2 = 'Z+b#bar{b} enriched'
+	        #addFlag2 = 'Z+HF enriched'
+        elif 'Wbb' in self.region:
+	        self.addFlag2 = 'W+b#bar{b} enriched'
+        elif 'Wudscg' in self.region:
+	        self.addFlag2 = 'W+udscg enriched'
+        #else:
+            #addFlag2 = 'pp #rightarrow VH; H #rightarrow b#bar{b}'
         print self.setup
 
     @staticmethod
@@ -118,11 +134,6 @@ class StackMaker:
         aStack.SetMaximum(maximum*1.5)
         aStack.GetXaxis().SetTitle(self.xAxis)
         aStack.Draw('HISTNOSTACK')
-        if self.overlay:
-            if self.overlay.Integral() > 0.:
-                self.overlay.Scale(1./self.overlay.Integral())
-            self.overlay.Draw('hist,same')
-            l.AddEntry(self.overlay,self.typLegendDict['Overlay'],'L')
         l.Draw()
         name = '%s/comp_%s' %(self.plotDir,self.options['pdfName'])
         c.Print(name)
@@ -209,15 +220,6 @@ class StackMaker:
 	        addFlag = 'W(e#nu)H(b#bar{b})'
         elif 'Wtn' in self.datanames:
 	        addFlag = 'W(#tau#nu)H(b#bar{b})'
-        addFlag2 = ''
-        if 'TTbar' in self.region:
-	        addFlag2 = 't#bar{t} enriched region'
-        elif 'ZLight' in self.region:
-	        addFlag2 = 'Z+udscg enriched region'
-        elif 'Zbb' in self.region:
-	        addFlag2 = 'Z+b#bar{b} enriched region'
-        else:
-            addFlag2 = 'pp #rightarrow VH; H #rightarrow b#bar{b}'
 
         for i in range(0,len(self.datas)):
             print self.datas[i]
@@ -265,12 +267,17 @@ class StackMaker:
         allStack.GetXaxis().SetTitle('')
         #yTitle = 's/(s+b) weighted entries'
         if not d1.GetSumOfWeights() % 1 == 0.0:
-            yTitle = 's/(s+b) weighted entries'
+            yTitle = 'S/(S+B) weighted entries'
         else:
             yTitle = 'Entries'
         if not '/' in yTitle:
-            yAppend = '%.0f' %(allStack.GetXaxis().GetBinWidth(1)) 
+            if 'GeV' in self.xAxis:
+                yAppend = '%.0f' %(allStack.GetXaxis().GetBinWidth(1)) 
+            else:
+                yAppend = '%.2f' %(allStack.GetXaxis().GetBinWidth(1)) 
             yTitle = '%s / %s' %(yTitle, yAppend)
+            if 'GeV' in self.xAxis:
+                yTitle += ' GeV'
         allStack.GetYaxis().SetTitle(yTitle)
         allStack.GetXaxis().SetRangeUser(self.xMin,self.xMax)
         allStack.GetYaxis().SetRangeUser(0,20000)
@@ -301,21 +308,25 @@ class StackMaker:
         l_2.Draw()
 
         tPrel = self.myText("CMS",0.17,0.88,1.04)
-        tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%('7TeV',(float(5000.)/1000.)),0.17,0.83)
-        tLumi1 = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.78)
+        if not d1.GetSumOfWeights() % 1 == 0.0:
+            tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%('7TeV',(float(5000.)/1000.)),0.17,0.83)
+            tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.78)
+        else:
+            tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.83)
         tAddFlag = self.myText(addFlag,0.17,0.78)
-        if addFlag2:
-            tAddFlag2 = self.myText(addFlag2,0.17,0.73)
+        print 'Add Flag %s' %self.addFlag2
+        if self.addFlag2:
+            tAddFlag2 = self.myText(self.addFlag2,0.17,0.73)
 
         unten.cd()
         ROOT.gPad.SetTicks(1,1)
 
-        l2 = ROOT.TLegend(0.50, 0.82,0.92,0.95)
+        l2 = ROOT.TLegend(0.39, 0.85,0.93,0.97)
         l2.SetLineWidth(2)
         l2.SetBorderSize(0)
         l2.SetFillColor(0)
         l2.SetFillStyle(4000)
-        l2.SetTextFont(62)
+        l2.SetTextSize(0.075)
         l2.SetNColumns(2)
 
 
@@ -340,14 +351,15 @@ class StackMaker:
 
 
         if not self.AddErrors == None:
+            self.AddErrors.SetLineColor(1)
             self.AddErrors.SetFillColor(5)
-            self.AddErrors.SetFillStyle(1001)
+            self.AddErrors.SetFillStyle(3001)
             self.AddErrors.Draw('SAME2')
 
             l2.AddEntry(self.AddErrors,"MC uncert. (stat. + syst.)","f")
 
 
-        l2.AddEntry(ratioError,"MC total uncert.","f")
+        l2.AddEntry(ratioError,"MC uncert. (stat.)","f")
 
         l2.Draw()
 
@@ -355,12 +367,12 @@ class StackMaker:
         ratio.Draw("E1SAME")
         ratio.SetTitle("")
         m_one_line = ROOT.TLine(self.xMin,1,self.xMax,1)
-        m_one_line.SetLineStyle(ROOT.kDashed)
+        m_one_line.SetLineStyle(ROOT.kSolid)
         m_one_line.Draw("Same")
 
         if not self.blind:
             #tKsChi = self.myText("#chi_{#nu}^{2} = %.3f K_{s} = %.3f"%(chiScore,ksScore),0.17,0.9,1.5)
-            tKsChi = self.myText("#chi_{#nu}^{2} = %.3f"%(chiScore),0.17,0.9,1.5)
+            tKsChi = self.myText("#chi^{2}_{ }#lower[0.1]{/^{}#it{dof} = %.2f}"%(chiScore),0.17,0.895,1.55)
         t0 = ROOT.TText()
         t0.SetTextSize(ROOT.gStyle.GetLabelSize()*2.4)
         t0.SetTextFont(ROOT.gStyle.GetLabelFont())
@@ -370,31 +382,32 @@ class StackMaker:
             os.makedirs(os.path.dirname(self.plotDir))
         name = '%s/%s' %(self.plotDir,self.options['pdfName'])
         c.Print(name)
-        fOut = ROOT.TFile.Open(name.replace('.pdf','.root'),'RECREATE')
-        for theHist in allStack.GetHists():
-            if not self.AddErrors == None and not theHist.GetName() in ['ZH','WH','VH']:
+        #print "DATA INTEGRAL: %s" %d1.Integral(d1.GetNbinsX()-2,d1.GetNbinsX()) 
+        #fOut = ROOT.TFile.Open(name.replace('.pdf','.root'),'RECREATE')
+        #for theHist in allStack.GetHists():
+        #    if not self.AddErrors == None and not theHist.GetName() in ['ZH','WH','VH']:
                 #print theHist.GetNbinsX()
                 #print self.AddErrors.GetN()
                 #print error.GetNbinsX()
-                for bin in range(0,theHist.GetNbinsX()):
-                    theRelativeTotalError = self.AddErrors.GetErrorY(bin)
-                    if error.GetBinError(bin+1) > 0.:
-                        theRelativeIncrease = theRelativeTotalError/error.GetBinError(bin+1)
-                    else:
-                        theRelativeIncrease = 1.
+        #        for bin in range(0,theHist.GetNbinsX()):
+        #            theRelativeTotalError = self.AddErrors.GetErrorY(bin)
+        #            if error.GetBinError(bin+1) > 0.:
+        #                theRelativeIncrease = theRelativeTotalError/error.GetBinError(bin+1)
+        #            else:
+        #                theRelativeIncrease = 1.
                     #print 'TheTotalRelativeIncrease is: %.2f' %theRelativeIncrease
                     #print 'TheTotalStatError is: %.2f' %error.GetBinError(bin+1)
                     #print 'TheTotalError is: %.2f' %theRelativeTotalError
-                    theHist.SetBinError(bin,theHist.GetBinError(bin)*theRelativeIncrease)
-            theHist.SetDirectory(fOut)
-            if theHist.GetName() == 'ZH' or theHist.GetName() == 'WH':
-                theHist.SetName('VH')
-            theHist.Write()
-        d1.SetName('data_obs')
-        d1.SetDirectory(fOut)
-        d1.Write()
-        fOut.Close()
-        #self.doCompPlot(allStack,l)
+        #            theHist.SetBinError(bin,theHist.GetBinError(bin)*theRelativeIncrease)
+        #    theHist.SetDirectory(fOut)
+        #    if theHist.GetName() == 'ZH' or theHist.GetName() == 'WH':
+        #        theHist.SetName('VH')
+        #    theHist.Write()
+        #d1.SetName('data_obs')
+        #d1.SetDirectory(fOut)
+        #d1.Write()
+        #fOut.Close()
+        self.doCompPlot(allStack,l)
 
     def doSubPlot(self,signal):
         
@@ -413,21 +426,14 @@ class StackMaker:
         c.SetFillStyle(4000)
         c.SetFrameFillStyle(1000)
         c.SetFrameFillColor(0)
+        c.SetTopMargin(0.035)
+        c.SetBottomMargin(0.12)
 
-        main_pad = ROOT.TPad('main_pad','main_pad',0,0.1 ,1.0,1.0)
-#        main_pad.SetBottomMargin(0)
-        main_pad.SetFillStyle(4000)
-        main_pad.SetFrameFillStyle(1000)
-        main_pad.SetFrameFillColor(0)
-
-        main_pad.Draw()
-
-        main_pad.cd()
         allStack = ROOT.THStack(self.var,'')
         bkgStack = ROOT.THStack(self.var,'')     
         sigStack = ROOT.THStack(self.var,'')     
 
-        l = ROOT.TLegend(0.59, 0.55,0.88,0.92)
+        l = ROOT.TLegend(0.55, 0.65,0.86,0.94)
         l.SetLineWidth(2)
         l.SetBorderSize(0)
         l.SetFillColor(0)
@@ -535,7 +541,7 @@ class StackMaker:
         sigStack.SetTitle()
         sigStack.Draw("hist")
         sigStack.GetXaxis().SetTitle('')
-        yTitle = 's/(s+b) weighted entries'
+        yTitle = 'S/(S+B) weighted entries'
         if not '/' in yTitle:
             yAppend = '%.0f' %(sigStack.GetXaxis().GetBinWidth(1)) 
             yTitle = '%s / %s' %(yTitle, yAppend)
@@ -587,10 +593,10 @@ class StackMaker:
         sub_d1.Draw("E,same")
         l.Draw()
 
-        tPrel = self.myText("CMS",0.17,0.88,1.04)
-        tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.83)
-        tLumi = self.myText("#sqrt{s} =  7TeV, L = 5.0 fb^{-1}",0.17,0.78)
-        tAddFlag = self.myText(addFlag,0.17,0.73)
+        tPrel = self.myText("CMS",0.17,0.9,1.04)
+        tLumi = self.myText("#sqrt{s} =  7TeV, L = 5.0 fb^{-1}",0.17,0.85)
+        tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.80)
+        tAddFlag = self.myText(addFlag,0.17,0.75)
 
         ROOT.gPad.SetTicks(1,1)
 

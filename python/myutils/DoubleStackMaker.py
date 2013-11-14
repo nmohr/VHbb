@@ -167,7 +167,7 @@ class StackMaker:
         oben.cd()
         allStack = ROOT.THStack(self.var,'')     
         #l = ROOT.TLegend(0.68, 0.65,0.92,0.92)
-        l = ROOT.TLegend(0.68, 0.5,0.92,0.92)
+        l = ROOT.TLegend(0.6, 0.5,0.92,0.92)
         l.SetLineWidth(2)
         l.SetBorderSize(0)
         l.SetFillColor(0)
@@ -272,7 +272,8 @@ class StackMaker:
         theErrorGraph.SetFillColor(ROOT.kGray+3)
         theErrorGraph.SetFillStyle(3013)
         theErrorGraph.Draw('SAME2')
-        l.AddEntry(theErrorGraph,"B total uncert.","fl")
+        #l.AddEntry(theErrorGraph,"B total uncert.","fl")
+        l.AddEntry(theErrorGraph,"Background uncert.","fl")
         Ymax = max(allStack.GetMaximum(),d1.GetMaximum())*1.7
         if self.log:
             allStack.SetMinimum(0.1)
@@ -299,6 +300,8 @@ class StackMaker:
         tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%('7TeV',(float(5000.)/1000.)),0.17,0.77,1.2)
         tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.69,1.2)
         tAddFlag = self.myText(addFlag,0.17,0.61,1.2)
+        #tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.77,1.2)
+        #tAddFlag = self.myText(addFlag,0.17,0.69,1.2)
 
         unten.cd()
         ROOT.gPad.SetTicks(1,1)
@@ -362,6 +365,8 @@ class StackMaker:
         ratio.Draw("E1SAME")
         ratio.SetTitle("")
         ratio.SetYTitle("#frac{Data}{MC(S+B)}")
+        if not self.blind:
+            tKsChi = self.myText("#chi^{2}_{ }#lower[0.1]{/^{}#it{dof} = %.2f}"%(chiScore),0.17,0.9,1.7)
         m_one_line = ROOT.TLine(self.xMin,1,self.xMax,1)
         m_one_line.SetLineStyle(ROOT.kDashed)
         m_one_line.Draw("Same")
@@ -370,6 +375,7 @@ class StackMaker:
         ROOT.gPad.SetTicks(1,1)
         
         ratio1, error1 = getRatio(d1,bkgMC,self.xMin,self.xMax,"",self.maxRatioUncert)
+        chiScore1 = d1.Chi2Test( bkgMC , "UWCHI2/NDF")
         ratio1.Draw("E1")
         #l2.Draw()
 
@@ -392,8 +398,8 @@ class StackMaker:
 
         m_one_line.Draw("Same")
 
-        #if not self.blind:
-        #    tKsChi = self.myText("#chi_{#nu}^{2} = %.3f K_{s} = %.3f"%(chiScore,ksScore),0.17,0.9,1.5)
+        if not self.blind:
+            tKsChi1 = self.myText("#chi^{2}_{ }#lower[0.1]{/^{}#it{dof} = %.2f}"%(chiScore1),0.17,0.865,2.3)
         t0 = ROOT.TText()
         t0.SetTextSize(ROOT.gStyle.GetLabelSize()*2.4)
         t0.SetTextFont(ROOT.gStyle.GetLabelFont())
