@@ -151,6 +151,14 @@ def drawFromDC():
     blind = eval(config.get('Plot:%s'%region,'blind'))
     Stack=StackMaker(config,var,region,True)
 
+    if 'LowPt' in opts.bin or 'ch1_Wenu' == opts.bin or 'ch2_Wmunu' == opts.bin:
+        print 'Niklas %s' %opts.bin
+        Stack.addFlag2 = 'Low p_{T}(V)'
+    elif 'MedPt' in opts.bin or 'ch1_Wenu2' == opts.bin or 'ch2_Wmunu2' == opts.bin:
+        Stack.addFlag2 = 'Intermediate p_{T}(V)'
+    elif 'HighPt' in opts.bin or 'ch1_Wenu3' == opts.bin or 'ch2_Wmunu3' == opts.bin:
+        Stack.addFlag2 = 'High p_{T}(V)'
+
     preFit = False
     addName = 'PostFit_%s' %(opts.fit)
     if not opts.mlfit:
@@ -439,7 +447,7 @@ def drawFromDC():
     Stack.datas = datas
     Stack.datatyps = datatyps
     Stack.datanames= datanames
-    #Stack.overlay = Overlay
+    Stack.overlay = [Overlay]
     Stack.AddErrors=Error
     if dataname == 'Wtn': 
         lumi = 18300.

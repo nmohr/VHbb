@@ -5,14 +5,14 @@ tag = 8TeV
 plotpath: ~/VHbb/lhcp/PrePost/mBDT/
 
 [Plot_general]
-lumi = 19000.
+lumi = 18940.
 #how and which groups in the plot
 setup: ZH,WH,W2b,W1b,Wlight,DY2b,DY1b,DYlight,TT,ST,QCD,VVlight,VVb
 setupLog: VVb,W2b,W1b,Wlight,DY2b,DY2b,DY1b,DYlight,TT,ST,QCD,VVlight,ZH,WH
 
 #colors
 colorDict: {'DYlight':401,'DYc':41,'DY2b':5,'DY1b':41,'Wlight':814,'W1b':816,'W2b':820,'TT':596,'ST':840,'VVb':920,'VVlight':922,'WH':2,'ZH':2,'VH':2,'DYlc':401,'QCD':616}
-typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','Wlight':'W+udscg','W1b':'W + b','W2b':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','VVlight':'VV(udscg)','VVb':'VZ(bb)','ZH':'ZH','WH':'WH','VH':'VH','QCD':'QCD','Overlay':'VH(bb) 125'}
+typLegendDict: {'DYlight':'Z+udscg','DYc':'Z + c#bar{c}','DYlc':'Z+udscg','DY2b':'Z + b#bar{b}','DY1b':'Z + b','Wlight':'W+udscg','W1b':'W + b','W2b':'W + b#bar{b}','TT':'t#bar{t}','ST':'Single top','VV':'VV','VVlight':'VV(udscg)','VVb':'VZ(b#bar{b})','ZH':'VH(b#bar{b}) 125 GeV','WH':'VH(b#bar{b}) 125 GeV','VH':'VH','QCD':'QCD','Overlay':'VH(b#bar{b}) 125 GeV'}
 
 addOverFlow = True
 

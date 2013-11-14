@@ -26,7 +26,7 @@ Datas: Zee
 Normalize: False
 Signal: ZH125
 log: False
-blind: True
+blind: False
 
 [plotDef:MJJ_Zll]
 relPath = CMS_vhbb_MJJ_Zll_8TeV

@@ -102,6 +102,7 @@ def log_s_over_b(fileList):
         i = 0
         for hist in histosL[name]:
             if 'VH' in hist.GetName() and not 'VVHF' in hist.GetName():
+            #if 'VVHF' in hist.GetName():
                 hSignal = hist.Clone()
             elif 'data_obs' in hist.GetName():
                 hData = hist.Clone()
@@ -154,7 +155,7 @@ def log_s_over_b(fileList):
     stack = StackMaker(config,'logSB','plot1',False)
     stack.setup = ['VH','BKG']
     stack.typs = ['VH','BKG']
-    stack.lumi = 19000.
+    stack.lumi = 18940.
     stack.histos = [log_s_over_b_s,log_s_over_b_b]
     stack.datas = [log_s_over_b_d]
     stack.datanames='data_obs'
@@ -262,7 +263,7 @@ def plot(fileList):
     
 #    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_highPt_7tev.pdf')
 #    stack.options['pdfName'] = stack.options['pdfName'].replace('.pdf','_combined_postFit_s_over_b_Hpt_weight_1.pdf'
-    stack.lumi = 19040
+    stack.lumi = 18940
 
     if mjj_sub == False:
             stack.doPlot()
