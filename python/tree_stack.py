@@ -124,8 +124,8 @@ def doPlot():
         Stacks[v].datas = Ldatas[v]
         Stacks[v].datatyps = Ldatatyps[v]
         Stacks[v].datanames= Ldatanames[v]
-        if SignalRegion:
-            Stacks[v].overlay = Overlaylist[v]
+        #if SignalRegion:
+        #    Stacks[v].overlay = Overlaylist[v]
         Stacks[v].lumi = lumi
         Stacks[v].doPlot()
         Stacks[v].histos = Lhistos[v]
